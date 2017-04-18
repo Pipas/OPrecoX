@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="56dp"
+    sothree:umanoShadowHeight="4dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vpLayout"
+                android:background="@color/colorWhite"
+                android:elevation="4dp">
+
+                <software.pipas.oprecox.SquareViewPager
+                    android:id="@+id/vpPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_alignBottom="@id/vpPager"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:layout_below="@id/vpLayout"
+                android:textColor="#000000"
+                android:text="@string/default_title"
+                android:padding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e0e0e0"
+                android:layout_below="@id/titleTextView"/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/default_description"
+                android:textSize="14sp"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="13dp"
+                android:layout_below="@id/titleTextView"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- ################################## Slider ##################################-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#212121"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/makeguesscaps"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/downarrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/downarrow"
+                    android:tint="#ffffff"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:animateLayoutChanges="true">
+
+            <RelativeLayout
+                android:id="@+id/dialpadOutput"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <TextView
+                    android:id="@+id/dialpadNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="#000000"
+                    android:textSize="45sp" />
+
+                <RelativeLayout
+                    android:id="@+id/dialpadBackspace"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:onClick="pressButtonBackspace">
+
+                    <ImageView
+                        android:id="@+id/animals"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/backspace"
+                        android:tint="#9e9e9e" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/dialpadSeperator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="#e0e0e0" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomOptions"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentBottom="true"
+                android:weightSum="3"
+                android:visibility="visible">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1">
+                </View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1">
+                </View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:onClick="pressConfirmButton">
+
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/checkcircle"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_marginTop="65dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/confirmcaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bottomSeperator"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="100dp"
+                android:background="#e0e0e0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/dialpadLayout"
+                android:layout_below="@id/dialpadOutput"
+                android:layout_above="@id/bottomOptions"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/dialpad1"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton1"
+
+                        android:text="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpad2"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton2"
+
+                        android:text="2"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpad3"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton3"
+
+                        android:text="3"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/dialpad4"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton4"
+
+                        android:text="4"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpad5"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton5"
+
+                        android:text="5"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpad6"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton6"
+
+                        android:text="6"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/dialpad7"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton7"
+
+                        android:text="7"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpad8"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton8"
+
+                        android:text="8"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpad9"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton9"
+
+                        android:text="9"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/dialpad0"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton0"
+
+                        android:text="0"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/dialpadDot"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButtonDot"
+
+                        android:text="."
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomOptionsAfterGuess"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentBottom="true"
+                android:weightSum="3"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/share"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_marginTop="65dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/sharecaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:onClick="pressShare">
+
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/openinbrowser"
+                        android:tint="@color/colorPrimary"/>
+
+                    <TextView
+                        android:layout_marginTop="65dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/seeaddcaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:onClick="pressContinueButton">
+
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/next"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_marginTop="65dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/continuecaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scoreLayout"
+                android:layout_below="@id/dialpadOutput"
+                android:layout_above="@id/bottomOptionsAfterGuess"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/priceGuess"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#000000"
+                            android:textSize="45sp"
+                            android:layout_gravity="center"/>
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/guesscaps"
+                            android:textColor="#9e9e9e"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/correctPriceOutput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#000000"
+                            android:textSize="45sp"
+                            android:text="100€"
+                            android:layout_gravity="center"/>
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="PREÇO CORRECTO"
+                            android:textColor="#9e9e9e"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <TextView
+                                android:id="@+id/scoreOutput"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textColor="#000000"
+                                android:textSize="45sp"
+                                android:text="0"/>
+
+                            <TextView
+                                android:id="@+id/scorePlus"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textColor="#4caf50"
+                                android:textSize="40sp"
+                                android:layout_marginLeft="12dp"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/scorecaps"
+                            android:textColor="#9e9e9e"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+

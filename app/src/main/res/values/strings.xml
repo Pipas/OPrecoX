@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">O Preço X</string>
+    <string name="default_title">default_title</string>
+    <string name="default_description">default_description</string>
+    <string name="animals">Animais</string>
+    <string name="agriculture">Agricultura</string>
+    <string name="baby">Bebé e Criança</string>
+    <string name="cars">Carros e Motas</string>
+    <string name="sports">Desporto</string>
+    <string name="jobs">Emprego</string>
+    <string name="houses">Imóveis</string>
+    <string name="leisure">Lazer</string>
+    <string name="fashion">Moda</string>
+    <string name="furniture">Móveis, Casa e Jardim</string>
+    <string name="services">Serviços</string>
+    <string name="technology">Tecnologia</string>
+    <string name="phones">Telemóveis e Tablets</string>
+    <string name="others">Outras Vendas</string>
+    <string name="categories">Categorias</string>
+    <string name="all">Todas as categorias</string>
+    <string name="guesscaps">PALPITE</string>
+    <string name="makeguesscaps">ADIVINHAR</string>
+    <string name="confirmcaps">CONFIRMAR</string>
+    <string name="correctpricecaps">PREÇO CORRETO</string>
+    <string name="scorecaps">PONTUAÇÃO</string>
+    <string name="sharecaps">PARTILHAR</string>
+    <string name="seeaddcaps">VER ANUNCIO</string>
+    <string name="continuecaps">CONTINUAR</string>
+    <string name="gameover">Fim do jogo</string>
+    <string name="guessnumber">Tamanho</string>
+    <string name="gametype">Tipo de jogo</string>
+    <string name="gameoptions">Opções</string>
+    <string name="startcaps">COMEÇAR</string>
+
+    <string name="shortsize">Jogo curto</string>
+    <string name="normalsize">Jogo normal</string>
+    <string name="longsize">Jogo longo</string>
+
+
+
+</resources>
