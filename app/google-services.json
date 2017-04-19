@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "271806524733",
+    "firebase_url": "https://o-preco-x.firebaseio.com",
+    "project_id": "o-preco-x",
+    "storage_bucket": "o-preco-x.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271806524733:android:efc0c7306fa405ac",
+        "android_client_info": {
+          "package_name": "software.pipas.oprecox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271806524733-f68b2jg53p1p2r3hm8qidcmu6jb3ul6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "software.pipas.oprecox",
+            "certificate_hash": "c9629b42f9e9388b7f7b750f4a845759c827be07"
+          }
+        },
+        {
+          "client_id": "271806524733-a2pf5154hh0n1du35trt0s9u30mhps5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD--hsMGInUgJUohC5dnvzcjpZokbov6vk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271806524733-a2pf5154hh0n1du35trt0s9u30mhps5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -249,6 +249,15 @@ public class Categories
         return selected.contains(Integer.toString(ID));
     }
 
+    public boolean checkAllSelected()
+    {
+        for(int i = 1; i < 36; i++)
+            if(!checkSelected(i))
+                return false;
+
+        return true;
+    }
+
     public String returnIfSelected(int ID, String tooltip)
     {
         if(checkSelected(ID))

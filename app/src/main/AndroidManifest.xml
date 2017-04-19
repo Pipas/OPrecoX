@@ -6,28 +6,34 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="orientation|keyboardHidden"
         android:icon="@mipmap/oprecox"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/oprecox"
-        android:supportsRtl="true"
-        android:configChanges="orientation|keyboardHidden"
         android:screenOrientation="portrait"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameActivity"
+        <activity
+            android:name=".GameActivity"
             android:theme="@style/Guesser" />
-        <activity android:name=".Menus.SinglePlayerOptions">
+        <activity android:name=".Menus.SinglePlayerOptions" />
+        <activity android:name=".Menus.CategoryChooser" />
+        <activity android:name=".Menus.GameOver" />
+        <activity
+            android:name=".ImageViewer.ImageViewer"
+            android:theme="@style/ImageViewer" />
+        <activity android:name=".Menus.NGuessesChooser" />
+        <activity
+            android:name=".Menus.MainMenu"
+            android:theme="@style/AppThemeNoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menus.CategoryChooser" />
-        <activity android:name=".Menus.GameOver" />
-        <activity
-            android:name=".ImageViewer.ImageViewer"
-            android:theme="@style/ImageViewer" />
-        <activity android:name=".Menus.NGuessesChooser"></activity>
+        <activity android:name=".Menus.Settings" />
+        <activity android:name=".Menus.MultiPlayerOptions"></activity>
     </application>
 
 </manifest>

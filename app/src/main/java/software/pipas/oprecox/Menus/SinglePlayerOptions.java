@@ -67,18 +67,6 @@ public class SinglePlayerOptions extends AppCompatActivity
 
     public void startGame(View v)
     {
-        /*mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle("Fetching OLX data");
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-        urls.clear();
-        for(count = 0; count < NGUESSES; count ++)
-        {
-            AsyncGetURL asu = new AsyncGetURL(this, categories.getSelected());
-            asu.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }*/
         Intent myIntent = new Intent(this, GameActivity.class);
         myIntent.putExtra("urls", urls);
         myIntent.putExtra("NGUESSES", NGUESSES);

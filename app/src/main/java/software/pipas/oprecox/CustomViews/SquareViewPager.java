@@ -1,4 +1,4 @@
-package software.pipas.oprecox;
+package software.pipas.oprecox.CustomViews;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

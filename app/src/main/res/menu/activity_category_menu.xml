@@ -6,7 +6,7 @@
         android:id="@+id/confirm"
         android:title="Confirm"
         app:showAsAction="always"
-        android:icon="@drawable/next"
+        android:icon="@drawable/whitecheck"
         android:orderInCategory="10000"/>
 
 

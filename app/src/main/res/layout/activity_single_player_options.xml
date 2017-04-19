@@ -21,7 +21,6 @@
             android:text="@string/gametype"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-medium"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
@@ -58,7 +57,6 @@
             android:text="@string/guessnumber"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-medium"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
@@ -96,7 +94,6 @@
             android:text="@string/categories"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-medium"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 

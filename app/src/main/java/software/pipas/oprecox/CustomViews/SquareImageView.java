@@ -1,8 +1,7 @@
-package software.pipas.oprecox;
+package software.pipas.oprecox.CustomViews;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * Created by Pipas_ on 13/03/2017.

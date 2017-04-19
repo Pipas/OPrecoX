@@ -2,6 +2,7 @@ package software.pipas.oprecox;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.View.OnTouchListener;
+import android.app.AlertDialog;
 
 import software.pipas.oprecox.Adds.Add;
 import software.pipas.oprecox.Adds.AsyncGetAdd;
@@ -82,6 +84,32 @@ public class GameActivity extends AppCompatActivity
         com.sothree.slidinguppanel.SlidingUpPanelLayout slidingPanel = (com.sothree.slidinguppanel.SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         if(slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        else
+        {
+            AlertDialog.Builder popup = new AlertDialog.Builder(this);
+            popup.setTitle(getString(R.string.leavegame));
+            popup.setMessage(getString(R.string.leavegamesub));
+            popup.setCancelable(true);
+
+            popup.setPositiveButton(
+                    R.string.leave,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+
+            popup.setNegativeButton(
+                    R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = popup.create();
+            alert.show();
+        }
     }
 
     public void setViewsWithAdd()
@@ -465,8 +493,8 @@ public class GameActivity extends AppCompatActivity
     private void startProcessDialog()
     {
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle("Fetching OLX data");
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setTitle(R.string.loadingadds);
+        mProgressDialog.setMessage(getString(R.string.loading));
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();

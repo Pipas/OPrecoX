@@ -32,7 +32,6 @@ public class OlxParser
 
     public String getRandomURL() throws IOException
     {
-        Log.d("HERE", "s");
         String urlStart = "https://www.olx.pt/";
         String urlEnd = "/?search[description]=1&page=";
         String category = categories.generateURL();

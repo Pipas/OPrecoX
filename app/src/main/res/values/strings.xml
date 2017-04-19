@@ -31,11 +31,18 @@
     <string name="gametype">Tipo de jogo</string>
     <string name="gameoptions">Opções</string>
     <string name="startcaps">COMEÇAR</string>
-
     <string name="shortsize">Jogo curto</string>
     <string name="normalsize">Jogo normal</string>
     <string name="longsize">Jogo longo</string>
-
+    <string name="loadingadds">A carregar anuncios</string>
+    <string name="loading">A carregar...</string>
+    <string name="leavegame">Sair do jogo?</string>
+    <string name="leavegamesub">Se saires do jogo o progresso e os anuncios gerados serão perdidos.</string>
+    <string name="leave">Sair</string>
+    <string name="cancel">Voltar</string>
+    <string name="singleplayer">Jogar Sozinho</string>
+    <string name="multiplayer">Jogar com Amigos</string>
+    <string name="comingsoon">Brevemente...</string>
 
 
 </resources>
