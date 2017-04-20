@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        android:elevation="4dp">
+        android:elevation="8dp">
     </software.pipas.oprecox.CustomViews.HalfScreenToolbar>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:onClick="pressSettings">
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/web_logo"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:paddingTop="18dp"
         android:paddingBottom="72dp" />
 
@@ -45,67 +45,151 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/logo"
         android:layout_marginBottom="18dp"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:textColor="#ffffff"
         android:text="@string/app_name"
         android:textSize="36dp"
         android:layout_centerHorizontal="true"/>
 
     <LinearLayout
-        android:id="@+id/startSinglePlayerGame"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:onClick="startSinglePlayerGame"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_below="@id/logo">
+        android:layout_height="match_parent"
+        android:layout_below="@id/logo"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/singleplayer"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:layout_weight="1"/>
+            android:background="@color/cardview_light_background"
+            android:id="@+id/startSinglePlayerGame"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="startSinglePlayerGame"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/singleplayer"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e0e0e0"
+            android:elevation="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:id="@+id/startMultiPlayerGame"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="toggleMultiplayerGame"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/multiplayer"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/submenumultiplayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingRight="16dp"
+                android:paddingLeft="36dp"
+                android:onClick="createMultiplayer">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Criar um jogo"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e0e0e0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingRight="16dp"
+                android:paddingLeft="36dp"
+                android:onClick="connectMultiplayer">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Conectar a um jogo"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e0e0e0"
+            android:elevation="4dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:elevation="4dp">
+        </View>
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e0e0e0"
-        android:layout_below="@id/startSinglePlayerGame"/>
 
-    <LinearLayout
-        android:id="@+id/startMultiPlayerGame"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:onClick="startMultiplayerGame"
-        android:layout_marginTop="1dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_below="@id/startSinglePlayerGame">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/multiplayer"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e0e0e0"
-        android:layout_below="@id/startMultiPlayerGame"/>
 
 </RelativeLayout>

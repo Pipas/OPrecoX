@@ -1,10 +1,18 @@
 package software.pipas.oprecox.Menus;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,46 +24,33 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
+import software.pipas.oprecox.Adds.AsyncGetURL;
+import software.pipas.oprecox.Categories;
+import software.pipas.oprecox.GameActivity;
 import software.pipas.oprecox.R;
 
-import static android.R.attr.name;
 
 public class MultiPlayerOptions extends AppCompatActivity
 {
-    @IgnoreExtraProperties
-    public class Score
-    {
-        public String name;
-        public int points;
+    final private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-        public Score() {}
+    private Categories categories = new Categories();
+    private ProgressDialog mProgressDialog;
 
-        public Score(String n, int p)
-        {
-            name = n;
-            points = p;
-        }
+    ArrayList<String> onlineURLS = new ArrayList<String>();
 
-        public String getName()
-        {
-            return name;
-        }
-
-        public int getPoints()
-        {
-            return points;
-        }
-    }
-
+    private ArrayList<String> urls = new ArrayList<String>();
+    private int count;
+    private int NGUESSES = 10;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private String randomCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +58,15 @@ public class MultiPlayerOptions extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_player_options);
         mAuth = FirebaseAuth.getInstance();
+
+        setTitle(R.string.gameoptionsmultiplayer);
+
+        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
+        String c = sharedPref.getString("categories", null);
+        if(c != null)
+            categories.selectFromString(c);
+        else
+            categories.selectAll();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -72,20 +76,15 @@ public class MultiPlayerOptions extends AppCompatActivity
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("FIREBASE", "signInAnonymously:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w("FIREBASE", "signInAnonymously", task.getException());
                             Toast.makeText(MultiPlayerOptions.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -98,7 +97,7 @@ public class MultiPlayerOptions extends AppCompatActivity
                 }
                 // ...
             }
-        };
+        };*/
 
     }
 
@@ -116,35 +115,14 @@ public class MultiPlayerOptions extends AppCompatActivity
         }
     }
 
-    public void pressTest(View v)
-    {
-        String randomKey = "4DGT";
-        ArrayList<String> urls = new ArrayList<String>();
-        urls.add("i really dont think you know");
-        urls.add("afsdfaa");
-        urls.add("adsfa");
-        urls.add("ddddddd");
-        urls.add("aasdfa");
-        urls.add("aa");
-        urls.add("before my world turned bluuuuuuuuuu");
-        urls.add("32142134");
-        mDatabase.child("games").child(randomKey).child("urls").setValue(urls);
-        mDatabase.child("games").child(randomKey).child("scores").child("lmaf").child("name").setValue("Jose");
-        int i = 322;
-        mDatabase.child("games").child(randomKey).child("scores").child("lmaf").child("score").setValue(i);
-    }
-
-
     public void pressTest2(View v)
     {
         final String randomKey = "4DGT";
 
         mDatabase.child("games").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Is better to use a List, because you don't know the size
-                // of the iterator returned by dataSnapshot.getChildren() to
-                // initialize the array
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
                 final ArrayList<String> areas = new ArrayList<String>();
                 String name = "";
                 Long score = 0l;
@@ -171,7 +149,138 @@ public class MultiPlayerOptions extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });;
+        });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 3)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ArrayList<String> selected = data.getStringArrayListExtra("categories");
+                categories.setSelected(selected);
+                SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                editor.putString("categories", categories.toString());
+                editor.apply();
+            }
+            if (resultCode == Activity.RESULT_CANCELED)
+            {
+                //Write your code if there's no result
+            }
+        }
+        else if (requestCode == 2)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                NGUESSES = data.getIntExtra("NGUESSES", 10);
+                TextView numberGuessesTooltip = (TextView) findViewById(R.id.numberguessestooltip);
+                numberGuessesTooltip.setText(Integer.toString(NGUESSES));
+            }
+            if (resultCode == Activity.RESULT_CANCELED)
+            {
+                //Write your code if there's no result
+            }
+        }
+    }
+
+    public void startGame(View v)
+    {
+        urls.clear();
+        startProcessDialog();
+        for(count = 0; count < NGUESSES; count++)
+        {
+            AsyncGetURL getURL = new AsyncGetURL(this, categories.getSelected());
+            getURL.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    public void endAsyncTask(String s)
+    {
+        urls.add(s);
+        count--;
+        mProgressDialog.setProgress(NGUESSES - count);
+        if(count <= 0)
+        {
+            checkFreeCode();
+        }
+    }
+
+    public void continueEndAsyncTask()
+    {
+        mDatabase.child("games").child(randomCode).child("urls").setValue(urls);
+        mProgressDialog.dismiss();
+    }
+
+    public void selectCategory(View v)
+    {
+        Intent myIntent = new Intent(this, CategoryChooser.class);
+        myIntent.putExtra("categories", categories.getSelected());
+        startActivityForResult(myIntent, 3);
+    }
+
+    public void selectGuessNumber(View v)
+    {
+        Intent myIntent = new Intent(this, NGuessesChooser.class);
+        startActivityForResult(myIntent, 2);
+    }
+
+    private void startProcessDialog()
+    {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle(R.string.loadingadds);
+        mProgressDialog.setMessage(getString(R.string.loading));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setMax(NGUESSES);
+        mProgressDialog.show();
+    }
+
+    private String generateCode()
+    {
+        int N = alphabet.length();
+        Random r = new Random();
+        String code = "";
+
+        for (int i = 0; i < 4; i++)
+        {
+            code += alphabet.charAt(r.nextInt(N));
+        }
+
+        Log.d("CODE", code);
+        return code;
+    }
+
+    private void checkFreeCode()
+    {
+        randomCode = generateCode();
+        mDatabase.child("games").addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                if(dataSnapshot.child(randomCode).exists())
+                    checkFreeCode();
+                else
+                    continueEndAsyncTask();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void startGameActivity()
+    {
+        Intent myIntent = new Intent(this, GameActivity.class);
+        myIntent.putExtra("urls", onlineURLS);
+        myIntent.putExtra("NGUESSES", NGUESSES);
+        myIntent.putExtra("categories", categories.getSelected());
+        startActivity(myIntent);
     }
 }

@@ -3,6 +3,8 @@ package software.pipas.oprecox;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static android.R.id.input;
+
 /**
  * Created by Pipas_ on 20/03/2017.
  */
@@ -316,5 +318,17 @@ public class Categories
             s += selected.get(i) + " ";
         }
         return s;
+    }
+
+    public void selectFromString(String input)
+    {
+        if(input.isEmpty())
+            return;
+        String[] elements = input.split(" ");
+        selected.clear();
+        for(int i = 0; i < elements.length; i++)
+        {
+            selected.add(elements[i]);
+        }
     }
 }

@@ -1,9 +1,12 @@
 package software.pipas.oprecox.Menus;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import software.pipas.oprecox.Menus.SinglePlayerOptions;
@@ -13,13 +16,21 @@ import static software.pipas.oprecox.R.string.categories;
 
 public class MainMenu extends AppCompatActivity
 {
-    int count = 0;
+    LinearLayout submenumultiplayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        submenumultiplayer = (LinearLayout) findViewById(R.id.submenumultiplayer);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
     }
 
     public void startSinglePlayerGame(View v)
@@ -28,15 +39,27 @@ public class MainMenu extends AppCompatActivity
         startActivity(myIntent);
     }
 
-    public void startMultiplayerGame(View v)
+    public void toggleMultiplayerGame(View v)
     {
-        Toast.makeText(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT).show();
-        count++;
-        if(count == 10)
-        {
-            Intent myIntent = new Intent(this, MultiPlayerOptions.class);
-            startActivity(myIntent);
-        }
+        if(submenumultiplayer.getVisibility() == View.VISIBLE)
+            submenumultiplayer.setVisibility(View.GONE);
+        else
+            submenumultiplayer.setVisibility(View.VISIBLE);
+
+    }
+
+    public void createMultiplayer(View v)
+    {
+        Intent myIntent = new Intent(this, MultiPlayerOptions.class);
+        startActivity(myIntent);
+        submenumultiplayer.setVisibility(View.GONE);
+    }
+
+    public void connectMultiplayer(View v)
+    {
+        Intent myIntent = new Intent(this, MultiPlayerConnect.class);
+        startActivity(myIntent);
+        submenumultiplayer.setVisibility(View.GONE);
     }
 
     public void pressSettings(View v)

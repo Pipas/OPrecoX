@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Menus.Settings" />
-        <activity android:name=".Menus.MultiPlayerOptions"></activity>
+        <activity android:name=".Menus.MultiPlayerOptions" />
+        <activity android:name=".Menus.MultiPlayerConnect"></activity>
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
+import android.widget.Toast;
 
 import software.pipas.oprecox.Adds.Add;
 import software.pipas.oprecox.Adds.AsyncGetAdd;
@@ -34,9 +35,16 @@ import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
 
+import static android.R.attr.data;
+import static android.os.Build.VERSION_CODES.M;
+
 
 public class GameActivity extends AppCompatActivity
 {
+    private int addCounter = 0;
+    private int NGUESSES;
+    private int score = 0;
+    private int correctGuesses = 0;
 
     private TextView dialpadOutput;
     private float guess;
@@ -44,11 +52,9 @@ public class GameActivity extends AppCompatActivity
     private Add shownAdd;
     private ArrayList<Add> adds = new ArrayList<>();
     private ArrayList<String> urls;
+
     private SlidingUpPanelLayout slider;
     private ProgressDialog mProgressDialog;
-    private int NGUESSES;
-    private int score = 0;
-    private int correctGuesses = 0;
     private ArrayList<String> selected;
 
     @Override
@@ -142,6 +148,11 @@ public class GameActivity extends AppCompatActivity
         adds.add(a);
     }
 
+    public void addAddPosition(Add a, int i)
+    {
+        adds.set(i, a);
+    }
+
     public void closeProgressPopup()
     {
         mProgressDialog.dismiss();
@@ -149,10 +160,16 @@ public class GameActivity extends AppCompatActivity
         slider.setVisibility(View.VISIBLE);
     }
 
-    public void updateShownAdd()
+    public boolean updateShownAdd()
     {
-        shownAdd = adds.get(0);
-        adds.remove(0);
+        if(adds.isEmpty())
+            return false;
+        if(adds.get(addCounter).getTitle().equals(".,."))
+            return false;
+        shownAdd = adds.get(addCounter);
+        //adds.remove(0);
+        addCounter++;
+        return true;
     }
 
     public void pressButton1(View v)
@@ -346,12 +363,16 @@ public class GameActivity extends AppCompatActivity
 
     public void pressContinueButton(View v)
     {
-        if(!adds.isEmpty())
+        if(addCounter <= NGUESSES - 2)
         {
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             scrollView.fullScroll(View.FOCUS_UP);
 
-            updateShownAdd();
+            if(!updateShownAdd())
+            {
+                Toast.makeText(this,getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                return;
+            }
             setViewsWithAdd();
         }
         else
@@ -504,14 +525,19 @@ public class GameActivity extends AppCompatActivity
     {
         if(!urls.isEmpty())
         {
-            AsyncGetAdd firstParse = new AsyncGetAdd(this, urls.get(0), true);
+            AsyncGetAdd firstParse = new AsyncGetAdd(this, urls.get(0), 0, true);
             AsyncGetAdd backgroundParse;
             firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            for (int i = 1; i < NGUESSES; i++)
+            for(int i = 0; i < (NGUESSES - 1); i++)
             {
-                backgroundParse = new AsyncGetAdd(this, urls.get(i), false);
+                Add a = new Add();
+                a.setTitle(".,.");
+                adds.add(a);
+                Log.d("NUMBER", Integer.toString(adds.size()));
+                backgroundParse = new AsyncGetAdd(this, urls.get(i+1), i, false);
                 backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
+            Log.d("NUMBER", Integer.toString(adds.size()));
         }
         else
         {

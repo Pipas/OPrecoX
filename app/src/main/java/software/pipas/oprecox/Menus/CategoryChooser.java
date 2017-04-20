@@ -13,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.buildware.widget.indeterm.IndeterminateCheckBox;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -24,8 +23,6 @@ import software.pipas.oprecox.R;
 
 import java.util.ArrayList;
 
-import static software.pipas.oprecox.R.id.buttonall;
-import static software.pipas.oprecox.R.id.categoriesScrollView;
 
 public class CategoryChooser extends AppCompatActivity {
 
@@ -1564,6 +1561,8 @@ public class CategoryChooser extends AppCompatActivity {
     private void confirmSelection()
     {
         Intent returnIntent = new Intent();
+        if(c.getSelected().isEmpty())
+            c.selectAll();
         returnIntent.putExtra("categories", c.getSelected());
         setResult(Activity.RESULT_OK,returnIntent);
         finish();

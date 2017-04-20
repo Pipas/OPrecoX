@@ -29,7 +29,8 @@
     <string name="gameover">Fim do jogo</string>
     <string name="guessnumber">Tamanho</string>
     <string name="gametype">Tipo de jogo</string>
-    <string name="gameoptions">Opções</string>
+    <string name="gameoptionssingleplayer">Opções Um Jogador</string>
+    <string name="gameoptionsmultiplayer">Opções Multijogador</string>
     <string name="startcaps">COMEÇAR</string>
     <string name="shortsize">Jogo curto</string>
     <string name="normalsize">Jogo normal</string>

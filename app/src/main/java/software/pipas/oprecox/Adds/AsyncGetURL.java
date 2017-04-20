@@ -6,7 +6,7 @@ package software.pipas.oprecox.Adds;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.Menus.SinglePlayerOptions;
+import software.pipas.oprecox.Menus.MultiPlayerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ public class AsyncGetURL extends AsyncTask<Void, Void, Void>
 {
     boolean validURL = false;
     String randomURL = null;
-    SinglePlayerOptions activity;
+    MultiPlayerOptions activity;
     OlxParser parser;
 
-    public AsyncGetURL(SinglePlayerOptions act, ArrayList<String> c)
+    public AsyncGetURL(MultiPlayerOptions act, ArrayList<String> c)
     {
         activity = act;
         parser  = new OlxParser(c);
@@ -40,18 +40,7 @@ public class AsyncGetURL extends AsyncTask<Void, Void, Void>
             {
                 randomURL = parser.getRandomURL();
                 Log.d("URL", randomURL);
-                try
-                {
-                    parser.getPrice(randomURL);
-                    parser.getTitle(randomURL);
-                    parser.getImage(randomURL);
-                    parser.getDescription(randomURL);
-                    validURL = true;
-                }
-                catch (NumberFormatException e)
-                {
-                    Log.d("PRICE", "Exception caught invalid url");
-                }
+                validURL = parser.isValid(randomURL);
             }
         }
         catch (IOException e)

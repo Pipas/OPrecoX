@@ -114,4 +114,31 @@ public class OlxParser
         priceNo = priceNo.replace(",", ".");
         return Float.parseFloat(priceNo);
     }
+
+    public boolean isValid(String pageURL)
+    {
+        try
+        {
+            Document document = Jsoup.connect(pageURL).get();
+            Elements priceContainer = document.select("strong[class^=xxxx-large ");
+            if(priceContainer.isEmpty())
+                return false;
+            Elements img = document.select("img[class^=vtop bigImage]");
+            if(img.isEmpty())
+                return false;
+            Elements descriptionContainer = document.select("div[id=textContent]");
+            Elements description = descriptionContainer.select("p");
+            String check = description.html();
+            Elements titleE = document.select("h1");
+            check += titleE.html();
+            for(int i = 0; i < forbiddenWords.length; i++)
+                if(check.contains(forbiddenWords[i]))
+                    return false;
+        }
+        catch(IOException e)
+        {
+            return false;
+        }
+        return true;
+    }
 }

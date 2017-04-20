@@ -3,6 +3,7 @@ package software.pipas.oprecox.Menus;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,9 +31,14 @@ public class SinglePlayerOptions extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player_options);
 
-        setTitle(R.string.gameoptions);
+        setTitle(R.string.gameoptionssingleplayer);
 
-        categories.selectAll();
+        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
+        String c = sharedPref.getString("categories", null);
+        if(c != null)
+            categories.selectFromString(c);
+        else
+            categories.selectAll();
     }
 
     @Override
@@ -44,6 +50,9 @@ public class SinglePlayerOptions extends AppCompatActivity
             {
                 ArrayList<String> selected = data.getStringArrayListExtra("categories");
                 categories.setSelected(selected);
+                SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                editor.putString("categories", categories.toString());
+                editor.apply();
             }
             if (resultCode == Activity.RESULT_CANCELED)
             {
@@ -63,6 +72,14 @@ public class SinglePlayerOptions extends AppCompatActivity
                 //Write your code if there's no result
             }
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent myIntent = new Intent(this, MainMenu.class);
+        startActivity(myIntent);
+        finish();
     }
 
     public void startGame(View v)

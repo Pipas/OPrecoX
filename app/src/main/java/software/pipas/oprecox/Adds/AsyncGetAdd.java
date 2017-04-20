@@ -22,13 +22,15 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     OlxParser parser;
     boolean isFirst;
     String url;
+    int index;
 
-    public AsyncGetAdd(GameActivity act, String u, boolean iF)
+    public AsyncGetAdd(GameActivity act, String u, int i, boolean iF)
     {
         activity = act;
         parser  = new OlxParser();
         isFirst = iF;
         url = u;
+        index = i;
     }
 
     @Override
@@ -73,7 +75,8 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
             activity.closeProgressPopup();
         }
         else
-            activity.addAdd(add);
-        Log.d("ASYNC", "Finished background async parse");
+            activity.addAddPosition(add, index);
+
+        Log.d("ASYNC", String.format("Finished background async parse %d", index + 1));
     }
 }
