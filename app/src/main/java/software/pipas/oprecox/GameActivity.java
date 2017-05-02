@@ -29,29 +29,34 @@ import software.pipas.oprecox.Adds.AsyncGetAll;
 import software.pipas.oprecox.ImageViewer.ImagePagerAdapter;
 import software.pipas.oprecox.ImageViewer.ImageViewer;
 import software.pipas.oprecox.Menus.GameOver;
+
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
+import software.pipas.oprecox.Menus.MainMenu;
 
-import static android.R.attr.data;
-import static android.os.Build.VERSION_CODES.M;
+import static software.pipas.oprecox.R.layout.game_information_layout;
 
 
 public class GameActivity extends AppCompatActivity
 {
-    private int addCounter = 0;
+    private int addCounter = 1;
     private int NGUESSES;
     private int score = 0;
     private int correctGuesses = 0;
 
+    private boolean gameType;
     private TextView dialpadOutput;
     private float guess;
     private String dialpadNumber = "";
     private Add shownAdd;
-    private ArrayList<Add> adds = new ArrayList<>();
+    private Add[] adds;
     private ArrayList<String> urls;
+    private String roomCode;
 
     private SlidingUpPanelLayout slider;
     private ProgressDialog mProgressDialog;
@@ -65,21 +70,21 @@ public class GameActivity extends AppCompatActivity
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        urls = intent.getStringArrayListExtra("urls");
         NGUESSES = intent.getIntExtra("NGUESSES", 10);
+        gameType = intent.getBooleanExtra("gameType", false);
+
+        adds = new Add[NGUESSES];
 
         dialpadOutput = (TextView) findViewById(R.id.dialpadNumber);
         dialpadOutput.setText(dialpadNumber);
+
+        initiateMultiplayer(intent);
 
         addArrowSliderListener();
 
         addViewPagerListener();
 
         startProcessDialog();
-
-
-        ImageView arrow = (ImageView) findViewById(R.id.downarrow);
-        arrow.setRotation(180);
 
         startDataParses(intent);
     }
@@ -101,6 +106,8 @@ public class GameActivity extends AppCompatActivity
                     R.string.leave,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            Intent myIntent = new Intent(GameActivity.this, MainMenu.class);
+                            startActivity(myIntent);
                             finish();
                         }
                     });
@@ -143,14 +150,9 @@ public class GameActivity extends AppCompatActivity
         shownAdd = sa;
     }
 
-    public void addAdd(Add a)
-    {
-        adds.add(a);
-    }
-
     public void addAddPosition(Add a, int i)
     {
-        adds.set(i, a);
+        adds[i] = a;
     }
 
     public void closeProgressPopup()
@@ -162,12 +164,9 @@ public class GameActivity extends AppCompatActivity
 
     public boolean updateShownAdd()
     {
-        if(adds.isEmpty())
+        if(adds[addCounter] == null)
             return false;
-        if(adds.get(addCounter).getTitle().equals(".,."))
-            return false;
-        shownAdd = adds.get(addCounter);
-        //adds.remove(0);
+        shownAdd = adds[addCounter];
         addCounter++;
         return true;
     }
@@ -363,7 +362,7 @@ public class GameActivity extends AppCompatActivity
 
     public void pressContinueButton(View v)
     {
-        if(addCounter <= NGUESSES - 2)
+        if(addCounter < NGUESSES)
         {
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             scrollView.fullScroll(View.FOCUS_UP);
@@ -382,6 +381,9 @@ public class GameActivity extends AppCompatActivity
             myIntent.putExtra("correctGuesses", correctGuesses);
             myIntent.putExtra("NGUESSES", NGUESSES);
             myIntent.putExtra("categories", selected);
+            myIntent.putExtra("gameType", gameType);
+            if(gameType)
+                myIntent.putExtra("roomCode", roomCode);
             startActivity(myIntent);
             finish();
             return;
@@ -488,11 +490,13 @@ public class GameActivity extends AppCompatActivity
 
     private void addArrowSliderListener()
     {
+        final ImageView arrow = (ImageView) findViewById(R.id.downarrow);
+
         slider = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         slider.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener()
         {
             float prevSlideOffset = 0;
-            ImageView arrow = (ImageView) findViewById(R.id.downarrow);
+
             @Override
             public void onPanelSlide(View panel, float slideOffset)
             {
@@ -509,6 +513,8 @@ public class GameActivity extends AppCompatActivity
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {}
         });
         slider.setVisibility(View.GONE);
+
+        arrow.setRotation(180);
     }
 
     private void startProcessDialog()
@@ -521,33 +527,44 @@ public class GameActivity extends AppCompatActivity
         mProgressDialog.show();
     }
 
+    public void pressInfo(View v)
+    {
+        MaterialDialog popup = new MaterialDialog.Builder(this)
+                .customView(game_information_layout, false)
+                .buttonsGravity(GravityEnum.START)
+                .neutralText("partilhar")
+                .positiveText("ok")
+                .build();
+
+        TextView code = (TextView) popup.findViewById(R.id.codeOutput);
+        code.setText(roomCode);
+
+        popup.show();
+    }
+
     private void startDataParses(Intent intent)
     {
-        if(!urls.isEmpty())
+        if(gameType)
         {
+            urls = intent.getStringArrayListExtra("urls");
             AsyncGetAdd firstParse = new AsyncGetAdd(this, urls.get(0), 0, true);
             AsyncGetAdd backgroundParse;
             firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            for(int i = 0; i < (NGUESSES - 1); i++)
+            for(int i = 1; i < (NGUESSES); i++)
             {
-                Add a = new Add();
-                a.setTitle(".,.");
-                adds.add(a);
-                Log.d("NUMBER", Integer.toString(adds.size()));
-                backgroundParse = new AsyncGetAdd(this, urls.get(i+1), i, false);
+                backgroundParse = new AsyncGetAdd(this, urls.get(i), i, false);
                 backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
-            Log.d("NUMBER", Integer.toString(adds.size()));
         }
         else
         {
             selected = intent.getStringArrayListExtra("categories");
-            AsyncGetAll firstParse = new AsyncGetAll(this, selected, true);
+            AsyncGetAll firstParse = new AsyncGetAll(this, selected, 0, true);
             AsyncGetAll backgroundParse;
             firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             for (int i = 1; i < NGUESSES; i++)
             {
-                backgroundParse = new AsyncGetAll(this, selected, false);
+                backgroundParse = new AsyncGetAll(this, selected, i, false);
                 backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         }
@@ -569,6 +586,19 @@ public class GameActivity extends AppCompatActivity
             {
                 //Write your code if there's no result
             }
+        }
+    }
+
+    private void initiateMultiplayer(Intent intent)
+    {
+        if(!gameType)
+        {
+            LinearLayout info = (LinearLayout) findViewById(R.id.infoButton);
+            info.setVisibility(View.GONE);
+        }
+        else
+        {
+            roomCode = intent.getStringExtra("roomCode");
         }
     }
 }

@@ -12,6 +12,8 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,74 +85,6 @@ public class MultiPlayerOptions extends AppCompatActivity
                         }
                     }
                 });
-
-        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("FIREBASE", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("FIREBASE", "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };*/
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
-    public void pressTest2(View v)
-    {
-        final String randomKey = "4DGT";
-
-        mDatabase.child("games").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                final ArrayList<String> areas = new ArrayList<String>();
-                String name = "";
-                Long score = 0l;
-
-                for (DataSnapshot areaSnapshot: dataSnapshot.child(randomKey).child("urls").getChildren())
-                {
-                    String areaName = areaSnapshot.getValue(String.class);
-                    areas.add(areaName);
-                }
-
-                Log.d("TEST", areas.get(0));
-                Log.d("TEST", areas.get(6));
-
-                for (DataSnapshot areaSnapshot: dataSnapshot.child(randomKey).child("scores").getChildren())
-                {
-                    name = areaSnapshot.child("name").getValue(String.class);
-                    score = (Long) areaSnapshot.child("score").getValue();
-                }
-
-                Log.d("TEST", String.format("%s - %d", name, score));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
     @Override
@@ -188,6 +122,16 @@ public class MultiPlayerOptions extends AppCompatActivity
 
     public void startGame(View v)
     {
+        Intent myIntent = new Intent(this, GameActivity.class);
+        myIntent.putExtra("urls", urls);
+        myIntent.putExtra("NGUESSES", NGUESSES);
+        myIntent.putExtra("gameType", true);
+        myIntent.putExtra("roomCode", randomCode);
+        startActivity(myIntent);
+    }
+
+    public void generateGame(View v)
+    {
         urls.clear();
         startProcessDialog();
         for(count = 0; count < NGUESSES; count++)
@@ -211,6 +155,14 @@ public class MultiPlayerOptions extends AppCompatActivity
     public void continueEndAsyncTask()
     {
         mDatabase.child("games").child(randomCode).child("urls").setValue(urls);
+        LinearLayout codeOutputLayout = (LinearLayout) findViewById(R.id.codeOutputLayout);
+        codeOutputLayout.setVisibility(View.VISIBLE);
+        TextView codeOutput = (TextView) findViewById(R.id.codeOutput);
+        codeOutput.setText(randomCode);
+        RelativeLayout startGame = (RelativeLayout) findViewById(R.id.startGame);
+        RelativeLayout generateGame = (RelativeLayout) findViewById(R.id.generateGame);
+        generateGame.setVisibility(View.GONE);
+        startGame.setVisibility(View.VISIBLE);
         mProgressDialog.dismiss();
     }
 

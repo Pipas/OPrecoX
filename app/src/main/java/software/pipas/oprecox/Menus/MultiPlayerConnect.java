@@ -1,6 +1,8 @@
 package software.pipas.oprecox.Menus;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,20 +32,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import software.pipas.oprecox.GameActivity;
 import software.pipas.oprecox.R;
-
-import static android.R.attr.data;
-import static software.pipas.oprecox.R.id.codeBox;
-import static software.pipas.oprecox.R.id.playButton;
 
 public class MultiPlayerConnect extends AppCompatActivity
 {
     private EditText codeInput;
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private ArrayList<String> urls = new ArrayList<>();
     private String code;
     private Boolean validCode = false;
+    Context context = this;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +51,9 @@ public class MultiPlayerConnect extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_player_connect);
 
+        setTitle("Conectar a um jogo");
+
+        FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -77,7 +80,12 @@ public class MultiPlayerConnect extends AppCompatActivity
 
     public void playGame(View v)
     {
-
+        Intent myIntent = new Intent(this, GameActivity.class);
+        myIntent.putExtra("urls", urls);
+        myIntent.putExtra("NGUESSES", urls.size());
+        myIntent.putExtra("gameType", true);
+        myIntent.putExtra("roomCode", code);
+        startActivity(myIntent);
     }
 
     public void verifyCode(View v)
@@ -87,6 +95,13 @@ public class MultiPlayerConnect extends AppCompatActivity
 
     private void verifyCode()
     {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle("A procurar jogo");
+        mProgressDialog.setMessage(getString(R.string.loading));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+
         code = codeInput.getText().toString();
         if(code.isEmpty() && code.length() != 4 && code == null)
             invalidCode();
@@ -116,7 +131,8 @@ public class MultiPlayerConnect extends AppCompatActivity
 
     private void invalidCode()
     {
-        Toast.makeText(this,"Invalid code", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Código inválido", Toast.LENGTH_SHORT).show();
+        mProgressDialog.dismiss();
     }
 
     private void validCode()
@@ -124,12 +140,13 @@ public class MultiPlayerConnect extends AppCompatActivity
         if(validCode)
             return;
         validCode = true;
+        mProgressDialog.dismiss();
         togglePlayButton();
     }
 
     private void togglePlayButton()
     {
-        View fillerView = (View) findViewById(R.id.fillerView);
+        View fillerView = findViewById(R.id.fillerView);
         RelativeLayout playButton = (RelativeLayout) findViewById(R.id.playButton);
         if(fillerView.getVisibility() == View.VISIBLE)
         {
@@ -166,9 +183,9 @@ public class MultiPlayerConnect extends AppCompatActivity
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    codeInput.setFocusable(false);
-                    codeInput.setFocusableInTouchMode(true);
                     verifyCode();
+                    InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.toggleSoftInput(0, 0);
                     return true;
                 }
                 return false;

@@ -26,7 +26,7 @@
                     android:layout_height="match_parent"
 
                     android:fontFamily="sans-serif-medium"
-                    android:text="GUESS"
+                    android:text="@string/makeguesscaps"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
                     android:gravity="center"/>
@@ -79,7 +79,7 @@
                     android:onClick="pressButtonBackspace">
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/animals"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_centerHorizontal="true"
@@ -103,27 +103,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_alignParentBottom="true"
-                android:weightSum="3"
                 android:visibility="visible">
 
                 <View
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_weight="1">
-                </View>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1">
                 </View>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
 
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
@@ -136,17 +128,17 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/checkcircle"
-                        android:tint="#9e9e9e" />
+                        android:tint="@color/colorPrimary" />
 
                     <TextView
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="65dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="CONFIRM"
-                        android:textColor="#9e9e9e"
-                        android:textSize="14sp" />
+                        android:fontFamily="sans-serif"
+                        android:text="@string/confirmcaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 
@@ -154,6 +146,7 @@
 
             <View
                 android:id="@+id/bottomSeperator"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
@@ -221,106 +214,106 @@
                 </LinearLayout>
 
                 <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:layout_weight="1">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/dialpad4"
-                    android:layout_width="85dp"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:onClick="pressButton4"
+                    <TextView
+                        android:id="@+id/dialpad4"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton4"
 
-                    android:text="4"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="45sp" />
+                        android:text="4"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
 
-                <TextView
-                    android:id="@+id/dialpad5"
-                    android:layout_width="85dp"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:onClick="pressButton5"
+                    <TextView
+                        android:id="@+id/dialpad5"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton5"
 
-                    android:text="5"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="45sp" />
+                        android:text="5"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
 
-                <TextView
-                    android:id="@+id/dialpad6"
-                    android:layout_width="85dp"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:onClick="pressButton6"
+                    <TextView
+                        android:id="@+id/dialpad6"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton6"
 
-                    android:text="6"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="45sp" />
+                        android:text="6"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
 
-            </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:layout_weight="1">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/dialpad7"
-                    android:layout_width="85dp"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:onClick="pressButton7"
+                    <TextView
+                        android:id="@+id/dialpad7"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton7"
 
-                    android:text="7"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="45sp" />
+                        android:text="7"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
 
-                <TextView
-                    android:id="@+id/dialpad8"
-                    android:layout_width="85dp"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:onClick="pressButton8"
+                    <TextView
+                        android:id="@+id/dialpad8"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton8"
 
-                    android:text="8"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="45sp" />
+                        android:text="8"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
 
-                <TextView
-                    android:id="@+id/dialpad9"
-                    android:layout_width="85dp"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:onClick="pressButton9"
+                    <TextView
+                        android:id="@+id/dialpad9"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:onClick="pressButton9"
 
-                    android:text="9"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="45sp" />
+                        android:text="9"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="45sp" />
 
-            </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -387,47 +380,18 @@
                         android:layout_height="40dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/openinbrowser"
-                        android:tint="#9e9e9e" />
-
-                    <TextView
-                        android:layout_marginTop="60dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="FUNNY"
-                        android:textColor="#9e9e9e"
-                        android:textSize="14sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true">
-
-                    <ImageView
-                        android:layout_marginTop="20dp"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
                         android:src="@drawable/share"
-                        android:tint="#9e9e9e" />
+                        android:tint="@color/colorPrimary" />
 
                     <TextView
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="65dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="SHARE"
-                        android:textColor="#9e9e9e"
-                        android:textSize="14sp" />
+                        android:fontFamily="sans-serif"
+                        android:text="@string/sharecaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 
@@ -438,7 +402,37 @@
 
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:onClick="pressNextButton">
+                    android:onClick="pressShare">
+
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/openinbrowser"
+                        android:tint="@color/colorPrimary"/>
+
+                    <TextView
+                        android:layout_marginTop="65dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/seeaddcaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:onClick="pressContinueButton">
 
                     <ImageView
                         android:layout_marginTop="20dp"
@@ -447,54 +441,155 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/next"
-                        android:tint="#9e9e9e" />
+                        android:tint="@color/colorPrimary" />
 
                     <TextView
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="65dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="NEXT ADD"
-                        android:textColor="#9e9e9e"
-                        android:textSize="14sp" />
+                        android:fontFamily="sans-serif"
+                        android:text="@string/continuecaps"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/scoreLayout"
                 android:layout_below="@id/dialpadOutput"
                 android:layout_above="@id/bottomOptionsAfterGuess"
+                android:orientation="vertical"
                 android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/correctPriceOutput"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="#000000"
-                    android:textSize="45sp"
-                    android:text="100€"/>
-                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/priceGuess"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#000000"
+                            android:textSize="45sp"
+                            android:layout_gravity="center"/>
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/guesscaps"
+                            android:textColor="#9e9e9e"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/correctPriceOutput"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="CORRECT PRICE"
-                    android:textColor="#9e9e9e"
-                    android:textSize="14sp" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/correctPriceOutput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#000000"
+                            android:textSize="45sp"
+                            android:text="100€"
+                            android:layout_gravity="center"/>
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="PREÇO CORRECTO"
+                            android:textColor="#9e9e9e"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
 
 
+                </LinearLayout>
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <TextView
+                                android:id="@+id/scoreOutput"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textColor="#000000"
+                                android:textSize="45sp"
+                                android:text="0"/>
+
+                            <TextView
+                                android:id="@+id/scorePlus"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textColor="#4caf50"
+                                android:textSize="40sp"
+                                android:layout_marginLeft="12dp"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/scorecaps"
+                            android:textColor="#9e9e9e"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </RelativeLayout>
