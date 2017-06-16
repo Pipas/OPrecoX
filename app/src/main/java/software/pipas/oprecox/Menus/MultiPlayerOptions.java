@@ -2,8 +2,11 @@ package software.pipas.oprecox.Menus;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -73,12 +76,15 @@ public class MultiPlayerOptions extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
                         Log.d("FIREBASE", "signInAnonymously:onComplete:" + task.isSuccessful());
 
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
+                        {
                             Log.w("FIREBASE", "signInAnonymously", task.getException());
                             Toast.makeText(MultiPlayerOptions.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -122,6 +128,11 @@ public class MultiPlayerOptions extends AppCompatActivity
 
     public void startGame(View v)
     {
+        if(!isNetworkAvailable())
+        {
+            Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent myIntent = new Intent(this, GameActivity.class);
         myIntent.putExtra("urls", urls);
         myIntent.putExtra("NGUESSES", NGUESSES);
@@ -133,6 +144,11 @@ public class MultiPlayerOptions extends AppCompatActivity
     public void generateGame(View v)
     {
         urls.clear();
+        if(!isNetworkAvailable())
+        {
+            Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
+            return;
+        }
         startProcessDialog();
         for(count = 0; count < NGUESSES; count++)
         {
@@ -155,14 +171,22 @@ public class MultiPlayerOptions extends AppCompatActivity
     public void continueEndAsyncTask()
     {
         mDatabase.child("games").child(randomCode).child("urls").setValue(urls);
+
+        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
+        String name = sharedPref.getString("name", null);
+        mDatabase.child("games").child(randomCode).child("host").setValue(name);
+
         LinearLayout codeOutputLayout = (LinearLayout) findViewById(R.id.codeOutputLayout);
         codeOutputLayout.setVisibility(View.VISIBLE);
+
         TextView codeOutput = (TextView) findViewById(R.id.codeOutput);
         codeOutput.setText(randomCode);
+
         RelativeLayout startGame = (RelativeLayout) findViewById(R.id.startGame);
         RelativeLayout generateGame = (RelativeLayout) findViewById(R.id.generateGame);
         generateGame.setVisibility(View.GONE);
         startGame.setVisibility(View.VISIBLE);
+
         mProgressDialog.dismiss();
     }
 
@@ -227,12 +251,11 @@ public class MultiPlayerOptions extends AppCompatActivity
         });
     }
 
-    private void startGameActivity()
+    private boolean isNetworkAvailable()
     {
-        Intent myIntent = new Intent(this, GameActivity.class);
-        myIntent.putExtra("urls", onlineURLS);
-        myIntent.putExtra("NGUESSES", NGUESSES);
-        myIntent.putExtra("categories", categories.getSelected());
-        startActivity(myIntent);
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

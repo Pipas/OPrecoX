@@ -45,6 +45,7 @@
     <string name="singleplayer">Jogar Sozinho</string>
     <string name="multiplayer">Jogar com Amigos</string>
     <string name="comingsoon">Brevemente...</string>
+    <string name="namehint">Nome do jogador</string>
 
 
 </resources>

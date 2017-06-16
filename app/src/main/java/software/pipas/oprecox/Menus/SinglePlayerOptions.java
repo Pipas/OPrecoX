@@ -2,12 +2,16 @@ package software.pipas.oprecox.Menus;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import software.pipas.oprecox.Categories;
 import software.pipas.oprecox.GameActivity;
@@ -19,10 +23,8 @@ public class SinglePlayerOptions extends AppCompatActivity
 {
 
     Categories categories = new Categories();
-    ProgressDialog mProgressDialog;
 
     ArrayList<String> urls = new ArrayList<String>();
-    int count;
     int NGUESSES = 10;
 
     @Override
@@ -84,26 +86,16 @@ public class SinglePlayerOptions extends AppCompatActivity
 
     public void startGame(View v)
     {
+        if(!isNetworkAvailable())
+        {
+            Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent myIntent = new Intent(this, GameActivity.class);
         myIntent.putExtra("urls", urls);
         myIntent.putExtra("NGUESSES", NGUESSES);
         myIntent.putExtra("categories", categories.getSelected());
         startActivity(myIntent);
-    }
-
-    public void endAsyncTask(String s)
-    {
-        urls.add(s);
-        count--;
-        if(count <= 0)
-        {
-            mProgressDialog.dismiss();
-            Intent myIntent = new Intent(this, GameActivity.class);
-            myIntent.putExtra("urls", urls);
-            myIntent.putExtra("NGUESSES", NGUESSES);
-            myIntent.putExtra("categories", categories.getSelected());
-            startActivity(myIntent);
-        }
     }
 
     public void selectCategory(View v)
@@ -117,5 +109,13 @@ public class SinglePlayerOptions extends AppCompatActivity
     {
         Intent myIntent = new Intent(this, NGuessesChooser.class);
         startActivityForResult(myIntent, 2);
+    }
+
+    private boolean isNetworkAvailable()
+    {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
