@@ -70,7 +70,7 @@
                 android:layout_height="72dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:onClick="startSinglePlayerGame"
+                android:onClick="pressSinglePlayer"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
@@ -105,7 +105,7 @@
                 android:layout_height="72dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:onClick="toggleMultiplayerGame"
+                android:onClick="pressMultiPlayer"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
@@ -119,124 +119,6 @@
                     android:layout_weight="1"/>
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/submenumultiplayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:paddingRight="16dp"
-                android:paddingLeft="36dp"
-                android:onClick="createMultiplayer">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Criar um jogo"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e0e0e0" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:paddingRight="16dp"
-                android:paddingLeft="36dp"
-                android:onClick="connectMultiplayer">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Conectar a um jogo"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/submenuname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:paddingRight="16dp"
-                android:paddingLeft="16dp">
-
-                <EditText
-                    android:id="@+id/nameinput"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:maxLength="30"
-                    android:hint="@string/namehint" />
-
-                <RelativeLayout
-                    android:id="@+id/dialpadBackspace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:onClick="submitName">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/submit"
-                        android:tint="#9e9e9e" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/test_lobby"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <Button
-                android:id="@+id/test_lobby_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.35"
-                android:elevation="0dp"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="Test"
-                android:clickable="true"
-                android:onClick="createLobby"/>
 
         </LinearLayout>
 
