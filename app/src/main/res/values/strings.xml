@@ -1,4 +1,5 @@
 <resources>
+    <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
     <string name="app_name">O Preço X</string>
     <string name="default_title">default_title</string>
     <string name="default_description">default_description</string>
@@ -46,6 +47,7 @@
     <string name="multiplayer">Jogar com Amigos</string>
     <string name="comingsoon">Brevemente...</string>
     <string name="namehint">Nome do jogador</string>
+    <string name="signin_failure">Failed to Sign-In</string>
 
 
 </resources>

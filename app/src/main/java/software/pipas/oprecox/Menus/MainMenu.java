@@ -10,11 +10,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import software.pipas.oprecox.Multiplayer.Lobby;
 import software.pipas.oprecox.R;
 
 public class MainMenu extends AppCompatActivity
@@ -39,6 +41,8 @@ public class MainMenu extends AppCompatActivity
 
         initiateEditTextListener();
 
+
+
         getSharedPreferences("gameSettings", MODE_PRIVATE).edit().clear().commit();
         SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
         String name = sharedPref.getString("name", null);
@@ -55,6 +59,12 @@ public class MainMenu extends AppCompatActivity
     public void startSinglePlayerGame(View v)
     {
         Intent myIntent = new Intent(this, SinglePlayerOptions.class);
+        startActivity(myIntent);
+    }
+
+    public void createLobby(View v)
+    {
+        Intent myIntent = new Intent(this, Lobby.class);
         startActivity(myIntent);
     }
 
@@ -126,7 +136,8 @@ public class MainMenu extends AppCompatActivity
 
     private void initiateEditTextListener()
     {
-        nameinput.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        nameinput.setOnEditorActionListener(new EditText.OnEditorActionListener()
+        {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {

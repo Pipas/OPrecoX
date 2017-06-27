@@ -219,6 +219,27 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/test_lobby"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/test_lobby_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35"
+                android:elevation="0dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="Test"
+                android:clickable="true"
+                android:onClick="createLobby"/>
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
