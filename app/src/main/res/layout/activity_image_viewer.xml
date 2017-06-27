@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="software.pipas.oprecox.ImageViewer.ImageViewer">
+    tools:context=".Modules.ImageViewer.ImageViewer">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vpPager"

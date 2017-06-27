@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="software.pipas.oprecox.Menus.Settings">
+    tools:context=".Activities.Menus.Settings">
 
     <TextView
         android:layout_width="match_parent"
