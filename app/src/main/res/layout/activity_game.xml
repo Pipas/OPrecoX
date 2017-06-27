@@ -31,7 +31,7 @@
                 android:background="@color/colorWhite"
                 android:elevation="4dp">
 
-                <software.pipas.oprecox.Modules.CustomViews.SquareViewPager
+                <software.pipas.oprecox.modules.customViews.SquareViewPager
                     android:id="@+id/vpPager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Activities.Menus;
+package software.pipas.oprecox.activities.other;
 
 import android.app.Activity;
 import android.content.Intent;

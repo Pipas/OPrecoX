@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Activities;
+package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -23,12 +23,11 @@ import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
 import android.widget.Toast;
 
-import software.pipas.oprecox.Modules.Add.Add;
-import software.pipas.oprecox.Modules.Parsing.AsyncGetAdd;
-import software.pipas.oprecox.Modules.Parsing.AsyncGetAll;
-import software.pipas.oprecox.Modules.ImageViewer.ImagePagerAdapter;
-import software.pipas.oprecox.Modules.ImageViewer.ImageViewer;
-import software.pipas.oprecox.Activities.Menus.GameOver;
+import software.pipas.oprecox.modules.add.Add;
+import software.pipas.oprecox.modules.parsing.AsyncGetAdd;
+import software.pipas.oprecox.modules.parsing.AsyncGetAll;
+import software.pipas.oprecox.modules.imageViewer.ImagePagerAdapter;
+import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -37,7 +36,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
-import software.pipas.oprecox.Activities.Menus.MainMenu;
+import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.R;
 
 import static software.pipas.oprecox.R.layout.game_information_layout;
@@ -560,12 +559,12 @@ public class GameActivity extends AppCompatActivity
         else
         {
             selected = intent.getStringArrayListExtra("categories");
-            AsyncGetAll firstParse = new AsyncGetAll(this, selected, 0, true);
+            AsyncGetAll firstParse = new AsyncGetAll(this, 0, true);
             AsyncGetAll backgroundParse;
             firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             for (int i = 1; i < NGUESSES; i++)
             {
-                backgroundParse = new AsyncGetAll(this, selected, i, false);
+                backgroundParse = new AsyncGetAll(this, i, false);
                 backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         }

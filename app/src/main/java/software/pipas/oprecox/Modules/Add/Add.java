@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Modules.Add;
+package software.pipas.oprecox.modules.add;
 
 import android.graphics.Bitmap;
 

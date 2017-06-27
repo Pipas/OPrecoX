@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Activities.Menus;
+package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,19 +12,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import software.pipas.oprecox.Modules.Categories.Categories;
-import software.pipas.oprecox.Activities.GameActivity;
+import software.pipas.oprecox.activities.menus.MainMenu;
+import software.pipas.oprecox.activities.other.CategoryChooser;
+import software.pipas.oprecox.activities.other.NGuessesChooser;
+import software.pipas.oprecox.application.OPrecoX;
+import software.pipas.oprecox.modules.categories.Categories;
 import software.pipas.oprecox.R;
 
 import java.util.ArrayList;
 
-public class SinglePlayerOptions extends AppCompatActivity
+public class Lobby extends AppCompatActivity
 {
-
-    Categories categories = new Categories();
-
-    ArrayList<String> urls = new ArrayList<String>();
-    int NGUESSES = 10;
+    private ArrayList<String> urls = new ArrayList<String>();
+    private int NGUESSES = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,34 +33,12 @@ public class SinglePlayerOptions extends AppCompatActivity
         setContentView(R.layout.activity_single_player_options);
 
         setTitle(R.string.gameoptionssingleplayer);
-
-        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
-        String c = sharedPref.getString("categories", null);
-        if(c != null)
-            categories.selectFromString(c);
-        else
-            categories.selectAll();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == 3)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
-                ArrayList<String> selected = data.getStringArrayListExtra("categories");
-                categories.setSelected(selected);
-                SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
-                editor.putString("categories", categories.toString());
-                editor.apply();
-            }
-            if (resultCode == Activity.RESULT_CANCELED)
-            {
-                //Write your code if there's no result
-            }
-        }
-        else if (requestCode == 2)
+        if (requestCode == 2)
         {
             if(resultCode == Activity.RESULT_OK)
             {
@@ -93,15 +71,13 @@ public class SinglePlayerOptions extends AppCompatActivity
         Intent myIntent = new Intent(this, GameActivity.class);
         myIntent.putExtra("urls", urls);
         myIntent.putExtra("NGUESSES", NGUESSES);
-        myIntent.putExtra("categories", categories.getSelected());
         startActivity(myIntent);
     }
 
     public void selectCategory(View v)
     {
         Intent myIntent = new Intent(this, CategoryChooser.class);
-        myIntent.putExtra("categories", categories.getSelected());
-        startActivityForResult(myIntent, 3);
+        startActivity(myIntent);
     }
 
     public void selectGuessNumber(View v)

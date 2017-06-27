@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Modules.ImageViewer;
+package software.pipas.oprecox.modules.imageViewer;
 
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Activities.Menus;
+package software.pipas.oprecox.activities.menus;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import software.pipas.oprecox.Activities.Multiplayer.Lobby;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.singlePlayer.Lobby;
+import software.pipas.oprecox.modules.categories.Categories;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -40,13 +41,12 @@ public class MainMenu extends AppCompatActivity
 
         initiateEditTextListener();
 
-
-
-        getSharedPreferences("gameSettings", MODE_PRIVATE).edit().clear().commit();
         SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
-        String name = sharedPref.getString("name", null);
-        if(name != null)
-            hasName = true;
+        String c = sharedPref.getString("categories", null);
+        if(c != null)
+            Categories.selectFromString(c);
+        else
+            Categories.selectAll();
     }
 
     @Override
@@ -57,13 +57,13 @@ public class MainMenu extends AppCompatActivity
 
     public void startSinglePlayerGame(View v)
     {
-        Intent myIntent = new Intent(this, SinglePlayerOptions.class);
+        Intent myIntent = new Intent(this, Lobby.class);
         startActivity(myIntent);
     }
 
     public void createLobby(View v)
     {
-        Intent myIntent = new Intent(this, Lobby.class);
+        Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Lobby.class);
         startActivity(myIntent);
     }
 
@@ -96,7 +96,7 @@ public class MainMenu extends AppCompatActivity
         inputManager.toggleSoftInput(0, 0);
         String name;
         name = nameinput.getText().toString();
-        if(name.isEmpty() || name.length() >= 30 || name.length() < 3 || name == null)
+        if(name.isEmpty() || name.length() >= 30 || name.length() < 3)
             invalidName();
         else
         {
@@ -114,19 +114,6 @@ public class MainMenu extends AppCompatActivity
         Toast.makeText(this, "Nome inválido", Toast.LENGTH_SHORT).show();
     }
 
-    public void createMultiplayer(View v)
-    {
-        Intent myIntent = new Intent(this, MultiPlayerOptions.class);
-        startActivity(myIntent);
-        submenumultiplayer.setVisibility(View.GONE);
-    }
-
-    public void connectMultiplayer(View v)
-    {
-        Intent myIntent = new Intent(this, MultiPlayerConnect.class);
-        startActivity(myIntent);
-        submenumultiplayer.setVisibility(View.GONE);
-    }
 
     public void pressSettings(View v)
     {

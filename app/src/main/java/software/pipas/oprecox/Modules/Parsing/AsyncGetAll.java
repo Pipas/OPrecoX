@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Modules.Parsing;
+package software.pipas.oprecox.modules.parsing;
 
 /**
  * Created by Pipas_ on 13/04/2017.
@@ -9,8 +9,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.Activities.GameActivity;
-import software.pipas.oprecox.Modules.Add.Add;
+import software.pipas.oprecox.activities.singlePlayer.GameActivity;
+import software.pipas.oprecox.modules.add.Add;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +25,11 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     String url;
     boolean validURL = false;
     String randomURL = null;
-    OlxParser parser;
 
-    public AsyncGetAll(GameActivity act, ArrayList<String> c, int i, boolean iF)
+    public AsyncGetAll(GameActivity act, int i, boolean iF)
     {
         activity = act;
         isFirst = iF;
-        parser  = new OlxParser(c);
         index = i;
     }
 
@@ -49,13 +47,13 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
         {
             while (!validURL)
             {
-                randomURL = parser.getRandomURL();
+                randomURL = OlxParser.getRandomURL();
                 Log.d("URL", randomURL);
                 try
                 {
-                    add.setPrice(parser.getPrice(randomURL));
-                    add.setTitle(parser.getTitle(randomURL));
-                    ArrayList<String> images = parser.getImage(randomURL);
+                    add.setPrice(OlxParser.getPrice(randomURL));
+                    add.setTitle(OlxParser.getTitle(randomURL));
+                    ArrayList<String> images = OlxParser.getImage(randomURL);
                     add.setImages(images);
                     ArrayList<Bitmap> bms = new ArrayList<Bitmap>();
                     for(int i = 0; i < images.size(); i++)
@@ -64,7 +62,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
                         bms.add(BitmapFactory.decodeStream(input));
                     }
                     add.setBmImages(bms);
-                    add.setDescription(parser.getDescription(randomURL));
+                    add.setDescription(OlxParser.getDescription(randomURL));
                     add.setUrl(randomURL);
                     validURL = true;
                 }

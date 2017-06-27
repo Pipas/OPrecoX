@@ -1,6 +1,6 @@
-package software.pipas.oprecox.Modules.Parsing;
+package software.pipas.oprecox.modules.parsing;
 
-import software.pipas.oprecox.Modules.Categories.Categories;
+import software.pipas.oprecox.modules.categories.Categories;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,24 +15,15 @@ import java.util.Random;
  * Created by Pipas_ on 12/03/2017.
  */
 
-public class OlxParser
+public abstract class OlxParser
 {
-    String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,"};
+    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,"};
 
-    Categories categories = new Categories();
-
-    public OlxParser(ArrayList<String> c)
-    {
-        categories.setSelected(c);
-    }
-
-    public OlxParser() {}
-
-    public String getRandomURL() throws IOException
+    public static String getRandomURL() throws IOException
     {
         String urlStart = "https://www.olx.pt/";
         String urlEnd = "/?search[description]=1&page=";
-        String category = categories.generateURL();
+        String category = Categories.generateURL();
         String categoryMax = urlStart + category + urlEnd + "500";
 
         Response response = Jsoup.connect(categoryMax).followRedirects(true).execute();
@@ -59,7 +50,7 @@ public class OlxParser
         return links.get(articleNumber).attr("href");
     }
 
-    public String getDescription(String pageURL) throws IOException
+    public static String getDescription(String pageURL) throws IOException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements descriptionContainer = document.select("div[id=textContent]");
@@ -78,7 +69,7 @@ public class OlxParser
         return rawDescription;
     }
 
-    public String getTitle(String pageURL) throws IOException
+    public static String getTitle(String pageURL) throws IOException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements titleE = document.select("h1");
@@ -93,7 +84,7 @@ public class OlxParser
 
     }
 
-    public ArrayList<String> getImage(String pageURL) throws IOException
+    public static ArrayList<String> getImage(String pageURL) throws IOException
     {
         ArrayList<String> imgs = new ArrayList<String>();
         Document document = Jsoup.connect(pageURL).get();
@@ -105,7 +96,7 @@ public class OlxParser
         return imgs;
     }
 
-    public float getPrice(String pageURL) throws IOException
+    public static float getPrice(String pageURL) throws IOException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements priceContainer = document.select("strong[class^=xxxx-large ");
@@ -118,7 +109,7 @@ public class OlxParser
         return Float.parseFloat(priceNo);
     }
 
-    public boolean isValid(String pageURL)
+    public static boolean isValid(String pageURL)
     {
         try
         {

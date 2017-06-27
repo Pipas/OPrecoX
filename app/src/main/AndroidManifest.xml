@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-
+        android:name=".application.OPrecoX"
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden"
         android:icon="@mipmap/oprecox"
@@ -15,27 +15,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.GameActivity"
+            android:name=".activities.singlePlayer.GameActivity"
             android:theme="@style/Guesser"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.Menus.SinglePlayerOptions"
+            android:name=".activities.singlePlayer.Lobby"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.Menus.CategoryChooser"
+            android:name=".activities.other.CategoryChooser"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.Menus.GameOver"
+            android:name=".activities.singlePlayer.GameOver"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Modules.ImageViewer.ImageViewer"
+            android:name=".modules.imageViewer.ImageViewer"
             android:theme="@style/ImageViewer"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.Menus.NGuessesChooser"
+            android:name=".activities.other.NGuessesChooser"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.Menus.MainMenu"
+            android:name=".activities.menus.MainMenu"
             android:theme="@style/AppThemeNoBar"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -45,16 +45,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.Menus.Settings"
+            android:name=".activities.menus.Settings"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activities.Menus.MultiPlayerOptions"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activities.Menus.MultiPlayerConnect"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activities.Multiplayer.Lobby"
+            android:name=".activities.multiPlayer.Lobby"
             android:screenOrientation="portrait"/>
 
 

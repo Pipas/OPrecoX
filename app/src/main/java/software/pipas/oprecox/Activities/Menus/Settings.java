@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Activities.Menus;
+package software.pipas.oprecox.activities.menus;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

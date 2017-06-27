@@ -1,19 +1,13 @@
-package software.pipas.oprecox.Modules.Categories;
+package software.pipas.oprecox.modules.categories;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import static android.R.id.input;
-
-/**
- * Created by Pipas_ on 20/03/2017.
- */
-
-public class Categories
+public abstract class Categories
 {
-    ArrayList<String> selected = new ArrayList<>();
+    private static ArrayList<String> selected = new ArrayList<>();
 
-    public String getName(int ID)
+    /*public String getName(int ID)
     {
         switch (ID)
         {
@@ -91,9 +85,9 @@ public class Categories
                 break;
         }
         return null;
-    }
+    }*/
 
-    public String getURLEnd(int ID)
+    private static String getURLEnd(int ID)
     {
         switch (ID)
         {
@@ -246,12 +240,12 @@ public class Categories
         return null;
     }
 
-    public boolean checkSelected(int ID)
+    public static boolean checkSelected(int ID)
     {
         return selected.contains(Integer.toString(ID));
     }
 
-    public boolean checkAllSelected()
+    public static boolean checkAllSelected()
     {
         for(int i = 1; i < 36; i++)
             if(!checkSelected(i))
@@ -260,57 +254,42 @@ public class Categories
         return true;
     }
 
-    public String returnIfSelected(int ID, String tooltip)
-    {
-        if(checkSelected(ID))
-        {
-            if(tooltip.equals(""))
-            {
-                return getName(ID);
-            }
-            else
-                return ", " + getName(ID);
-        }
-        return "";
-    }
-
-    public void add(int ID)
+    public static void add(int ID)
     {
         if(!checkSelected(ID))
             selected.add(Integer.toString(ID));
     }
 
-    public void remove(int ID)
+    public static void remove(int ID)
     {
         if(checkSelected(ID))
             selected.remove(selected.indexOf(Integer.toString(ID)));
     }
 
-    public String generateURL()
+    public static String generateURL()
     {
         Random rand = new Random();
         int categoryNumber = rand.nextInt(selected.size());
         return getURLEnd(Integer.parseInt(selected.get(categoryNumber)));
     }
 
-    public ArrayList<String> getSelected()
+    public static ArrayList<String> getSelected()
     {
         return selected;
     }
 
-    public void setSelected(ArrayList<String> s)
+    public static void setSelected(ArrayList<String> s)
     {
         selected = s;
     }
 
-    public void selectAll()
+    public static void selectAll()
     {
         for(int i = 1; i < 36; i++)
             add(i);
     }
 
-    @Override
-    public String toString()
+    public static String writeString()
     {
         String s = "";
         for (int i = 0; i < selected.size(); i++)
@@ -320,7 +299,7 @@ public class Categories
         return s;
     }
 
-    public void selectFromString(String input)
+    public static void selectFromString(String input)
     {
         if(input.isEmpty())
             return;

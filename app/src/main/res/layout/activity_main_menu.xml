@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Menus.MainMenu">
+    tools:context=".activities.menus.MainMenu">
 
-    <software.pipas.oprecox.Modules.CustomViews.HalfScreenToolbar
+    <software.pipas.oprecox.modules.customViews.HalfScreenToolbar
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         android:elevation="8dp">
-    </software.pipas.oprecox.Modules.CustomViews.HalfScreenToolbar>
+    </software.pipas.oprecox.modules.customViews.HalfScreenToolbar>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
 
     </LinearLayout>
 
-    <software.pipas.oprecox.Modules.CustomViews.CustomMainMenuImageView
+    <software.pipas.oprecox.modules.customViews.CustomMainMenuImageView
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

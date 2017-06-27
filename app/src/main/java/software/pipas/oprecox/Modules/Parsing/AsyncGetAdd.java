@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Modules.Parsing;
+package software.pipas.oprecox.modules.parsing;
 
 /**
  * Created by Pipas_ on 13/04/2017.
@@ -9,8 +9,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.Activities.GameActivity;
-import software.pipas.oprecox.Modules.Add.Add;
+import software.pipas.oprecox.activities.singlePlayer.GameActivity;
+import software.pipas.oprecox.modules.add.Add;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,6 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
 {
     Add add = new Add();
     GameActivity activity;
-    OlxParser parser;
     boolean isFirst;
     String url;
     int index;
@@ -28,7 +27,6 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     public AsyncGetAdd(GameActivity act, String u, int i, boolean iF)
     {
         activity = act;
-        parser  = new OlxParser();
         isFirst = iF;
         url = u;
         index = i;
@@ -46,9 +44,9 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     {
         try
         {
-            add.setPrice(parser.getPrice(url));
-            add.setTitle(parser.getTitle(url));
-            ArrayList<String> images = parser.getImage(url);
+            add.setPrice(OlxParser.getPrice(url));
+            add.setTitle(OlxParser.getTitle(url));
+            ArrayList<String> images = OlxParser.getImage(url);
             add.setImages(images);
             ArrayList<Bitmap> bms = new ArrayList<Bitmap>();
             for(int i = 0; i < images.size(); i++)
@@ -57,7 +55,7 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
                 bms.add(BitmapFactory.decodeStream(input));
             }
             add.setBmImages(bms);
-            add.setDescription(parser.getDescription(url));
+            add.setDescription(OlxParser.getDescription(url));
             add.setUrl(url);
         }
         catch (IOException e)

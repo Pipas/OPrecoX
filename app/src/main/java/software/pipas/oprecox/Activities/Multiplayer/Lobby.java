@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Activities.Multiplayer;
+package software.pipas.oprecox.activities.multiPlayer;
 
 import android.content.Context;
 import android.content.Intent;

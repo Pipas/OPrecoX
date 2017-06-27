@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Modules.CustomViews;
+package software.pipas.oprecox.modules.customViews;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

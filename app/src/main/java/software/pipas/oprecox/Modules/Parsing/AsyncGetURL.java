@@ -1,4 +1,4 @@
-package software.pipas.oprecox.Modules.Parsing;
+package software.pipas.oprecox.modules.parsing;
 
 /**
  * Created by Pipas_ on 13/04/2017.
@@ -6,16 +6,13 @@ package software.pipas.oprecox.Modules.Parsing;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.Activities.Menus.MultiPlayerOptions;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class AsyncGetURL extends AsyncTask<Void, Void, Void>
 {
-    boolean validURL = false;
+    /*boolean validURL = false;
     String randomURL = null;
-    MultiPlayerOptions activity;
     OlxParser parser;
 
     public AsyncGetURL(MultiPlayerOptions act, ArrayList<String> c)
@@ -55,5 +52,11 @@ public class AsyncGetURL extends AsyncTask<Void, Void, Void>
     {
         activity.endAsyncTask(randomURL);
         Log.d("ASYNC", "Finished background async parse");
+    }*/
+
+    @Override
+    protected Void doInBackground(Void... params)
+    {
+        return null;
     }
 }

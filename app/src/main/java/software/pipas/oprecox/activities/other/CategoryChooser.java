@@ -1,7 +1,8 @@
-package software.pipas.oprecox.Activities.Menus;
+package software.pipas.oprecox.activities.other;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,29 +17,25 @@ import android.widget.LinearLayout;
 
 import com.buildware.widget.indeterm.IndeterminateCheckBox;
 
-import software.pipas.oprecox.Modules.Categories.Categories;
 import software.pipas.oprecox.R;
-
-
-import java.util.ArrayList;
+import software.pipas.oprecox.modules.categories.Categories;
 
 
 public class CategoryChooser extends AppCompatActivity {
 
-    Categories c;
-    IndeterminateCheckBox checkanimals;
-    IndeterminateCheckBox checkbaby;
-    IndeterminateCheckBox checkcars;
-    IndeterminateCheckBox checksports;
-    IndeterminateCheckBox checkhouses;
-    IndeterminateCheckBox checkleisure;
-    IndeterminateCheckBox checkfashion;
-    IndeterminateCheckBox checkfurniture;
-    IndeterminateCheckBox checktechnology;
-    IndeterminateCheckBox checkphones;
-    IndeterminateCheckBox checkothers;
-    CheckBox checkall;
-    CheckBox[] checkcatg = new CheckBox[35];
+    private IndeterminateCheckBox checkanimals;
+    private IndeterminateCheckBox checkbaby;
+    private IndeterminateCheckBox checkcars;
+    private IndeterminateCheckBox checksports;
+    private IndeterminateCheckBox checkhouses;
+    private IndeterminateCheckBox checkleisure;
+    private IndeterminateCheckBox checkfashion;
+    private IndeterminateCheckBox checkfurniture;
+    private IndeterminateCheckBox checktechnology;
+    private IndeterminateCheckBox checkphones;
+    private IndeterminateCheckBox checkothers;
+    private CheckBox checkall;
+    private CheckBox[] checkcatg = new CheckBox[35];
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -67,10 +64,6 @@ public class CategoryChooser extends AppCompatActivity {
         setContentView(R.layout.activity_category_chooser);
         setTitle("Categorias");
 
-        Intent intent = getIntent();
-        ArrayList<String> selected = intent.getStringArrayListExtra("categories");
-        c = new Categories();
-        c.setSelected(selected);
 
         initiateAnimals();
 
@@ -102,13 +95,13 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkanimals = (IndeterminateCheckBox) findViewById(R.id.checkanimals);
         checkcatg[1] = (CheckBox) findViewById(R.id.checkcatg1);
-        if(c.checkSelected(1))
+        if(Categories.checkSelected(1))
         {
             checkcatg[1].setChecked(true);
             checkanimals.setIndeterminate(true);
         }
         checkcatg[2] = (CheckBox) findViewById(R.id.checkcatg2);
-        if(c.checkSelected(2))
+        if(Categories.checkSelected(2))
         {
             checkcatg[2].setChecked(true);
             if(checkanimals.isIndeterminate())
@@ -143,7 +136,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(1);
+                    Categories.add(1);
                     if(checkanimals.isIndeterminate())
                         checkanimals.setChecked(true);
                     else
@@ -151,7 +144,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(1);
+                    Categories.remove(1);
                     if(checkanimals.isIndeterminate())
                         checkanimals.setChecked(false);
                     else
@@ -166,7 +159,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(2);
+                    Categories.add(2);
                     if(checkanimals.isIndeterminate())
                         checkanimals.setChecked(true);
                     else
@@ -174,7 +167,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(2);
+                    Categories.remove(2);
                     if(checkanimals.isIndeterminate())
                         checkanimals.setChecked(false);
                     else
@@ -194,19 +187,19 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkbaby = (IndeterminateCheckBox) findViewById(R.id.checkbaby);
         checkcatg[3] = (CheckBox) findViewById(R.id.checkcatg3);
-        if(c.checkSelected(3))
+        if(Categories.checkSelected(3))
         {
             checkcatg[3].setChecked(true);
             checkbaby.setIndeterminate(true);
         }
         checkcatg[4] = (CheckBox) findViewById(R.id.checkcatg4);
-        if(c.checkSelected(4))
+        if(Categories.checkSelected(4))
         {
             checkcatg[4].setChecked(true);
             checkbaby.setIndeterminate(true);
         }
         checkcatg[5] = (CheckBox) findViewById(R.id.checkcatg5);
-        if(c.checkSelected(5))
+        if(Categories.checkSelected(5))
         {
             checkcatg[5].setChecked(true);
             if(checkcatg[4].isChecked() && checkcatg[3].isChecked())
@@ -242,7 +235,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(3);
+                    Categories.add(3);
                     if(checkcatg[4].isChecked() && checkcatg[5].isChecked())
                         checkbaby.setChecked(true);
                     else
@@ -250,7 +243,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(3);
+                    Categories.remove(3);
                     if(!checkcatg[4].isChecked() && !checkcatg[5].isChecked())
                         checkbaby.setChecked(false);
                     else
@@ -265,7 +258,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(4);
+                    Categories.add(4);
                     if(checkcatg[3].isChecked() && checkcatg[5].isChecked())
                         checkbaby.setChecked(true);
                     else
@@ -273,7 +266,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(4);
+                    Categories.remove(4);
                     if(!checkcatg[3].isChecked() && !checkcatg[5].isChecked())
                         checkbaby.setChecked(false);
                     else
@@ -288,7 +281,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(5);
+                    Categories.add(5);
                     if(checkcatg[4].isChecked() && checkcatg[3].isChecked())
                         checkbaby.setChecked(true);
                     else
@@ -296,7 +289,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(5);
+                    Categories.remove(5);
                     if(!checkcatg[4].isChecked() && !checkcatg[3].isChecked())
                         checkbaby.setChecked(false);
                     else
@@ -319,19 +312,19 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkcars = (IndeterminateCheckBox) findViewById(R.id.checkcars);
         checkcatg[6] = (CheckBox) findViewById(R.id.checkcatg6);
-        if(c.checkSelected(6))
+        if(Categories.checkSelected(6))
         {
             checkcatg[6].setChecked(true);
             checkcars.setIndeterminate(true);
         }
         checkcatg[7] = (CheckBox) findViewById(R.id.checkcatg7);
-        if(c.checkSelected(7))
+        if(Categories.checkSelected(7))
         {
             checkcatg[7].setChecked(true);
             checkcars.setIndeterminate(true);
         }
         checkcatg[8] = (CheckBox) findViewById(R.id.checkcatg8);
-        if(c.checkSelected(8))
+        if(Categories.checkSelected(8))
         {
             checkcatg[8].setChecked(true);
             if(checkcatg[6].isChecked() && checkcatg[7].isChecked())
@@ -367,7 +360,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(6);
+                    Categories.add(6);
                     if(checkcatg[7].isChecked() && checkcatg[8].isChecked())
                         checkcars.setChecked(true);
                     else
@@ -375,7 +368,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(6);
+                    Categories.remove(6);
                     if(!checkcatg[7].isChecked() && !checkcatg[8].isChecked())
                         checkcars.setChecked(false);
                     else
@@ -390,7 +383,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(7);
+                    Categories.add(7);
                     if(checkcatg[6].isChecked() && checkcatg[8].isChecked())
                         checkcars.setChecked(true);
                     else
@@ -398,7 +391,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(7);
+                    Categories.remove(7);
                     if(!checkcatg[6].isChecked() && !checkcatg[8].isChecked())
                         checkcars.setChecked(false);
                     else
@@ -413,7 +406,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(8);
+                    Categories.add(8);
                     if(checkcatg[7].isChecked() && checkcatg[6].isChecked())
                         checkcars.setChecked(true);
                     else
@@ -421,7 +414,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(8);
+                    Categories.remove(8);
                     if(!checkcatg[7].isChecked() && !checkcatg[6].isChecked())
                         checkcars.setChecked(false);
                     else
@@ -444,13 +437,13 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checksports = (IndeterminateCheckBox) findViewById(R.id.checksports);
         checkcatg[9] = (CheckBox) findViewById(R.id.checkcatg9);
-        if(c.checkSelected(9))
+        if(Categories.checkSelected(9))
         {
             checkcatg[9].setChecked(true);
             checksports.setIndeterminate(true);
         }
         checkcatg[10] = (CheckBox) findViewById(R.id.checkcatg10);
-        if(c.checkSelected(10))
+        if(Categories.checkSelected(10))
         {
             checkcatg[10].setChecked(true);
             if(checksports.isIndeterminate())
@@ -485,7 +478,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(9);
+                    Categories.add(9);
                     if(checksports.isIndeterminate())
                         checksports.setChecked(true);
                     else
@@ -493,7 +486,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(9);
+                    Categories.remove(9);
                     if(checksports.isIndeterminate())
                         checksports.setChecked(false);
                     else
@@ -508,7 +501,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(10);
+                    Categories.add(10);
                     if(checksports.isIndeterminate())
                         checksports.setChecked(true);
                     else
@@ -516,7 +509,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(10);
+                    Categories.remove(10);
                     if(checksports.isIndeterminate())
                         checksports.setChecked(false);
                     else
@@ -536,19 +529,19 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkhouses = (IndeterminateCheckBox) findViewById(R.id.checkhouses);
         checkcatg[11] = (CheckBox) findViewById(R.id.checkcatg11);
-        if(c.checkSelected(11))
+        if(Categories.checkSelected(11))
         {
             checkcatg[11].setChecked(true);
             checkhouses.setIndeterminate(true);
         }
         checkcatg[12] = (CheckBox) findViewById(R.id.checkcatg12);
-        if(c.checkSelected(12))
+        if(Categories.checkSelected(12))
         {
             checkcatg[12].setChecked(true);
             checkhouses.setIndeterminate(true);
         }
         checkcatg[13] = (CheckBox) findViewById(R.id.checkcatg13);
-        if(c.checkSelected(13))
+        if(Categories.checkSelected(13))
         {
             checkcatg[13].setChecked(true);
             if(checkcatg[11].isChecked() && checkcatg[12].isChecked())
@@ -584,7 +577,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(11);
+                    Categories.add(11);
                     if(checkcatg[12].isChecked() && checkcatg[13].isChecked())
                         checkhouses.setChecked(true);
                     else
@@ -592,7 +585,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(11);
+                    Categories.remove(11);
                     if(!checkcatg[12].isChecked() && !checkcatg[13].isChecked())
                         checkhouses.setChecked(false);
                     else
@@ -607,7 +600,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(12);
+                    Categories.add(12);
                     if(checkcatg[11].isChecked() && checkcatg[13].isChecked())
                         checkhouses.setChecked(true);
                     else
@@ -615,7 +608,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(12);
+                    Categories.remove(12);
                     if(!checkcatg[11].isChecked() && !checkcatg[13].isChecked())
                         checkhouses.setChecked(false);
                     else
@@ -630,7 +623,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(13);
+                    Categories.add(13);
                     if(checkcatg[12].isChecked() && checkcatg[11].isChecked())
                         checkhouses.setChecked(true);
                     else
@@ -638,7 +631,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(13);
+                    Categories.remove(13);
                     if(!checkcatg[12].isChecked() && !checkcatg[11].isChecked())
                         checkhouses.setChecked(false);
                     else
@@ -661,37 +654,37 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkleisure = (IndeterminateCheckBox) findViewById(R.id.checkleisure);
         checkcatg[14] = (CheckBox) findViewById(R.id.checkcatg14);
-        if(c.checkSelected(14))
+        if(Categories.checkSelected(14))
         {
             checkcatg[14].setChecked(true);
             checkleisure.setIndeterminate(true);
         }
         checkcatg[15] = (CheckBox) findViewById(R.id.checkcatg15);
-        if(c.checkSelected(15))
+        if(Categories.checkSelected(15))
         {
             checkcatg[15].setChecked(true);
             checkleisure.setIndeterminate(true);
         }
         checkcatg[16] = (CheckBox) findViewById(R.id.checkcatg16);
-        if(c.checkSelected(16))
+        if(Categories.checkSelected(16))
         {
             checkcatg[16].setChecked(true);
             checkleisure.setIndeterminate(true);
         }
         checkcatg[17] = (CheckBox) findViewById(R.id.checkcatg17);
-        if(c.checkSelected(17))
+        if(Categories.checkSelected(17))
         {
             checkcatg[17].setChecked(true);
             checkleisure.setIndeterminate(true);
         }
         checkcatg[18] = (CheckBox) findViewById(R.id.checkcatg18);
-        if(c.checkSelected(18))
+        if(Categories.checkSelected(18))
         {
             checkcatg[18].setChecked(true);
             checkleisure.setIndeterminate(true);
         }
         checkcatg[19] = (CheckBox) findViewById(R.id.checkcatg19);
-        if(c.checkSelected(19))
+        if(Categories.checkSelected(19))
         {
             checkcatg[19].setChecked(true);
             if(checkcatg[14].isChecked() && checkcatg[15].isChecked() && checkcatg[16].isChecked() && checkcatg[17].isChecked() && checkcatg[18].isChecked())
@@ -730,7 +723,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(14);
+                    Categories.add(14);
                     if(checkcatg[15].isChecked() && checkcatg[16].isChecked() && checkcatg[17].isChecked() && checkcatg[18].isChecked() && checkcatg[19].isChecked())
                         checkleisure.setChecked(true);
                     else
@@ -738,7 +731,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(14);
+                    Categories.remove(14);
                     if(!checkcatg[15].isChecked() && !checkcatg[16].isChecked() && !checkcatg[17].isChecked() && !checkcatg[18].isChecked() && !checkcatg[19].isChecked())
                         checkleisure.setChecked(false);
                     else
@@ -753,7 +746,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(15);
+                    Categories.add(15);
                     if(checkcatg[14].isChecked() && checkcatg[16].isChecked() && checkcatg[17].isChecked() && checkcatg[18].isChecked() && checkcatg[19].isChecked())
                         checkleisure.setChecked(true);
                     else
@@ -761,7 +754,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(15);
+                    Categories.remove(15);
                     if(!checkcatg[14].isChecked() && !checkcatg[16].isChecked() && !checkcatg[17].isChecked() && !checkcatg[18].isChecked() && !checkcatg[19].isChecked())
                         checkleisure.setChecked(false);
                     else
@@ -776,7 +769,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(16);
+                    Categories.add(16);
                     if(checkcatg[15].isChecked() && checkcatg[14].isChecked() && checkcatg[17].isChecked() && checkcatg[18].isChecked() && checkcatg[19].isChecked())
                         checkleisure.setChecked(true);
                     else
@@ -784,7 +777,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(16);
+                    Categories.remove(16);
                     if(!checkcatg[15].isChecked() && !checkcatg[14].isChecked() && !checkcatg[17].isChecked() && !checkcatg[18].isChecked() && !checkcatg[19].isChecked())
                         checkleisure.setChecked(false);
                     else
@@ -799,7 +792,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(17);
+                    Categories.add(17);
                     if(checkcatg[15].isChecked() && checkcatg[16].isChecked() && checkcatg[14].isChecked() && checkcatg[18].isChecked() && checkcatg[19].isChecked())
                         checkleisure.setChecked(true);
                     else
@@ -807,7 +800,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(17);
+                    Categories.remove(17);
                     if(!checkcatg[15].isChecked() && !checkcatg[16].isChecked() && !checkcatg[14].isChecked() && !checkcatg[18].isChecked() && !checkcatg[19].isChecked())
                         checkleisure.setChecked(false);
                     else
@@ -822,7 +815,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(18);
+                    Categories.add(18);
                     if(checkcatg[15].isChecked() && checkcatg[16].isChecked() && checkcatg[17].isChecked() && checkcatg[14].isChecked() && checkcatg[19].isChecked())
                         checkleisure.setChecked(true);
                     else
@@ -830,7 +823,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(18);
+                    Categories.remove(18);
                     if(!checkcatg[15].isChecked() && !checkcatg[16].isChecked() && !checkcatg[17].isChecked() && !checkcatg[14].isChecked() && !checkcatg[19].isChecked())
                         checkleisure.setChecked(false);
                     else
@@ -845,7 +838,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(19);
+                    Categories.add(19);
                     if(checkcatg[15].isChecked() && checkcatg[16].isChecked() && checkcatg[17].isChecked() && checkcatg[18].isChecked() && checkcatg[14].isChecked())
                         checkleisure.setChecked(true);
                     else
@@ -853,7 +846,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(19);
+                    Categories.remove(19);
                     if(!checkcatg[15].isChecked() && !checkcatg[16].isChecked() && !checkcatg[17].isChecked() && !checkcatg[18].isChecked() && !checkcatg[14].isChecked())
                         checkleisure.setChecked(false);
                     else
@@ -885,31 +878,31 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkfashion = (IndeterminateCheckBox) findViewById(R.id.checkfashion);
         checkcatg[20] = (CheckBox) findViewById(R.id.checkcatg20);
-        if(c.checkSelected(20))
+        if(Categories.checkSelected(20))
         {
             checkcatg[20].setChecked(true);
             checkfashion.setIndeterminate(true);
         }
         checkcatg[21] = (CheckBox) findViewById(R.id.checkcatg21);
-        if(c.checkSelected(21))
+        if(Categories.checkSelected(21))
         {
             checkcatg[21].setChecked(true);
             checkfashion.setIndeterminate(true);
         }
         checkcatg[22] = (CheckBox) findViewById(R.id.checkcatg22);
-        if(c.checkSelected(22))
+        if(Categories.checkSelected(22))
         {
             checkcatg[22].setChecked(true);
             checkfashion.setIndeterminate(true);
         }
         checkcatg[23] = (CheckBox) findViewById(R.id.checkcatg23);
-        if(c.checkSelected(23))
+        if(Categories.checkSelected(23))
         {
             checkcatg[23].setChecked(true);
             checkfashion.setIndeterminate(true);
         }
         checkcatg[24] = (CheckBox) findViewById(R.id.checkcatg24);
-        if(c.checkSelected(24))
+        if(Categories.checkSelected(24))
         {
             checkcatg[24].setChecked(true);
             if(checkcatg[20].isChecked() && checkcatg[21].isChecked() && checkcatg[22].isChecked() && checkcatg[23].isChecked())
@@ -947,7 +940,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(20);
+                    Categories.add(20);
                     if(checkcatg[21].isChecked() && checkcatg[22].isChecked() && checkcatg[23].isChecked() && checkcatg[24].isChecked())
                         checkfashion.setChecked(true);
                     else
@@ -955,7 +948,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(20);
+                    Categories.remove(20);
                     if(!checkcatg[21].isChecked() && !checkcatg[22].isChecked() && !checkcatg[23].isChecked() && !checkcatg[24].isChecked())
                         checkfashion.setChecked(false);
                     else
@@ -970,7 +963,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(21);
+                    Categories.add(21);
                     if(checkcatg[20].isChecked() && checkcatg[22].isChecked() && checkcatg[23].isChecked() && checkcatg[24].isChecked())
                         checkfashion.setChecked(true);
                     else
@@ -978,7 +971,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(21);
+                    Categories.remove(21);
                     if(!checkcatg[20].isChecked() && !checkcatg[22].isChecked() && !checkcatg[23].isChecked() && !checkcatg[24].isChecked())
                         checkfashion.setChecked(false);
                     else
@@ -993,7 +986,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(22);
+                    Categories.add(22);
                     if(checkcatg[21].isChecked() && checkcatg[20].isChecked() && checkcatg[23].isChecked() && checkcatg[24].isChecked())
                         checkfashion.setChecked(true);
                     else
@@ -1001,7 +994,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(22);
+                    Categories.remove(22);
                     if(!checkcatg[21].isChecked() && !checkcatg[20].isChecked() && !checkcatg[23].isChecked() && !checkcatg[24].isChecked())
                         checkfashion.setChecked(false);
                     else
@@ -1016,7 +1009,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(23);
+                    Categories.add(23);
                     if(checkcatg[21].isChecked() && checkcatg[22].isChecked() && checkcatg[20].isChecked() && checkcatg[24].isChecked())
                         checkfashion.setChecked(true);
                     else
@@ -1024,7 +1017,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(23);
+                    Categories.remove(23);
                     if(!checkcatg[21].isChecked() && !checkcatg[22].isChecked() && !checkcatg[20].isChecked() && !checkcatg[24].isChecked())
                         checkfashion.setChecked(false);
                     else
@@ -1039,7 +1032,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(24);
+                    Categories.add(24);
                     if(checkcatg[21].isChecked() && checkcatg[22].isChecked() && checkcatg[23].isChecked() && checkcatg[20].isChecked())
                         checkfashion.setChecked(true);
                     else
@@ -1047,7 +1040,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(24);
+                    Categories.remove(24);
                     if(!checkcatg[21].isChecked() && !checkcatg[22].isChecked() && !checkcatg[23].isChecked() && !checkcatg[20].isChecked())
                         checkfashion.setChecked(false);
                     else
@@ -1076,25 +1069,25 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkfurniture = (IndeterminateCheckBox) findViewById(R.id.checkfurniture);
         checkcatg[25] = (CheckBox) findViewById(R.id.checkcatg25);
-        if(c.checkSelected(25))
+        if(Categories.checkSelected(25))
         {
             checkcatg[25].setChecked(true);
             checkfurniture.setIndeterminate(true);
         }
         checkcatg[26] = (CheckBox) findViewById(R.id.checkcatg26);
-        if(c.checkSelected(26))
+        if(Categories.checkSelected(26))
         {
             checkcatg[26].setChecked(true);
             checkfurniture.setIndeterminate(true);
         }
         checkcatg[27] = (CheckBox) findViewById(R.id.checkcatg27);
-        if(c.checkSelected(27))
+        if(Categories.checkSelected(27))
         {
             checkcatg[27].setChecked(true);
             checkfurniture.setIndeterminate(true);
         }
         checkcatg[28] = (CheckBox) findViewById(R.id.checkcatg28);
-        if(c.checkSelected(28))
+        if(Categories.checkSelected(28))
         {
             checkcatg[28].setChecked(true);
             if(checkcatg[25].isChecked() && checkcatg[26].isChecked() && checkcatg[27].isChecked())
@@ -1131,7 +1124,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(25);
+                    Categories.add(25);
                     if(checkcatg[26].isChecked() && checkcatg[27].isChecked() && checkcatg[28].isChecked())
                         checkfurniture.setChecked(true);
                     else
@@ -1139,7 +1132,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(25);
+                    Categories.remove(25);
                     if(!checkcatg[26].isChecked() && !checkcatg[27].isChecked() && !checkcatg[28].isChecked())
                         checkfurniture.setChecked(false);
                     else
@@ -1154,7 +1147,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(26);
+                    Categories.add(26);
                     if(checkcatg[25].isChecked() && checkcatg[27].isChecked() && checkcatg[28].isChecked())
                         checkfurniture.setChecked(true);
                     else
@@ -1162,7 +1155,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(26);
+                    Categories.remove(26);
                     if(!checkcatg[25].isChecked() && !checkcatg[27].isChecked() && !checkcatg[28].isChecked())
                         checkfurniture.setChecked(false);
                     else
@@ -1177,7 +1170,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(27);
+                    Categories.add(27);
                     if(checkcatg[26].isChecked() && checkcatg[25].isChecked() && checkcatg[28].isChecked())
                         checkfurniture.setChecked(true);
                     else
@@ -1185,7 +1178,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(27);
+                    Categories.remove(27);
                     if(!checkcatg[26].isChecked() && !checkcatg[25].isChecked() && !checkcatg[28].isChecked())
                         checkfurniture.setChecked(false);
                     else
@@ -1200,7 +1193,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(28);
+                    Categories.add(28);
                     if(checkcatg[26].isChecked() && checkcatg[27].isChecked() && checkcatg[25].isChecked())
                         checkfurniture.setChecked(true);
                     else
@@ -1208,7 +1201,7 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(28);
+                    Categories.remove(28);
                     if(!checkcatg[26].isChecked() && !checkcatg[27].isChecked() && !checkcatg[25].isChecked())
                         checkfurniture.setChecked(false);
                     else
@@ -1234,25 +1227,25 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checktechnology = (IndeterminateCheckBox) findViewById(R.id.checktechnology);
         checkcatg[29] = (CheckBox) findViewById(R.id.checkcatg29);
-        if(c.checkSelected(29))
+        if(Categories.checkSelected(29))
         {
             checkcatg[29].setChecked(true);
             checktechnology.setIndeterminate(true);
         }
         checkcatg[30] = (CheckBox) findViewById(R.id.checkcatg30);
-        if(c.checkSelected(30))
+        if(Categories.checkSelected(30))
         {
             checkcatg[30].setChecked(true);
             checktechnology.setIndeterminate(true);
         }
         checkcatg[31] = (CheckBox) findViewById(R.id.checkcatg31);
-        if(c.checkSelected(31))
+        if(Categories.checkSelected(31))
         {
             checkcatg[31].setChecked(true);
             checktechnology.setIndeterminate(true);
         }
         checkcatg[32] = (CheckBox) findViewById(R.id.checkcatg32);
-        if(c.checkSelected(32))
+        if(Categories.checkSelected(32))
         {
             checkcatg[32].setChecked(true);
             if(checkcatg[29].isChecked() && checkcatg[30].isChecked() && checkcatg[31].isChecked())
@@ -1289,7 +1282,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(29);
+                    Categories.add(29);
                     if(checkcatg[30].isChecked() && checkcatg[31].isChecked() && checkcatg[32].isChecked())
                         checktechnology.setChecked(true);
                     else
@@ -1297,12 +1290,12 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(29);
+                    Categories.remove(29);
                     if(!checkcatg[30].isChecked() && !checkcatg[31].isChecked() && !checkcatg[32].isChecked())
                         checktechnology.setChecked(false);
                     else
                         checktechnology.setIndeterminate(true);
-                };
+                }
             }
         });
         checkcatg[30].setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -1312,7 +1305,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(30);
+                    Categories.add(30);
                     if(checkcatg[29].isChecked() && checkcatg[31].isChecked() && checkcatg[32].isChecked())
                         checktechnology.setChecked(true);
                     else
@@ -1320,12 +1313,12 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(30);
+                    Categories.remove(30);
                     if(!checkcatg[29].isChecked() && !checkcatg[31].isChecked() && !checkcatg[32].isChecked())
                         checktechnology.setChecked(false);
                     else
                         checktechnology.setIndeterminate(true);
-                };
+                }
             }
         });
         checkcatg[31].setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -1335,7 +1328,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(31);
+                    Categories.add(31);
                     if(checkcatg[30].isChecked() && checkcatg[29].isChecked() && checkcatg[32].isChecked())
                         checktechnology.setChecked(true);
                     else
@@ -1343,12 +1336,12 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(31);
+                    Categories.remove(31);
                     if(!checkcatg[30].isChecked() && !checkcatg[29].isChecked() && !checkcatg[32].isChecked())
                         checktechnology.setChecked(false);
                     else
                         checktechnology.setIndeterminate(true);
-                };
+                }
             }
         });
         checkcatg[32].setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -1358,7 +1351,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(32);
+                    Categories.add(32);
                     if(checkcatg[30].isChecked() && checkcatg[31].isChecked() && checkcatg[29].isChecked())
                         checktechnology.setChecked(true);
                     else
@@ -1366,12 +1359,12 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(32);
+                    Categories.remove(32);
                     if(!checkcatg[30].isChecked() && !checkcatg[31].isChecked() && !checkcatg[29].isChecked())
                         checktechnology.setChecked(false);
                     else
                         checktechnology.setIndeterminate(true);
-                };
+                }
             }
         });
         LinearLayout buttoncatg29 = (LinearLayout) findViewById(R.id.buttoncatg29);
@@ -1392,13 +1385,13 @@ public class CategoryChooser extends AppCompatActivity {
     {
         checkphones = (IndeterminateCheckBox) findViewById(R.id.checkphones);
         checkcatg[33] = (CheckBox) findViewById(R.id.checkcatg33);
-        if(c.checkSelected(33))
+        if(Categories.checkSelected(33))
         {
             checkcatg[33].setChecked(true);
             checkphones.setIndeterminate(true);
         }
         checkcatg[34] = (CheckBox) findViewById(R.id.checkcatg34);
-        if(c.checkSelected(34))
+        if(Categories.checkSelected(34))
         {
             checkcatg[34].setChecked(true);
             if(checkphones.isIndeterminate())
@@ -1433,7 +1426,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(33);
+                    Categories.add(33);
                     if(checkcatg[34].isChecked())
                         checkphones.setChecked(true);
                     else
@@ -1441,12 +1434,12 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(33);
+                    Categories.remove(33);
                     if(!checkcatg[34].isChecked())
                         checkphones.setChecked(false);
                     else
                         checkphones.setIndeterminate(true);
-                };
+                }
             }
         });
         checkcatg[34].setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -1456,7 +1449,7 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(34);
+                    Categories.add(34);
                     if(checkcatg[33].isChecked())
                         checkphones.setChecked(true);
                     else
@@ -1464,12 +1457,12 @@ public class CategoryChooser extends AppCompatActivity {
                 }
                 else
                 {
-                    c.remove(34);
+                    Categories.remove(34);
                     if(!checkcatg[33].isChecked())
                         checkphones.setChecked(false);
                     else
                         checkphones.setIndeterminate(true);
-                };
+                }
             }
         });
         LinearLayout buttoncatg33 = (LinearLayout) findViewById(R.id.buttoncatg33);
@@ -1483,7 +1476,7 @@ public class CategoryChooser extends AppCompatActivity {
     private void inititateOthers()
     {
         checkothers = (IndeterminateCheckBox) findViewById(R.id.checkothers);
-        if(c.checkSelected(35))
+        if(Categories.checkSelected(35))
         {
             checkothers.setChecked(true);
         }
@@ -1502,12 +1495,12 @@ public class CategoryChooser extends AppCompatActivity {
             {
                 if(isChecked)
                 {
-                    c.add(35);
+                    Categories.add(35);
                 }
                 else
                 {
-                    c.remove(35);
-                };
+                    Categories.remove(35);
+                }
             }
         });
     }
@@ -1515,7 +1508,7 @@ public class CategoryChooser extends AppCompatActivity {
     private void initiateCheckAll()
     {
         checkall = (CheckBox) findViewById(R.id.checkall);
-        if(c.checkAllSelected())
+        if(Categories.checkAllSelected())
             checkall.setChecked(true);
         LinearLayout buttonall = (LinearLayout) findViewById(R.id.buttonall);
         buttonall.setOnClickListener(new View.OnClickListener() {
@@ -1551,18 +1544,15 @@ public class CategoryChooser extends AppCompatActivity {
             view.setVisibility(View.VISIBLE);
     }
 
-    private void setViewByID(int id, int visibility)
-    {
-        View view = findViewById(id);
-        view.setVisibility(visibility);
-    }
 
     private void confirmSelection()
     {
         Intent returnIntent = new Intent();
-        if(c.getSelected().isEmpty())
-            c.selectAll();
-        returnIntent.putExtra("categories", c.getSelected());
+        if(Categories.getSelected().isEmpty())
+            Categories.selectAll();
+        SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+        editor.putString("categories", Categories.writeString());
+        editor.apply();
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
