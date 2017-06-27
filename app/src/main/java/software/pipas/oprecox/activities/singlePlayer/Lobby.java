@@ -15,8 +15,6 @@ import android.widget.Toast;
 import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.NGuessesChooser;
-import software.pipas.oprecox.application.OPrecoX;
-import software.pipas.oprecox.modules.categories.Categories;
 import software.pipas.oprecox.R;
 
 import java.util.ArrayList;

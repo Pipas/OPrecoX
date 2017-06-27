@@ -44,18 +44,15 @@ import static software.pipas.oprecox.R.layout.game_information_layout;
 
 public class GameActivity extends AppCompatActivity
 {
-    private int addCounter = 1;
     private int NGUESSES;
     private int score = 0;
     private int correctGuesses = 0;
 
-    private boolean gameType;
     private TextView dialpadOutput;
     private float guess;
     private String dialpadNumber = "";
     private Add shownAdd;
-    private Add[] adds;
-    private ArrayList<String> urls;
+    private ArrayList<Add> adds = new ArrayList<Add>();
     private String roomCode;
 
     private SlidingUpPanelLayout slider;
@@ -71,14 +68,9 @@ public class GameActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         NGUESSES = intent.getIntExtra("NGUESSES", 10);
-        gameType = intent.getBooleanExtra("gameType", false);
-
-        adds = new Add[NGUESSES];
 
         dialpadOutput = (TextView) findViewById(R.id.dialpadNumber);
         dialpadOutput.setText(dialpadNumber);
-
-        initiateMultiplayer(intent);
 
         addArrowSliderListener();
 
@@ -150,9 +142,9 @@ public class GameActivity extends AppCompatActivity
         shownAdd = sa;
     }
 
-    public void addAddPosition(Add a, int i)
+    public void addAdd(Add a)
     {
-        adds[i] = a;
+        adds.add(a);
     }
 
     public void closeProgressPopup()
@@ -164,10 +156,8 @@ public class GameActivity extends AppCompatActivity
 
     public boolean updateShownAdd()
     {
-        if(adds[addCounter] == null)
-            return false;
-        shownAdd = adds[addCounter];
-        addCounter++;
+        shownAdd = adds.get(0);
+        adds.remove(0);
         return true;
     }
 
@@ -362,7 +352,7 @@ public class GameActivity extends AppCompatActivity
 
     public void pressContinueButton(View v)
     {
-        if(addCounter < NGUESSES)
+        if(!adds.isEmpty())
         {
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             scrollView.fullScroll(View.FOCUS_UP);
@@ -380,10 +370,6 @@ public class GameActivity extends AppCompatActivity
             myIntent.putExtra("score", score);
             myIntent.putExtra("correctGuesses", correctGuesses);
             myIntent.putExtra("NGUESSES", NGUESSES);
-            myIntent.putExtra("categories", selected);
-            myIntent.putExtra("gameType", gameType);
-            if(gameType)
-                myIntent.putExtra("roomCode", roomCode);
             startActivity(myIntent);
             finish();
             return;
@@ -544,29 +530,14 @@ public class GameActivity extends AppCompatActivity
 
     private void startDataParses(Intent intent)
     {
-        if(gameType)
+        selected = intent.getStringArrayListExtra("categories");
+        AsyncGetAll firstParse = new AsyncGetAll(this, 0, true);
+        AsyncGetAll backgroundParse;
+        firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        for (int i = 1; i < NGUESSES; i++)
         {
-            urls = intent.getStringArrayListExtra("urls");
-            AsyncGetAdd firstParse = new AsyncGetAdd(this, urls.get(0), 0, true);
-            AsyncGetAdd backgroundParse;
-            firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            for(int i = 1; i < (NGUESSES); i++)
-            {
-                backgroundParse = new AsyncGetAdd(this, urls.get(i), i, false);
-                backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        }
-        else
-        {
-            selected = intent.getStringArrayListExtra("categories");
-            AsyncGetAll firstParse = new AsyncGetAll(this, 0, true);
-            AsyncGetAll backgroundParse;
-            firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            for (int i = 1; i < NGUESSES; i++)
-            {
-                backgroundParse = new AsyncGetAll(this, i, false);
-                backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
+            backgroundParse = new AsyncGetAll(this, i, false);
+            backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -586,19 +557,6 @@ public class GameActivity extends AppCompatActivity
             {
                 //Write your code if there's no result
             }
-        }
-    }
-
-    private void initiateMultiplayer(Intent intent)
-    {
-        if(!gameType)
-        {
-            LinearLayout info = (LinearLayout) findViewById(R.id.infoButton);
-            info.setVisibility(View.GONE);
-        }
-        else
-        {
-            roomCode = intent.getStringExtra("roomCode");
         }
     }
 }

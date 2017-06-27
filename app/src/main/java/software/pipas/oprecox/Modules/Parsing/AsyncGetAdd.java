@@ -74,7 +74,7 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
             activity.closeProgressPopup();
         }
         else
-            activity.addAddPosition(add, index);
+            activity.addAdd(add);
 
         Log.d("ASYNC", String.format("Finished background async parse %d", index + 1));
     }

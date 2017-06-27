@@ -13,6 +13,8 @@ import software.pipas.oprecox.modules.categories.Categories;
 
 public class MainMenu extends AppCompatActivity
 {
+    private int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -41,8 +43,15 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
-        Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Lobby.class);
-        startActivity(myIntent);
+        count++;
+        if(count >= 10)
+        {
+            Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Lobby.class);
+            startActivity(myIntent);
+        }
+        else
+            Toast.makeText(this, "Multiplayer changes coming soon!", Toast.LENGTH_SHORT).show();
+
     }
 
     public void pressSettings(View v)
