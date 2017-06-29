@@ -16,35 +16,27 @@ import java.util.List;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.dataType.Invite;
 
-public class InviteListAdapter extends ArrayAdapter<Invite> implements View.OnClickListener
+public class InviteListAdapter extends ArrayAdapter<Invite>
 {
     Context mContext;
 
-    public InviteListAdapter(Context context, int textViewResourceId)
+    public InviteListAdapter(ArrayList<Invite> data, Context context)
     {
-        super(context, textViewResourceId);
-        mContext = context;
+        super(context, R.layout.invite_item_layout, data);
+        this.mContext=context;
     }
 
-    public InviteListAdapter(Context context, int resource, List<Invite> items)
+    /*@Override
+    public void onClick(View v)
     {
-        super(context, resource, items);
-        mContext = context;
+        int position=(Integer) v.getTag();
+        Object object = getItem(position);
+        Invite invite = (Invite)object;
+
+
     }
 
     @Override
-    public void onClick(View v)
-    {
-        /*int position=(Integer) v.getTag();
-        Object object = getItem(position);
-        Invite invite = (Invite)object;*/
-
-
-    }
-
-    private int lastPosition = -1;
-
-    /*@Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
         // Get the data item for this position
