@@ -1,5 +1,6 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Player;
+import com.google.android.gms.games.Players;
 
 /**
  * Created by nuno_ on 22-Jun-17.
@@ -43,24 +46,33 @@ public class Lobby extends AppCompatActivity implements GoogleApiClient.Connecti
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
     protected void onStop()
     {
         super.onStop();
         mGoogleApiClient.disconnect();
     }
 
-
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
         Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+
+        String str = Games.Players.getCurrentPlayer(mGoogleApiClient).getTitle();
+
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult)
     {
-        //Toast.makeText(getApplicationContext(), "Failed to Connect", Toast.LENGTH_SHORT).show();
-        this.startUserRetryRequest();
+        this.startUserRetryRequest(connectionResult, this);
     }
 
     @Override
@@ -71,15 +83,14 @@ public class Lobby extends AppCompatActivity implements GoogleApiClient.Connecti
     }
 
 
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
 
     }
 
-    private void startUserRetryRequest()
+    private void startUserRetryRequest(final ConnectionResult connectionResult, final Activity activity)
     {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         //builder.setCancelable(false);
@@ -89,7 +100,14 @@ public class Lobby extends AppCompatActivity implements GoogleApiClient.Connecti
                 {
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        mGoogleApiClient.connect();
+                        try
+                        {
+                            connectionResult.startResolutionForResult(activity, connectionResult.getErrorCode());
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
                     }
                 });
 
@@ -103,7 +121,6 @@ public class Lobby extends AppCompatActivity implements GoogleApiClient.Connecti
 
         builder.create();
         builder.show();
-
     }
 
 
