@@ -12,6 +12,7 @@ import software.pipas.oprecox.R;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
+import software.pipas.oprecox.modules.adapters.FullscreenPagerAdapter;
 
 public class ImageViewer extends AppCompatActivity
 {

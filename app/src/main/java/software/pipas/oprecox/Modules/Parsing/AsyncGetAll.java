@@ -1,16 +1,14 @@
 package software.pipas.oprecox.modules.parsing;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.modules.add.Add;
-import software.pipas.oprecox.modules.exception.OLXSyntaxChangeException;
+import software.pipas.oprecox.modules.dataType.Add;
+import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.util.Settings;
-import software.pipas.oprecox.util.Util;
 
 import java.io.IOException;
 import java.io.InputStream;

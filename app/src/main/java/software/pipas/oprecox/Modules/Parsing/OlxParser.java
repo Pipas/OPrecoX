@@ -1,7 +1,7 @@
 package software.pipas.oprecox.modules.parsing;
 
 import software.pipas.oprecox.modules.categories.Categories;
-import software.pipas.oprecox.modules.exception.OLXSyntaxChangeException;
+import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

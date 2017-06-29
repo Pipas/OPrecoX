@@ -1,12 +1,8 @@
-package software.pipas.oprecox.modules.add;
+package software.pipas.oprecox.modules.dataType;
 
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
-
-/**
- * Created by Pipas_ on 12/03/2017.
- */
 
 public class Add
 {
