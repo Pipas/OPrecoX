@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
 import software.pipas.oprecox.modules.categories.Categories;
-import software.pipas.oprecox.util.Util;
+import software.pipas.oprecox.util.Settings;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -23,6 +25,23 @@ public class MainMenu extends AppCompatActivity
         setContentView(R.layout.activity_main_menu);
 
         SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
+        Settings.setLocked(sharedPref.getBoolean("locked", false));
+        int version = sharedPref.getInt("lockVersion", Integer.MAX_VALUE);
+        if(Settings.isLocked())
+        {
+           if(version < BuildConfig.VERSION_CODE)
+           {
+               SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+               editor.putBoolean("locked", false);
+               editor.apply();
+           }
+           else
+           {
+               Intent intent = new Intent(this, BlockedApp.class);
+               startActivity(intent);
+               finish();
+           }
+        }
         String c = sharedPref.getString("categories", null);
         if(c != null)
             Categories.selectFromString(c);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,14 +24,14 @@ import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
 import android.widget.Toast;
 
+import software.pipas.oprecox.BuildConfig;
+import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.modules.add.Add;
-import software.pipas.oprecox.modules.parsing.AsyncGetAdd;
+import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 import software.pipas.oprecox.modules.imageViewer.ImagePagerAdapter;
 import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 
-import com.afollestad.materialdialogs.GravityEnum;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -38,11 +39,10 @@ import java.util.ArrayList;
 import me.relex.circleindicator.CircleIndicator;
 import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.util.Settings;
+import software.pipas.oprecox.util.Util;
 
-import static software.pipas.oprecox.R.layout.game_information_layout;
-
-
-public class GameActivity extends AppCompatActivity
+public class GameActivity extends AppCompatActivity implements ParsingCallingActivity
 {
     private int NGUESSES;
     private int score = 0;
@@ -53,11 +53,9 @@ public class GameActivity extends AppCompatActivity
     private String dialpadNumber = "";
     private Add shownAdd;
     private ArrayList<Add> adds = new ArrayList<Add>();
-    private String roomCode;
 
     private SlidingUpPanelLayout slider;
     private ProgressDialog mProgressDialog;
-    private ArrayList<String> selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -137,9 +135,10 @@ public class GameActivity extends AppCompatActivity
         descriptionTextView.setText(shownAdd.getDescription());
     }
 
-    public void setShownAdd(Add sa)
+
+    public void setShownAdd(Add a)
     {
-        shownAdd = sa;
+        shownAdd = a;
     }
 
     public void addAdd(Add a)
@@ -150,6 +149,9 @@ public class GameActivity extends AppCompatActivity
     public void closeProgressPopup()
     {
         mProgressDialog.dismiss();
+        if(Settings.isLocked())
+            Util.lockApp(this);
+
         setViewsWithAdd();
         slider.setVisibility(View.VISIBLE);
     }
@@ -513,30 +515,14 @@ public class GameActivity extends AppCompatActivity
         mProgressDialog.show();
     }
 
-    public void pressInfo(View v)
-    {
-        MaterialDialog popup = new MaterialDialog.Builder(this)
-                .customView(game_information_layout, false)
-                .buttonsGravity(GravityEnum.START)
-                .neutralText("partilhar")
-                .positiveText("ok")
-                .build();
-
-        TextView code = (TextView) popup.findViewById(R.id.codeOutput);
-        code.setText(roomCode);
-
-        popup.show();
-    }
-
     private void startDataParses(Intent intent)
     {
-        selected = intent.getStringArrayListExtra("categories");
-        AsyncGetAll firstParse = new AsyncGetAll(this, 0, true);
+        AsyncGetAll firstParse = new AsyncGetAll(this, true);
         AsyncGetAll backgroundParse;
         firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         for (int i = 1; i < NGUESSES; i++)
         {
-            backgroundParse = new AsyncGetAll(this, i, false);
+            backgroundParse = new AsyncGetAll(this, false);
             backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }

@@ -15,28 +15,28 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.singlePlayer.GameActivity"
-            android:theme="@style/Guesser"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Guesser" />
         <activity
             android:name=".activities.singlePlayer.Lobby"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.other.CategoryChooser"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.singlePlayer.GameOver"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.imageViewer.ImageViewer"
-            android:theme="@style/ImageViewer"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageViewer" />
         <activity
             android:name=".activities.other.NGuessesChooser"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.menus.MainMenu"
-            android:theme="@style/AppThemeNoBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,17 +45,19 @@
         </activity>
         <activity
             android:name=".activities.menus.Settings"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.Lobby"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
-
-        <meta-data android:name="com.google.android.gms.games.APP_ID"
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
-        <meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".activities.other.BlockedApp"></activity>
     </application>
 
 </manifest>

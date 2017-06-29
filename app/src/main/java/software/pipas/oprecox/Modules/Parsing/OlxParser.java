@@ -1,6 +1,7 @@
 package software.pipas.oprecox.modules.parsing;
 
 import software.pipas.oprecox.modules.categories.Categories;
+import software.pipas.oprecox.modules.exception.OLXSyntaxChangeException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +20,7 @@ public abstract class OlxParser
 {
     private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,"};
 
-    public static String getRandomURL() throws IOException
+    public static String getRandomURL() throws IOException, OLXSyntaxChangeException
     {
         String urlStart = "https://www.olx.pt/";
         String urlEnd = "/?search[description]=1&page=";
@@ -30,31 +31,40 @@ public abstract class OlxParser
         String r = response.url().toString();
 
         int categoryPages = Integer.parseInt(r.substring(r.lastIndexOf("=") + 1));
-        Random rand1 = new Random();
-        Random rand3 = new Random();
+        Random rand = new Random();
 
-        int pageNumber = rand1.nextInt(categoryPages) + 1;
+        int pageNumber = rand.nextInt(categoryPages) + 1;
         String pageURL = urlStart + category + urlEnd + pageNumber;
 
         Document document = Jsoup.connect(pageURL).get();
         Elements linkContainer = document.select("table[class=fixed offers breakword ]");
-        if(linkContainer.size() == 0)
+        if(linkContainer.isEmpty())
         {
             linkContainer = document.select("ul[class=gallerywide clr normal ]");
-            //if(linkContainer == null) throw exception
+            if(linkContainer.isEmpty())
+                throw new OLXSyntaxChangeException();
         }
-        Elements links = linkContainer.select("a[class*=link linkWithHash detailsLink]");
 
-        int articleNumber = rand3.nextInt(links.size());
+        Elements links = linkContainer.select("a[class*=link linkWithHash detailsLink]");
+        if(links.isEmpty())
+            throw new OLXSyntaxChangeException();
+
+        int articleNumber = rand.nextInt(links.size());
 
         return links.get(articleNumber).attr("href");
     }
 
-    public static String getDescription(String pageURL) throws IOException
+    public static String getDescription(String pageURL) throws IOException, OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements descriptionContainer = document.select("div[id=textContent]");
+        if(descriptionContainer.isEmpty())
+            throw new OLXSyntaxChangeException();
+
         Elements description = descriptionContainer.select("p");
+        if(description.isEmpty())
+            throw new OLXSyntaxChangeException();
+
         String rawDescription = description.html();
         rawDescription = rawDescription.replace("&gt;", ">");
         rawDescription = rawDescription.replace("<br> ", "\n");
@@ -64,21 +74,23 @@ public abstract class OlxParser
         for(int i = 0; i < forbiddenWords.length; i++)
         {
             if(rawDescription.contains(forbiddenWords[i]))
-                throw new NumberFormatException();
+                throw new IOException();
         }
         return rawDescription;
     }
 
-    public static String getTitle(String pageURL) throws IOException
+    public static String getTitle(String pageURL) throws IOException, OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements titleE = document.select("h1");
+        if(titleE.isEmpty())
+            throw new OLXSyntaxChangeException();
         String title = titleE.html();
         title = title.replace("&amp;", "&");
         for(int i = 0; i < forbiddenWords.length; i++)
         {
             if(title.contains(forbiddenWords[i]))
-                throw new NumberFormatException();
+                throw new IOException();
         }
         return title;
 
@@ -90,18 +102,18 @@ public abstract class OlxParser
         Document document = Jsoup.connect(pageURL).get();
         Elements img = document.select("img[class^=vtop bigImage]");
         if(img.isEmpty())
-            throw new NumberFormatException();
+            throw new IOException();
         for(int i = 0; i < img.size(); i++)
             imgs.add(img.get(i).attr("src"));
         return imgs;
     }
 
-    public static float getPrice(String pageURL) throws IOException
+    public static float getPrice(String pageURL) throws IOException, OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements priceContainer = document.select("strong[class^=xxxx-large ");
         if(priceContainer.isEmpty())
-            throw new NumberFormatException();
+            throw new IOException();
         String priceStr = priceContainer.get(0).html();
         String priceNo = priceStr.replace(" €", "");
         priceNo = priceNo.replace(".", "");

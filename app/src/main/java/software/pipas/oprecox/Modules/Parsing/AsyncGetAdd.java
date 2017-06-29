@@ -42,7 +42,7 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params)
     {
-        try
+        /*try
         {
             add.setPrice(OlxParser.getPrice(url));
             add.setTitle(OlxParser.getTitle(url));
@@ -61,7 +61,7 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
         catch (IOException e)
         {
             e.printStackTrace();
-        }
+        }*/
         return null;
     }
 

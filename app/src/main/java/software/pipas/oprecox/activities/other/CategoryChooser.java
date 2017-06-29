@@ -3,6 +3,8 @@ package software.pipas.oprecox.activities.other;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+import com.buildware.widget.indeterm.BuildConfig;
 import com.buildware.widget.indeterm.IndeterminateCheckBox;
 
 import software.pipas.oprecox.R;
@@ -1551,8 +1554,8 @@ public class CategoryChooser extends AppCompatActivity {
         if(Categories.getSelected().isEmpty())
             Categories.selectAll();
         SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
-        editor.putString("categories", Categories.writeString());
         editor.apply();
+
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
