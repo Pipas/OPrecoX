@@ -10,6 +10,7 @@ import android.widget.Toast;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
 import software.pipas.oprecox.modules.categories.Categories;
+import software.pipas.oprecox.util.Util;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -43,6 +44,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
+        /*
         count++;
         if(count >= 10)
         {
@@ -51,6 +53,18 @@ public class MainMenu extends AppCompatActivity
         }
         else
             Toast.makeText(this, "Multiplayer changes coming soon!", Toast.LENGTH_SHORT).show();
+            */
+
+        /*
+        if(!Util.isNetworkAvailable(this))
+        {
+            Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        */
+
+        Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Lobby.class);
+        startActivity(myIntent);
 
     }
 
