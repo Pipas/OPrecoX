@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
 import software.pipas.oprecox.modules.categories.Categories;
@@ -67,7 +68,7 @@ public class MainMenu extends AppCompatActivity
         count++;
         if(count >= 10)
         {
-            Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Lobby.class);
+            Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Hub.class);
             startActivity(myIntent);
         }
         else
@@ -82,7 +83,7 @@ public class MainMenu extends AppCompatActivity
         }
         */
 
-        Intent myIntent = new Intent(this, software.pipas.oprecox.activities.multiPlayer.Lobby.class);
+        Intent myIntent = new Intent(this, Hub.class);
         startActivity(myIntent);
 
     }

@@ -12,14 +12,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Player;
-import com.google.android.gms.games.Players;
+
+import software.pipas.oprecox.R;
 
 /**
  * Created by nuno_ on 22-Jun-17.
  */
 
-public class Lobby extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+public class Hub extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 {
 
     private GoogleApiClient mGoogleApiClient;
@@ -28,6 +28,7 @@ public class Lobby extends AppCompatActivity implements GoogleApiClient.Connecti
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_multiplayer_hub);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
