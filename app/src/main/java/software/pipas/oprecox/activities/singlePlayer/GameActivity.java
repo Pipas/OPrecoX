@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,12 +23,10 @@ import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
 import android.widget.Toast;
 
-import software.pipas.oprecox.BuildConfig;
-import software.pipas.oprecox.activities.other.BlockedApp;
-import software.pipas.oprecox.modules.add.Add;
+import software.pipas.oprecox.modules.dataType.Add;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
-import software.pipas.oprecox.modules.imageViewer.ImagePagerAdapter;
+import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
 import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;

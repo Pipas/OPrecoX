@@ -4,17 +4,11 @@ package software.pipas.oprecox.modules.parsing;
  * Created by Pipas_ on 13/04/2017.
  */
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import software.pipas.oprecox.activities.singlePlayer.GameActivity;
-import software.pipas.oprecox.modules.add.Add;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import software.pipas.oprecox.modules.dataType.Add;
 
 public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
 {

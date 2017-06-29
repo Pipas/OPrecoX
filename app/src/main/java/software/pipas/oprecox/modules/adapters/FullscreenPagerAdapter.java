@@ -1,21 +1,18 @@
-package software.pipas.oprecox.modules.imageViewer;
+package software.pipas.oprecox.modules.adapters;
 
-import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Created by Pipas_ on 16/04/2017.
- */
+import software.pipas.oprecox.modules.imageViewer.ImagePage;
 
-public class ImagePagerAdapter extends FragmentStatePagerAdapter {
+public class FullscreenPagerAdapter extends FragmentStatePagerAdapter {
     private int NUM_ITEMS;
-    private ArrayList<Bitmap> images;
+    private ArrayList<String> images;
 
-    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> img) {
+    public FullscreenPagerAdapter(FragmentManager fragmentManager, ArrayList<String> img) {
         super(fragmentManager);
         NUM_ITEMS = img.size();
         images = img;
@@ -31,7 +28,7 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position)
     {
-        return SmallImagePage.newInstance(position, images.get(position));
+        return ImagePage.newInstance(position, images.get(position));
     }
 
     // Returns the page title for the top indicator

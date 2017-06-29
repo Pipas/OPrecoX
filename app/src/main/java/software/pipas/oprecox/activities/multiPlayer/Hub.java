@@ -20,10 +20,6 @@ import com.google.android.gms.games.Player;
 
 import software.pipas.oprecox.R;
 
-/**
- * Created by nuno_ on 22-Jun-17.
- */
-
 public class Hub extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 {
 

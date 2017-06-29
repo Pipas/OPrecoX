@@ -1,4 +1,4 @@
-package software.pipas.oprecox.modules.exception;
+package software.pipas.oprecox.modules.exceptions;
 
 public class OLXSyntaxChangeException extends Exception
 {
