@@ -7,11 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.images.ImageManager;
+import com.google.android.gms.games.Game;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Player;
 
 import software.pipas.oprecox.R;
 
@@ -22,11 +27,15 @@ import software.pipas.oprecox.R;
 public class Hub extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 {
 
+    private final int MAX_RETRIES = 1;
     private GoogleApiClient mGoogleApiClient;
+    private int countConnect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        countConnect = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_hub);
 
@@ -63,11 +72,22 @@ public class Hub extends AppCompatActivity implements GoogleApiClient.Connection
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
+        Player player = Games.Players.getCurrentPlayer(mGoogleApiClient);
+
         Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
 
-        String str = Games.Players.getCurrentPlayer(mGoogleApiClient).getTitle();
+        TextView displayName = (TextView) findViewById(R.id.displayName);
+        displayName.setText(player.getDisplayName());
 
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+        TextView realName = (TextView) findViewById(R.id.realName);
+        realName.setText(player.getName());
+
+
+        ImageView imageView = (ImageView) findViewById(R.id.playerImage);
+        ImageManager imageManager = ImageManager.create(this);
+        imageManager.loadImage(imageView, player.getHiResImageUri());
+
+
     }
 
     @Override
@@ -91,6 +111,20 @@ public class Hub extends AppCompatActivity implements GoogleApiClient.Connection
 
     private void startUserRetryRequest(final ConnectionResult connectionResult, final Activity activity)
     {
+
+        if(countConnect < MAX_RETRIES)
+        {
+            countConnect++;
+            try
+            {
+                connectionResult.startResolutionForResult(activity, connectionResult.getErrorCode());
+            }
+            catch (Exception e)
+            {
+
+            }
+            return;
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
