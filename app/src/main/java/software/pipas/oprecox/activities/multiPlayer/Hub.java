@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,17 +30,17 @@ import software.pipas.oprecox.modules.dataType.Invite;
 public class Hub extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 {
 
-    private final int MAX_RETRIES = 1;
+
     private GoogleApiClient mGoogleApiClient;
-    private int countConnect;
+    private boolean firstLaunch;
     private ArrayList<Invite> invites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        countConnect = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_hub);
+        firstLaunch = true;
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -119,17 +121,10 @@ public class Hub extends AppCompatActivity implements GoogleApiClient.Connection
     private void startUserRetryRequest(final ConnectionResult connectionResult, final Activity activity)
     {
 
-        if(countConnect < MAX_RETRIES)
+        if(firstLaunch)
         {
-            countConnect++;
-            try
-            {
-                connectionResult.startResolutionForResult(activity, connectionResult.getErrorCode());
-            }
-            catch (Exception e)
-            {
-
-            }
+            firstLaunch = false;
+            tryResolution(connectionResult, activity);
             return;
         }
 
@@ -142,14 +137,7 @@ public class Hub extends AppCompatActivity implements GoogleApiClient.Connection
                 {
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        try
-                        {
-                            connectionResult.startResolutionForResult(activity, connectionResult.getErrorCode());
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
+                       tryResolution(connectionResult, activity);
                     }
                 });
 
@@ -163,6 +151,25 @@ public class Hub extends AppCompatActivity implements GoogleApiClient.Connection
 
         builder.create();
         builder.show();
+    }
+
+    private void tryResolution(final ConnectionResult connectionResult, final Activity activity)
+    {
+        try
+        {
+            connectionResult.startResolutionForResult(activity, connectionResult.getErrorCode());
+        }
+        catch (Exception e)
+        {
+            Log.d("HUB", "Error in tryResolution");
+            e.printStackTrace();
+        }
+    }
+
+    public void hostButtonPressed(View view)
+    {
+        Intent intent = new Intent(this, LobbyHost.class);
+        startActivity(intent);
     }
 
 
