@@ -2,14 +2,20 @@ package software.pipas.oprecox.activities.multiPlayer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
+import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
 import java.util.ArrayList;
 
@@ -46,14 +52,27 @@ public class Hub extends MultiplayerClass
         ImageManager imageManager = ImageManager.create(this);
         imageManager.loadImage(imageView, player.getHiResImageUri());
 
-        ListView listView = (ListView) findViewById(R.id.list);
+        DynamicListView listView = (DynamicListView) findViewById(R.id.list);
         invites = new ArrayList<>();
 
         for(int i = 1; i < 7; i++)
             invites.add(new Invite("Room number " + i, player.getName(), player.getHiResImageUri()));
 
-        InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext());
-        listView.setAdapter(inviteListAdapter);
+        final InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext(), getContentResolver());
+        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(inviteListAdapter);
+        animationAdapter.setAbsListView(listView);
+        listView.setAdapter(animationAdapter);
+
+        listView.enableSwipeToDismiss(
+                new OnDismissCallback() {
+                    @Override
+                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            inviteListAdapter.remove(position);
+                        }
+                    }
+                }
+        );
     }
 
     public void hostButtonPressed(View view)
