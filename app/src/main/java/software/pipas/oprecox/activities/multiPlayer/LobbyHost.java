@@ -11,7 +11,7 @@ public class LobbyHost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lobby_host);
+        setContentView(R.layout.activity_multiplayer_lobby_host);
     }
 
 
