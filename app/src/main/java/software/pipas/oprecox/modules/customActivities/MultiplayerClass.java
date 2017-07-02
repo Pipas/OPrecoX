@@ -28,10 +28,6 @@ import software.pipas.oprecox.activities.multiPlayer.LobbyHost;
 import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.dataType.Invite;
 
-/**
- * Created by nuno_ on 30-Jun-17.
- */
-
 public abstract class MultiplayerClass extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 {
     protected GoogleApiClient mGoogleApiClient;
@@ -145,7 +141,4 @@ public abstract class MultiplayerClass extends AppCompatActivity implements Goog
             e.printStackTrace();
         }
     }
-
-
-
 }

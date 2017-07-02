@@ -45,15 +45,14 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
                 randomURL = OlxParser.getRandomURL();
                 add.setPrice(OlxParser.getPrice(randomURL));
                 add.setTitle(OlxParser.getTitle(randomURL));
-                ArrayList<String> images = OlxParser.getImage(randomURL);
-                add.setImages(images);
-                ArrayList<Bitmap> bms = new ArrayList<Bitmap>();
-                for(int i = 0; i < images.size(); i++)
+                ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
+                ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+                for(int i = 0; i < imageUrls.size(); i++)
                 {
-                    InputStream input = new java.net.URL(images.get(i)).openStream();
-                    bms.add(BitmapFactory.decodeStream(input));
+                    InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
+                    images.add(BitmapFactory.decodeStream(input));
                 }
-                add.setBmImages(bms);
+                add.setImages(images);
                 add.setDescription(OlxParser.getDescription(randomURL));
                 add.setUrl(randomURL);
                 validURL = true;

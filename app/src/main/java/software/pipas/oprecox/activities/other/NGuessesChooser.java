@@ -8,7 +8,8 @@ import android.view.View;
 
 import software.pipas.oprecox.R;
 
-public class NGuessesChooser extends AppCompatActivity {
+public class NGuessesChooser extends AppCompatActivity
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

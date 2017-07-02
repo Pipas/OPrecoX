@@ -3,10 +3,6 @@ package software.pipas.oprecox.modules.customViews;
 import android.content.Context;
 import android.util.AttributeSet;
 
-/**
- * Created by Pipas_ on 13/03/2017.
- */
-
 public class SquareImageView extends android.support.v7.widget.AppCompatImageView
 {
     public SquareImageView(Context context)

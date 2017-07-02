@@ -1,20 +1,27 @@
 package software.pipas.oprecox.application;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
-/**
- * Created by nuno_ on 30-Jun-17.
- */
+import java.util.ArrayList;
 
 public class OPrecoX extends Application
 {
+    ArrayList<Bitmap> bitmaps = null;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-
     }
 
+    public void storeBitmaps(ArrayList<Bitmap> bm)
+    {
+        this.bitmaps = bm;
+    }
 
+    public ArrayList<Bitmap> getBitmaps()
+    {
+        return bitmaps;
+    }
 }

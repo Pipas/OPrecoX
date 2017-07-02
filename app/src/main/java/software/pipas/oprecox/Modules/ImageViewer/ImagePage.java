@@ -1,61 +1,63 @@
 package software.pipas.oprecox.modules.imageViewer;
 
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+
+import com.alexvasilkov.gestures.Settings;
+import com.alexvasilkov.gestures.views.GestureImageView;
 
 import software.pipas.oprecox.R;
 
-/**
- * Created by Pipas_ on 15/04/2017.
- *
- */
-
 public class ImagePage extends Fragment
 {
-    // Store instance variables
-    private String url;
+    private Bitmap image;
     private int page;
 
-    // newInstance constructor for creating fragment with arguments
-    public static ImagePage newInstance(int page, String u) {
+    public static ImagePage newInstance(int page, Bitmap i)
+    {
         ImagePage imagePage = new ImagePage();
         imagePage.setPage(page);
-        imagePage.setUrl(u);
+        imagePage.setImage(i);
         return imagePage;
     }
 
-    // Store instance variables based on arguments passed
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
 
-    // Inflate the view for the fragment based on layout XML
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.image_page_layout, container, false);
-        WebView wv = (WebView) view.findViewById(R.id.pageWebview);
-
-
-        wv.getSettings().setLoadWithOverviewMode(true);
-        wv.getSettings().setUseWideViewPort(true);
-        wv.setScrollbarFadingEnabled(true);
-        wv.setBackgroundColor(Color.parseColor("#000000"));
-        wv.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        wv.loadDataWithBaseURL(null, "<body style='margin:0;padding:0;'><img src=\"" + url + ".png\" width=\"100%\"/>", "text/html", "utf-8", null);
+        GestureImageView gImageView = (GestureImageView) view.findViewById(R.id.gImageView);
+        gImageView.setImageBitmap(image);
+        gImageView.getController().getSettings()
+                .setMaxZoom(4f)
+                .setDoubleTapZoom(-1f)
+                .setPanEnabled(true)
+                .setZoomEnabled(true)
+                .setDoubleTapEnabled(true)
+                .setRotationEnabled(false)
+                .setRestrictRotation(false)
+                .setOverscrollDistance(0f, 0f)
+                .setOverzoomFactor(2f)
+                .setFillViewport(false)
+                .setFitMethod(Settings.Fit.HORIZONTAL)
+                .setGravity(Gravity.CENTER_VERTICAL);
 
         return view;
     }
 
-    public void setUrl(String u)
+    public void setImage(Bitmap i)
     {
-        url = u;
+        image = i;
     }
 
     public void setPage(int p)

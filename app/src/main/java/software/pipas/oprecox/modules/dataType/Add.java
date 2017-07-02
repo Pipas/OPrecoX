@@ -9,9 +9,8 @@ public class Add
     private String title;
     private String description;
     private float price = -1;
-    private ArrayList<Bitmap> bmImages;
+    private ArrayList<Bitmap> images;
     private String url;
-    private ArrayList<String> images;
 
     public Add() {}
 
@@ -45,16 +44,6 @@ public class Add
         this.price = price;
     }
 
-    public ArrayList<Bitmap> getBmImages()
-    {
-        return bmImages;
-    }
-
-    public void setBmImages(ArrayList<Bitmap> i)
-    {
-        bmImages = i;
-    }
-
     public String getUrl()
     {
         return url;
@@ -65,12 +54,12 @@ public class Add
         url = s;
     }
 
-    public void setImages(ArrayList<String> i)
+    public void setImages(ArrayList<Bitmap> i)
     {
         images = i;
     }
 
-    public ArrayList<String> getImages()
+    public ArrayList<Bitmap> getImages()
     {
         return images;
     }

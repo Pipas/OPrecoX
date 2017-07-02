@@ -64,10 +64,12 @@ public class Hub extends MultiplayerClass
         listView.setAdapter(animationAdapter);
 
         listView.enableSwipeToDismiss(
-                new OnDismissCallback() {
+                new OnDismissCallback()
+                {
                     @Override
                     public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
+                        for (int position : reverseSortedPositions)
+                        {
                             inviteListAdapter.remove(position);
                         }
                     }

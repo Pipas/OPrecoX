@@ -12,10 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by Pipas_ on 12/03/2017.
- */
-
 public abstract class OlxParser
 {
     private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,"};
@@ -96,7 +92,7 @@ public abstract class OlxParser
 
     }
 
-    public static ArrayList<String> getImage(String pageURL) throws IOException
+    public static ArrayList<String> getImageUrls(String pageURL) throws IOException
     {
         ArrayList<String> imgs = new ArrayList<String>();
         Document document = Jsoup.connect(pageURL).get();

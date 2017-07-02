@@ -4,10 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.support.v7.widget.AppCompatImageView;
 
-/**
- * Created by Pipas_ on 19/04/2017.
- */
-
 public class CustomMainMenuImageView extends AppCompatImageView
 {
     public CustomMainMenuImageView(Context context)

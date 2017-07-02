@@ -23,7 +23,6 @@ import com.buildware.widget.indeterm.IndeterminateCheckBox;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.categories.Categories;
 
-
 public class CategoryChooser extends AppCompatActivity {
 
     private IndeterminateCheckBox checkanimals;
@@ -49,9 +48,11 @@ public class CategoryChooser extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle item selection
-        switch (item.getItemId()) {
+        switch (item.getItemId())
+        {
             case R.id.confirm:
                 confirmSelection();
                 return true;

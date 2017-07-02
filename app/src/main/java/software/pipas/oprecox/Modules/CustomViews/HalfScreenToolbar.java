@@ -5,10 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 
-/**
- * Created by Pipas_ on 19/04/2017.
- */
-
 public class HalfScreenToolbar extends Toolbar
 {
     public HalfScreenToolbar(Context context)

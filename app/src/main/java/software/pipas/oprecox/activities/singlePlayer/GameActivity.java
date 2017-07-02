@@ -23,6 +23,7 @@ import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
 import android.widget.Toast;
 
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.dataType.Add;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
@@ -115,7 +116,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     public void setViewsWithAdd()
     {
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAdd.getBmImages());
+        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAdd.getImages());
         vpPager.setAdapter(adapterViewPager);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
@@ -439,8 +440,9 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     public void startImageViewerActivity(int page)
     {
         Intent myIntent = new Intent(this, ImageViewer.class);
-        myIntent.putExtra("images", shownAdd.getImages());
         myIntent.putExtra("page", page);
+        OPrecoX app = (OPrecoX) getApplicationContext();
+        app.storeBitmaps(shownAdd.getImages());
         startActivityForResult(myIntent, 1);
     }
 

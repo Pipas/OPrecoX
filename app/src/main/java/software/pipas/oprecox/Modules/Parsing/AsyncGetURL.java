@@ -1,8 +1,5 @@
 package software.pipas.oprecox.modules.parsing;
 
-/**
- * Created by Pipas_ on 13/04/2017.
- */
 import android.os.AsyncTask;
 import android.util.Log;
 

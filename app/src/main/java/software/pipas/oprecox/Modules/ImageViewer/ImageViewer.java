@@ -2,6 +2,7 @@ package software.pipas.oprecox.modules.imageViewer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +13,13 @@ import software.pipas.oprecox.R;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.FullscreenPagerAdapter;
 
 public class ImageViewer extends AppCompatActivity
 {
     FullscreenPagerAdapter adapterViewPager;
-    ArrayList<String> images;
+    ArrayList<Bitmap> images;
     int page;
     ViewPager vpPager;
 
@@ -27,8 +29,10 @@ public class ImageViewer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_viewer);
 
+        OPrecoX app = (OPrecoX) getApplicationContext();
+        images = app.getBitmaps();
+
         Intent myIntent = getIntent();
-        images = myIntent.getStringArrayListExtra("images");
         page = myIntent.getIntExtra("page", 0);
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);

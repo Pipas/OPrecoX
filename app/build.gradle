@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'pipaskey'
             keyPassword 'piponcio'
-            storeFile file('S:/AndroidProjects/OPrecoX/app/keys/keyStore.jks')
+            storeFile file('C:/Users/Pipas_/Documents/GitRepositories/OPrecoX/app/keys/keyStore.jks')
             storePassword 'piponcio'
         }
     }
@@ -50,8 +50,12 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.2.1'
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
+    compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
+    compile 'com.nhaarman.listviewanimations:lib-core-slh:3.1.0@aar'
+    compile 'com.alexvasilkov:gesture-views:2.3.1'
     testCompile 'junit:junit:4.12'
-    // ...
 }
 
 apply plugin: 'com.google.gms.google-services'

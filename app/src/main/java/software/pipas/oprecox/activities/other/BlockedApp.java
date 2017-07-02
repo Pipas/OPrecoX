@@ -7,7 +7,8 @@ import android.widget.TextView;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 
-public class BlockedApp extends AppCompatActivity {
+public class BlockedApp extends AppCompatActivity
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
