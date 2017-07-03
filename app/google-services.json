@@ -1,35 +1,33 @@
 {
   "project_info": {
-    "project_number": "271806524733",
-    "firebase_url": "https://o-preco-x.firebaseio.com",
-    "project_id": "o-preco-x",
-    "storage_bucket": "o-preco-x.appspot.com"
+    "project_number": "690116350436",
+    "project_id": "o-preo-x-76076451"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:271806524733:android:efc0c7306fa405ac",
+        "mobilesdk_app_id": "1:690116350436:android:efc0c7306fa405ac",
         "android_client_info": {
           "package_name": "software.pipas.oprecox"
         }
       },
       "oauth_client": [
         {
-          "client_id": "271806524733-f68b2jg53p1p2r3hm8qidcmu6jb3ul6d.apps.googleusercontent.com",
+          "client_id": "690116350436-20h5stlmfddlajdn3u5vfh64bgnd0ehr.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "690116350436-u7kk0blc2rc9koenj65sfea42932f3v9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "software.pipas.oprecox",
-            "certificate_hash": "c9629b42f9e9388b7f7b750f4a845759c827be07"
+            "certificate_hash": "30f0afd186170d6167e22d1b7addfd30e0e7a591"
           }
-        },
-        {
-          "client_id": "271806524733-a2pf5154hh0n1du35trt0s9u30mhps5f.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD--hsMGInUgJUohC5dnvzcjpZokbov6vk"
+          "current_key": "AIzaSyCwWbqDKXCxfQLgTuAWxrjPnnM_0rLq7ro"
         }
       ],
       "services": {
@@ -37,16 +35,11 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "271806524733-a2pf5154hh0n1du35trt0s9u30mhps5f.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
+          "status": 1
         }
       }
     }
