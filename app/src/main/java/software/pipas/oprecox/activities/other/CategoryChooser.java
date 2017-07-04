@@ -1555,6 +1555,7 @@ public class CategoryChooser extends AppCompatActivity {
         if(Categories.getSelected().isEmpty())
             Categories.selectAll();
         SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+        editor.putString("categories", Categories.writeString());
         editor.apply();
 
         setResult(Activity.RESULT_OK,returnIntent);

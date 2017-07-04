@@ -128,6 +128,51 @@
             android:background="#e0e0e0"
             android:elevation="4dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="pressMyAds"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Anúncios Guardados"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/newAdsDisplay"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:background="@drawable/circle"
+                    android:maxLength="2"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e0e0e0"
+            android:elevation="4dp"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"

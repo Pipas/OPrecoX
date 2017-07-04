@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +24,7 @@ import android.widget.Toast;
 
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.dataType.Ad;
+import software.pipas.oprecox.modules.database.DatabaseHandler;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
@@ -55,6 +55,10 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private SlidingUpPanelLayout slider;
     private ProgressDialog mProgressDialog;
 
+    private DatabaseHandler database;
+    private Boolean saved = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -67,6 +71,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         dialpadOutput = (TextView) findViewById(R.id.dialpadNumber);
         dialpadOutput.setText(dialpadNumber);
+
+        database = new DatabaseHandler(this);
 
         addArrowSliderListener();
 
@@ -131,6 +137,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         TextView descriptionTextView = (TextView) findViewById(R.id.description);
         descriptionTextView.setText(shownAd.getDescription());
+
+        saved = false;
     }
 
 
@@ -345,9 +353,15 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     public void pressShare(View v)
     {
-        Log.d("URL", shownAd.getUrl());
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shownAd.getUrl()));
-        startActivity(browserIntent);
+        if(!saved)
+        {
+            database.open();
+            database.createAd(shownAd);
+            database.close();
+            saved = true;
+            Settings.incrementNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
+        }
+        Toast.makeText(this, "Anúncio Guardado", Toast.LENGTH_SHORT).show();
     }
 
     public void pressContinueButton(View v)

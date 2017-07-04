@@ -12,16 +12,18 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_THUMBNAIL = "thumbnail";
+    public static final String COLUMN_URL = "url";
 
     private static final String DATABASE_NAME = "commments.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_CREATE = "create table "
             + ADS_TABLE + "( " + COLUMN_ID
             + " integer primary key autoincrement, " + COLUMN_TITLE
             + " text not null, " + COLUMN_DESCRIPTION
             + " text not null, " + COLUMN_THUMBNAIL
-            + " blob);";
+            + " blob, " + COLUMN_URL
+            + " text not null);";
 
     public DatabaseHelper(Context context)
     {

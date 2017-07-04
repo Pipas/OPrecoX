@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
+import static java.security.AccessController.getContext;
+
 public class OPrecoX extends Application
 {
     ArrayList<Bitmap> bitmaps = null;

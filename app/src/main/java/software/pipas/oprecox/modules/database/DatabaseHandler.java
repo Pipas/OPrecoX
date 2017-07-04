@@ -10,16 +10,19 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.util.Util;
-
-import static android.R.attr.id;
 
 public class DatabaseHandler
 {
     private SQLiteDatabase database;
     private DatabaseHelper dbHelper;
-    private String[] allColumns = { DatabaseHelper.COLUMN_ID, DatabaseHelper.COLUMN_TITLE, DatabaseHelper.COLUMN_DESCRIPTION, DatabaseHelper.COLUMN_THUMBNAIL };
+    private String[] allColumns = { DatabaseHelper.COLUMN_ID,
+                                    DatabaseHelper.COLUMN_TITLE,
+                                    DatabaseHelper.COLUMN_DESCRIPTION,
+                                    DatabaseHelper.COLUMN_THUMBNAIL,
+                                    DatabaseHelper.COLUMN_URL };
 
     public DatabaseHandler(Context context)
     {
@@ -36,12 +39,14 @@ public class DatabaseHandler
         dbHelper.close();
     }
 
-    public AdPreview createAd (String title, String description, Bitmap thumbnail)
+    public AdPreview createAd (Ad ad)
     {
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_TITLE, title);
-        values.put(DatabaseHelper.COLUMN_DESCRIPTION, description);
-        values.put(DatabaseHelper.COLUMN_THUMBNAIL, Util.bitmapToByteArray(thumbnail));
+        values.put(DatabaseHelper.COLUMN_TITLE, ad.getTitle());
+        values.put(DatabaseHelper.COLUMN_DESCRIPTION, ad.getDescription());
+        values.put(DatabaseHelper.COLUMN_THUMBNAIL, Util.bitmapToByteArray(Util.bitmapToThumbnail(ad.getImages().get(0), 56)));
+        values.put(DatabaseHelper.COLUMN_URL, ad.getUrl());
+
         long insertId = database.insert(DatabaseHelper.ADS_TABLE, null,
                 values);
         Cursor cursor = database.query(DatabaseHelper.ADS_TABLE,
@@ -86,7 +91,8 @@ public class DatabaseHandler
         ad.setTitle(cursor.getString(1));
         ad.setDescription(cursor.getString(2));
         ad.setThumbnail(cursor.getBlob(3));
-        Log.d("DATABASE", "Ad added with id: " + id + " and title: " + ad.getTitle());
+        ad.setUrl(cursor.getString(4));
+        Log.d("DATABASE", "Ad added with id: " + ad.getId() + " and title: " + ad.getTitle());
         return ad;
     }
 }

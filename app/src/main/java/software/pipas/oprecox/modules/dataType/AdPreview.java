@@ -6,15 +6,9 @@ public class AdPreview
     private String description;
     private byte[] thumbnail;
     private long id;
+    private String url;
 
     public AdPreview() {}
-
-    public AdPreview(String title, String description, byte[] thumbnail)
-    {
-        this.title = title;
-        this.description = description;
-        this.thumbnail = thumbnail;
-    }
 
     public String getTitle()
     {
@@ -54,5 +48,15 @@ public class AdPreview
     public void setId(long id)
     {
         this.id = id;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
     }
 }

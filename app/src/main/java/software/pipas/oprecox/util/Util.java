@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.TypedValue;
 
 import java.io.ByteArrayOutputStream;
 
@@ -47,5 +49,11 @@ public abstract class Util
     public static Bitmap biteArrayToBitmap(byte[] image)
     {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    public static Bitmap bitmapToThumbnail(Bitmap bitmap, int thumbnailSize)
+    {
+        float dpPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, thumbnailSize, Settings.getDeviceDisplayMetrics());
+        return ThumbnailUtils.extractThumbnail(bitmap, (int) dpPixels, (int) dpPixels);
     }
 }

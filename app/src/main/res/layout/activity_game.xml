@@ -449,35 +449,6 @@
                     android:layout_weight="1"
 
                     android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true">
-
-                    <ImageView
-                        android:layout_marginTop="20dp"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/share"
-                        android:tint="@color/colorPrimary" />
-
-                    <TextView
-                        android:layout_marginTop="65dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/sharecaps"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="10sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-
-                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:onClick="pressShare">
 
@@ -487,8 +458,8 @@
                         android:layout_height="40dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/openinbrowser"
-                        android:tint="@color/colorPrimary"/>
+                        android:src="@drawable/save"
+                        android:tint="@color/colorPrimary" />
 
                     <TextView
                         android:layout_marginTop="65dp"
@@ -496,11 +467,16 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif"
-                        android:text="@string/seeaddcaps"
+                        android:text="GUARDAR"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="10sp"/>
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
