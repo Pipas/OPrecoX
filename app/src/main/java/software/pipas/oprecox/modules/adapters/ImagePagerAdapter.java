@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 import software.pipas.oprecox.modules.imageViewer.SmallImagePage;
 
-public class ImagePagerAdapter extends FragmentStatePagerAdapter {
+public class ImagePagerAdapter extends FragmentStatePagerAdapter
+{
     private int NUM_ITEMS;
     private ArrayList<Bitmap> images;
 

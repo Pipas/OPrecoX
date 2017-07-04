@@ -59,7 +59,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activities.other.BlockedApp" />
-        <activity android:name=".activities.multiPlayer.LobbyHost"></activity>
+        <activity android:name=".activities.multiPlayer.LobbyHost" />
+        <activity android:name=".activities.menus.MyAds"></activity>
     </application>
 
 </manifest>

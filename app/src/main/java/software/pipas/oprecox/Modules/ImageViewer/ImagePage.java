@@ -3,6 +3,7 @@ package software.pipas.oprecox.modules.imageViewer;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,14 @@ public class ImagePage extends Fragment
 {
     private Bitmap image;
     private int page;
+    private ViewPager viewPager;
 
-    public static ImagePage newInstance(int page, Bitmap i)
+    public static ImagePage newInstance(int page, Bitmap i, ViewPager vp)
     {
         ImagePage imagePage = new ImagePage();
         imagePage.setPage(page);
         imagePage.setImage(i);
+        imagePage.setViewPager(vp);
         return imagePage;
     }
 
@@ -38,6 +41,7 @@ public class ImagePage extends Fragment
         View view = inflater.inflate(R.layout.image_page_layout, container, false);
         GestureImageView gImageView = (GestureImageView) view.findViewById(R.id.gImageView);
         gImageView.setImageBitmap(image);
+        gImageView.getController().enableScrollInViewPager(viewPager);
         gImageView.getController().getSettings()
                 .setMaxZoom(4f)
                 .setDoubleTapZoom(-1f)
@@ -63,5 +67,10 @@ public class ImagePage extends Fragment
     public void setPage(int p)
     {
         page = p;
+    }
+
+    public void setViewPager(ViewPager vp)
+    {
+        viewPager = vp;
     }
 }

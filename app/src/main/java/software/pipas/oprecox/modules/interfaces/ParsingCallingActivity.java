@@ -1,10 +1,10 @@
 package software.pipas.oprecox.modules.interfaces;
 
-import software.pipas.oprecox.modules.dataType.Add;
+import software.pipas.oprecox.modules.dataType.Ad;
 
 public interface ParsingCallingActivity
 {
-    void addAdd(Add a);
+    void addAdd(Ad a);
     void closeProgressPopup();
-    void setShownAdd(Add a);
+    void setShownAd(Ad a);
 }

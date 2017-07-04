@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.modules.dataType.Add;
+import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.util.Settings;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 {
-    private Add add = new Add();
+    private Ad ad = new Ad();
     private ParsingCallingActivity activity;
     private boolean isFirst;
     private boolean validURL = false;
@@ -43,8 +43,8 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             try
             {
                 randomURL = OlxParser.getRandomURL();
-                add.setPrice(OlxParser.getPrice(randomURL));
-                add.setTitle(OlxParser.getTitle(randomURL));
+                ad.setPrice(OlxParser.getPrice(randomURL));
+                ad.setTitle(OlxParser.getTitle(randomURL));
                 ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
                 ArrayList<Bitmap> images = new ArrayList<Bitmap>();
                 for(int i = 0; i < imageUrls.size(); i++)
@@ -52,9 +52,9 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
                     InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
                     images.add(BitmapFactory.decodeStream(input));
                 }
-                add.setImages(images);
-                add.setDescription(OlxParser.getDescription(randomURL));
-                add.setUrl(randomURL);
+                ad.setImages(images);
+                ad.setDescription(OlxParser.getDescription(randomURL));
+                ad.setUrl(randomURL);
                 validURL = true;
             }
             catch (NumberFormatException e)
@@ -80,12 +80,12 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     {
         if(isFirst)
         {
-            activity.setShownAdd(add);
+            activity.setShownAd(ad);
             activity.closeProgressPopup();
         }
         else
-            activity.addAdd(add);
+            activity.addAdd(ad);
 
-        Log.d("ASYNC", String.format("Finished background async parse '" + add.getUrl() +"'"));
+        Log.d("ASYNC", String.format("Finished background async parse '" + ad.getUrl() +"'"));
     }
 }

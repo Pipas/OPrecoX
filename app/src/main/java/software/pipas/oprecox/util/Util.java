@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import java.io.ByteArrayOutputStream;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.activities.other.BlockedApp;
@@ -31,5 +35,17 @@ public abstract class Util
         Intent intent = new Intent(activity, BlockedApp.class);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    public static byte[] bitmapToByteArray(Bitmap bitmap)
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+    public static Bitmap biteArrayToBitmap(byte[] image)
+    {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }

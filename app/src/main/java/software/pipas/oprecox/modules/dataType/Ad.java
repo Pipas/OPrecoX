@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
-public class Add
+public class Ad
 {
     private String title;
     private String description;
@@ -12,7 +12,7 @@ public class Add
     private ArrayList<Bitmap> images;
     private String url;
 
-    public Add() {}
+    public Ad() {}
 
     public String getTitle()
     {

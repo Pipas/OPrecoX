@@ -24,7 +24,7 @@ import android.app.AlertDialog;
 import android.widget.Toast;
 
 import software.pipas.oprecox.application.OPrecoX;
-import software.pipas.oprecox.modules.dataType.Add;
+import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
@@ -49,8 +49,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private TextView dialpadOutput;
     private float guess;
     private String dialpadNumber = "";
-    private Add shownAdd;
-    private ArrayList<Add> adds = new ArrayList<Add>();
+    private Ad shownAd;
+    private ArrayList<Ad> ads = new ArrayList<Ad>();
 
     private SlidingUpPanelLayout slider;
     private ProgressDialog mProgressDialog;
@@ -116,32 +116,32 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     public void setViewsWithAdd()
     {
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAdd.getImages());
+        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAd.getImages());
         vpPager.setAdapter(adapterViewPager);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
-        if(shownAdd.getImages().size() == 1)
+        if(shownAd.getImages().size() == 1)
             indicator.setVisibility(View.GONE);
         else
             indicator.setVisibility(View.VISIBLE);
         indicator.setViewPager(vpPager);
 
         TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
-        titleTextView.setText(shownAdd.getTitle());
+        titleTextView.setText(shownAd.getTitle());
 
         TextView descriptionTextView = (TextView) findViewById(R.id.description);
-        descriptionTextView.setText(shownAdd.getDescription());
+        descriptionTextView.setText(shownAd.getDescription());
     }
 
 
-    public void setShownAdd(Add a)
+    public void setShownAd(Ad a)
     {
-        shownAdd = a;
+        shownAd = a;
     }
 
-    public void addAdd(Add a)
+    public void addAdd(Ad a)
     {
-        adds.add(a);
+        ads.add(a);
     }
 
     public void closeProgressPopup()
@@ -156,8 +156,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     public boolean updateShownAdd()
     {
-        shownAdd = adds.get(0);
-        adds.remove(0);
+        shownAd = ads.get(0);
+        ads.remove(0);
         return true;
     }
 
@@ -299,29 +299,29 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         //Prints without , if its equal to int
         TextView correctPriceOutput = (TextView) findViewById(R.id.correctPriceOutput);
-        if (shownAdd.getPrice() == (int) shownAdd.getPrice())
-            correctPriceOutput.setText(String.format("%d€", (int) shownAdd.getPrice()));
+        if (shownAd.getPrice() == (int) shownAd.getPrice())
+            correctPriceOutput.setText(String.format("%d€", (int) shownAd.getPrice()));
         else
-            correctPriceOutput.setText(String.format("%.2f€", shownAdd.getPrice()));
+            correctPriceOutput.setText(String.format("%.2f€", shownAd.getPrice()));
 
     }
 
     private boolean updateScore(float guess)
     {
 
-        if(guess == shownAdd.getPrice())
+        if(guess == shownAd.getPrice())
         {
             correctGuess(50);
         }
-        else if(guess >= (shownAdd.getPrice() - shownAdd.getPrice() * 0.05) && guess <= (shownAdd.getPrice() + shownAdd.getPrice() * 0.05))
+        else if(guess >= (shownAd.getPrice() - shownAd.getPrice() * 0.05) && guess <= (shownAd.getPrice() + shownAd.getPrice() * 0.05))
         {
             correctGuess(25);
         }
-        else if(guess >= (shownAdd.getPrice() - shownAdd.getPrice() * 0.2) && guess <= (shownAdd.getPrice() + shownAdd.getPrice() * 0.2))
+        else if(guess >= (shownAd.getPrice() - shownAd.getPrice() * 0.2) && guess <= (shownAd.getPrice() + shownAd.getPrice() * 0.2))
         {
             correctGuess(10);
         }
-        else if(guess >= (shownAdd.getPrice() - shownAdd.getPrice() * 0.5) && guess <= (shownAdd.getPrice() + shownAdd.getPrice() * 0.5))
+        else if(guess >= (shownAd.getPrice() - shownAd.getPrice() * 0.5) && guess <= (shownAd.getPrice() + shownAd.getPrice() * 0.5))
         {
             correctGuess(5);
         }
@@ -345,14 +345,14 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     public void pressShare(View v)
     {
-        Log.d("URL", shownAdd.getUrl());
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shownAdd.getUrl()));
+        Log.d("URL", shownAd.getUrl());
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shownAd.getUrl()));
         startActivity(browserIntent);
     }
 
     public void pressContinueButton(View v)
     {
-        if(!adds.isEmpty())
+        if(!ads.isEmpty())
         {
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             scrollView.fullScroll(View.FOCUS_UP);
@@ -442,7 +442,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         Intent myIntent = new Intent(this, ImageViewer.class);
         myIntent.putExtra("page", page);
         OPrecoX app = (OPrecoX) getApplicationContext();
-        app.storeBitmaps(shownAdd.getImages());
+        app.storeBitmaps(shownAd.getImages());
         startActivityForResult(myIntent, 1);
     }
 

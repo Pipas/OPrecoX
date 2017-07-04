@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 
@@ -13,12 +14,14 @@ public class FullscreenPagerAdapter extends FragmentStatePagerAdapter
 {
     private int NUM_ITEMS;
     private ArrayList<Bitmap> images;
+    private ViewPager viewPager;
 
-    public FullscreenPagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> img)
+    public FullscreenPagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> img, ViewPager vp)
     {
         super(fragmentManager);
         NUM_ITEMS = img.size();
         images = img;
+        viewPager = vp;
     }
 
     @Override
@@ -30,6 +33,6 @@ public class FullscreenPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        return ImagePage.newInstance(position, images.get(position));
+        return ImagePage.newInstance(position, images.get(position), viewPager);
     }
 }

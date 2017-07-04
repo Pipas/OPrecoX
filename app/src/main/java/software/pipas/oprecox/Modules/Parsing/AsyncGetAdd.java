@@ -4,11 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import software.pipas.oprecox.activities.singlePlayer.GameActivity;
-import software.pipas.oprecox.modules.dataType.Add;
+import software.pipas.oprecox.modules.dataType.Ad;
 
 public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
 {
-    Add add = new Add();
+    Ad ad = new Ad();
     GameActivity activity;
     boolean isFirst;
     String url;
@@ -34,19 +34,19 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     {
         /*try
         {
-            add.setPrice(OlxParser.getPrice(url));
-            add.setTitle(OlxParser.getTitle(url));
+            ad.setPrice(OlxParser.getPrice(url));
+            ad.setTitle(OlxParser.getTitle(url));
             ArrayList<String> images = OlxParser.getImage(url);
-            add.setImages(images);
+            ad.setImages(images);
             ArrayList<Bitmap> bms = new ArrayList<Bitmap>();
             for(int i = 0; i < images.size(); i++)
             {
                 InputStream input = new java.net.URL(images.get(i)).openStream();
-                bms.add(BitmapFactory.decodeStream(input));
+                bms.ad(BitmapFactory.decodeStream(input));
             }
-            add.setBmImages(bms);
-            add.setDescription(OlxParser.getDescription(url));
-            add.setUrl(url);
+            ad.setBmImages(bms);
+            ad.setDescription(OlxParser.getDescription(url));
+            ad.setUrl(url);
         }
         catch (IOException e)
         {
@@ -60,11 +60,11 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     {
         if(isFirst)
         {
-            activity.setShownAdd(add);
+            activity.setShownAd(ad);
             activity.closeProgressPopup();
         }
         else
-            activity.addAdd(add);
+            activity.addAdd(ad);
 
         Log.d("ASYNC", String.format("Finished background async parse %d", index + 1));
     }

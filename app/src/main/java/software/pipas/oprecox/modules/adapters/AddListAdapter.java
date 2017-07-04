@@ -2,8 +2,6 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.images.ImageManager;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.dataType.Invite;
+import software.pipas.oprecox.modules.dataType.AdPreview;
+import software.pipas.oprecox.util.Util;
 
-public class InviteListAdapter extends ArrayAdapter<Invite>
+public class AddListAdapter extends ArrayAdapter<AdPreview>
 {
     Context mContext;
     ContentResolver mContentResolver;
 
-    public InviteListAdapter(ArrayList<Invite> data, Context context, ContentResolver contentResolver)
+    public AddListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver)
     {
         super(context, R.layout.invite_item_layout, data);
         this.mContext = context;
@@ -50,9 +45,9 @@ public class InviteListAdapter extends ArrayAdapter<Invite>
             v = vi.inflate(R.layout.invite_item_layout, null);
         }
 
-        Invite invite = getItem(position);
+        AdPreview add = getItem(position);
 
-        if (invite != null)
+        if (add != null)
         {
             TextView inviteHostName = (TextView) v.findViewById(R.id.inviteHostName);
             TextView inviteRoomName = (TextView) v.findViewById(R.id.inviteRoomName);
@@ -60,18 +55,17 @@ public class InviteListAdapter extends ArrayAdapter<Invite>
 
             if (inviteHostName != null)
             {
-                inviteHostName.setText(invite.getRoomHost());
+                inviteHostName.setText(add.getDescription());
             }
 
             if (inviteRoomName != null)
             {
-                inviteRoomName.setText(invite.getRoomName());
+                inviteRoomName.setText(add.getTitle());
             }
 
             if (inviteImage != null)
             {
-                ImageManager manager = ImageManager.create(mContext);
-                manager.loadImage(inviteImage, invite.getRoomPicture());
+                inviteImage.setImageBitmap(Util.biteArrayToBitmap(add.getThumbnail()));
             }
         }
 

@@ -36,7 +36,7 @@ public class ImageViewer extends AppCompatActivity
         page = myIntent.getIntExtra("page", 0);
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new FullscreenPagerAdapter(getSupportFragmentManager(), images);
+        adapterViewPager = new FullscreenPagerAdapter(getSupportFragmentManager(), images, vpPager);
         vpPager.setAdapter(adapterViewPager);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
