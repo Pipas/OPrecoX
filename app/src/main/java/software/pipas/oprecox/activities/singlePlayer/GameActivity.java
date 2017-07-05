@@ -1,6 +1,7 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
+import software.pipas.oprecox.modules.fragments.GameDataFragment;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
@@ -58,6 +60,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private DatabaseHandler database;
     private Boolean saved = false;
 
+    private GameDataFragment gameDataFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,9 +82,29 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         addViewPagerListener();
 
-        startProcessDialog();
+        FragmentManager fm = getFragmentManager();
+        gameDataFragment = (GameDataFragment) fm.findFragmentByTag("gamedata");
+        if (gameDataFragment == null)
+        {
+            gameDataFragment = new GameDataFragment();
+            fm.beginTransaction().add(gameDataFragment, "gamedata").commit();
 
-        startDataParses(intent);
+            startProcessDialog();
+
+            startDataParses(intent);
+
+        }
+        else
+        {
+            Log.d("DEBUG", "at the start");
+            NGUESSES = gameDataFragment.getNGUESSES();
+            score = gameDataFragment.getScore();
+            correctGuesses = gameDataFragment.getCorrectGuesses();
+            ads = gameDataFragment.getAds();
+            shownAd = gameDataFragment.getShownAd();
+            setViewsWithAd();
+            slider.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -119,8 +143,22 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         }
     }
 
-    public void setViewsWithAdd()
+    @Override
+    public void onDestroy()
     {
+        Log.d("DEBUG", "Im being destroyed");
+        super.onDestroy();
+        gameDataFragment.setData(NGUESSES, score, correctGuesses, ads, shownAd);
+    }
+
+    public void setViewsWithAd()
+    {
+        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
+        titleTextView.setText(shownAd.getTitle());
+
+        TextView descriptionTextView = (TextView) findViewById(R.id.description);
+        descriptionTextView.setText(shownAd.getDescription());
+
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAd.getImages());
         vpPager.setAdapter(adapterViewPager);
@@ -131,12 +169,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         else
             indicator.setVisibility(View.VISIBLE);
         indicator.setViewPager(vpPager);
-
-        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
-        titleTextView.setText(shownAd.getTitle());
-
-        TextView descriptionTextView = (TextView) findViewById(R.id.description);
-        descriptionTextView.setText(shownAd.getDescription());
 
         saved = false;
     }
@@ -158,7 +190,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         if(Settings.isLocked())
             Util.lockApp(this);
 
-        setViewsWithAdd();
+        setViewsWithAd();
         slider.setVisibility(View.VISIBLE);
     }
 
@@ -376,7 +408,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
                 Toast.makeText(this,getString(R.string.loading), Toast.LENGTH_SHORT).show();
                 return;
             }
-            setViewsWithAdd();
+            setViewsWithAd();
         }
         else
         {

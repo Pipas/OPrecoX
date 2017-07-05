@@ -3,40 +3,58 @@ package software.pipas.oprecox.modules.adapters;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
 import software.pipas.oprecox.modules.imageViewer.SmallImagePage;
 
-public class ImagePagerAdapter extends FragmentStatePagerAdapter
+import static android.os.Build.VERSION_CODES.M;
+
+public class ImagePagerAdapter extends FragmentPagerAdapter
 {
-    private int NUM_ITEMS;
     private ArrayList<Bitmap> images;
+    private Fragment[] mFragments;
 
-    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> img) {
+    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> img)
+    {
         super(fragmentManager);
-        NUM_ITEMS = img.size();
         images = img;
+        mFragments = new Fragment[images.size()];
+        Log.d("SIZE", "size of images is " + images.size());
     }
 
-    // Returns total number of pages
     @Override
-    public int getCount() {
-        return NUM_ITEMS;
+    public int getCount()
+    {
+        return mFragments.length;
     }
 
-    // Returns the fragment to display for that page
     @Override
     public Fragment getItem(int position)
     {
-        return SmallImagePage.newInstance(position, images.get(position));
+        Fragment frag = mFragments[position];
+        if (frag == null)
+        {
+            frag = SmallImagePage.newInstance(position, images.get(position));
+            mFragments[position] = frag;
+        }
+        return frag;
     }
 
-    // Returns the page title for the top indicator
     @Override
-    public CharSequence getPageTitle(int position) {
+    public CharSequence getPageTitle(int position)
+    {
         return "Page " + position;
     }
 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position)
+    {
+        Object ret = super.instantiateItem(container, position);
+        mFragments[position] = (Fragment) ret;
+        return ret;
+    }
 }
