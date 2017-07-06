@@ -58,7 +58,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private ProgressDialog mProgressDialog;
 
     private DatabaseHandler database;
-    private Boolean saved = false;
+    private Boolean adSaved = false;
+    private Boolean guessMade = false;
 
     private GameDataFragment gameDataFragment;
 
@@ -96,14 +97,37 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         }
         else
         {
-            Log.d("DEBUG", "at the start");
             NGUESSES = gameDataFragment.getNGUESSES();
             score = gameDataFragment.getScore();
             correctGuesses = gameDataFragment.getCorrectGuesses();
             ads = gameDataFragment.getAds();
             shownAd = gameDataFragment.getShownAd();
+            guess = gameDataFragment.getGuess();
             setViewsWithAd();
             slider.setVisibility(View.VISIBLE);
+            if(guess != -1f)
+            {
+                toggleBeforeGuessLayout();
+
+                toggleAfterGuessLayout();
+
+                TextView priceGuess = (TextView) findViewById(R.id.priceGuess);
+                String guessString = (int) guess + "€";
+                priceGuess.setText(guessString);
+
+                if (updateScore(guess))
+                    priceGuess.setTextColor(Color.parseColor("#4caf50"));
+                else
+                    priceGuess.setTextColor(Color.parseColor("#f44336"));
+
+                TextView correctPriceOutput = (TextView) findViewById(R.id.correctPriceOutput);
+                if (shownAd.getPrice() == (int) shownAd.getPrice())
+                    correctPriceOutput.setText(String.format("%d€", (int) shownAd.getPrice()));
+                else
+                    correctPriceOutput.setText(String.format("%.2f€", shownAd.getPrice()));
+
+                guessMade = true;
+            }
         }
     }
 
@@ -148,7 +172,10 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     {
         Log.d("DEBUG", "Im being destroyed");
         super.onDestroy();
-        gameDataFragment.setData(NGUESSES, score, correctGuesses, ads, shownAd);
+        if(guessMade)
+            gameDataFragment.setData(NGUESSES, score, correctGuesses, ads, shownAd, guess);
+        else
+            gameDataFragment.setData(NGUESSES, score, correctGuesses, ads, shownAd, -1f);
     }
 
     public void setViewsWithAd()
@@ -170,7 +197,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             indicator.setVisibility(View.VISIBLE);
         indicator.setViewPager(vpPager);
 
-        saved = false;
+        adSaved = false;
     }
 
 
@@ -326,24 +353,22 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         toggleAfterGuessLayout();
 
-        //Set guess
         TextView priceGuess = (TextView) findViewById(R.id.priceGuess);
         String guessString = dialpadNumber + "€";
         priceGuess.setText(guessString);
 
-        //Set color
         if (updateScore(guess)) {
             priceGuess.setTextColor(Color.parseColor("#4caf50"));
         } else
             priceGuess.setTextColor(Color.parseColor("#f44336"));
 
-        //Prints without , if its equal to int
         TextView correctPriceOutput = (TextView) findViewById(R.id.correctPriceOutput);
         if (shownAd.getPrice() == (int) shownAd.getPrice())
             correctPriceOutput.setText(String.format("%d€", (int) shownAd.getPrice()));
         else
             correctPriceOutput.setText(String.format("%.2f€", shownAd.getPrice()));
 
+        guessMade = true;
     }
 
     private boolean updateScore(float guess)
@@ -385,12 +410,12 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     public void pressShare(View v)
     {
-        if(!saved)
+        if(!adSaved)
         {
             database.open();
             database.createAd(shownAd);
             database.close();
-            saved = true;
+            adSaved = true;
             Settings.incrementNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
         }
         Toast.makeText(this, "Anúncio Guardado", Toast.LENGTH_SHORT).show();
@@ -437,6 +462,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         if(scorePlus.getVisibility() == View.VISIBLE)
             scorePlus.setVisibility(View.GONE);
         scoreOutput.setText(Integer.toString(score));
+
+        guessMade = false;
     }
 
     private void resetDialpadNuber()

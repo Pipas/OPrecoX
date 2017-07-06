@@ -14,6 +14,7 @@ public class GameDataFragment extends Fragment
     private int correctGuesses;
     private ArrayList<Ad> ads;
     private Ad shownAd;
+    private float guess;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -72,12 +73,23 @@ public class GameDataFragment extends Fragment
         this.correctGuesses = correctGuesses;
     }
 
-    public void setData(int NGUESSES, int score, int correctGuesses, ArrayList<Ad> ads, Ad shownAd)
+    public float getGuess()
+    {
+        return guess;
+    }
+
+    public void setGuess(float guess)
+    {
+        this.guess = guess;
+    }
+
+    public void setData(int NGUESSES, int score, int correctGuesses, ArrayList<Ad> ads, Ad shownAd, float guess)
     {
         this.NGUESSES = NGUESSES;
         this.score = score;
         this.correctGuesses = correctGuesses;
         this.ads = ads;
         this.shownAd = shownAd;
+        this.guess = guess;
     }
 }
