@@ -1,30 +1,32 @@
 package software.pipas.oprecox.modules.imageViewer;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.singlePlayer.GameActivity;
+import software.pipas.oprecox.application.OPrecoX;
 
-import static software.pipas.oprecox.R.id.imageView;
 
 public class SmallImagePage extends Fragment
 {
     private int page;
-    private Bitmap bm;
+    private Bitmap bitmap;
     private View view;
+    private GameActivity gameActivity;
 
-    public static SmallImagePage newInstance(int page, Bitmap bit)
+    public static SmallImagePage newInstance(int page, Bitmap bitmap, GameActivity gameActivity)
     {
         SmallImagePage imagePage = new SmallImagePage();
-        Log.d("IMAGE", "Instanciating page: " + page);
         imagePage.setPage(page);
-        imagePage.setBm(bit);
+        imagePage.setBitmap(bitmap);
+        imagePage.setGameActivity(gameActivity);
         return imagePage;
     }
 
@@ -39,18 +41,31 @@ public class SmallImagePage extends Fragment
     {
         view = inflater.inflate(R.layout.small_image_page_layout, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.myImageView);
-        imageView.setImageBitmap(bm);
+        imageView.setImageBitmap(bitmap);
+
+        view.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                gameActivity.startImageViewerActivity(page);
+            }
+        });
 
         return view;
     }
 
-    public void setPage(int p)
+    public void setPage(int page)
     {
-        page = p;
+        this.page = page;
     }
 
-    public void setBm (Bitmap b)
+    public void setBitmap (Bitmap bitmap)
     {
-        bm = b;
+        this.bitmap = bitmap;
+    }
+
+    public void setGameActivity (GameActivity gameActivity)
+    {
+        this.gameActivity = gameActivity;
     }
 }

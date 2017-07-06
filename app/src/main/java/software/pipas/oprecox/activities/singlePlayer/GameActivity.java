@@ -81,8 +81,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         addArrowSliderListener();
 
-        addViewPagerListener();
-
         FragmentManager fm = getFragmentManager();
         gameDataFragment = (GameDataFragment) fm.findFragmentByTag("gamedata");
         if (gameDataFragment == null)
@@ -185,7 +183,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         descriptionTextView.setText(shownAd.getDescription());
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAd.getImages());
+        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAd.getImages(), this);
         vpPager.setAdapter(adapterViewPager);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
@@ -513,37 +511,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         Intent myIntent = new Intent(this, ImageViewer.class);
         myIntent.putExtra("page", page);
         OPrecoX app = (OPrecoX) getApplicationContext();
-        app.storeBitmaps(shownAd.getImages());
+        app.storeAd(shownAd);
         startActivityForResult(myIntent, 1);
-    }
-
-    private void addViewPagerListener()
-    {
-        final ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        vpPager.setOnTouchListener(new OnTouchListener() {
-            private float pointX;
-            private float pointY;
-            private int tolerance = 50;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()){
-                    case MotionEvent.ACTION_MOVE:
-                        return false; //This is important, if you return TRUE the action of swipe will not take place.
-                    case MotionEvent.ACTION_DOWN:
-                        pointX = event.getX();
-                        pointY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        boolean sameX = pointX + tolerance > event.getX() && pointX - tolerance < event.getX();
-                        boolean sameY = pointY + tolerance > event.getY() && pointY - tolerance < event.getY();
-                        if(sameX && sameY)
-                        {
-                            startImageViewerActivity(vpPager.getCurrentItem());
-                        }
-                }
-                return false;
-            }
-        });
     }
 
     private void addArrowSliderListener()

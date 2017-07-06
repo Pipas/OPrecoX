@@ -8,17 +8,19 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import software.pipas.oprecox.activities.singlePlayer.GameActivity;
 import software.pipas.oprecox.modules.imageViewer.SmallImagePage;
 
 public class ImagePagerAdapter extends FragmentStatePagerAdapter
 {
     private ArrayList<Bitmap> images;
+    private GameActivity gameActivity;
 
-    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> img)
+    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> images, GameActivity gameActivity)
     {
         super(fragmentManager);
-        images = img;
-        Log.d("SIZE", "size of images is " + images.size());
+        this.images = images;
+        this.gameActivity = gameActivity;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter
 
         if((images != null) && (images.size() > 0) && (position >= 0) && (position < images.size()))
         {
-            currentFragment = SmallImagePage.newInstance(position, images.get(position));
+            currentFragment = SmallImagePage.newInstance(position, images.get(position), gameActivity);
             currentFragment.setRetainInstance(true);
         }
 

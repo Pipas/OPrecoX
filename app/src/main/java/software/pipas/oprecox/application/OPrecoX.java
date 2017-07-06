@@ -2,15 +2,14 @@ package software.pipas.oprecox.application;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
+import software.pipas.oprecox.modules.dataType.Ad;
 
 public class OPrecoX extends Application
 {
-    ArrayList<Bitmap> bitmaps = null;
+    Ad tempAd;
 
     @Override
     public void onCreate()
@@ -18,14 +17,14 @@ public class OPrecoX extends Application
         super.onCreate();
     }
 
-    public void storeBitmaps(ArrayList<Bitmap> bm)
+    public void storeAd(Ad ad)
     {
-        this.bitmaps = bm;
+        this.tempAd = ad;
     }
 
-    public ArrayList<Bitmap> getBitmaps()
+    public Ad getTempAd()
     {
-        return bitmaps;
+        return tempAd;
     }
 
 }
