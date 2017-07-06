@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="port">9999</integer>
+    <string name="address_send">255.255.255.255</string>
+    <string name="address_receive">0.0.0.0</string>
+</resources>

@@ -148,8 +148,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
                     R.string.leave,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent myIntent = new Intent(GameActivity.this, MainMenu.class);
-                            startActivity(myIntent);
                             finish();
                         }
                     });

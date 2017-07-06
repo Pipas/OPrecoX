@@ -5,13 +5,18 @@ import android.os.Bundle;
 
 import software.pipas.oprecox.R;
 
-public class Settings extends AppCompatActivity
-{
+public class SettingsIntent extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
     }
 }

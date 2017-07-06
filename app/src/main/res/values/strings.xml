@@ -41,6 +41,8 @@
     <string name="loading">A carregar...</string>
     <string name="leavegame">Sair do jogo?</string>
     <string name="leavegamesub">Se saires do jogo o progresso e os anuncios gerados serão perdidos.</string>
+    <string name="leaveapp">Sair da Aplicação</string>
+    <string name="leaveappsub">Deseja sair da Aplicação?</string>
     <string name="leave">Sair</string>
     <string name="cancel">Voltar</string>
     <string name="singleplayer">Jogar Sozinho</string>

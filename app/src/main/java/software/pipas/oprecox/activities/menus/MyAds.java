@@ -83,10 +83,19 @@ public class MyAds extends AppCompatActivity
         database.open();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
+    }
+
 
     private void removeAdFromDatabase(int position)
     {
         database.deleteComment(addListAdapter.getItem(position));
         addListAdapter.remove(position);
     }
+
+
 }

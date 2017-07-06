@@ -1,5 +1,7 @@
 package software.pipas.oprecox.activities.menus;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
@@ -45,7 +47,32 @@ public class MainMenu extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+        AlertDialog.Builder popup = new AlertDialog.Builder(this);
+        popup.setTitle(getString(R.string.leaveapp));
+        popup.setMessage(getString(R.string.leaveappsub));
+        popup.setCancelable(true);
 
+        popup.setPositiveButton
+                (
+                R.string.leave,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        finish();
+                    }
+                });
+
+        popup.setNegativeButton(
+                R.string.cancel,
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = popup.create();
+        alert.show();
     }
 
     public void pressSinglePlayer(View v)
@@ -88,7 +115,8 @@ public class MainMenu extends AppCompatActivity
 
     public void pressSettings(View v)
     {
-        Toast.makeText(this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
+        Intent myIntent = new Intent(this, SettingsIntent.class);
+        startActivity(myIntent);
     }
 
     private void getPreferences()
@@ -108,7 +136,6 @@ public class MainMenu extends AppCompatActivity
             {
                 Intent intent = new Intent(this, BlockedApp.class);
                 startActivity(intent);
-                finish();
             }
         }
         String c = sharedPref.getString("categories", null);
@@ -118,4 +145,6 @@ public class MainMenu extends AppCompatActivity
             Categories.selectAll();
         Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));
     }
+
+
 }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.R;
 
 public class GameOver extends AppCompatActivity
@@ -36,16 +35,12 @@ public class GameOver extends AppCompatActivity
 
     public void pressFinish(View v)
     {
-        Intent myIntent = new Intent(this, MainMenu.class);
-        startActivity(myIntent);
         finish();
     }
 
     @Override
     public void onBackPressed()
     {
-        Intent myIntent = new Intent(this, MainMenu.class);
-        startActivity(myIntent);
         finish();
     }
 
@@ -54,5 +49,6 @@ public class GameOver extends AppCompatActivity
         Intent myIntent = new Intent(this, GameActivity.class);
         myIntent.putExtra("NGUESSES", NGUESSES);
         startActivity(myIntent);
+        finish();
     }
 }

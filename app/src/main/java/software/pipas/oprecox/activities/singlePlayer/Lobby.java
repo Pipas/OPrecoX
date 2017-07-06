@@ -54,8 +54,6 @@ public class Lobby extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        Intent myIntent = new Intent(this, MainMenu.class);
-        startActivity(myIntent);
         finish();
     }
 

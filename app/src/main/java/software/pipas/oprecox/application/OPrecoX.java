@@ -2,6 +2,7 @@ package software.pipas.oprecox.application;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,4 +27,5 @@ public class OPrecoX extends Application
     {
         return bitmaps;
     }
+
 }
