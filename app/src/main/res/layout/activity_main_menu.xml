@@ -16,6 +16,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:elevation="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/announcer"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:padding="12dp"
+            android:src="@drawable/shout_off"
+            android:tint="#ffffff" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:elevation="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
