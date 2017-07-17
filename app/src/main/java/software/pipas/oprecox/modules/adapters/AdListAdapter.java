@@ -15,12 +15,12 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.util.Util;
 
-public class AddListAdapter extends ArrayAdapter<AdPreview>
+public class AdListAdapter extends ArrayAdapter<AdPreview>
 {
     Context mContext;
     ContentResolver mContentResolver;
 
-    public AddListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver)
+    public AdListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver)
     {
         super(context, R.layout.invite_item_layout, data);
         this.mContext = context;

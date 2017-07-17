@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,8 +15,9 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.other.BlockedApp;
+import software.pipas.oprecox.activities.other.CategoryChooserRevamped;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
-import software.pipas.oprecox.modules.categories.Categories;
+import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.util.Settings;
 
 public class MainMenu extends AppCompatActivity
@@ -77,7 +79,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressSinglePlayer(View v)
     {
-        Intent myIntent = new Intent(this, Lobby.class);
+        Intent myIntent = new Intent(this, CategoryChooserRevamped.class);
         startActivity(myIntent);
     }
 
@@ -139,11 +141,12 @@ public class MainMenu extends AppCompatActivity
             }
         }
         String c = sharedPref.getString("categories", null);
-        if(c != null)
-            Categories.selectFromString(c);
+        /*if(c != null)
+            CategoryHandler.selectFromString(c);
         else
-            Categories.selectAll();
-        Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));
+            CategoryHandler.selectAll();
+        Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));*/
+        CategoryHandler.initiateCategories();
     }
 
 

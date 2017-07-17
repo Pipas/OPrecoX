@@ -1,6 +1,6 @@
 package software.pipas.oprecox.modules.parsing;
 
-import software.pipas.oprecox.modules.categories.Categories;
+import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 
 import org.jsoup.Jsoup;
@@ -20,7 +20,7 @@ public abstract class OlxParser
     {
         String urlStart = "https://www.olx.pt/";
         String urlEnd = "/?search[description]=1&page=";
-        String category = Categories.generateURL();
+        String category = CategoryHandler.generateURL();
         String categoryMax = urlStart + category + urlEnd + "500";
 
         Response response = Jsoup.connect(categoryMax).followRedirects(true).execute();

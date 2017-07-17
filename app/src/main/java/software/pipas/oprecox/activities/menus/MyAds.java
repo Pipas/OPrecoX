@@ -16,7 +16,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCa
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.adapters.AddListAdapter;
+import software.pipas.oprecox.modules.adapters.AdListAdapter;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
 import software.pipas.oprecox.util.Settings;
@@ -24,7 +24,7 @@ import software.pipas.oprecox.util.Settings;
 public class MyAds extends AppCompatActivity
 {
     private DatabaseHandler database;
-    private AddListAdapter addListAdapter;
+    private AdListAdapter adListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,8 +42,8 @@ public class MyAds extends AppCompatActivity
 
         ArrayList<AdPreview> ads = database.getAllComments();
 
-        addListAdapter = new AddListAdapter(ads, getApplicationContext(), getContentResolver());
-        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(addListAdapter);
+        adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver());
+        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(adListAdapter);
         animationAdapter.setAbsListView(myAddsList);
         myAddsList.setAdapter(animationAdapter);
         myAddsList.enableSwipeToDismiss(
@@ -58,12 +58,13 @@ public class MyAds extends AppCompatActivity
                     }
                 }
         );
+        myAddsList.setAdapter(adListAdapter);
         myAddsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
             {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(addListAdapter.getItem(position).getUrl()));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(adListAdapter.getItem(position).getUrl()));
                 startActivity(browserIntent);
             }
         });
@@ -93,8 +94,8 @@ public class MyAds extends AppCompatActivity
 
     private void removeAdFromDatabase(int position)
     {
-        database.deleteComment(addListAdapter.getItem(position));
-        addListAdapter.remove(position);
+        database.deleteComment(adListAdapter.getItem(position));
+        adListAdapter.remove(position);
     }
 
 
