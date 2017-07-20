@@ -6,22 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.categories.ParentCategory;
+import software.pipas.oprecox.modules.categories.SubCategory;
 
-public class CategoryListAdapter extends ArrayAdapter<ParentCategory>
+public class SubCategoryListAdapter extends ArrayAdapter<SubCategory>
 {
     Context mContext;
     ContentResolver mContentResolver;
 
-    public CategoryListAdapter(ArrayList<ParentCategory> data, Context context, ContentResolver contentResolver)
+    public SubCategoryListAdapter(ArrayList<SubCategory> data, Context context, ContentResolver contentResolver)
     {
-        super(context, R.layout.parent_category_item, data);
+        super(context, R.layout.sub_category_item, data);
         this.mContext = context;
         this.mContentResolver = contentResolver;
     }
@@ -40,29 +40,29 @@ public class CategoryListAdapter extends ArrayAdapter<ParentCategory>
         if (v == null)
         {
             LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.parent_category_item, null);
+            v = vi.inflate(R.layout.sub_category_item, null);
         }
 
-        ParentCategory category = getItem(position);
+        SubCategory category = getItem(position);
 
         if (category != null)
         {
+            TextView subCategoryTitle = (TextView) v.findViewById(R.id.subCategoryTitle);
 
-            TextView parentCategoryTitle = (TextView) v.findViewById(R.id.parentCategoryTitle);
-            ImageView parentCategoryImage = (ImageView) v.findViewById(R.id.parentCategoryImage);
-
-            if (parentCategoryTitle != null)
+            if (subCategoryTitle != null)
             {
-                parentCategoryTitle.setText(category.getTitle());
+                subCategoryTitle.setText(category.getTitle());
             }
 
-            if (parentCategoryImage != null)
+            if(category.isSelected())
             {
-                parentCategoryImage.setImageResource(category.getImageId());
+                CheckBox subCategoryCheckbox = (CheckBox) v.findViewById(R.id.subCategoryCheckbox);
+                subCategoryCheckbox.setChecked(true);
             }
         }
 
-
         return v;
     }
+
+
 }

@@ -28,4 +28,34 @@ public class ParentCategory extends Category
     {
         return imageId;
     }
+
+    public void toggleSubCategory(int i)
+    {
+
+        if(this.isSelected())
+        {
+            subCategories.get(i).toggleSelected();
+            this.toggleSelected();
+            for(SubCategory subCategory : subCategories)
+            {
+                if (subCategory.isSelected())
+                    this.toggleSelected();
+            }
+        }
+        else
+        {
+            subCategories.get(i).toggleSelected();
+            this.toggleSelected();
+        }
+
+    }
+
+    public void selectAll()
+    {
+        this.setSelected(true);
+        for(SubCategory subCategory : subCategories)
+        {
+            subCategory.setSelected(true);
+        }
+    }
 }

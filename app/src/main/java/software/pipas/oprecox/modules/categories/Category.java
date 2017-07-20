@@ -21,7 +21,7 @@ public class Category
         this.title = title;
     }
 
-    public Boolean getSelected()
+    public Boolean isSelected()
     {
         return selected;
     }

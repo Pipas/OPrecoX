@@ -3,21 +3,19 @@ package software.pipas.oprecox.activities.singlePlayer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import software.pipas.oprecox.activities.menus.MainMenu;
+import java.util.ArrayList;
+
+import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.NGuessesChooser;
-import software.pipas.oprecox.R;
-
-import java.util.ArrayList;
 
 public class Lobby extends AppCompatActivity
 {

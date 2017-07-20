@@ -22,9 +22,6 @@
             android:name=".activities.singlePlayer.Lobby"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.other.CategoryChooser"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.singlePlayer.GameOver"
             android:screenOrientation="portrait" />
         <activity
@@ -67,7 +64,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activities.other.CategoryChooserRevamped"></activity>
+        <activity android:name=".activities.other.CategoryChooser" />
+        <activity android:name=".activities.other.CategoryDetails"></activity>
     </application>
 
 </manifest>

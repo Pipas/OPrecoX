@@ -1,20 +1,20 @@
 package software.pipas.oprecox.modules.parsing;
 
-import software.pipas.oprecox.modules.categories.CategoryHandler;
-import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
-
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.jsoup.Connection.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import software.pipas.oprecox.modules.categories.CategoryHandler;
+import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
+
 public abstract class OlxParser
 {
-    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,"};
+    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "centimo"};
 
     public static String getRandomURL() throws IOException, OLXSyntaxChangeException
     {
