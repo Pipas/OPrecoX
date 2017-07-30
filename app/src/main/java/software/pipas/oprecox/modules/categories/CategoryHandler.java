@@ -54,6 +54,11 @@ public abstract class CategoryHandler
 
     public static void selectFromString(String input)
     {
+        if(!input.contains(":"))
+        {
+            selectAll();
+            return;
+        }
         String[] splited = input.split("\\s+");
         for(int i = 0; i < splited.length; i++)
         {

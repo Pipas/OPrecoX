@@ -3,14 +3,7 @@ package software.pipas.oprecox.activities.menus;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-<<<<<<< HEAD
-=======
-import android.media.Image;
-import android.net.wifi.WifiManager;
-import android.support.v7.app.AppCompatActivity;
->>>>>>> de103ba76eacde67ada04aa92add21536beecb1e
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,13 +15,8 @@ import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.other.BlockedApp;
-<<<<<<< HEAD
 import software.pipas.oprecox.modules.categories.CategoryHandler;
-=======
-import software.pipas.oprecox.activities.singlePlayer.Lobby;
-import software.pipas.oprecox.modules.categories.Categories;
 import software.pipas.oprecox.modules.network.Announcer;
->>>>>>> de103ba76eacde67ada04aa92add21536beecb1e
 import software.pipas.oprecox.util.Settings;
 
 public class MainMenu extends AppCompatActivity
