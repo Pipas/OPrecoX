@@ -11,17 +11,14 @@ public class ParentCategory extends Category
     {
         super(title);
         this.subCategories = subCategories;
+        for(SubCategory subCategory : subCategories)
+            subCategory.setParentCategory(title);
         this.imageId = categoryImage;
     }
 
     public ArrayList<SubCategory> getSubCategories()
     {
         return subCategories;
-    }
-
-    public void setSubCategories(ArrayList<SubCategory> subCategories)
-    {
-        this.subCategories = subCategories;
     }
 
     public int getImageId()

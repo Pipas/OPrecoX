@@ -19,7 +19,7 @@ public abstract class CategoryHandler
         return true;
     }
 
-    public static String generateURL()
+    public static SubCategory getRandomSubCategory()
     {
         ArrayList<SubCategory> selectedSubCategories = new ArrayList<>();
         for(ParentCategory parentCategory : categories)
@@ -34,7 +34,7 @@ public abstract class CategoryHandler
             }
         }
         Random rand = new Random();
-        return selectedSubCategories.get(rand.nextInt(selectedSubCategories.size())).getUrlEnd();
+        return selectedSubCategories.get(rand.nextInt(selectedSubCategories.size()));
     }
 
     public static void selectAll()

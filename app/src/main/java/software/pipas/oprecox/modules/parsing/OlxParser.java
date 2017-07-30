@@ -9,19 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 
 public abstract class OlxParser
 {
     private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "centimo"};
 
-    public static String getRandomURL() throws IOException, OLXSyntaxChangeException
+    public static String getRandomURL(String urlMid) throws IOException, OLXSyntaxChangeException
     {
         String urlStart = "https://www.olx.pt/";
         String urlEnd = "/?search[description]=1&page=";
-        String category = CategoryHandler.generateURL();
-        String categoryMax = urlStart + category + urlEnd + "500";
+        String categoryMax = urlStart + urlMid + urlEnd + "500";
 
         Response response = Jsoup.connect(categoryMax).followRedirects(true).execute();
         String r = response.url().toString();
@@ -30,7 +28,7 @@ public abstract class OlxParser
         Random rand = new Random();
 
         int pageNumber = rand.nextInt(categoryPages) + 1;
-        String pageURL = urlStart + category + urlEnd + pageNumber;
+        String pageURL = urlStart + urlMid + urlEnd + pageNumber;
 
         Document document = Jsoup.connect(pageURL).get();
         Elements linkContainer = document.select("table[class=fixed offers breakword ]");

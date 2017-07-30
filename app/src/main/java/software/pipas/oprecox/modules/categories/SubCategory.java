@@ -6,6 +6,7 @@ public class SubCategory extends Category
 {
     private HashMap<String, Double> urlEnds = new HashMap<>();;
     private double distSum = 0;
+    private String parentCategory;
 
     public SubCategory(String title, String urlEnd)
     {
@@ -45,4 +46,15 @@ public class SubCategory extends Category
         }
         return null;
     }
+
+    public String getParentCategory()
+    {
+        return parentCategory;
+    }
+
+    public void setParentCategory(String parentCategory)
+    {
+        this.parentCategory = parentCategory;
+    }
+
 }
