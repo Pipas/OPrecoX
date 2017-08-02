@@ -127,6 +127,5 @@ public abstract class Util
             Log.d("NETWORK_INTERFACES_LIST", "failed to get");
             return null;
         }
-
     }
 }

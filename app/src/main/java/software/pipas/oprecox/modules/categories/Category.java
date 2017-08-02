@@ -5,6 +5,11 @@ public class Category
     private String title;
     private Boolean selected;
 
+    public Category()
+    {
+        this.selected = false;
+    }
+
     public Category(String title)
     {
         this.title = title;

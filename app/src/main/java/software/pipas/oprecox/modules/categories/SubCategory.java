@@ -8,6 +8,8 @@ public class SubCategory extends Category
     private double distSum = 0;
     private String parentCategory;
 
+    public SubCategory() {}
+
     public SubCategory(String title, String urlEnd)
     {
         super(title);
@@ -26,7 +28,7 @@ public class SubCategory extends Category
         }
     }
 
-    private void addUrlEnd(String urlEnd, double distribution)
+    public void addUrlEnd(String urlEnd, double distribution)
     {
         this.urlEnds.put(urlEnd, distribution);
         distSum += distribution;

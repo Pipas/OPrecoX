@@ -3,7 +3,6 @@ package software.pipas.oprecox.activities.menus;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,11 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
-import software.pipas.oprecox.activities.other.BlockedApp;
-import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.network.Announcer;
 import software.pipas.oprecox.util.Settings;
 
@@ -29,8 +25,6 @@ public class MainMenu extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-        getPreferences();
 
         Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
 
@@ -132,35 +126,6 @@ public class MainMenu extends AppCompatActivity
     {
         Intent myIntent = new Intent(this, SettingsIntent.class);
         startActivity(myIntent);
-    }
-
-    private void getPreferences()
-    {
-        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
-        Settings.setLocked(sharedPref.getBoolean("locked", false));
-        int version = sharedPref.getInt("lockVersion", Integer.MAX_VALUE);
-        if(Settings.isLocked())
-        {
-            if(version < BuildConfig.VERSION_CODE)
-            {
-                SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
-                editor.putBoolean("locked", false);
-                editor.apply();
-            }
-            else
-            {
-                Intent intent = new Intent(this, BlockedApp.class);
-                startActivity(intent);
-            }
-        }
-        CategoryHandler.initiateCategories();
-        String c = sharedPref.getString("categories", null);
-        if(c != null)
-            CategoryHandler.selectFromString(c);
-        else
-            CategoryHandler.selectAll();
-        Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));
-
     }
 
     public void startAnnouncer()
