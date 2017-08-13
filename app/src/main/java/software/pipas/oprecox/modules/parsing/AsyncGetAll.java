@@ -5,14 +5,16 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import software.pipas.oprecox.modules.categories.CategoryHandler;
+import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.util.Settings;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 {
@@ -38,11 +40,14 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     protected Void doInBackground(Void... params)
     {
         String randomURL = "";
+        SubCategory subCategory;
         while (!validURL)
         {
             try
             {
-                randomURL = OlxParser.getRandomURL();
+                subCategory = CategoryHandler.getRandomSubCategory();
+                ad.setCategory(subCategory.getParentCategory());
+                randomURL = OlxParser.getRandomURL(subCategory.getUrlEnd());
                 ad.setPrice(OlxParser.getPrice(randomURL));
                 ad.setTitle(OlxParser.getTitle(randomURL));
                 ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);

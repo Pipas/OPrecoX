@@ -1,18 +1,17 @@
 package software.pipas.oprecox.modules.dataType;
 
 import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Ad implements Parcelable
+public class Ad
 {
     private String title;
     private String description;
     private float price = -1;
     private ArrayList<Bitmap> images;
     private String url;
+    private String category;
 
     public Ad() {}
 
@@ -66,61 +65,13 @@ public class Ad implements Parcelable
         return images;
     }
 
-    protected Ad(Parcel in)
+    public String getCategory()
     {
-        title = in.readString();
-        description = in.readString();
-        price = in.readFloat();
-        if (in.readByte() == 0x01)
-        {
-            images = new ArrayList<Bitmap>();
-            in.readList(images, Bitmap.class.getClassLoader());
-        }
-        else
-        {
-            images = null;
-        }
-        url = in.readString();
+        return category;
     }
 
-    @Override
-    public int describeContents()
+    public void setCategory(String category)
     {
-        return 0;
+        this.category = category;
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags)
-    {
-        dest.writeString(title);
-        dest.writeString(description);
-        dest.writeFloat(price);
-        if (images == null)
-        {
-            dest.writeByte((byte) (0x00));
-        }
-        else
-        {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(images);
-        }
-        dest.writeString(url);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Ad> CREATOR = new Parcelable.Creator<Ad>()
-    {
-        @Override
-        public Ad createFromParcel(Parcel in)
-        {
-            return new Ad(in);
-        }
-
-        @Override
-        public Ad[] newArray(int size)
-        {
-            return new Ad[size];
-        }
-    };
-
 }
