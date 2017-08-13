@@ -26,7 +26,6 @@ import software.pipas.oprecox.util.Settings;
 public class MainMenu extends AppCompatActivity
 {
     private int count = 0;
-    private Announcer announcer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,8 +37,7 @@ public class MainMenu extends AppCompatActivity
 
         Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
 
-        //ANNOUNCER
-        this.startAnnouncer();
+
     }
 
 
@@ -60,7 +58,6 @@ public class MainMenu extends AppCompatActivity
     public void onDestroy()
     {
         super.onDestroy();
-        this.announcer.close();
     }
 
     @Override
@@ -102,7 +99,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
-
+        /*
         count++;
         if(count >= 10)
         {
@@ -110,7 +107,9 @@ public class MainMenu extends AppCompatActivity
             startActivity(myIntent);
         }
         else
-            Toast.makeText(this, "Multiplayer changes coming soon!", Toast.LENGTH_SHORT).show();
+
+
+        Toast.makeText(this, "Multiplayer changes coming soon!", Toast.LENGTH_SHORT).show();*/
 
 
 
@@ -120,9 +119,11 @@ public class MainMenu extends AppCompatActivity
             return;
         }
 
+        */
+
 
         Intent myIntent = new Intent(this, Hub.class);
-        startActivity(myIntent);*/
+        startActivity(myIntent);
 
     }
 
@@ -165,22 +166,7 @@ public class MainMenu extends AppCompatActivity
         Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));
     }
 
-    public void startAnnouncer()
-    {
-        ImageView imageView = (ImageView) findViewById(R.id.announcer);
-        this.announcer = new Announcer(this.getApplicationContext());
 
-        if(this.announcer.isValid())
-        {
-            imageView.setImageResource(R.drawable.shout_on);
-            this.announcer.execute();
-        }
-        else
-        {
-            imageView.setImageResource(R.drawable.shout_off);
-            Toast.makeText(this, "Cannot Announce", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 }

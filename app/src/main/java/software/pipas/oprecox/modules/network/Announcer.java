@@ -2,7 +2,6 @@ package software.pipas.oprecox.modules.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -13,23 +12,28 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.message.Message;
+import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
 
 public class Announcer extends AsyncTask<Void, Void, Void>
 {
     private Context context;
+    private String playerName;
+    private String playerId;
+    private String playerIconUri;
     private boolean valid;
     private boolean closed;
     private DatagramSocket socket;
     private DatagramPacket packet;
 
 
-    public Announcer(Context context)
+    public Announcer(Context context, String playerName, String playerId, String playerIcon)
     {
-
-        this.initialize(context);
+        this.initialize(context, playerName, playerId, playerIcon);
     }
 
     @Override
@@ -40,8 +44,11 @@ public class Announcer extends AsyncTask<Void, Void, Void>
     }
 
 
-    private void initialize(Context context)
+    private void initialize(Context context, String playerName, String playerId, String playerIconImage)
     {
+        this.playerName = playerName;
+        this.playerId = playerId;
+        this.playerIconUri = playerIconImage;
         this.context = context;
         this.closed = false;
         this.valid = (this.createSocket() && this.createPacket());
@@ -58,6 +65,9 @@ public class Announcer extends AsyncTask<Void, Void, Void>
         }
         catch (SocketException s)
         {
+            s.printStackTrace();
+
+            this.socket.close();
             return false;
         }
 
@@ -66,15 +76,20 @@ public class Announcer extends AsyncTask<Void, Void, Void>
     private boolean createPacket()
     {
         //TO CHANGE TO MESSAGE CLASS
-        String app_name = this.context.getString(R.string.network_app_name);
-        String version = Util.getAppVersion(this.context);
-        String announce = this.context.getString(R.string.network_announce);
+        String[] args = new String[6];
+        args[0] = this.context.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.ANNOUNCE.toString();
+        args[3] = this.playerName;
+        args[4] = this.playerId;
+        args[5] = this.playerIconUri;
 
-        String text = app_name + " " + version + " " + announce;
+        Message msg = new Message(this.context, args);
+        if(!msg.isValid()) return false;
 
         try
         {
-            this.packet = new DatagramPacket(text.getBytes(), 0, text.length());
+            this.packet = new DatagramPacket(msg.getMessage().getBytes(), 0, msg.getMessage().length());
 
             //setting default broadcast ip, later to be changed programmatically
             this.packet.setSocketAddress(new InetSocketAddress(
@@ -86,6 +101,8 @@ public class Announcer extends AsyncTask<Void, Void, Void>
         }
         catch (Exception e)
         {
+            e.printStackTrace();
+
             return false;
         }
 

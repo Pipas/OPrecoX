@@ -67,24 +67,6 @@ public abstract class Util
         return ThumbnailUtils.extractThumbnail(bitmap, (int) dpPixels, (int) dpPixels);
     }
 
-    public static String getAppVersion(Context context)
-    {
-        String version;
-
-        try
-        {
-            PackageManager manager = context.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(
-                    context.getPackageName(), 0);
-            version = info.versionName;
-        }
-        catch (PackageManager.NameNotFoundException n)
-        {
-            version = null;
-        }
-
-        return version;
-    }
 
     public static LinkedList<InetAddress> listinterfaces()
     {

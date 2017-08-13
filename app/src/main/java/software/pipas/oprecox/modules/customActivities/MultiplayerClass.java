@@ -70,9 +70,15 @@ public abstract class MultiplayerClass extends AppCompatActivity implements Goog
     }
 
     @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle)
     {
-        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
     }
 
     @Override
