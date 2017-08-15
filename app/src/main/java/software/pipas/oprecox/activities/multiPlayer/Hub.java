@@ -3,10 +3,8 @@ package software.pipas.oprecox.activities.multiPlayer;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,22 +12,18 @@ import android.widget.Toast;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
-import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.dataType.Invite;
-import software.pipas.oprecox.modules.network.Announcer;
+import software.pipas.oprecox.modules.network.AnnouncerSender;
 
 public class Hub extends MultiplayerClass
 {
     private ArrayList<Invite> invites;
-    private Announcer announcer;
+    private AnnouncerSender announcerSender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,7 +76,7 @@ public class Hub extends MultiplayerClass
         */
 
         //ANNOUNCER
-        if(this.announcer == null)
+        if(this.announcerSender == null)
             this.startAnnouncer(player.getDisplayName(),player.getPlayerId(), player.getIconImageUri().toString());
     }
 
@@ -91,7 +85,7 @@ public class Hub extends MultiplayerClass
     public void onDestroy()
     {
         super.onDestroy();
-        this.announcer.close();
+        this.announcerSender.close();
 
     }
 
@@ -107,11 +101,11 @@ public class Hub extends MultiplayerClass
 
     public void startAnnouncer(String playerName, String playerId, String playerIcon)
     {
-        this.announcer = new Announcer(this.getApplicationContext(), playerName, playerId, playerIcon);
+        this.announcerSender = new AnnouncerSender(this.getApplicationContext(), playerName, playerId, playerIcon);
 
-        if(this.announcer.isValid())
+        if(this.announcerSender.isValid())
         {
-            this.announcer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            this.announcerSender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
         else
         {

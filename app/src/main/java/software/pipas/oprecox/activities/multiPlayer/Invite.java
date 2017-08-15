@@ -1,8 +1,8 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -14,17 +14,24 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAd
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
+import java.net.DatagramPacket;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.adapters.InviteListAdapter;
+import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
-import software.pipas.oprecox.modules.network.Receiver;
+import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
+import software.pipas.oprecox.modules.message.Message;
+import software.pipas.oprecox.modules.message.MessageType;
+import software.pipas.oprecox.modules.network.AnnouncerReceiver;
 
 public class Invite extends MultiplayerClass {
 
-    private ArrayList<software.pipas.oprecox.modules.dataType.Invite> invites;
-    private Receiver receiver;
+
+    private AnnouncerReceiver announcerReceiver;
+    private Player player;
+    private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
+    private PlayerListAdapter playerListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,16 +44,18 @@ public class Invite extends MultiplayerClass {
     public void onConnected(Bundle bundle)
     {
         super.onConnected(bundle);
-        Player player = Games.Players.getCurrentPlayer(mGoogleApiClient);
+        player = Games.Players.getCurrentPlayer(mGoogleApiClient);
 
         //DEBUG
-        DynamicListView listView = (DynamicListView) findViewById(R.id.inviteListViewer);
-        invites = new ArrayList<>();
+        DynamicListView listView = (DynamicListView) findViewById(R.id.playersListViewer);
+        players = new ArrayList<>();
 
-        final InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext(), getContentResolver());
-        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(inviteListAdapter);
+        final PlayerListAdapter playerListAdapter = new PlayerListAdapter(players, getApplicationContext(), getContentResolver());
+        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(playerListAdapter);
         animationAdapter.setAbsListView(listView);
         listView.setAdapter(animationAdapter);
+
+
 
         listView.enableSwipeToDismiss(
                 new OnDismissCallback()
@@ -55,41 +64,87 @@ public class Invite extends MultiplayerClass {
                     public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions)
                         {
-                            inviteListAdapter.remove(position);
+                            playerListAdapter.remove(position);
                         }
                     }
                 }
         );
 
+        this.playerListAdapter = playerListAdapter;
+
 
         //RECEIVER
-        if(this.receiver == null)
-            this.startReceiver(player.getPlayerId());
-    }
+        if(this.announcerReceiver == null)
+            this.startReceiver();
 
+        //UPDATER
+    }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        this.receiver.close();
+        this.announcerReceiver.close();
     }
 
 
-
-
-    private void startReceiver(String playerId)
+    private void startReceiver()
     {
-        this.receiver = new Receiver(this.getApplicationContext(), playerId);
+        this.announcerReceiver = new AnnouncerReceiver(this.getApplicationContext(),this);
 
-        if(this.receiver.isValid())
+        if(this.announcerReceiver.isValid())
         {
-            this.receiver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            this.announcerReceiver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
         else
         {
             Toast.makeText(this, "Cannot Receive", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void registerReceived(DatagramPacket packet)
+    {
+        Message msg = new Message(this.getApplicationContext(), packet);
+
+        //test self-announce REMOVE THE COMMENT LINE IN THE END
+        if(/*player.getPlayerId().equals(msg.getPlayerId()) || */this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
+
+
+        //the new player
+        software.pipas.oprecox.modules.dataType.Player player =
+                new software.pipas.oprecox.modules.dataType.Player(
+                        msg.getPlayerName(),
+                        msg.getPlayerId(),
+                        Uri.parse(msg.getPlayerIconURI()),
+                        System.currentTimeMillis());
+
+
+        int index = this.players.indexOf(player);
+
+        //if does not exist add, else actualize
+        if(index <= -1)
+        {
+            this.players.add(player);
+            this.refreshListAdapter(this.playerListAdapter);
+        }
+        else
+        {
+            this.players.get(index).updatePlayerAnnouncedTime(player.getTimeAnnounced());
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
+    }
+
+    private void refreshListAdapter(PlayerListAdapter playerListAdapter)
+    {
+        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
+        this.runOnUiThread(listAdapterRefresh);
     }
 
 }

@@ -19,7 +19,7 @@ import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
 
-public class Announcer extends AsyncTask<Void, Void, Void>
+public class AnnouncerSender extends AsyncTask<Void, Void, Void>
 {
     private Context context;
     private String playerName;
@@ -31,7 +31,7 @@ public class Announcer extends AsyncTask<Void, Void, Void>
     private DatagramPacket packet;
 
 
-    public Announcer(Context context, String playerName, String playerId, String playerIcon)
+    public AnnouncerSender(Context context, String playerName, String playerId, String playerIcon)
     {
         this.initialize(context, playerName, playerId, playerIcon);
     }

@@ -21,6 +21,7 @@ import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
+import java.net.DatagramPacket;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
@@ -146,5 +147,10 @@ public abstract class MultiplayerClass extends AppCompatActivity implements Goog
             Log.d("HUB", "Error in tryResolution");
             e.printStackTrace();
         }
+    }
+
+    public void registerReceived(DatagramPacket packet)
+    {
+
     }
 }

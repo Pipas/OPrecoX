@@ -1,5 +1,6 @@
 package software.pipas.oprecox.modules.network;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,29 +9,26 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 
-/**
- * Created by nuno_ on 19-Jul-17.
- */
-
-public class Receiver extends AsyncTask<Void, Void, Void>
+public class AnnouncerReceiver extends AsyncTask<Void, Void, Void>
 {
     private Context context;
-    private String myGamerId;
+    private Activity activity;
     private DatagramSocket socket;
     private Boolean valid;
     private Boolean closed;
 
 
-    public Receiver(Context context, String myGamerId)
+    public AnnouncerReceiver(Context context, Activity activity)
     {
-        this.initialize(context, myGamerId);
+        this.initialize(context, activity);
     }
 
-    private void initialize(Context context, String myGamerId)
+    private void initialize(Context context, Activity activity)
     {
         this.context = context;
-        this.myGamerId = myGamerId;
+        this.activity = activity;
         this.closed = false;
         this.valid = (this.socketCreate());
 
@@ -72,8 +70,8 @@ public class Receiver extends AsyncTask<Void, Void, Void>
             try
             {
                 this.socket.receive(packet);
-                String str = new String(packet.getData(), 0, packet.getLength());
-                Log.d("RECEIVED", str);
+                ((MultiplayerClass) this.activity).registerReceived(packet);
+
             }
             catch (Exception e)
             {

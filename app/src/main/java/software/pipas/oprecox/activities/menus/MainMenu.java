@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
-import software.pipas.oprecox.modules.network.Announcer;
 import software.pipas.oprecox.util.Settings;
 
 public class MainMenu extends AppCompatActivity

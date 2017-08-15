@@ -70,7 +70,12 @@ public class Message
 
     private boolean initialize(DatagramPacket packet)
     {
-        return false;
+
+        //retrieve packet message
+        String msg = new String(packet.getData(), 0, packet.getLength());
+        String[] args = messageSplit(msg);
+
+        return initialize(args);
     }
     //--------------------------------------------------
 
@@ -148,4 +153,32 @@ public class Message
     {
         return message.split("\\s");
     }
+
+
+    //Getters and setters
+    public String getAppName() {
+        return appName;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public String getMessageType() {
+        return messageType.toString();
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public String getPlayerIconURI() {
+        return playerIconURI;
+    }
+
+
 }

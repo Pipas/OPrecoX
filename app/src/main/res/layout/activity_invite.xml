@@ -7,7 +7,7 @@
     tools:context="software.pipas.oprecox.activities.multiPlayer.Invite">
 
     <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
-        android:id="@+id/inviteListViewer"
+        android:id="@+id/playersListViewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
 
