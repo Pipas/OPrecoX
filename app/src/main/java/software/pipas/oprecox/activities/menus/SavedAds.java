@@ -32,8 +32,6 @@ public class MyAds extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_adds);
 
-        setTitle("Anúncios Guardados");
-
         Settings.resetNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
 
         database = new DatabaseHandler(this);
@@ -90,7 +88,6 @@ public class MyAds extends AppCompatActivity
         super.onBackPressed();
         finish();
     }
-
 
     private void removeAdFromDatabase(int position)
     {
