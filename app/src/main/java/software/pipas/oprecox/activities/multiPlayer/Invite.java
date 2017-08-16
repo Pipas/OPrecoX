@@ -21,6 +21,7 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
+import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.network.AnnouncerReceiver;
@@ -29,6 +30,8 @@ public class Invite extends MultiplayerClass {
 
 
     private AnnouncerReceiver announcerReceiver;
+    private PlayerListUpdater playerListUpdater;
+
     private Player player;
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
@@ -78,6 +81,9 @@ public class Invite extends MultiplayerClass {
             this.startReceiver();
 
         //UPDATER
+        if(this.playerListUpdater == null)
+            this.startUpdater();
+
     }
 
     @Override
@@ -100,6 +106,12 @@ public class Invite extends MultiplayerClass {
         {
             Toast.makeText(this, "Cannot Receive", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void startUpdater()
+    {
+        this.playerListUpdater = new PlayerListUpdater(this, this.players, this.playerListAdapter);
+        this.playerListUpdater.start();
     }
 
     @Override
@@ -138,6 +150,7 @@ public class Invite extends MultiplayerClass {
     public void onBackPressed()
     {
         super.onBackPressed();
+        this.playerListUpdater.close();
         finish();
     }
 

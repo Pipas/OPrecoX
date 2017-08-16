@@ -3,6 +3,8 @@
     <integer name="network_port">9999</integer>
     <integer name="MAX_SIZE">5000</integer>
     <integer name="TIME_BETWEEN_SEND">1000</integer>
+    <integer name="TIME_BETWEEN_UPDATES">1000</integer>
+    <integer name="TIME_LIMIT_FOR_PLAYER_LIST_REFRESH">5000</integer> 
     <string name="address_send">255.255.255.255</string>
     <string name="address_receive">0.0.0.0</string>
     <string name="network_app_name">OPRECOX</string>

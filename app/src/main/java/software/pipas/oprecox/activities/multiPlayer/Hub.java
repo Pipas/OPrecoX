@@ -76,8 +76,9 @@ public class Hub extends MultiplayerClass
         */
 
         //ANNOUNCER
-        if(this.announcerSender == null)
+        if(this.announcerSender == null) {
             this.startAnnouncer(player.getDisplayName(),player.getPlayerId(), player.getIconImageUri().toString());
+        }
     }
 
 
