@@ -3,6 +3,7 @@ package software.pipas.oprecox.activities.singlePlayer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,9 +27,31 @@ public class Lobby extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player_options);
+        setContentView(R.layout.activity_single_player_lobby);
 
-        setTitle(R.string.gameoptionssingleplayer);
+        initiateCustomFonts();
+    }
+
+    private void initiateCustomFonts()
+    {
+        TextView singleplayerTitleTextView = (TextView)findViewById(R.id.singleplayerTitleTextView);
+        TextView gameTypeButtonTextView = (TextView)findViewById(R.id.gameTypeButtonTextView);
+        TextView gameSizeButtonTextView = (TextView)findViewById(R.id.gameSizeButtonTextView);
+        TextView categoriesButtonTextView = (TextView)findViewById(R.id.categoriesButtonTextView);
+
+        TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
+        TextView gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
+
+        Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");
+        Typeface Comfortaa_Thin = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Thin.ttf");
+
+        singleplayerTitleTextView.setTypeface(Comfortaa_Bold);
+        gameTypeButtonTextView.setTypeface(Comfortaa_Bold);
+        gameSizeButtonTextView.setTypeface(Comfortaa_Bold);
+        categoriesButtonTextView.setTypeface(Comfortaa_Bold);
+
+        gameTypeTooltip.setTypeface(Comfortaa_Thin);
+        gameSizeTooltip.setTypeface(Comfortaa_Thin);
     }
 
     @Override
@@ -39,7 +62,7 @@ public class Lobby extends AppCompatActivity
             if(resultCode == Activity.RESULT_OK)
             {
                 NGUESSES = data.getIntExtra("NGUESSES", 10);
-                TextView numberGuessesTooltip = (TextView) findViewById(R.id.numberguessestooltip);
+                TextView numberGuessesTooltip = (TextView) findViewById(R.id.gameSizeTooltip);
                 numberGuessesTooltip.setText(Integer.toString(NGUESSES));
             }
             if (resultCode == Activity.RESULT_CANCELED)

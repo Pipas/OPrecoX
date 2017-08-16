@@ -21,6 +21,8 @@ public class SplashScreen extends Activity {
 
         getPreferences();
 
+        Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
+
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
         finish();

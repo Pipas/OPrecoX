@@ -49,7 +49,7 @@
             android:name=".activities.multiPlayer.LobbyHost"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.menus.MyAds"
+            android:name=".activities.menus.SavedAds"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.other.CategoryChooser"

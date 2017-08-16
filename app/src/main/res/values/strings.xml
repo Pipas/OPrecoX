@@ -1,6 +1,21 @@
 <resources>
-    <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
     <string name="app_name">O Preço X</string>
+
+    <!--           Main Menu Strings         -->
+    <string name="singleplayer">Jogar</string>
+    <string name="multiplayer">Jogar com Amigos</string>
+    <string name="savedAds">Anúncios Guardados</string>
+
+    <!--          Game Options Strings       -->
+
+    <string name="gameType">Tipo de jogo</string>
+    <string name="gameSize">Tamanho</string>
+    <string name="categories">Categorias</string>
+
+
+
+
+    <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
     <string name="default_title">default_title</string>
     <string name="default_description">default_description</string>
     <string name="animals">Animais</string>
@@ -17,7 +32,7 @@
     <string name="technology">Tecnologia</string>
     <string name="phones">Telemóveis e Tablets</string>
     <string name="others">Outras Vendas</string>
-    <string name="categories">Categorias</string>
+
     <string name="all">Todas as categorias</string>
     <string name="guesscaps">PALPITE</string>
     <string name="makeguesscaps">ADIVINHAR</string>
@@ -29,8 +44,8 @@
     <string name="seeaddcaps">VER ANUNCIO</string>
     <string name="continuecaps">CONTINUAR</string>
     <string name="gameover">Fim do jogo</string>
-    <string name="guessnumber">Tamanho</string>
-    <string name="gametype">Tipo de jogo</string>
+
+
     <string name="gameoptionssingleplayer">Opções Um Jogador</string>
     <string name="gameoptionsmultiplayer">Opções Multijogador</string>
     <string name="startcaps">COMEÇAR</string>
@@ -45,8 +60,6 @@
     <string name="leaveappsub">Deseja sair da Aplicação?</string>
     <string name="leave">Sair</string>
     <string name="cancel">Voltar</string>
-    <string name="singleplayer">Jogar Sozinho</string>
-    <string name="multiplayer">Jogar com Amigos</string>
     <string name="comingsoon">Brevemente...</string>
     <string name="namehint">Nome do jogador</string>
     <string name="signin_failure">Failed to Sign-In</string>

@@ -2,15 +2,16 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.util.Util;
@@ -19,12 +20,14 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
 {
     Context mContext;
     ContentResolver mContentResolver;
+    Typeface font;
 
-    public AdListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver)
+    public AdListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver, Typeface font)
     {
-        super(context, R.layout.invite_item_layout, data);
+        super(context, R.layout.saved_ad_layout, data);
         this.mContext = context;
         this.mContentResolver = contentResolver;
+        this.font = font;
     }
 
     public void remove(int position)
@@ -42,30 +45,33 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
         {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.invite_item_layout, null);
+            v = vi.inflate(R.layout.saved_ad_layout, null);
         }
 
-        AdPreview add = getItem(position);
+        AdPreview ad = getItem(position);
 
-        if (add != null)
+        if (ad != null)
         {
-            TextView inviteHostName = (TextView) v.findViewById(R.id.inviteHostName);
-            TextView inviteRoomName = (TextView) v.findViewById(R.id.inviteRoomName);
-            ImageView inviteImage = (ImageView) v.findViewById(R.id.inviteImage);
+            TextView title = (TextView) v.findViewById(R.id.title);
+            TextView description = (TextView) v.findViewById(R.id.description);
 
-            if (inviteHostName != null)
+            CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.image);
+
+            if (title != null)
             {
-                inviteHostName.setText(add.getDescription());
+                title.setText(ad.getTitle());
+                title.setTypeface(font);
             }
 
-            if (inviteRoomName != null)
+            if (description != null)
             {
-                inviteRoomName.setText(add.getTitle());
+                description.setText(ad.getDescription());
+                description.setTypeface(font);
             }
 
-            if (inviteImage != null)
+            if (circleImageView != null)
             {
-                inviteImage.setImageBitmap(Util.biteArrayToBitmap(add.getThumbnail()));
+                circleImageView.setImageBitmap(Util.biteArrayToBitmap(ad.getThumbnail()));
             }
         }
 

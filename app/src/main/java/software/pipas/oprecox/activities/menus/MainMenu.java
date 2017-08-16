@@ -3,17 +3,16 @@ package software.pipas.oprecox.activities.menus;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.modules.network.Announcer;
-import software.pipas.oprecox.util.Settings;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -26,10 +25,10 @@ public class MainMenu extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
+        initiateCustomFonts();
 
         //ANNOUNCER
-        this.startAnnouncer();
+        //this.startAnnouncer();
     }
 
 
@@ -37,11 +36,11 @@ public class MainMenu extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
-        TextView newAdsDisplay = (TextView) findViewById(R.id.newAdsDisplay);
+        /*TextView newAdsDisplay = (TextView) findViewById(R.id.newAdsDisplay);
         if(Settings.getNewSavedAds() == 0)
             newAdsDisplay.setVisibility(View.GONE);
         else
-            newAdsDisplay.setText(Integer.toString(Settings.getNewSavedAds()));
+            newAdsDisplay.setText(Integer.toString(Settings.getNewSavedAds()));*/
 
 
     }
@@ -84,6 +83,19 @@ public class MainMenu extends AppCompatActivity
         alert.show();
     }
 
+    private void initiateCustomFonts()
+    {
+        TextView singleplayerButtonTextView = (TextView)findViewById(R.id.singleplayerButtonTextView);
+        TextView multiplayerButtonTextView = (TextView)findViewById(R.id.multiplayerButtonTextView);
+        TextView savedAdsButtonTextView = (TextView)findViewById(R.id.savedAdsButtonTextView);
+
+        Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");
+
+        singleplayerButtonTextView.setTypeface(Comfortaa_Bold);
+        multiplayerButtonTextView.setTypeface(Comfortaa_Bold);
+        savedAdsButtonTextView.setTypeface(Comfortaa_Bold);
+    }
+
     public void pressSinglePlayer(View v)
     {
         Intent myIntent = new Intent(this, software.pipas.oprecox.activities.singlePlayer.Lobby.class);
@@ -118,7 +130,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMyAds(View v)
     {
-        Intent myIntent = new Intent(this, MyAds.class);
+        Intent myIntent = new Intent(this, SavedAds.class);
         startActivity(myIntent);
     }
 
@@ -130,7 +142,7 @@ public class MainMenu extends AppCompatActivity
 
     public void startAnnouncer()
     {
-        ImageView imageView = (ImageView) findViewById(R.id.announcer);
+        /*ImageView imageView = (ImageView) findViewById(R.id.announcer);
         this.announcer = new Announcer(this.getApplicationContext());
 
         if(this.announcer.isValid())
@@ -142,7 +154,7 @@ public class MainMenu extends AppCompatActivity
         {
             imageView.setImageResource(R.drawable.shout_off);
             Toast.makeText(this, "Cannot Announce", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
 

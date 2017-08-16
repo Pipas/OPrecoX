@@ -17,7 +17,7 @@ public class NGuessesChooser extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nguesses_chooser);
 
-        setTitle(R.string.guessnumber);
+        setTitle(R.string.gameSize);
     }
 
     public void pressguess5(View v)

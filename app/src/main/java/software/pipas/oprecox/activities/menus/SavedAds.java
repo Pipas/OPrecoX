@@ -1,13 +1,15 @@
 package software.pipas.oprecox.activities.menus;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -21,7 +23,7 @@ import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
 import software.pipas.oprecox.util.Settings;
 
-public class MyAds extends AppCompatActivity
+public class SavedAds extends AppCompatActivity
 {
     private DatabaseHandler database;
     private AdListAdapter adListAdapter;
@@ -34,13 +36,19 @@ public class MyAds extends AppCompatActivity
 
         Settings.resetNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
 
+        TextView savedAdsTitleTextView = (TextView)findViewById(R.id.savedAdsTitleTextView);
+        Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");
+        Typeface Comfortaa_Regular = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Regular.ttf");
+        savedAdsTitleTextView.setTypeface(Comfortaa_Bold);
+
+
         database = new DatabaseHandler(this);
         database.open();
         DynamicListView myAddsList = (DynamicListView) findViewById(R.id.myAddsList);
 
         ArrayList<AdPreview> ads = database.getAllComments();
 
-        adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver());
+        adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver(), Comfortaa_Regular);
         SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(adListAdapter);
         animationAdapter.setAbsListView(myAddsList);
         myAddsList.setAdapter(animationAdapter);
