@@ -38,6 +38,8 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
     public View getView(int position, View convertView, ViewGroup parent)
     {
 
+
+
         View v = convertView;
 
         if (v == null)
@@ -56,7 +58,7 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
 
             if (playerName != null)
             {
-                playerName.setText(player.getPlayerName());
+                playerName.setText(player.getDisplayName());
             }
 
             if (playerImage != null)
@@ -68,4 +70,6 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
 
         return v;
     }
+
+
 }

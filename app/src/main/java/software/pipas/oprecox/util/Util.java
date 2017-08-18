@@ -110,4 +110,16 @@ public abstract class Util
             return null;
         }
     }
+
+    public static String substituteSpace(String name)
+    {
+        return name.replaceAll("\\s", "_");
+    }
+
+    public static String substituteUnder(String name)
+    {
+        return name.replaceAll("_", " ");
+    }
 }
+
+

@@ -6,6 +6,7 @@ import android.util.Log;
 import java.net.DatagramPacket;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.util.Util;
 
 public class Message
 {
@@ -15,9 +16,9 @@ public class Message
     private String appName;
     private String appVersion;
     private MessageType messageType;
-    private String playerName;
+    private String name;
+    private String displayName;
     private String playerId;
-    private String playerIconURI;
 
     private boolean valid;
 
@@ -48,9 +49,9 @@ public class Message
         this.appName = null;
         this.appVersion = null;
         this.messageType = null;
-        this.playerName = null;
+        this.name = null;
+        this.displayName = null;
         this.playerId = null;
-        this.playerIconURI = null;
         this.valid = false;
     }
     //--------------------------------------------------
@@ -86,9 +87,9 @@ public class Message
     {
         if(messageType.equals(MessageType.ANNOUNCE) && args.length == 6)
         {
-            this.playerName = args[3];
-            this.playerId = args[4];
-            this.playerIconURI = args[5];
+            this.name = args[3];
+            this.displayName = args[4];
+            this.playerId = args[5];
             return true;
         }
         else
@@ -140,7 +141,7 @@ public class Message
     {
         if(messageType.equals(MessageType.ANNOUNCE))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerName + " " + this.playerId + " " + this.playerIconURI);
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.name + " " + this.displayName + " " + this.playerId);
         }
 
         else
@@ -164,21 +165,22 @@ public class Message
         return appVersion;
     }
 
-    public String getMessageType() {
-        return messageType.toString();
+    public String getMessageType() {return messageType.toString();}
+
+    public String getName() {
+        return this.name;
     }
 
-    public String getPlayerName() {
-        return playerName;
+    public String getRealName() {return Util.substituteUnder(this.name);}
+
+    public String getDisplayName() {
+        return this.displayName;
     }
 
     public String getPlayerId() {
         return playerId;
     }
 
-    public String getPlayerIconURI() {
-        return playerIconURI;
-    }
 
 
 }

@@ -2,8 +2,12 @@ package software.pipas.oprecox.modules.customThreads;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.dataType.Player;
@@ -40,8 +44,7 @@ public class PlayerListUpdater extends Thread
     {
         while(!this.closed)
         {
-            this.update();
-            this.refresh();
+            if(this.update()) {this.refresh();}
             this.sleep();
         }
     }
@@ -53,19 +56,34 @@ public class PlayerListUpdater extends Thread
     }
 
 
-    private void update()
+    private boolean update()
     {
-        for(Player player : this.players)
+        boolean update = false;
+        ArrayList<Integer> indexes = new ArrayList<>();
+
+        for (Player player : this.players)
         {
             int index = this.players.indexOf(player);
             long timeAnnounced = player.getTimeAnnounced();
             long diff = System.currentTimeMillis() - timeAnnounced;
 
-            if(diff >= this.timeOfPlayerExpired)
+            if (diff >= this.timeOfPlayerExpired)
+            {
+                indexes.add(index);
+                update = true;
+            }
+        }
+
+
+        if(update)
+        {
+            for(int index : indexes)
             {
                 this.players.remove(index);
             }
         }
+
+        return update;
     }
 
 

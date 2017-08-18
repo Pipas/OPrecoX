@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.dataType.Invite;
 import software.pipas.oprecox.modules.network.AnnouncerSender;
+import software.pipas.oprecox.util.Util;
 
 public class Hub extends MultiplayerClass
 {
@@ -77,7 +79,7 @@ public class Hub extends MultiplayerClass
 
         //ANNOUNCER
         if(this.announcerSender == null) {
-            this.startAnnouncer(player.getDisplayName(),player.getPlayerId(), player.getIconImageUri().toString());
+            this.startAnnouncer(Util.substituteSpace(player.getName()), player.getDisplayName(), player.getPlayerId());
         }
     }
 
@@ -100,9 +102,10 @@ public class Hub extends MultiplayerClass
         }
     }
 
-    public void startAnnouncer(String playerName, String playerId, String playerIcon)
+    public void startAnnouncer(String name, String displayName, String playerId)
     {
-        this.announcerSender = new AnnouncerSender(this.getApplicationContext(), playerName, playerId, playerIcon);
+
+        this.announcerSender = new AnnouncerSender(this.getApplicationContext(), name, displayName, playerId);
 
         if(this.announcerSender.isValid())
         {

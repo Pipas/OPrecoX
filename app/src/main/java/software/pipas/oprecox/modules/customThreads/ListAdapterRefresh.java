@@ -1,5 +1,7 @@
 package software.pipas.oprecox.modules.customThreads;
 
+import android.util.Log;
+
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 
 /**

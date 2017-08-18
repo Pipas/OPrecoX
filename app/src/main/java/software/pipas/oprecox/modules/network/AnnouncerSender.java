@@ -2,6 +2,7 @@ package software.pipas.oprecox.modules.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -22,18 +23,18 @@ import software.pipas.oprecox.util.Util;
 public class AnnouncerSender extends AsyncTask<Void, Void, Void>
 {
     private Context context;
-    private String playerName;
+    private String name;
+    private String displayName;
     private String playerId;
-    private String playerIconUri;
     private boolean valid;
     private boolean closed;
     private DatagramSocket socket;
     private DatagramPacket packet;
 
 
-    public AnnouncerSender(Context context, String playerName, String playerId, String playerIcon)
+    public AnnouncerSender(Context context, String name, String displayName, String playerId)
     {
-        this.initialize(context, playerName, playerId, playerIcon);
+        this.initialize(context, name,displayName, playerId);
     }
 
     @Override
@@ -44,11 +45,11 @@ public class AnnouncerSender extends AsyncTask<Void, Void, Void>
     }
 
 
-    private void initialize(Context context, String playerName, String playerId, String playerIconImage)
+    private void initialize(Context context, String name, String displayName, String playerId)
     {
-        this.playerName = playerName;
+        this.name = name;
+        this.displayName = displayName;
         this.playerId = playerId;
-        this.playerIconUri = playerIconImage;
         this.context = context;
         this.closed = false;
         this.valid = (this.createSocket() && this.createPacket());
@@ -80,16 +81,16 @@ public class AnnouncerSender extends AsyncTask<Void, Void, Void>
         args[0] = this.context.getString(R.string.network_app_name);
         args[1] = Integer.toString(BuildConfig.VERSION_CODE);
         args[2] = MessageType.ANNOUNCE.toString();
-        args[3] = this.playerName;
-        args[4] = this.playerId;
-        args[5] = this.playerIconUri;
+        args[3] = this.name;
+        args[4] = this.displayName;
+        args[5] = this.playerId;
 
         Message msg = new Message(this.context, args);
         if(!msg.isValid()) return false;
 
         try
         {
-            this.packet = new DatagramPacket(msg.getMessage().getBytes(), 0, msg.getMessage().length());
+            this.packet = new DatagramPacket(msg.getMessage().getBytes(), 0, msg.getMessage().getBytes().length);
 
             //setting default broadcast ip, later to be changed programmatically
             this.packet.setSocketAddress(new InetSocketAddress(

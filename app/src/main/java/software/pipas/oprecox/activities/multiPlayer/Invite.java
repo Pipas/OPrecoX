@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.games.Games;
@@ -16,12 +17,16 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCa
 
 import java.net.DatagramPacket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
+import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.network.AnnouncerReceiver;
@@ -47,19 +52,17 @@ public class Invite extends MultiplayerClass {
     public void onConnected(Bundle bundle)
     {
         super.onConnected(bundle);
-        player = Games.Players.getCurrentPlayer(mGoogleApiClient);
-
-        //DEBUG
-        DynamicListView listView = (DynamicListView) findViewById(R.id.playersListViewer);
-        players = new ArrayList<>();
-
-        final PlayerListAdapter playerListAdapter = new PlayerListAdapter(players, getApplicationContext(), getContentResolver());
-        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(playerListAdapter);
-        animationAdapter.setAbsListView(listView);
-        listView.setAdapter(animationAdapter);
+        this.player = Games.Players.getCurrentPlayer(mGoogleApiClient);
 
 
+        ListView listView = (ListView) findViewById(R.id.playersListViewer);
+        this.players = new ArrayList<>();
 
+        final PlayerListAdapter playerListAdapter = new PlayerListAdapter(this.players, getApplicationContext(), getContentResolver());
+        listView.setAdapter(playerListAdapter);
+
+
+        /*
         listView.enableSwipeToDismiss(
                 new OnDismissCallback()
                 {
@@ -72,6 +75,7 @@ public class Invite extends MultiplayerClass {
                     }
                 }
         );
+        */
 
         this.playerListAdapter = playerListAdapter;
 
@@ -118,25 +122,25 @@ public class Invite extends MultiplayerClass {
     public void registerReceived(DatagramPacket packet)
     {
         Message msg = new Message(this.getApplicationContext(), packet);
-
         //test self-announce REMOVE THE COMMENT LINE IN THE END
         if(/*player.getPlayerId().equals(msg.getPlayerId()) || */this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
-
 
         //the new player
         software.pipas.oprecox.modules.dataType.Player player =
                 new software.pipas.oprecox.modules.dataType.Player(
-                        msg.getPlayerName(),
+                        msg.getName(),
+                        msg.getDisplayName(),
                         msg.getPlayerId(),
-                        Uri.parse(msg.getPlayerIconURI()),
+                        null,
                         System.currentTimeMillis());
 
 
         int index = this.players.indexOf(player);
 
         //if does not exist add, else actualize
-        if(index <= -1)
+        if (index <= -1)
         {
+            this.retrievePlayerURI(this.playerListAdapter, player);
             this.players.add(player);
             this.refreshListAdapter(this.playerListAdapter);
         }
@@ -144,6 +148,7 @@ public class Invite extends MultiplayerClass {
         {
             this.players.get(index).updatePlayerAnnouncedTime(player.getTimeAnnounced());
         }
+
     }
 
     @Override
@@ -158,6 +163,12 @@ public class Invite extends MultiplayerClass {
     {
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
         this.runOnUiThread(listAdapterRefresh);
+    }
+
+    private void retrievePlayerURI(PlayerListAdapter playerListAdapter, software.pipas.oprecox.modules.dataType.Player player)
+    {
+        PlayerLoader playerLoader = new PlayerLoader(this, this.mGoogleApiClient, playerListAdapter, player);
+        playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 }

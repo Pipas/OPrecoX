@@ -63,15 +63,12 @@ public class AnnouncerReceiver extends AsyncTask<Void, Void, Void>
         byte[] array = new byte[this.context.getResources().getInteger(R.integer.MAX_SIZE)];
         DatagramPacket packet = new DatagramPacket(array,0, array.length);
 
-
-
         while(!this.closed)
         {
             try
             {
                 this.socket.receive(packet);
                 ((MultiplayerClass) this.activity).registerReceived(packet);
-
             }
             catch (Exception e)
             {
