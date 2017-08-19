@@ -4,19 +4,18 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
 import java.util.ArrayList;
 
-import software.pipas.oprecox.activities.singlePlayer.GameActivity;
+import software.pipas.oprecox.activities.singlePlayer.RevampedGameActivity;
 import software.pipas.oprecox.modules.imageViewer.SmallImagePage;
 
 public class ImagePagerAdapter extends FragmentStatePagerAdapter
 {
     private ArrayList<Bitmap> images;
-    private GameActivity gameActivity;
+    private RevampedGameActivity gameActivity;
 
-    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> images, GameActivity gameActivity)
+    public ImagePagerAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> images, RevampedGameActivity gameActivity)
     {
         super(fragmentManager);
         this.images = images;

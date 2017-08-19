@@ -1,17 +1,17 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -19,26 +19,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.view.View.OnTouchListener;
-import android.app.AlertDialog;
 import android.widget.Toast;
-
-import software.pipas.oprecox.application.OPrecoX;
-import software.pipas.oprecox.modules.dataType.Ad;
-import software.pipas.oprecox.modules.database.DatabaseHandler;
-import software.pipas.oprecox.modules.fragments.GameDataFragment;
-import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
-import software.pipas.oprecox.modules.parsing.AsyncGetAll;
-import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
-import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
-import me.relex.circleindicator.CircleIndicator;
-import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.application.OPrecoX;
+import software.pipas.oprecox.modules.dataType.Ad;
+import software.pipas.oprecox.modules.database.DatabaseHandler;
+import software.pipas.oprecox.modules.fragments.GameDataFragment;
+import software.pipas.oprecox.modules.imageViewer.ImageViewer;
+import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
+import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
@@ -91,7 +85,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             startProcessDialog();
 
             startDataParses(intent);
-
         }
         else
         {
@@ -181,17 +174,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         TextView descriptionTextView = (TextView) findViewById(R.id.description);
         descriptionTextView.setText(shownAd.getDescription());
-
-        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        ImagePagerAdapter adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), shownAd.getImages(), this);
-        vpPager.setAdapter(adapterViewPager);
-
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
-        if(shownAd.getImages().size() == 1)
-            indicator.setVisibility(View.GONE);
-        else
-            indicator.setVisibility(View.VISIBLE);
-        indicator.setViewPager(vpPager);
 
         adSaved = false;
     }
@@ -426,7 +408,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
             if(!updateShownAdd())
             {
-                Toast.makeText(this,getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"acarregar", Toast.LENGTH_SHORT).show();
                 return;
             }
             setViewsWithAd();
@@ -547,8 +529,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private void startProcessDialog()
     {
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle(R.string.loadingadds);
-        mProgressDialog.setMessage(getString(R.string.loading));
+        mProgressDialog.setTitle("ASDF");
+        mProgressDialog.setMessage("LADSF");
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
@@ -556,12 +538,13 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     private void startDataParses(Intent intent)
     {
-        AsyncGetAll firstParse = new AsyncGetAll(this, true);
+        OPrecoX app = (OPrecoX) getApplicationContext();
+        AsyncGetAll firstParse = new AsyncGetAll(this, app, 0);
         AsyncGetAll backgroundParse;
         firstParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         for (int i = 1; i < NGUESSES; i++)
         {
-            backgroundParse = new AsyncGetAll(this, false);
+            backgroundParse = new AsyncGetAll(this, app, i);
             backgroundParse.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -583,5 +566,11 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
                 //Write your code if there's no result
             }
         }
+    }
+
+    @Override
+    public void parsingEnded()
+    {
+
     }
 }

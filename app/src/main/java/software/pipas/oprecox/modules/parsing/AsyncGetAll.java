@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.dataType.Ad;
@@ -20,13 +21,15 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 {
     private Ad ad = new Ad();
     private ParsingCallingActivity activity;
-    private boolean isFirst;
+    private OPrecoX app;
+    private int index;
     private boolean validURL = false;
 
-    public AsyncGetAll(ParsingCallingActivity pca, boolean iF)
+    public AsyncGetAll(ParsingCallingActivity activity, OPrecoX app, int index)
     {
-        activity = pca;
-        isFirst = iF;
+        this.activity = activity;
+        this.app = app;
+        this.index = index;
     }
 
     @Override
@@ -83,14 +86,8 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result)
     {
-        if(isFirst)
-        {
-            activity.setShownAd(ad);
-            activity.closeProgressPopup();
-        }
-        else
-            activity.addAdd(ad);
-
+        app.addAd(ad, index);
+        activity.parsingEnded();
         Log.d("ASYNC", String.format("Finished background async parse '" + ad.getUrl() +"'"));
     }
 }

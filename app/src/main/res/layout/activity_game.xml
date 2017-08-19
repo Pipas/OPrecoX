@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 android:background="@color/white"
                 android:elevation="4dp">
 
-                <software.pipas.oprecox.modules.customViews.SquareViewPager
+                <android.support.v4.view.ViewPager
                     android:id="@+id/vpPager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -52,7 +53,6 @@
                 android:fontFamily="sans-serif-medium"
                 android:layout_below="@id/vpLayout"
                 android:textColor="#000000"
-                android:text="@string/default_title"
                 android:padding="12dp" />
 
             <View
@@ -68,7 +68,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="@string/default_description"
                 android:textSize="14sp"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="13dp"

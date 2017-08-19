@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/adPreviewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/imagePreviewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="40%">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/imagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <com.rd.PageIndicatorView
+                android:id="@+id/imagePreviewIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+
+        <View
+            android:id="@+id/imagePreviewColoredShadow"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/lightOrange"
+            android:layout_below="@id/imagePreviewLayout">
+        </View>
+
+        <View
+            android:id="@+id/guessTab"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/purple"
+            android:layout_alignParentBottom="true"
+            android:clickable="true">
+        </View>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/imagePreviewColoredShadow"
+            android:layout_above="@id/guessTab"
+            android:background="@color/softWhite">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="@color/darkGrey"
+                    android:layout_margin="12dp"/>
+
+                <View
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/letterGrey"/>
+
+                <TextView
+                    android:id="@+id/descriptionTextView"
+                    android:textColor="@color/letterGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_margin="12dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/guessTag"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:src="@drawable/guesstag"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="30dp"
+            android:clickable="true"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/guesserLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <FrameLayout
+            android:id="@+id/blankSpace"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:onClick="togglePanel"
+            app:layout_heightPercent="33%">
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/guesserFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightOrange"
+            android:elevation="8dp"
+            android:layout_below="@id/blankSpace">
+        </FrameLayout>
+
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -7,7 +7,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/oprecox"/>
+            android:src="@drawable/splashscreen" />
     </item>
 
 </layer-list>

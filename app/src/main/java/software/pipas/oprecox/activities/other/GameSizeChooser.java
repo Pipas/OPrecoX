@@ -8,7 +8,7 @@ import android.view.View;
 
 import software.pipas.oprecox.R;
 
-public class NGuessesChooser extends AppCompatActivity
+public class GameSizeChooser extends AppCompatActivity
 {
 
     @Override
@@ -38,7 +38,7 @@ public class NGuessesChooser extends AppCompatActivity
     private void confirmSelection(int n)
     {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("NGUESSES", n);
+        returnIntent.putExtra("gameSize", n);
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }

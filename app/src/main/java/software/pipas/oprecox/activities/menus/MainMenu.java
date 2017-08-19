@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
+import software.pipas.oprecox.activities.singlePlayer.Lobby;
 import software.pipas.oprecox.modules.network.Announcer;
 
 public class MainMenu extends AppCompatActivity
@@ -98,7 +99,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressSinglePlayer(View v)
     {
-        Intent myIntent = new Intent(this, software.pipas.oprecox.activities.singlePlayer.Lobby.class);
+        Intent myIntent = new Intent(this, Lobby.class);
         startActivity(myIntent);
     }
 

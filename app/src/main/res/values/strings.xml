@@ -11,13 +11,19 @@
     <string name="gameType">Tipo de jogo</string>
     <string name="gameSize">Tamanho</string>
     <string name="categories">Categorias</string>
+    <string name="processDialog">A carregar...</string>
 
+    <!--         Game Activity Strings       -->
 
+    <string name="leavegame">Sair do jogo?</string>
+    <string name="leavegamesub">Se saires do jogo o teu progresso e os anúncios gerados serão perdidos.</string>
+    <string name="leave">Sair</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirmar">Confirmar</string>
 
 
     <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
-    <string name="default_title">default_title</string>
-    <string name="default_description">default_description</string>
+
     <string name="animals">Animais</string>
     <string name="agriculture">Agricultura</string>
     <string name="baby">Bebé e Criança</string>
@@ -52,14 +58,9 @@
     <string name="shortsize">Jogo curto</string>
     <string name="normalsize">Jogo normal</string>
     <string name="longsize">Jogo longo</string>
-    <string name="loadingadds">A carregar anuncios</string>
-    <string name="loading">A carregar...</string>
-    <string name="leavegame">Sair do jogo?</string>
-    <string name="leavegamesub">Se saires do jogo o progresso e os anuncios gerados serão perdidos.</string>
+
     <string name="leaveapp">Sair da Aplicação</string>
     <string name="leaveappsub">Deseja sair da Aplicação?</string>
-    <string name="leave">Sair</string>
-    <string name="cancel">Voltar</string>
     <string name="comingsoon">Brevemente...</string>
     <string name="namehint">Nome do jogador</string>
     <string name="signin_failure">Failed to Sign-In</string>
