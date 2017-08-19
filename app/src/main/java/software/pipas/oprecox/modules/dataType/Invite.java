@@ -11,11 +11,9 @@ public class Invite extends DataType
     private String roomName;
     private String displayName;
     private String name;
-    private String playerID;
     private int roomPort;
     private InetAddress address;
     private long timeReceived;
-    private Uri image;
 
     public Invite(String roomName, String displayName, String name, String playerID, String roomPort, InetAddress address, long timeReceived, Uri image)
     {
@@ -26,7 +24,7 @@ public class Invite extends DataType
         this.roomPort = Integer.parseInt(roomPort);
         this.address = address;
         this.timeReceived = timeReceived;
-        this.image = image;
+        this.playerImage = image;
 
     }
 
@@ -43,25 +41,29 @@ public class Invite extends DataType
 
     public String getRealName() {return Util.substituteUnder(name);}
 
-    public String getPlayerID() {return playerID;}
-
     public int getRoomPort() {return roomPort;}
 
     public long getTimeReceived() {return timeReceived;}
-
-    public Uri getImage() {return image;}
 
     public InetAddress getAddress() {return address;}
 
     public void updateRoomName(String roomName) {this.roomName = roomName;}
 
-    public void updateRoomPort(String roomPort) {this.roomPort = Integer.parseInt(roomPort);}
+    public void updateRoomPort(int roomPort) {this.roomPort = roomPort;}
 
     public void updateAddress(InetAddress address) {this.address = address;}
 
     public void updateTimeReceived(long timeReceived) {this.timeReceived = timeReceived;}
 
-    public void setImage(Uri image) {this.image = image;}
+
+    @Override
+    public Uri getPlayerImage() {return this.playerImage;}
+
+    @Override
+    public void updateImage(Uri image) {this.playerImage = image;}
+
+    @Override
+    public String getPlayerID() {return playerID;}
 
     @Override
     public boolean equals(Object invite)
@@ -74,6 +76,16 @@ public class Invite extends DataType
     @Override
     public String toString()
     {
-        return this.roomName + " " + this.displayName + " " + this.name + " " + this.playerID + " " + this.roomPort + " " + this.address + " " + this.timeReceived;
+        String str = new String(
+                "DataType: Invite" + "\n" +
+                "RoomName: " + this.roomName + " " + this.getRealRoomName() +"\n" +
+                "PlayerHostDisplayName: " + this.displayName + "\n" +
+                "PlayerHostName | Real: " +  this.name + " " + this.getRealName() + "\n" +
+                "PlayerHostID: " + this.playerID + "\n" +
+                "RoomImage/PlayerHostImage: " + this.getPlayerImage().toString() + "\n" +
+                "RoomPort: " + this.roomPort + "\n" +
+                "RoomAddress: " + this.address + "\n" +
+                "TimeReceived: " + this.timeReceived);
+        return str;
     }
 }

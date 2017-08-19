@@ -206,6 +206,20 @@ public class Message
 
     public String getRoomPort() {return this.roomPort;}
 
-
-
+    @Override
+    public String toString()
+    {
+        String str = new String(
+                "MessageType: " + this.messageType.toString() +  "\n" +
+                "Valid: " + this.valid + "\n" +
+                "AppName: " + this.appName + "\n" +
+                "AppVersion: " + this.appVersion + "\n" +
+                "Name: " + this.name + "\n" +
+                "DisplayName: " + this.displayName + "\n" +
+                "ID" + this.playerId + "\n" +
+                "InvitePort: " + this.invitePort + "\n" +
+                "RoomName: " + this.roomName + "\n" +
+                "RoomPort: " + this.roomPort + "\n");
+        return str;
+    }
 }

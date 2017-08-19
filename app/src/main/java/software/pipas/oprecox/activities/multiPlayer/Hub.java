@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,8 @@ public class Hub extends MultiplayerClass
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
+        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
         super.onConnected(bundle);
         player = Games.Players.getCurrentPlayer(mGoogleApiClient);
 
@@ -94,6 +97,16 @@ public class Hub extends MultiplayerClass
                 }
         );
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Invite invite = invites.get(position);
+                Log.d("LOG_DEBUG", invite.toString());
+            }
+        });
+
 
         this.inviteListAdapter = inviteListAdapter;
 
@@ -109,7 +122,6 @@ public class Hub extends MultiplayerClass
             this.port = this.socket.getLocalPort();
             this.startInviterReceiver(this.socket);
         }
-
 
 
         //ANNOUNCER
@@ -168,8 +180,6 @@ public class Hub extends MultiplayerClass
     public void registerReceived(DatagramPacket packet)
     {
 
-
-
         Message msg = new Message(this.getApplicationContext(), packet);
         //test self-announce REMOVE THE COMMENT LINE IN THE END
         if(player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
@@ -191,14 +201,14 @@ public class Hub extends MultiplayerClass
 
         if(index <= -1)
         {
-            //this.retrievePlayerURI(this.inviteListAdapter, invite);
+            this.retrievePlayerURI(this.inviteListAdapter, invite);
             this.invites.add(invite);
             this.refreshListAdapter(this.inviteListAdapter);
         }
         else
         {
             this.invites.get(index).updateAddress(invite.getAddress());
-            this.invites.get(index).updateRoomPort(invite.getRoomName());
+            this.invites.get(index).updateRoomPort(invite.getRoomPort());
             this.invites.get(index).updateTimeReceived(invite.getTimeReceived());
 
             if(!this.invites.get(index).getRoomName().equals(invite.getRoomName()))
@@ -208,13 +218,13 @@ public class Hub extends MultiplayerClass
             }
         }
     }
-/*
+
     private void retrievePlayerURI(InviteListAdapter inviteListAdapter, Invite invite)
     {
         PlayerLoader playerLoader = new PlayerLoader(this, this.mGoogleApiClient, inviteListAdapter, invite);
         playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-*/
+
     private void refreshListAdapter(InviteListAdapter inviteListAdapter)
     {
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(inviteListAdapter);

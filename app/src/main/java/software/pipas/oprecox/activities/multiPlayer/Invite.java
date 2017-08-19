@@ -68,6 +68,7 @@ public class Invite extends MultiplayerClass {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 software.pipas.oprecox.modules.dataType.Player player = playerListAdapter.getItem(position);
+                Log.d("INVITE_DEBUG", player.toString());
                 sendInvite(player);
             }
         });

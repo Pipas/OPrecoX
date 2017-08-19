@@ -71,7 +71,7 @@ public class InviteListAdapter extends ArrayAdapter<Invite>
             if (inviteImage != null)
             {
                 ImageManager manager = ImageManager.create(mContext);
-                manager.loadImage(inviteImage, invite.getImage());
+                manager.loadImage(inviteImage, invite.getPlayerImage());
             }
         }
 

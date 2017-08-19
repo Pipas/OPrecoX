@@ -10,8 +10,6 @@ public class Player extends DataType
 {
     private String name;
     private String displayName;
-    private String id;
-    private Uri playerImage;
     private long timeAnnounced;
     private int invitePort;
     private InetAddress address;
@@ -20,7 +18,7 @@ public class Player extends DataType
     {
         this.name = name;
         this.displayName = displayName;
-        this.id = id;
+        this.playerID = id;
         this.playerImage = playerImage;
         this.timeAnnounced = timeAnnounced;
         this.invitePort = Integer.parseInt(invitePort);
@@ -37,16 +35,6 @@ public class Player extends DataType
 
     public String getDisplayName() {return this.displayName;}
 
-    public String getPlayerID()
-    {
-        return this.id;
-    }
-
-    public Uri getPlayerImage()
-    {
-        return this.playerImage;
-    }
-
     public long getTimeAnnounced(){ return  this.timeAnnounced;}
 
     public int getInvitePort() {return this.invitePort;}
@@ -55,23 +43,46 @@ public class Player extends DataType
 
     public void updatePlayerAnnouncedTime(long newTimeAnnounced) {this.timeAnnounced = newTimeAnnounced;}
 
-    public void updatePlayerImage(Uri image) { this.playerImage = image;}
-
     public void updatePlayerInvitePort(int invitePort) {this.invitePort = invitePort;}
 
     public void updatePlayerAddress(InetAddress address) {this.address = address;}
+
+
+    @Override
+    public void updateImage(Uri image) {this.playerImage = image;}
+
+    @Override
+    public String getPlayerID()
+    {
+        return this.playerID;
+    }
+
+    @Override
+    public Uri getPlayerImage()
+    {
+        return this.playerImage;
+    }
 
     @Override
     public boolean equals(Object player)
     {
         if(!(player instanceof Player)) return false;
         String playerId = ((Player) player).getPlayerID();
-        return playerId.equals(this.id);
+        return playerId.equals(this.playerID);
     }
 
     @Override
     public String toString()
     {
-        return this.name + " " + this.displayName + " " + this.id + " " + this.timeAnnounced + " " + this.invitePort + " " + this.address;
+        String str = new String(
+                "DataType: Player" + "\n" +
+                "PlayerAnnouncedName | Real: " +  this.name + " " + this.getRealName() + "\n" +
+                "PlayerAnnouncedDisplayName: " + this.displayName + "\n" +
+                "PlayerAnnouncedID: " + this.playerID + "\n" +
+                "PlayerAnnouncedImage: " + this.getPlayerImage().toString() + "\n" +
+                "TimeAnnounced: " + this.timeAnnounced + "\n" +
+                "InvitePort: " + this.invitePort + "\n" +
+                "PlayerAddress: " + this.address);
+        return str;
     }
 }
