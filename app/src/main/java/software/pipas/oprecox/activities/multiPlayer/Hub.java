@@ -40,48 +40,19 @@ import software.pipas.oprecox.util.Util;
 public class Hub extends MultiplayerClass
 {
     private ArrayList<Invite> invites;
-    private AnnouncerSender announcerSender; //1 socket sending to broadcast:9999
-
-    private DatagramSocket socket; //1 socket for receive of invites
-    private int port;
-
-    private Player player;
-
     private InviteListAdapter inviteListAdapter;
+
+    private AnnouncerSender announcerSender; //1 socket sending to broadcast:9999
+    private DatagramSocket socket; //1 socket for receive of invites
+
+    private int port;
+    private Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_hub);
-    }
-
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle)
-    {
-        super.onConnected(bundle);
-        player = Games.Players.getCurrentPlayer(mGoogleApiClient);
-        if(player == null)
-        {
-            Toast.makeText(this, "Failed to Log in to Google Play Services, please try again", Toast.LENGTH_SHORT);
-            finish();
-        }
-
-
-
-        //STARTOING ONLY IF CONNECTION SUCCEDED
-        //------------------------------------------------------------------------
-        TextView displayName = (TextView) findViewById(R.id.displayName);
-        displayName.setText(player.getDisplayName());
-
-        TextView realName = (TextView) findViewById(R.id.realName);
-        realName.setText(player.getName());
-
-        ImageView imageView = (ImageView) findViewById(R.id.playerImage);
-        ImageManager imageManager = ImageManager.create(this);
-        imageManager.loadImage(imageView, player.getHiResImageUri());
-
 
         DynamicListView listView = (DynamicListView) findViewById(R.id.list);
         invites = new ArrayList<>();
@@ -114,8 +85,8 @@ public class Hub extends MultiplayerClass
             }
         });
 
-
         this.inviteListAdapter = inviteListAdapter;
+
 
         //CREATING UNICAST SOCKET FOR RECEIVING INVITES, STARTING RECEIVER
         this.socket = this.createSocket();
@@ -129,6 +100,33 @@ public class Hub extends MultiplayerClass
             this.port = this.socket.getLocalPort();
             this.startInviterReceiver(this.socket);
         }
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle)
+    {
+        super.onConnected(bundle);
+        player = Games.Players.getCurrentPlayer(mGoogleApiClient);
+        if(player == null)
+        {
+            Toast.makeText(this, "Failed to Log in to Google Play Services, please try again", Toast.LENGTH_SHORT);
+            finish();
+        }
+
+
+        //STARTOING ONLY IF CONNECTION SUCCEDED
+        //------------------------------------------------------------------------
+        TextView displayName = (TextView) findViewById(R.id.displayName);
+        displayName.setText(player.getDisplayName());
+
+        TextView realName = (TextView) findViewById(R.id.realName);
+        realName.setText(player.getName());
+
+        ImageView imageView = (ImageView) findViewById(R.id.playerImage);
+        ImageManager imageManager = ImageManager.create(this);
+        imageManager.loadImage(imageView, player.getHiResImageUri());
+
 
 
         //ANNOUNCER
@@ -143,6 +141,13 @@ public class Hub extends MultiplayerClass
         super.onDestroy();
         this.announcerSender.close();
         this.socket.close();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
     }
 
 

@@ -32,29 +32,21 @@ import software.pipas.oprecox.util.Util;
 
 public class Invite extends MultiplayerClass {
 
-
-    private AnnouncerReceiver announcerReceiver; //1 socket receiving from broadcast:9999
-    private PlayerListUpdater playerListUpdater;
-
-    private Player player;
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
 
+    private AnnouncerReceiver announcerReceiver; //1 socket receiving from broadcast:9999
+    private PlayerListUpdater playerListUpdater;
     private DatagramSocket socket; //1 socket for sender of invites
+
+    private Player player;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
-    }
-
-    @Override
-    public void onConnected(Bundle bundle)
-    {
-        super.onConnected(bundle);
-        this.player = Games.Players.getCurrentPlayer(mGoogleApiClient);
-
 
         ListView listView = (ListView) findViewById(R.id.playersListViewer);
         this.players = new ArrayList<>();
@@ -73,13 +65,19 @@ public class Invite extends MultiplayerClass {
             }
         });
 
-
-
         this.playerListAdapter = playerListAdapter;
+
 
         //INVITER SENDER
         this.createSocketSender();
 
+    }
+
+    @Override
+    public void onConnected(Bundle bundle)
+    {
+        super.onConnected(bundle);
+        this.player = Games.Players.getCurrentPlayer(mGoogleApiClient);
 
         //RECEIVER
         if(this.announcerReceiver == null)
@@ -97,8 +95,15 @@ public class Invite extends MultiplayerClass {
         super.onDestroy();
         this.announcerReceiver.close();
         this.socket.close();
+        this.playerListUpdater.close();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
+    }
 
 
     private void startReceiver()
@@ -158,14 +163,7 @@ public class Invite extends MultiplayerClass {
 
     }
 
-    @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-        this.playerListUpdater.close();
-        this.socket.close();
-        finish();
-    }
+
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
     {
