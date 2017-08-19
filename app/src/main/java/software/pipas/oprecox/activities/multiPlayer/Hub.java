@@ -123,9 +123,14 @@ public class Hub extends MultiplayerClass
         TextView realName = (TextView) findViewById(R.id.realName);
         realName.setText(player.getName());
 
+
         ImageView imageView = (ImageView) findViewById(R.id.playerImage);
-        ImageManager imageManager = ImageManager.create(this);
-        imageManager.loadImage(imageView, player.getHiResImageUri());
+
+        if(imageView.getDrawable() == null)
+        {
+            ImageManager imageManager = ImageManager.create(this);
+            imageManager.loadImage(imageView, player.getHiResImageUri());
+        }
 
 
 
