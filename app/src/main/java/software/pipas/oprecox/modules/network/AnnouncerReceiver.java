@@ -3,8 +3,10 @@ package software.pipas.oprecox.modules.network;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.util.Log;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -92,5 +94,12 @@ public class AnnouncerReceiver extends AsyncTask<Void, Void, Void>
     {
         this.closed = true;
         this.socket.close();
+    }
+
+    //exclusive for Invite Activity to send
+    public void sendInvite(DatagramPacket packet)
+    {
+        try {this.socket.send(packet);}
+        catch (IOException e) {e.printStackTrace();}
     }
 }

@@ -1,26 +1,23 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
-import android.net.Uri;
+import android.icu.text.LocaleDisplayNames;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
-import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Semaphore;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
@@ -30,16 +27,20 @@ import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.network.AnnouncerReceiver;
+import software.pipas.oprecox.modules.network.InviterSender;
+import software.pipas.oprecox.util.Util;
 
 public class Invite extends MultiplayerClass {
 
 
-    private AnnouncerReceiver announcerReceiver;
+    private AnnouncerReceiver announcerReceiver; //1 socket receiving from broadcast:9999
     private PlayerListUpdater playerListUpdater;
 
     private Player player;
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
+
+    private DatagramSocket socket; //1 socket for sender of invites
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,23 +62,22 @@ public class Invite extends MultiplayerClass {
         final PlayerListAdapter playerListAdapter = new PlayerListAdapter(this.players, getApplicationContext(), getContentResolver());
         listView.setAdapter(playerListAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                software.pipas.oprecox.modules.dataType.Player player = playerListAdapter.getItem(position);
+                sendInvite(player);
+            }
+        });
 
-        /*
-        listView.enableSwipeToDismiss(
-                new OnDismissCallback()
-                {
-                    @Override
-                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions)
-                        {
-                            playerListAdapter.remove(position);
-                        }
-                    }
-                }
-        );
-        */
+
 
         this.playerListAdapter = playerListAdapter;
+
+        //INVITER SENDER
+        this.createSocketSender();
 
 
         //RECEIVER
@@ -95,7 +95,9 @@ public class Invite extends MultiplayerClass {
     {
         super.onDestroy();
         this.announcerReceiver.close();
+        this.socket.close();
     }
+
 
 
     private void startReceiver()
@@ -123,7 +125,7 @@ public class Invite extends MultiplayerClass {
     {
         Message msg = new Message(this.getApplicationContext(), packet);
         //test self-announce REMOVE THE COMMENT LINE IN THE END
-        if(/*player.getPlayerId().equals(msg.getPlayerId()) || */this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
+        if(player.getPlayerId().equals(msg.getPlayerId()) || this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
 
         //the new player
         software.pipas.oprecox.modules.dataType.Player player =
@@ -132,6 +134,8 @@ public class Invite extends MultiplayerClass {
                         msg.getDisplayName(),
                         msg.getPlayerId(),
                         null,
+                        msg.getInvitePort(),
+                        packet.getAddress(),
                         System.currentTimeMillis());
 
 
@@ -146,6 +150,8 @@ public class Invite extends MultiplayerClass {
         }
         else
         {
+            this.players.get(index).updatePlayerAddress(player.getAddress());
+            this.players.get(index).updatePlayerInvitePort(player.getInvitePort());
             this.players.get(index).updatePlayerAnnouncedTime(player.getTimeAnnounced());
         }
 
@@ -156,6 +162,7 @@ public class Invite extends MultiplayerClass {
     {
         super.onBackPressed();
         this.playerListUpdater.close();
+        this.socket.close();
         finish();
     }
 
@@ -169,6 +176,48 @@ public class Invite extends MultiplayerClass {
     {
         PlayerLoader playerLoader = new PlayerLoader(this, this.mGoogleApiClient, playerListAdapter, player);
         playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void createSocketSender()
+    {
+        try {this.socket = new DatagramSocket();}
+        catch (SocketException e) {e.printStackTrace(); this.socket = null;}
+    }
+
+    private void sendInvite(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        //get stuff from the room asap
+        String roomName = Util.substituteSpace("Room 1");//temp
+        String hostDisplayName = this.player.getDisplayName();
+        String hostName = Util.substituteSpace(this.player.getName());
+        String playerID = this.player.getPlayerId();
+        String roomPort = "11111";//temp
+
+
+        String[] args = new String[8];
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.INVITE.toString();
+        args[3] = roomName;
+        args[4] = hostDisplayName;
+        args[5] = hostName;
+        args[6] = playerID;
+        args[7] = roomPort;
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if(!msg.isValid())
+        {
+            Toast.makeText(this, "Unable to send Invite", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatagramPacket packet = new DatagramPacket(msg.getMessage().getBytes(), 0, msg.getMessage().getBytes().length);
+        packet.setAddress(player.getAddress());
+        packet.setPort(player.getInvitePort());
+
+        InviterSender inviterSender = new InviterSender(this.getApplicationContext(), this, packet, this.socket);
+        inviterSender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 }

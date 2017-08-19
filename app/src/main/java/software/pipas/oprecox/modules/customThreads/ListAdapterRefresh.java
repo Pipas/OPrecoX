@@ -1,8 +1,6 @@
 package software.pipas.oprecox.modules.customThreads;
 
-import android.util.Log;
-
-import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
+import android.widget.ArrayAdapter;
 
 /**
  * Created by nuno_ on 15-Aug-17.
@@ -10,17 +8,17 @@ import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 
 public class ListAdapterRefresh extends Thread
 {
-    private PlayerListAdapter playerListAdapter;
+    private ArrayAdapter listAdapter;
 
-    public ListAdapterRefresh(PlayerListAdapter playerListAdapter)
+    public ListAdapterRefresh(ArrayAdapter listAdapter)
     {
-        this.playerListAdapter = playerListAdapter;
+        this.listAdapter = listAdapter;
     }
 
     @Override
     public void run()
     {
-        playerListAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetChanged();
     }
 
 

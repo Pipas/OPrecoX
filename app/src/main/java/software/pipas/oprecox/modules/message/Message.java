@@ -19,6 +19,9 @@ public class Message
     private String name;
     private String displayName;
     private String playerId;
+    private String invitePort;
+    private String roomName;
+    private String roomPort;
 
     private boolean valid;
 
@@ -53,6 +56,9 @@ public class Message
         this.displayName = null;
         this.playerId = null;
         this.valid = false;
+        this.invitePort = null;
+        this.roomName = null;
+        this.roomPort = null;
     }
     //--------------------------------------------------
 
@@ -85,11 +91,21 @@ public class Message
     //--------------------------------------------------
     public boolean initializeByType(String[] args)
     {
-        if(messageType.equals(MessageType.ANNOUNCE) && args.length == 6)
+        if(messageType.equals(MessageType.ANNOUNCE) && args.length == 7)
         {
             this.name = args[3];
             this.displayName = args[4];
             this.playerId = args[5];
+            this.invitePort = args[6];
+            return true;
+        }
+        else if(messageType.equals(MessageType.INVITE) && args.length == 8)
+        {
+            this.roomName = args[3];
+            this.displayName = args[4];
+            this.name = args[5];
+            this.playerId = args[6];
+            this.roomPort = args[7];
             return true;
         }
         else
@@ -141,9 +157,12 @@ public class Message
     {
         if(messageType.equals(MessageType.ANNOUNCE))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.name + " " + this.displayName + " " + this.playerId);
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.name + " " + this.displayName + " " + this.playerId + " " + this.invitePort);
         }
-
+        else if(messageType.equals(MessageType.INVITE))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.roomName + " " + this.displayName + " " + this.name + " " + this.playerId + " " + this.roomPort);
+        }
         else
         {
             return null;
@@ -180,6 +199,12 @@ public class Message
     public String getPlayerId() {
         return playerId;
     }
+
+    public String getInvitePort() {return invitePort;}
+
+    public String getRoomName() {return this.roomName;}
+
+    public String getRoomPort() {return this.roomPort;}
 
 
 

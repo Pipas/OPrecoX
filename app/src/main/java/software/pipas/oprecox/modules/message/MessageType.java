@@ -2,7 +2,8 @@ package software.pipas.oprecox.modules.message;
 
 public enum MessageType
 {
-    ANNOUNCE("ANNOUNCE");
+    ANNOUNCE("ANNOUNCE"),
+    INVITE("INVITE");
 
     private final String message;
 

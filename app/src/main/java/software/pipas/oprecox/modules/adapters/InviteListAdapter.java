@@ -60,18 +60,18 @@ public class InviteListAdapter extends ArrayAdapter<Invite>
 
             if (inviteHostName != null)
             {
-                inviteHostName.setText(invite.getRoomHost());
+                inviteHostName.setText(invite.getDisplayName());
             }
 
             if (inviteRoomName != null)
             {
-                inviteRoomName.setText(invite.getRoomName());
+                inviteRoomName.setText(invite.getRealRoomName());
             }
 
             if (inviteImage != null)
             {
                 ImageManager manager = ImageManager.create(mContext);
-                manager.loadImage(inviteImage, invite.getRoomPicture());
+                manager.loadImage(inviteImage, invite.getImage());
             }
         }
 

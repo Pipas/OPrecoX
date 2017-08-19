@@ -26,15 +26,16 @@ public class AnnouncerSender extends AsyncTask<Void, Void, Void>
     private String name;
     private String displayName;
     private String playerId;
+    private int invitePort;
     private boolean valid;
     private boolean closed;
     private DatagramSocket socket;
     private DatagramPacket packet;
 
 
-    public AnnouncerSender(Context context, String name, String displayName, String playerId)
+    public AnnouncerSender(Context context, String name, String displayName, String playerId, int invitePort)
     {
-        this.initialize(context, name,displayName, playerId);
+        this.initialize(context, name,displayName, playerId, invitePort);
     }
 
     @Override
@@ -45,11 +46,12 @@ public class AnnouncerSender extends AsyncTask<Void, Void, Void>
     }
 
 
-    private void initialize(Context context, String name, String displayName, String playerId)
+    private void initialize(Context context, String name, String displayName, String playerId, int invitePort)
     {
         this.name = name;
         this.displayName = displayName;
         this.playerId = playerId;
+        this.invitePort = invitePort;
         this.context = context;
         this.closed = false;
         this.valid = (this.createSocket() && this.createPacket());
@@ -77,13 +79,14 @@ public class AnnouncerSender extends AsyncTask<Void, Void, Void>
     private boolean createPacket()
     {
         //TO CHANGE TO MESSAGE CLASS
-        String[] args = new String[6];
+        String[] args = new String[7];
         args[0] = this.context.getString(R.string.network_app_name);
         args[1] = Integer.toString(BuildConfig.VERSION_CODE);
         args[2] = MessageType.ANNOUNCE.toString();
-        args[3] = this.name;
+        args[3] = Util.substituteSpace(this.name);
         args[4] = this.displayName;
         args[5] = this.playerId;
+        args[6] = Integer.toString(this.invitePort);
 
         Message msg = new Message(this.context, args);
         if(!msg.isValid()) return false;
