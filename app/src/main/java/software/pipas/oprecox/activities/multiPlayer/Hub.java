@@ -60,11 +60,18 @@ public class Hub extends MultiplayerClass
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
-        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
-
         super.onConnected(bundle);
         player = Games.Players.getCurrentPlayer(mGoogleApiClient);
+        if(player == null)
+        {
+            Toast.makeText(this, "Failed to Log in to Google Play Services, please try again", Toast.LENGTH_SHORT);
+            finish();
+        }
 
+
+
+        //STARTOING ONLY IF CONNECTION SUCCEDED
+        //------------------------------------------------------------------------
         TextView displayName = (TextView) findViewById(R.id.displayName);
         displayName.setText(player.getDisplayName());
 
