@@ -188,7 +188,13 @@ public class Invite extends MultiplayerClass {
         //get stuff from the room asap
         String roomName = Util.substituteSpace("Room 1");//temp
         String hostDisplayName = this.player.getDisplayName();
-        String hostName = Util.substituteSpace(this.player.getName());
+        String hostName;
+
+        if(this.player.getName() == null)
+            hostName = hostDisplayName;
+        else
+            hostName = Util.substituteSpace(this.player.getName());
+
         String playerID = this.player.getPlayerId();
         String roomPort = "11111";//temp
 
