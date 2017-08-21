@@ -133,6 +133,8 @@ public class Hub extends MultiplayerClass
         }
 
 
+        Log.d("DEBUGHUB", player.getName() + " " + player.getDisplayName() + " " + player.getPlayerId() + " " + this.port);
+
 
         //ANNOUNCER
         if(this.announcerSender == null)
