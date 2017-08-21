@@ -13,7 +13,7 @@ import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 
 public abstract class OlxParser
 {
-    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "centimo"};
+    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "centimo", "cêntimo"};
 
     public static String getRandomURL(String urlMid) throws IOException, OLXSyntaxChangeException
     {

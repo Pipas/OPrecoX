@@ -54,7 +54,6 @@ public class RevampedGameActivity extends AppCompatActivity implements ParsingCa
         setSlideupGuesserListener();
         setGuessTabListeners(true);
 
-        startDataParses();
         setViewsWithAd(app.getAd(adIndex));
     }
 
@@ -160,7 +159,7 @@ public class RevampedGameActivity extends AppCompatActivity implements ParsingCa
             slideupGuesser.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private void startDataParses()
+    protected void startDataParses()
     {
         AsyncGetAll parsingAyncTask;
         for(int i = 2; i < gameSize; i++)

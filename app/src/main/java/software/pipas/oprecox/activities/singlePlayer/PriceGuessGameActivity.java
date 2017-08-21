@@ -22,6 +22,8 @@ public class PriceGuessGameActivity extends RevampedGameActivity
         inflateGuesserView();
 
         initiateCustomFonts();
+
+        startDataParses();
     }
 
     private void inflateGuesserView()

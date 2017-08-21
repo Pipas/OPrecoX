@@ -36,7 +36,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     protected void onPreExecute()
     {
         super.onPreExecute();
-        Log.d("ASYNC", "Started background async parse");
+        Log.d("PARSE", "Started background async parse");
     }
 
     @Override
@@ -51,8 +51,9 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
                 subCategory = CategoryHandler.getRandomSubCategory();
                 ad.setCategory(subCategory.getParentCategory());
                 randomURL = OlxParser.getRandomURL(subCategory.getUrlEnd());
-                ad.setPrice(OlxParser.getPrice(randomURL));
+                ad.setDescription(OlxParser.getDescription(randomURL));
                 ad.setTitle(OlxParser.getTitle(randomURL));
+                ad.setPrice(OlxParser.getPrice(randomURL));
                 ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
                 ArrayList<Bitmap> images = new ArrayList<Bitmap>();
                 for(int i = 0; i < imageUrls.size(); i++)
@@ -61,7 +62,6 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
                     images.add(BitmapFactory.decodeStream(input));
                 }
                 ad.setImages(images);
-                ad.setDescription(OlxParser.getDescription(randomURL));
                 ad.setUrl(randomURL);
                 validURL = true;
             }
@@ -88,6 +88,6 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     {
         app.addAd(ad, index);
         activity.parsingEnded();
-        Log.d("ASYNC", String.format("Finished background async parse '" + ad.getUrl() +"'"));
+        Log.d("PARSE", String.format("Finished background async parse '" + ad.getUrl() +"'"));
     }
 }
