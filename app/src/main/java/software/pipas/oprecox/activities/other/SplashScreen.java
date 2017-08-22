@@ -61,7 +61,6 @@ public class SplashScreen extends Activity {
             CategoryHandler.selectFromString(c);
         else
             CategoryHandler.selectAll();
-        Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));
 
     }
 }

@@ -1,16 +1,27 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 
 public class PriceGuessGameActivity extends RevampedGameActivity
 {
+    private ArrayList<TextView> dialpadButtons = new ArrayList<>();
+    private TextView priceGuess;
+    private String dialpadString = "";
+    private float guessPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,6 +33,8 @@ public class PriceGuessGameActivity extends RevampedGameActivity
         inflateGuesserView();
 
         initiateCustomFonts();
+
+        initiateButtonListeners();
 
         startDataParses();
     }
@@ -35,35 +48,165 @@ public class PriceGuessGameActivity extends RevampedGameActivity
 
     private void initiateCustomFonts()
     {
-        TextView priceGuess = (TextView)findViewById(R.id.priceGuess);
-        TextView confirmButtonTextView = (TextView)findViewById(R.id.confirmButtonTextView);
-        TextView dialpad1 = (TextView)findViewById(R.id.dialpad1);
-        TextView dialpad2 = (TextView)findViewById(R.id.dialpad2);
-        TextView dialpad3 = (TextView)findViewById(R.id.dialpad3);
-        TextView dialpad4 = (TextView)findViewById(R.id.dialpad4);
-        TextView dialpad5 = (TextView)findViewById(R.id.dialpad5);
-        TextView dialpad6 = (TextView)findViewById(R.id.dialpad6);
-        TextView dialpad7 = (TextView)findViewById(R.id.dialpad7);
-        TextView dialpad8 = (TextView)findViewById(R.id.dialpad8);
-        TextView dialpad9 = (TextView)findViewById(R.id.dialpad9);
-        TextView dialpad0 = (TextView)findViewById(R.id.dialpad0);
+        for(int i = 0; i < 10; i++)
+        {
+            String buttonID = "dialpad" + i;
+            int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+            TextView diapladButton = ((TextView) findViewById(resID));
+            dialpadButtons.add(diapladButton);
+        }
+
         TextView dialpadDot = (TextView)findViewById(R.id.dialpadDot);
+        dialpadButtons.add(dialpadDot);
+
+        priceGuess = (TextView)findViewById(R.id.priceGuess);
+        TextView confirmButtonTextView = (TextView)findViewById(R.id.confirmButtonTextView);
+
 
 
         Typeface Antonio_Regular = Typeface.createFromAsset(getAssets(),  "font/Antonio-Regular.ttf");
 
         priceGuess.setTypeface(Antonio_Regular);
         confirmButtonTextView.setTypeface(Antonio_Regular);
-        dialpad1.setTypeface(Antonio_Regular);
-        dialpad2.setTypeface(Antonio_Regular);
-        dialpad3.setTypeface(Antonio_Regular);
-        dialpad4.setTypeface(Antonio_Regular);
-        dialpad5.setTypeface(Antonio_Regular);
-        dialpad6.setTypeface(Antonio_Regular);
-        dialpad7.setTypeface(Antonio_Regular);
-        dialpad8.setTypeface(Antonio_Regular);
-        dialpad9.setTypeface(Antonio_Regular);
-        dialpad0.setTypeface(Antonio_Regular);
-        dialpadDot.setTypeface(Antonio_Regular);
+        for(TextView dialpadButton : dialpadButtons)
+        {
+            dialpadButton.setTypeface(Antonio_Regular);
+        }
+    }
+
+    private void initiateButtonListeners()
+    {
+        for(int i = 0; i < 11; i++)
+        {
+            final int tempIndex = i;
+            dialpadButtons.get(i).setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    updateNumber(tempIndex);
+                }
+            });
+        }
+
+        ImageView dialpadBackspace = (ImageView) findViewById(R.id.dialpadBackspace);
+        dialpadBackspace.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                updateNumber(-1);
+            }
+        });
+
+        LinearLayout confirmButton = (LinearLayout) findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                confirmSelection();
+            }
+        });
+    }
+
+    private void updateNumber(int digit)
+    {
+        String outputFormat;
+
+        if(digit == -1)
+        {
+            if (dialpadString != null && dialpadString.length() > 0)
+            {
+                dialpadString = dialpadString.substring(0, dialpadString.length()-1);
+            }
+            else
+                return;
+        }
+        else if(dialpadString.length() >= 9 || (dialpadString.contains(".") && dialpadString.substring(dialpadString.lastIndexOf(".") + 1).length() >= 2))
+            return;
+
+
+        if(digit == 0)
+        {
+            if (dialpadString.length() == 0)
+                    return;
+
+            dialpadString += digit;
+        }
+        if(digit > 0 && digit < 10)
+        {
+            dialpadString += digit;
+        }
+        else if(digit == 10)
+        {
+            if(dialpadString.contains("."))
+                return;
+            else if(dialpadString.length() >= 5 || dialpadString.length() == 0)
+                return;
+            else
+                dialpadString += ".";
+        }
+
+        if (dialpadString != null && dialpadString.length() > 0)
+        {
+            guessPrice = Float.parseFloat(dialpadString);
+            if(guessPrice == (int) guessPrice)
+                outputFormat = String.format("%,d", (int) guessPrice);
+            else
+                outputFormat = String.format("%,.2f", guessPrice);
+
+            if(dialpadString.substring(dialpadString.length() - 1).equals("."))
+            {
+                outputFormat += ".";
+            }
+
+            outputFormat += "€";
+        }
+        else
+            outputFormat = "";
+
+        priceGuess.setText(outputFormat);
+
+        Log.d("INPUT", String.format("%s | %s", dialpadString, priceGuess.getText()));
+    }
+
+    private void confirmSelection()
+    {
+        Intent myIntent = new Intent(this, AfterGuessActivity.class);
+        myIntent.putExtra("score", score);
+        myIntent.putExtra("correctPrice", app.getAd(adIndex).getPrice());
+        myIntent.putExtra("guessPrice", guessPrice);
+        myIntent.putExtra("adIndex", adIndex);
+        startActivityForResult(myIntent, 2 );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 1)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                int page = data.getIntExtra("page", 0);
+                imagePreview.setCurrentItem(page);
+            }
+        }
+        if (requestCode == 2)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                score = data.getIntExtra("score", 0);
+                if(adIndex >= gameSize - 1)
+                    finish();
+                else
+                    adIndex++;
+
+                setViewsWithAd(app.getAd(adIndex));
+                dialpadString = "";
+                priceGuess.setText("");
+                togglePanel(null);
+            }
+        }
     }
 }

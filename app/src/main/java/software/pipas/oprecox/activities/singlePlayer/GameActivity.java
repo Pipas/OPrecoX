@@ -394,7 +394,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             database.createAd(shownAd);
             database.close();
             adSaved = true;
-            Settings.incrementNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
         }
         Toast.makeText(this, "Anúncio Guardado", Toast.LENGTH_SHORT).show();
     }
@@ -493,7 +492,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         Intent myIntent = new Intent(this, ImageViewer.class);
         myIntent.putExtra("page", page);
         OPrecoX app = (OPrecoX) getApplicationContext();
-        app.storeAd(shownAd);
         startActivityForResult(myIntent, 1);
     }
 

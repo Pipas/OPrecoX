@@ -21,7 +21,6 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.AdListAdapter;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
-import software.pipas.oprecox.util.Settings;
 
 public class SavedAds extends AppCompatActivity
 {
@@ -33,8 +32,6 @@ public class SavedAds extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_adds);
-
-        Settings.resetNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
 
         TextView savedAdsTitleTextView = (TextView)findViewById(R.id.savedAdsTitleTextView);
         Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");

@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true">
 
-    <TextView
-        android:id="@+id/priceGuess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13.42€"
-        android:textSize="40sp"
-        android:textColor="@color/softWhite"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"/>
+    <RelativeLayout
+        android:id="@+id/outputBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/priceGuess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:textColor="@color/softWhite"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/dialpadBackspace"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/backspace"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:tint="@color/softWhite"/>
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/softWhite"
-        android:layout_below="@id/priceGuess"/>
+        android:layout_below="@id/outputBar"/>
 
     <LinearLayout
         android:id="@+id/confirmButton"
@@ -25,14 +45,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="12dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="?selectableItemBackground"
+        android:clickable="true">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/softWhite"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"/>
 
         <TextView
             android:id="@+id/confirmButtonTextView"
@@ -54,8 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/softWhite"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"/>
 
     </LinearLayout>
 
@@ -63,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dialpadLayout"
-        android:layout_below="@id/priceGuess"
+        android:layout_below="@id/outputBar"
         android:layout_above="@id/confirmButton"
         android:visibility="visible"
         android:orientation="vertical">

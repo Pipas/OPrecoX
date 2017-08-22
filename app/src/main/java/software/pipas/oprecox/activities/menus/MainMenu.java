@@ -32,20 +32,6 @@ public class MainMenu extends AppCompatActivity
         //this.startAnnouncer();
     }
 
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        /*TextView newAdsDisplay = (TextView) findViewById(R.id.newAdsDisplay);
-        if(Settings.getNewSavedAds() == 0)
-            newAdsDisplay.setVisibility(View.GONE);
-        else
-            newAdsDisplay.setText(Integer.toString(Settings.getNewSavedAds()));*/
-
-
-    }
-
     @Override
     public void onDestroy()
     {

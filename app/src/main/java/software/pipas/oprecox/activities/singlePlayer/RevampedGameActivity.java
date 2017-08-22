@@ -1,6 +1,5 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,15 +32,16 @@ public class RevampedGameActivity extends AppCompatActivity implements ParsingCa
     private BottomSheetBehavior slideupGuesser;
     private ImageView guessTag;
     private View guessTab;
-    private ViewPager imagePreview;
+    protected ViewPager imagePreview;
     private TextView titleTextView;
     private TextView descriptionTextView;
     private PageIndicatorView imagePreviewIndicator;
 
-    private OPrecoX app;
+    protected OPrecoX app;
 
     protected int gameSize;
-    private int adIndex = 0;
+    protected int score;
+    protected int adIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,7 +57,7 @@ public class RevampedGameActivity extends AppCompatActivity implements ParsingCa
         setViewsWithAd(app.getAd(adIndex));
     }
 
-    private void setViewsWithAd(Ad ad)
+    protected void setViewsWithAd(Ad ad)
     {
         titleTextView.setText(ad.getTitle());
         descriptionTextView.setText(ad.getDescription());
@@ -70,6 +70,7 @@ public class RevampedGameActivity extends AppCompatActivity implements ParsingCa
         else
             imagePreviewIndicator.setVisibility(View.VISIBLE);
         imagePreviewIndicator.setViewPager(imagePreview);
+        imagePreviewIndicator.setSelection(0);
     }
 
     private void initiateViews()
@@ -175,20 +176,6 @@ public class RevampedGameActivity extends AppCompatActivity implements ParsingCa
         myIntent.putExtra("page", page);
         myIntent.putExtra("adIndex", adIndex);
         startActivityForResult(myIntent, 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-
-        if (requestCode == 1)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
-                int page = data.getIntExtra("page", 0);
-                imagePreview.setCurrentItem(page);
-            }
-        }
     }
 
     @Override
