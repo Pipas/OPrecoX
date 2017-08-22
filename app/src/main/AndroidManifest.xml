@@ -49,6 +49,9 @@
             android:name=".activities.multiPlayer.LobbyHost"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.multiPlayer.Options"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.menus.MyAds"
             android:screenOrientation="portrait" />
         <activity

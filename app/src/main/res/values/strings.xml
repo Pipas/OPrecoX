@@ -50,6 +50,7 @@
     <string name="comingsoon">Brevemente...</string>
     <string name="namehint">Nome do jogador</string>
     <string name="signin_failure">Failed to Sign-In</string>
+    <string name="roomName">ROOM_NAME</string>
 
 
 </resources>

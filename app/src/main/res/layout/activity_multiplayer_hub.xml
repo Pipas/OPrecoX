@@ -24,20 +24,18 @@
                 android:id="@+id/displayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:textColor="@color/black"
-                android:text="aaa"
                 android:layout_weight="1"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/realName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="aaa"
                 android:layout_weight="1"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

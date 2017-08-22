@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="false"
+        android:text="Room Name"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:textColor="@color/black"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="20dp"
+        android:editable="false"
+        android:focusableInTouchMode="false"/>
+
+    <EditText
+        android:id="@+id/roomNameEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_weight="0.05"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="viewStart"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="24sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.03" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="OK"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="50dp"
+            android:onClick="onOkPressed"/>
+
+        <Button
+            android:text="CANCEL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:onClick="onCancelPressed"/>
+
+
+    </LinearLayout>
+</LinearLayout>

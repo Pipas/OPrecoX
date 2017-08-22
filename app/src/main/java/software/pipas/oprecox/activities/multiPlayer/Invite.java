@@ -1,6 +1,5 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
-import android.icu.text.LocaleDisplayNames;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +45,7 @@ public class Invite extends MultiplayerClass {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite);
+        setContentView(R.layout.activity_multiplayer_invite);
 
         ListView listView = (ListView) findViewById(R.id.playersListViewer);
         this.players = new ArrayList<>();
