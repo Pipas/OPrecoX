@@ -34,8 +34,7 @@
         <activity
             android:name=".activities.menus.MainMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar">
-        </activity>
+            android:theme="@style/AppThemeNoBar"/>
         <activity
             android:name=".activities.menus.SettingsIntent"
             android:screenOrientation="portrait" />
@@ -48,6 +47,9 @@
         <activity
             android:name=".activities.multiPlayer.LobbyHost"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.multiPlayer.Invite"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.multiPlayer.Options"
             android:screenOrientation="portrait" />
@@ -78,8 +80,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
-        <activity android:name=".activities.multiPlayer.Invite"></activity>
+        <service android:name=".modules.network.AnnouncerReceiverService"/>
+        <service android:name=".modules.network.InviterReceiverService"/>
+        <service android:name=".modules.network.AnnouncerSenderService"/>
 
     </application>
 

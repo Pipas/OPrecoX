@@ -36,6 +36,14 @@ public class Message
 
     }
 
+    public Message(Context context, String msg)
+    {
+        this.context = context;
+        this.defaultInititalize();
+        this.valid = this.initialize(msg);
+
+    }
+
     public Message(Context context, String args[])
     {
         this.context = context;
@@ -75,6 +83,8 @@ public class Message
         return this.initializeByType(args);
     }
 
+
+
     private boolean initialize(DatagramPacket packet)
     {
 
@@ -82,6 +92,12 @@ public class Message
         String msg = new String(packet.getData(), 0, packet.getLength());
         String[] args = messageSplit(msg);
 
+        return initialize(args);
+    }
+
+    private boolean initialize(String msg)
+    {
+        String[] args = messageSplit(msg);
         return initialize(args);
     }
     //--------------------------------------------------
