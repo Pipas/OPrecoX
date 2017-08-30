@@ -21,8 +21,6 @@ public class CategoryChooser extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_chooser);
 
-        setTitle("Categorias");
-
         ListView categoryListView = (ListView) findViewById(R.id.categoryListView);
         final CategoryListAdapter categoryListAdapter = new CategoryListAdapter(CategoryHandler.getCategories(), getApplicationContext(), getContentResolver());
         categoryListView.setAdapter(categoryListAdapter);

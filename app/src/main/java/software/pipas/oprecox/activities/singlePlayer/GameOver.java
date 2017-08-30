@@ -12,7 +12,7 @@ public class GameOver extends AppCompatActivity
 {
 
     private Intent intent;
-    private int NGUESSES;
+    private int gameSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,14 +23,14 @@ public class GameOver extends AppCompatActivity
 
         intent = getIntent();
         int score = intent.getIntExtra("score", 0);
-        NGUESSES = intent.getIntExtra("NGUESSES", 0);
+        gameSize = intent.getIntExtra("gameSize", 0);
         int correctGuesses = intent.getIntExtra("correctGuesses", 0);
 
         TextView scoreOutput = (TextView) findViewById(R.id.scoreOutput);
         TextView guesses = (TextView) findViewById(R.id.guesses);
 
         scoreOutput.setText(String.format("%d", score));
-        guesses.setText(String.format("%d/%d", correctGuesses, NGUESSES));
+        guesses.setText(/*String.format("%d/%d", correctGuesses, gameSize)*/"");
     }
 
     public void pressFinish(View v)
@@ -44,11 +44,5 @@ public class GameOver extends AppCompatActivity
         finish();
     }
 
-    public void pressRestart(View v)
-    {
-        Intent myIntent = new Intent(this, GameActivity.class);
-        myIntent.putExtra("NGUESSES", NGUESSES);
-        startActivity(myIntent);
-        finish();
-    }
+    public void pressRestart(View v) {}
 }

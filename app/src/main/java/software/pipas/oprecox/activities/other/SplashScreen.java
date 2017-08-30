@@ -19,12 +19,18 @@ public class SplashScreen extends Activity {
     {
         super.onCreate(savedInstanceState);
 
+        Intent myIntent = getIntent();
+        Boolean restart = myIntent.getBooleanExtra("restart", false);
+
         getPreferences();
 
         Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
 
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
+        if(!restart)
+        {
+            Intent intent = new Intent(this, MainMenu.class);
+            startActivity(intent);
+        }
         finish();
     }
 

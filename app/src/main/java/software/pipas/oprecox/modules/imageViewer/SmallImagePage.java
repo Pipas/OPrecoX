@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.singlePlayer.RevampedGameActivity;
+import software.pipas.oprecox.activities.singlePlayer.GameActivity;
 
 
 public class SmallImagePage extends Fragment
@@ -17,9 +17,9 @@ public class SmallImagePage extends Fragment
     private int page;
     private Bitmap bitmap;
     private View view;
-    private RevampedGameActivity gameActivity;
+    private GameActivity gameActivity;
 
-    public static SmallImagePage newInstance(int page, Bitmap bitmap, RevampedGameActivity gameActivity)
+    public static SmallImagePage newInstance(int page, Bitmap bitmap, GameActivity gameActivity)
     {
         SmallImagePage imagePage = new SmallImagePage();
         imagePage.setPage(page);
@@ -62,7 +62,7 @@ public class SmallImagePage extends Fragment
         this.bitmap = bitmap;
     }
 
-    public void setGameActivity (RevampedGameActivity gameActivity)
+    public void setGameActivity (GameActivity gameActivity)
     {
         this.gameActivity = gameActivity;
     }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -18,6 +17,8 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
 import software.pipas.oprecox.application.OPrecoX;
+import software.pipas.oprecox.modules.categories.CategoryHandler;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
@@ -34,6 +35,8 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player_lobby);
 
+        CategoryHandler.checkIfRestart(this);
+
         app = (OPrecoX) getApplicationContext();
         initiateCustomFonts();
     }
@@ -48,16 +51,12 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
         TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
         TextView gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
 
-        Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");
-        Typeface Comfortaa_Thin = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Regular.ttf");
-
-        singleplayerTitleTextView.setTypeface(Comfortaa_Bold);
-        gameTypeButtonTextView.setTypeface(Comfortaa_Bold);
-        gameSizeButtonTextView.setTypeface(Comfortaa_Bold);
-        categoriesButtonTextView.setTypeface(Comfortaa_Bold);
-
-        gameTypeTooltip.setTypeface(Comfortaa_Thin);
-        gameSizeTooltip.setTypeface(Comfortaa_Thin);
+        CustomFontHelper.setCustomFont(singleplayerTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTypeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameSizeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(categoriesButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTypeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameSizeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
     }
 
     @Override

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activities.singlePlayer.GameOver">
 
@@ -61,103 +62,20 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/bottomOptions"
+    <software.pipas.oprecox.modules.customViews.CustomButton
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="56dp"
+        android:text="acabar"
+        android:textAllCaps="true"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true">
-
-            <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/share"
-                android:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="PARTILHAR"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/restartButton"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:onClick="pressRestart">
-
-            <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/replay"
-                android:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="RECOMEÇAR"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10sp"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:onClick="pressFinish">
-
-            <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/check"
-                android:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="ACABAR"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10sp" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:onClick="pressFinish"
+        app:backgroundTint="@color/darkOrange"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"/>
 
 </LinearLayout>

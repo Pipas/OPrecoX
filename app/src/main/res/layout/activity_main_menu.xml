@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/softWhite"
     tools:context=".activities.menus.MainMenu"
     android:orientation="vertical">
@@ -44,7 +44,7 @@
                 android:text="@string/singleplayer"
                 android:gravity="center"
                 android:textAllCaps="true"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textColor="@color/darkGrey"/>
 
         </LinearLayout>
@@ -74,7 +74,7 @@
                 android:text="@string/multiplayer"
                 android:gravity="center"
                 android:textAllCaps="true"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textColor="@color/darkGrey"/>
 
         </LinearLayout>
@@ -104,7 +104,7 @@
                 android:text="@string/savedAds"
                 android:gravity="center"
                 android:textAllCaps="true"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textColor="@color/darkGrey"/>
 
         </LinearLayout>

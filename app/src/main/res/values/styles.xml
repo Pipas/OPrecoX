@@ -36,6 +36,7 @@
         <item name="colorAccent">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:background">@color/darkOrange</item>
+        <item name="android:windowBackground">@drawable/popup_background</item>
     </style>
 
 </resources>

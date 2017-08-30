@@ -15,12 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.singlePlayer.GameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/GameActivity" />
-        <activity
             android:name=".activities.singlePlayer.Lobby"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.singlePlayer.GameOver"
             android:screenOrientation="portrait" />
@@ -34,7 +30,7 @@
         <activity
             android:name=".activities.menus.MainMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/MainMenuTheme" />
+            android:theme="@style/MainMenuTheme"/>
         <activity
             android:name=".activities.menus.SettingsIntent"
             android:screenOrientation="portrait" />
@@ -62,12 +58,11 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.singlePlayer.RevampedGameActivity"
+            android:name=".activities.singlePlayer.GameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/GameActivity" />
         <activity

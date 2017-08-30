@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 
-public class PriceGuessGameActivity extends RevampedGameActivity
+public class PriceGuessGameActivity extends GameActivity
 {
     private ArrayList<TextView> dialpadButtons = new ArrayList<>();
     private TextView priceGuess;
@@ -198,7 +198,13 @@ public class PriceGuessGameActivity extends RevampedGameActivity
             {
                 score = data.getIntExtra("score", 0);
                 if(adIndex >= gameSize - 1)
+                {
+                    Intent myIntent = new Intent(this, GameOver.class);
+                    myIntent.putExtra("gameSize", gameSize);
+                    myIntent.putExtra("score", score);
+                    startActivity(myIntent);
                     finish();
+                }
                 else
                     adIndex++;
 

@@ -3,7 +3,6 @@ package software.pipas.oprecox.activities.menus;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,8 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
+import software.pipas.oprecox.modules.categories.CategoryHandler;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.network.Announcer;
 
 public class MainMenu extends AppCompatActivity
@@ -28,6 +28,8 @@ public class MainMenu extends AppCompatActivity
 
         initiateCustomFonts();
 
+        CategoryHandler.checkIfRestart(this);
+
         //ANNOUNCER
         //this.startAnnouncer();
     }
@@ -36,13 +38,13 @@ public class MainMenu extends AppCompatActivity
     public void onDestroy()
     {
         super.onDestroy();
-        this.announcer.close();
+        //this.announcer.close();
     }
 
     @Override
     public void onBackPressed()
     {
-        AlertDialog.Builder popup = new AlertDialog.Builder(this);
+        AlertDialog.Builder popup = new AlertDialog.Builder(this, R.style.DialogTheme);
         popup.setTitle(getString(R.string.leaveapp));
         popup.setMessage(getString(R.string.leaveappsub));
         popup.setCancelable(true);
@@ -76,11 +78,9 @@ public class MainMenu extends AppCompatActivity
         TextView multiplayerButtonTextView = (TextView)findViewById(R.id.multiplayerButtonTextView);
         TextView savedAdsButtonTextView = (TextView)findViewById(R.id.savedAdsButtonTextView);
 
-        Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");
-
-        singleplayerButtonTextView.setTypeface(Comfortaa_Bold);
-        multiplayerButtonTextView.setTypeface(Comfortaa_Bold);
-        savedAdsButtonTextView.setTypeface(Comfortaa_Bold);
+        CustomFontHelper.setCustomFont(singleplayerButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(multiplayerButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(savedAdsButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
     }
 
     public void pressSinglePlayer(View v)
@@ -92,14 +92,14 @@ public class MainMenu extends AppCompatActivity
     public void pressMultiPlayer(View v)
     {
 
-        count++;
+        /*count++;
         if(count >= 10)
         {
             Intent myIntent = new Intent(this, Hub.class);
             startActivity(myIntent);
         }
-        else
-            Toast.makeText(this, "Multiplayer changes coming soon!", Toast.LENGTH_SHORT).show();
+        else*/
+            Toast.makeText(this, "Multijogador brevemente!", Toast.LENGTH_SHORT).show();
 
 
 

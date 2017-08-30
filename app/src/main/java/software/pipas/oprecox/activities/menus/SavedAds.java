@@ -1,7 +1,6 @@
 package software.pipas.oprecox.activities.menus;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.AdListAdapter;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
 
@@ -34,9 +34,7 @@ public class SavedAds extends AppCompatActivity
         setContentView(R.layout.activity_my_adds);
 
         TextView savedAdsTitleTextView = (TextView)findViewById(R.id.savedAdsTitleTextView);
-        Typeface Comfortaa_Bold = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Bold.ttf");
-        Typeface Comfortaa_Regular = Typeface.createFromAsset(getAssets(),  "font/Comfortaa_Regular.ttf");
-        savedAdsTitleTextView.setTypeface(Comfortaa_Bold);
+        CustomFontHelper.setCustomFont(savedAdsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
 
 
         database = new DatabaseHandler(this);
@@ -45,7 +43,7 @@ public class SavedAds extends AppCompatActivity
 
         ArrayList<AdPreview> ads = database.getAllComments();
 
-        adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver(), Comfortaa_Regular);
+        adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver());
         SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(adListAdapter);
         animationAdapter.setAbsListView(myAddsList);
         myAddsList.setAdapter(animationAdapter);

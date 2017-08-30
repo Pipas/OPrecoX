@@ -2,7 +2,6 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.util.Util;
 
@@ -20,14 +20,12 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
 {
     Context mContext;
     ContentResolver mContentResolver;
-    Typeface font;
 
-    public AdListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver, Typeface font)
+    public AdListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver)
     {
         super(context, R.layout.saved_ad_layout, data);
         this.mContext = context;
         this.mContentResolver = contentResolver;
-        this.font = font;
     }
 
     public void remove(int position)
@@ -60,13 +58,13 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
             if (title != null)
             {
                 title.setText(ad.getTitle());
-                title.setTypeface(font);
+                CustomFontHelper.setCustomFont(title, "font/antipastopro-demibold.otf", mContext);
             }
 
             if (description != null)
             {
                 description.setText(ad.getDescription());
-                description.setTypeface(font);
+                CustomFontHelper.setCustomFont(description, "font/Comfortaa_Thin.ttf", mContext);
             }
 
             if (circleImageView != null)
