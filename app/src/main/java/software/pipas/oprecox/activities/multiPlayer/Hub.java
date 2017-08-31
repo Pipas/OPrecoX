@@ -175,7 +175,7 @@ public class Hub extends MultiplayerClass
 
         if(this.announcerSender.isValid())
         {
-            this.announcerSender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            this.announcerSender.start();
         }
         else
         {
@@ -193,7 +193,7 @@ public class Hub extends MultiplayerClass
     private void startInviterReceiver(DatagramSocket socket)
     {
         InviterReceiver inviterReceiver = new InviterReceiver(this.getApplicationContext(), this, socket);
-        inviterReceiver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        inviterReceiver.start();
     }
 
     @Override

@@ -111,7 +111,7 @@ public class Invite extends MultiplayerClass {
 
         if(this.announcerReceiver.isValid())
         {
-            this.announcerReceiver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            this.announcerReceiver.start();
         }
         else
         {

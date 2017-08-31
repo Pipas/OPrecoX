@@ -20,7 +20,7 @@ import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
 
-public class AnnouncerSender extends AsyncTask<Void, Void, Void>
+public class AnnouncerSender extends Thread
 {
     private Context context;
     private String name;
@@ -39,10 +39,9 @@ public class AnnouncerSender extends AsyncTask<Void, Void, Void>
     }
 
     @Override
-    protected Void doInBackground(Void... args)
+    public void run()
     {
         this.startLoop();
-        return null;
     }
 
 

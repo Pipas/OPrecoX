@@ -49,6 +49,9 @@
             android:name=".activities.multiPlayer.LobbyHost"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.multiPlayer.Invite"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activities.multiPlayer.Options"
             android:screenOrientation="portrait" />
         <activity
@@ -78,8 +81,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
-        <activity android:name=".activities.multiPlayer.Invite"></activity>
 
     </application>
 

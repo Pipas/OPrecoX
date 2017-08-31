@@ -16,7 +16,7 @@ import software.pipas.oprecox.modules.dataType.Invite;
  * Created by nuno_ on 18-Aug-17.
  */
 
-public class InviterReceiver extends AsyncTask<Void, Void, Void>
+public class InviterReceiver extends Thread
 {
     private Context context;
     private Activity activity;
@@ -30,7 +30,7 @@ public class InviterReceiver extends AsyncTask<Void, Void, Void>
     }
 
     @Override
-    protected Void doInBackground(Void... params)
+    public void run()
     {
         byte[] array = new byte[this.context.getResources().getInteger(R.integer.MAX_SIZE)];
         DatagramPacket packet = new DatagramPacket(array,0, array.length);
@@ -48,7 +48,5 @@ public class InviterReceiver extends AsyncTask<Void, Void, Void>
                 if(this.socket.isClosed()) break;
             }
         }
-
-        return null;
     }
 }

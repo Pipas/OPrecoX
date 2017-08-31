@@ -13,7 +13,7 @@ import java.net.SocketException;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 
-public class AnnouncerReceiver extends AsyncTask<Void, Void, Void>
+public class AnnouncerReceiver extends Thread
 {
     private Context context;
     private Activity activity;
@@ -38,10 +38,9 @@ public class AnnouncerReceiver extends AsyncTask<Void, Void, Void>
 
 
     @Override
-    protected Void doInBackground(Void... params)
+    public void run()
     {
         this.startLoop();
-        return null;
     }
 
 
