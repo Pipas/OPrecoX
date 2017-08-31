@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="network_port">9999</integer>
-    <integer name="invite_port">9998</integer>
     <integer name="MAX_SIZE">5000</integer>
     <integer name="TIME_BETWEEN_SEND">1000</integer>
     <integer name="TIME_BETWEEN_UPDATES">1000</integer>
@@ -10,19 +9,4 @@
     <string name="address_receive">0.0.0.0</string>
     <string name="network_app_name">OPRECOX</string>
     <string name="network_announce">ANNOUNCE</string>
-
-
-    <string name="ANNOUNCER_SENDER_NAME">ANNOUNCER_SENDER_NAME</string>
-    <string name="ANNOUNCER_SENDER_DISPLAYNAME">ANNOUNCER_SENDER_DISPLAYNAME</string>
-    <string name="ANNOUNCER_SENDER_PLAYERID">ANNOUNCER_SENDER_PLAYERID</string>
-    <string name="ANNOUNCER_SENDER_INVITEPORT">ANNOUNCER_SENDER_INVITEPORT</string>
-
-    <string name="ANNOUNCER_PACKET_ACTION">ANNOUNCER_PACKET_ACTION</string>
-    <string name="ANNOUNCER_PACKET_MSG">ANNOUNCER_PACKET_MSG</string>
-    <string name="ANNOUNCER_PACKET_IP">ANNOUNCER_PACKET_IP</string>
-
-    <string name="INVITER_RECEIVER_PORT">INVITER_RECEIVER_PORT</string>
-    <string name="INVITER_RECEIVER_ACTION">INVITER_RECEIVER_ACTION</string>
-    <string name="INVITER_RECEIVER_MSG">INVITER_RECEIVER_MSG</string>
-    <string name="INVITER_RECEIVER_IP">INVITER_RECEIVER_IP</string>
 </resources>

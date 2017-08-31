@@ -1,9 +1,6 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +20,9 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAd
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
-import java.net.InetAddress;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
@@ -34,23 +33,20 @@ import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Invite;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
-import software.pipas.oprecox.modules.network.AnnouncerReceiverService;
 import software.pipas.oprecox.modules.network.AnnouncerSender;
-import software.pipas.oprecox.modules.network.AnnouncerSenderService;
-import software.pipas.oprecox.modules.network.InviterReceiverService;
+import software.pipas.oprecox.modules.network.InviterReceiver;
+import software.pipas.oprecox.util.Util;
 
 public class Hub extends MultiplayerClass
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
 
-    private Intent announcerSenderService; //1 socket sending to broadcast:9999
-    private Intent inviterReceiverService;
+    private AnnouncerSender announcerSender; //1 socket sending to broadcast:9999
+    private DatagramSocket socket; //1 socket for receive of invites
 
     private int port;
     private Player player;
-
-    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -90,22 +86,20 @@ public class Hub extends MultiplayerClass
         });
 
         this.inviteListAdapter = inviteListAdapter;
-        this.port = getResources().getInteger(R.integer.invite_port);
-        this.startInviterReceiver(this.port);
 
 
-        //broadcast receiver
-        this.broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent)
-            {
-                String msg = intent.getExtras().getString(getResources().getString(R.string.INVITER_RECEIVER_MSG));
-                InetAddress ip = (InetAddress) intent.getSerializableExtra(getResources().getString(R.string.INVITER_RECEIVER_IP));
-
-                registerReceived(msg, ip);
-            }
-        };
-        registerReceiver(this.broadcastReceiver, new IntentFilter(getResources().getString(R.string.INVITER_RECEIVER_ACTION)));
+        //CREATING UNICAST SOCKET FOR RECEIVING INVITES, STARTING RECEIVER
+        this.socket = this.createSocket();
+        if(this.socket == null)
+        {
+            Toast.makeText(this, "Unable to receive invites, please try again!", Toast.LENGTH_SHORT);
+            this.port = -1;
+        }
+        else
+        {
+            this.port = this.socket.getLocalPort();
+            this.startInviterReceiver(this.socket);
+        }
     }
 
 
@@ -144,7 +138,7 @@ public class Hub extends MultiplayerClass
 
 
         //ANNOUNCER
-        if(this.announcerSenderService == null)
+        if(this.announcerSender == null)
             this.startAnnouncer(name, player.getDisplayName(), player.getPlayerId(), this.port);
     }
 
@@ -153,10 +147,8 @@ public class Hub extends MultiplayerClass
     public void onDestroy()
     {
         super.onDestroy();
-        stopService(this.announcerSenderService);
-        unregisterReceiver(this.broadcastReceiver);
-        stopService(this.inviterReceiverService);
-
+        this.announcerSender.close();
+        this.socket.close();
     }
 
     @Override
@@ -178,28 +170,39 @@ public class Hub extends MultiplayerClass
 
     public void startAnnouncer(String name, String displayName, String playerId, int invitePort)
     {
-        this.announcerSenderService = new Intent(this, AnnouncerSenderService.class);
-        this.announcerSenderService.putExtra(getResources().getString(R.string.ANNOUNCER_SENDER_NAME), name);
-        this.announcerSenderService.putExtra(getResources().getString(R.string.ANNOUNCER_SENDER_DISPLAYNAME), displayName);
-        this.announcerSenderService.putExtra(getResources().getString(R.string.ANNOUNCER_SENDER_PLAYERID), playerId);
-        this.announcerSenderService.putExtra(getResources().getString(R.string.ANNOUNCER_SENDER_INVITEPORT), port);
-        startService(this.announcerSenderService);
+
+        this.announcerSender = new AnnouncerSender(this.getApplicationContext(), name, displayName, playerId, invitePort);
+
+        if(this.announcerSender.isValid())
+        {
+            this.announcerSender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        else
+        {
+            Toast.makeText(this, "Cannot Announce", Toast.LENGTH_SHORT).show();
+        }
     }
 
-
-    private void startInviterReceiver(int port)
+    private DatagramSocket createSocket()
     {
-        this.inviterReceiverService = new Intent(this, InviterReceiverService.class);
-        this.inviterReceiverService.putExtra(getResources().getString(R.string.INVITER_RECEIVER_PORT), this.port);
-        startService(this.inviterReceiverService);
+        DatagramSocket socket;
+        try {socket =  new DatagramSocket(); return socket;}
+        catch (SocketException e) {e.printStackTrace(); return null;}
     }
 
-    public void registerReceived(String msgStr, InetAddress ip)
+    private void startInviterReceiver(DatagramSocket socket)
     {
-        Log.d("INVITE_RECEIVED_DEBUG", msgStr);
-        Message msg = new Message(this.getApplicationContext(), msgStr);
+        InviterReceiver inviterReceiver = new InviterReceiver(this.getApplicationContext(), this, socket);
+        inviterReceiver.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void registerReceived(DatagramPacket packet)
+    {
+
+        Message msg = new Message(this.getApplicationContext(), packet);
         //test self-announce REMOVE THE COMMENT LINE IN THE END
-        if(player == null || !msg.isValid() || player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
+        if(player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
 
 
 
@@ -209,7 +212,7 @@ public class Hub extends MultiplayerClass
                 msg.getName(),
                 msg.getPlayerId(),
                 msg.getRoomPort(),
-                ip,
+                packet.getAddress(),
                 System.currentTimeMillis(),
                 null);
 

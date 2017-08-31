@@ -24,6 +24,7 @@ public class MainMenu extends AppCompatActivity
 
         Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
 
+
     }
 
 
