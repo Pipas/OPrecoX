@@ -82,6 +82,7 @@ public class LobbyHost extends MultiplayerClass
     public void onInvitePressed(View v)
     {
         Intent intent = new Intent(this, Invite.class);
+        intent.putExtra(getResources().getString(R.string.roomName), this.roomName);
         startActivity(intent);
     }
 

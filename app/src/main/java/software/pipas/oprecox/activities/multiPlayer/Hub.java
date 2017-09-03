@@ -1,6 +1,9 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,9 +23,8 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAd
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
@@ -33,20 +35,18 @@ import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Invite;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
-import software.pipas.oprecox.modules.network.AnnouncerSender;
-import software.pipas.oprecox.modules.network.InviterReceiver;
-import software.pipas.oprecox.util.Util;
+import software.pipas.oprecox.modules.network.AnnouncerSenderService;
+import software.pipas.oprecox.modules.network.UDPCommsService;
 
 public class Hub extends MultiplayerClass
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
-
-    private AnnouncerSender announcerSender; //1 socket sending to broadcast:9999
-    private DatagramSocket socket; //1 socket for receive of invites
-
-    private int port;
     private Player player;
+
+    private Intent udpCommsService;
+    private Intent announcerSenderService;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,22 +84,13 @@ public class Hub extends MultiplayerClass
                 Log.d("LOG_DEBUG", invite.toString());
             }
         });
-
         this.inviteListAdapter = inviteListAdapter;
 
+        //registering the broacastReceiver
+        this.startBroadcastReceiver();
 
-        //CREATING UNICAST SOCKET FOR RECEIVING INVITES, STARTING RECEIVER
-        this.socket = this.createSocket();
-        if(this.socket == null)
-        {
-            Toast.makeText(this, "Unable to receive invites, please try again!", Toast.LENGTH_SHORT);
-            this.port = -1;
-        }
-        else
-        {
-            this.port = this.socket.getLocalPort();
-            this.startInviterReceiver(this.socket);
-        }
+        //starting comms udp service
+        this.startUDPCommsService();
     }
 
 
@@ -136,10 +127,9 @@ public class Hub extends MultiplayerClass
         String name = player.getName();
         if(name == null) name = player.getDisplayName();
 
+        //starting the announcerSender service
+        this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
 
-        //ANNOUNCER
-        if(this.announcerSender == null)
-            this.startAnnouncer(name, player.getDisplayName(), player.getPlayerId(), this.port);
     }
 
 
@@ -147,8 +137,9 @@ public class Hub extends MultiplayerClass
     public void onDestroy()
     {
         super.onDestroy();
-        this.announcerSender.close();
-        this.socket.close();
+        unregisterReceiver(this.broadcastReceiver);
+        stopService(this.udpCommsService);
+        stopService(this.announcerSenderService);
     }
 
     @Override
@@ -168,34 +159,80 @@ public class Hub extends MultiplayerClass
         }
     }
 
-    public void startAnnouncer(String name, String displayName, String playerId, int invitePort)
+    private void startBroadcastReceiver()
     {
+        this.broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleReceivedIntent(context, intent);
+            }
+        };
+        IntentFilter filter = new IntentFilter(getResources().getString(R.string.S001));
+        registerReceiver(this.broadcastReceiver, filter);
+    }
 
-        this.announcerSender = new AnnouncerSender(this.getApplicationContext(), name, displayName, playerId, invitePort);
+    private void startUDPCommsService()
+    {
+        this.udpCommsService = new Intent(this, UDPCommsService.class);
+        startService(this.udpCommsService);
+    }
 
-        if(this.announcerSender.isValid())
+    private void startAnnouncerSenderService(String name, String displayName, String playerID)
+    {
+        this.announcerSenderService = new Intent(this, AnnouncerSenderService.class);
+        this.announcerSenderService.putExtra(getResources().getString(R.string.S003_NAME), name);
+        this.announcerSenderService.putExtra(getResources().getString(R.string.S003_DISPLAYNAME), displayName);
+        this.announcerSenderService.putExtra(getResources().getString(R.string.S003_PLAYERID), playerID);
+        startService(this.announcerSenderService);
+    }
+
+    //callback for recived intents with S001 action, only INVITE messages for now
+    private void handleReceivedIntent(Context context, Intent intent)
+    {
+        String message = intent.getExtras().getString(getResources().getString(R.string.S001_MESSAGE));
+        InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S001_INETSOCKETADDRESS));
+
+        Message msg = new Message(this.getApplicationContext(), message);
+        //test self-announce REMOVE THE COMMENT LINE IN THE END
+        if(!msg.isValid() || player == null || player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
+
+
+
+        Invite invite = new Invite(
+                msg.getRoomName(),
+                msg.getDisplayName(),
+                msg.getName(),
+                msg.getPlayerId(),
+                msg.getRoomPort(),
+                socketAddress.getAddress(),
+                System.currentTimeMillis(),
+                null);
+
+
+        int index = this.invites.indexOf(invite);
+
+        if(index <= -1)
         {
-            this.announcerSender.start();
+            this.retrievePlayerURI(this.inviteListAdapter, invite);
+            this.invites.add(invite);
+            this.refreshListAdapter(this.inviteListAdapter);
         }
         else
         {
-            Toast.makeText(this, "Cannot Announce", Toast.LENGTH_SHORT).show();
+            this.invites.get(index).updateAddress(invite.getAddress());
+            this.invites.get(index).updateRoomPort(invite.getRoomPort());
+            this.invites.get(index).updateTimeReceived(invite.getTimeReceived());
+
+            if(!this.invites.get(index).getRoomName().equals(invite.getRoomName()))
+            {
+                this.invites.get(index).updateRoomName(invite.getRoomName());
+                this.refreshListAdapter(this.inviteListAdapter);
+            }
         }
     }
 
-    private DatagramSocket createSocket()
-    {
-        DatagramSocket socket;
-        try {socket =  new DatagramSocket(); return socket;}
-        catch (SocketException e) {e.printStackTrace(); return null;}
-    }
 
-    private void startInviterReceiver(DatagramSocket socket)
-    {
-        InviterReceiver inviterReceiver = new InviterReceiver(this.getApplicationContext(), this, socket);
-        inviterReceiver.start();
-    }
-
+/*
     @Override
     public void registerReceived(DatagramPacket packet)
     {
@@ -238,7 +275,7 @@ public class Hub extends MultiplayerClass
             }
         }
     }
-
+*/
     private void retrievePlayerURI(InviteListAdapter inviteListAdapter, Invite invite)
     {
         PlayerLoader playerLoader = new PlayerLoader(this, this.mGoogleApiClient, inviteListAdapter, invite);

@@ -4,9 +4,40 @@
     <integer name="MAX_SIZE">5000</integer>
     <integer name="TIME_BETWEEN_SEND">1000</integer>
     <integer name="TIME_BETWEEN_UPDATES">1000</integer>
-    <integer name="TIME_LIMIT_FOR_PLAYER_LIST_REFRESH">5000</integer> 
+    <integer name="TIME_LIMIT_FOR_PLAYER_LIST_REFRESH">5000</integer>
     <string name="address_send">255.255.255.255</string>
     <string name="address_receive">0.0.0.0</string>
     <string name="network_app_name">OPRECOX</string>
     <string name="network_announce">ANNOUNCE</string>
+    <string name="roomName">ROOM_NAME</string>
+
+
+    <!-- SHIPPING FILTERS -->
+    <string name="S000">S000</string> <!-- Destination: UDPCommsService -->
+    <string name="S001">S001</string> <!-- Destination: Hub -->
+    <string name="S002">S002</string> <!-- Destination: Invite -->
+    <string name="S003">S003</string> <!-- Destination: AnnouncerSenderService -->
+    <string name="S004">S004</string> <!-- Destination: Room -->
+
+
+    <!-- PARAMETHERS S000 UDPCommsService -->
+    <string name="S000_MESSAGE">S000_MESSAGE</string>
+    <string name="S000_INETSOCKETADDRESS">S000_INETSOCKETADDRESS</string>
+
+    <!-- PARAMETHERS S001 Hub -->
+    <string name="S001_MESSAGE">S001_MESSAGE</string>
+    <string name="S001_INETSOCKETADDRESS">S001_INETSOCKETADDRESS</string>
+
+    <!-- PARAMETHERS S002 Invite -->
+    <string name="S002_MESSAGE">S002_MESSAGE</string>
+    <string name="S002_INETSOCKETADDRESS">S002_INETSOCKETADDRESS</string>
+
+    <!-- PARAMETHERS S003 AnnouncerSenderService -->
+    <string name="S003_NAME">S003_NAME</string>
+    <string name="S003_DISPLAYNAME">S003_DISPLAYNAME</string>
+    <string name="S003_PLAYERID">S003_PLAYERID</string>
+
+
+
+
 </resources>

@@ -74,6 +74,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".modules.network.AnnouncerSenderService"/>
+        <service android:name=".modules.network.UDPCommsService"/>
+
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />

@@ -14,14 +14,14 @@ public class Player extends DataType
     private int invitePort;
     private InetAddress address;
 
-    public Player(String name, String displayName, String id, Uri playerImage, String invitePort, InetAddress address,long timeAnnounced)
+    public Player(String name, String displayName, String id, Uri playerImage, int invitePort, InetAddress address,long timeAnnounced)
     {
         this.name = name;
         this.displayName = displayName;
         this.playerID = id;
         this.playerImage = playerImage;
         this.timeAnnounced = timeAnnounced;
-        this.invitePort = Integer.parseInt(invitePort);
+        this.invitePort = invitePort;
         this.address = address;
 
     }

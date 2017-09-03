@@ -19,7 +19,6 @@ public class Message
     private String name;
     private String displayName;
     private String playerId;
-    private String invitePort;
     private String roomName;
     private String roomPort;
 
@@ -34,6 +33,13 @@ public class Message
         this.defaultInititalize();
         this.valid = this.initialize(packet);
 
+    }
+
+    public Message(Context context, String str)
+    {
+        this.context = context;
+        this.defaultInititalize();
+        this.valid = this.initialize(Message.messageSplit(str));
     }
 
     public Message(Context context, String args[])
@@ -56,7 +62,6 @@ public class Message
         this.displayName = null;
         this.playerId = null;
         this.valid = false;
-        this.invitePort = null;
         this.roomName = null;
         this.roomPort = null;
     }
@@ -91,12 +96,11 @@ public class Message
     //--------------------------------------------------
     public boolean initializeByType(String[] args)
     {
-        if(messageType.equals(MessageType.ANNOUNCE) && args.length == 7)
+        if(messageType.equals(MessageType.ANNOUNCE) && args.length == 6)
         {
             this.name = args[3];
             this.displayName = args[4];
             this.playerId = args[5];
-            this.invitePort = args[6];
             return true;
         }
         else if(messageType.equals(MessageType.INVITE) && args.length == 8)
@@ -157,7 +161,7 @@ public class Message
     {
         if(messageType.equals(MessageType.ANNOUNCE))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.name + " " + this.displayName + " " + this.playerId + " " + this.invitePort);
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.name + " " + this.displayName + " " + this.playerId);
         }
         else if(messageType.equals(MessageType.INVITE))
         {
@@ -200,8 +204,6 @@ public class Message
         return playerId;
     }
 
-    public String getInvitePort() {return invitePort;}
-
     public String getRoomName() {return this.roomName;}
 
     public String getRoomPort() {return this.roomPort;}
@@ -217,7 +219,6 @@ public class Message
                 "Name: " + this.name + "\n" +
                 "DisplayName: " + this.displayName + "\n" +
                 "ID" + this.playerId + "\n" +
-                "InvitePort: " + this.invitePort + "\n" +
                 "RoomName: " + this.roomName + "\n" +
                 "RoomPort: " + this.roomPort + "\n");
         return str;

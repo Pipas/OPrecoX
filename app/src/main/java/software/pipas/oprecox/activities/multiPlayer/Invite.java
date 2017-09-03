@@ -1,5 +1,9 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.BuildConfig;
@@ -25,27 +27,25 @@ import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
-import software.pipas.oprecox.modules.network.AnnouncerReceiver;
-import software.pipas.oprecox.modules.network.InviterSender;
 import software.pipas.oprecox.util.Util;
 
 public class Invite extends MultiplayerClass {
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
-
-    private AnnouncerReceiver announcerReceiver; //1 socket receiving from broadcast:9999
     private PlayerListUpdater playerListUpdater;
-    private DatagramSocket socket; //1 socket for sender of invites
-
     private Player player;
+    private String roomName;
 
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_invite);
+
+        this.roomName = getIntent().getExtras().getString(getResources().getString(R.string.roomName));
 
         ListView listView = (ListView) findViewById(R.id.playersListViewer);
         this.players = new ArrayList<>();
@@ -66,9 +66,9 @@ public class Invite extends MultiplayerClass {
 
         this.playerListAdapter = playerListAdapter;
 
+        //start BroadcastReceiver
+        this.startBroadcastReceiver();
 
-        //INVITER SENDER
-        this.createSocketSender();
 
     }
 
@@ -77,10 +77,6 @@ public class Invite extends MultiplayerClass {
     {
         super.onConnected(bundle);
         this.player = Games.Players.getCurrentPlayer(mGoogleApiClient);
-
-        //RECEIVER
-        if(this.announcerReceiver == null)
-            this.startReceiver();
 
         //UPDATER
         if(this.playerListUpdater == null)
@@ -92,9 +88,8 @@ public class Invite extends MultiplayerClass {
     public void onDestroy()
     {
         super.onDestroy();
-        this.announcerReceiver.close();
-        this.socket.close();
         this.playerListUpdater.close();
+        unregisterReceiver(this.broadcastReceiver);
     }
 
     @Override
@@ -104,19 +99,16 @@ public class Invite extends MultiplayerClass {
         finish();
     }
 
-
-    private void startReceiver()
+    private void startBroadcastReceiver()
     {
-        this.announcerReceiver = new AnnouncerReceiver(this.getApplicationContext(),this);
-
-        if(this.announcerReceiver.isValid())
-        {
-            this.announcerReceiver.start();
-        }
-        else
-        {
-            Toast.makeText(this, "Cannot Receive", Toast.LENGTH_SHORT).show();
-        }
+        this.broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleReceivedIntent(context, intent);
+            }
+        };
+        IntentFilter filter = new IntentFilter(getResources().getString(R.string.S002));
+        registerReceiver(this.broadcastReceiver, filter);
     }
 
     private void startUpdater()
@@ -125,12 +117,15 @@ public class Invite extends MultiplayerClass {
         this.playerListUpdater.start();
     }
 
-    @Override
-    public void registerReceived(DatagramPacket packet)
+    //callback for recived intents with S002 action, only ANNOUNCE messages for now
+    private void handleReceivedIntent(Context context, Intent intent)
     {
-        Message msg = new Message(this.getApplicationContext(), packet);
+        String message = intent.getExtras().getString(getResources().getString(R.string.S002_MESSAGE));
+        InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S002_INETSOCKETADDRESS));
+
+        Message msg = new Message(this.getApplicationContext(), message);
         //test self-announce REMOVE THE COMMENT LINE IN THE END
-        if(player.getPlayerId().equals(msg.getPlayerId()) || this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
+        if(!msg.isValid() || player == null ||player.getPlayerId().equals(msg.getPlayerId()) || this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
 
         //the new player
         software.pipas.oprecox.modules.dataType.Player player =
@@ -139,8 +134,8 @@ public class Invite extends MultiplayerClass {
                         msg.getDisplayName(),
                         msg.getPlayerId(),
                         null,
-                        msg.getInvitePort(),
-                        packet.getAddress(),
+                        socketAddress.getPort(),
+                        socketAddress.getAddress(),
                         System.currentTimeMillis());
 
 
@@ -162,8 +157,6 @@ public class Invite extends MultiplayerClass {
 
     }
 
-
-
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
     {
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
@@ -176,16 +169,11 @@ public class Invite extends MultiplayerClass {
         playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void createSocketSender()
-    {
-        try {this.socket = new DatagramSocket();}
-        catch (SocketException e) {e.printStackTrace(); this.socket = null;}
-    }
 
-    private void sendInvite(software.pipas.oprecox.modules.dataType.Player player)
+    private void sendInvite(software.pipas.oprecox.modules.dataType.Player remotePlayer)
     {
         //get stuff from the room asap
-        String roomName = Util.substituteSpace("Room 1");//temp
+        String roomName = Util.substituteSpace(this.roomName);//temp
         String hostDisplayName = this.player.getDisplayName();
         String hostName;
 
@@ -216,12 +204,12 @@ public class Invite extends MultiplayerClass {
             return;
         }
 
-        DatagramPacket packet = new DatagramPacket(msg.getMessage().getBytes(), 0, msg.getMessage().getBytes().length);
-        packet.setAddress(player.getAddress());
-        packet.setPort(player.getInvitePort());
+        InetSocketAddress socketAddress = new InetSocketAddress(remotePlayer.getAddress(), remotePlayer.getInvitePort());
 
-        InviterSender inviterSender = new InviterSender(this.getApplicationContext(), this, packet, this.socket);
-        inviterSender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        Intent intent = new Intent(getResources().getString(R.string.S000));
+        intent.putExtra(getResources().getString(R.string.S000_MESSAGE), msg.getMessage());
+        intent.putExtra(getResources().getString(R.string.S000_INETSOCKETADDRESS), socketAddress);
+        sendBroadcast(intent);
     }
 
 }
