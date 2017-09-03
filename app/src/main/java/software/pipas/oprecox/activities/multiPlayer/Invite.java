@@ -190,7 +190,7 @@ public class Invite extends MultiplayerClass implements OnAsyncTaskCompleted{
             hostName = Util.substituteSpace(this.player.getName());
 
         String playerID = this.player.getPlayerId();
-        String roomPort = "11111";//temp
+        String roomPort = "-1";//temp
 
 
         String[] args = new String[8];
@@ -213,10 +213,12 @@ public class Invite extends MultiplayerClass implements OnAsyncTaskCompleted{
 
         InetSocketAddress socketAddress = new InetSocketAddress(remotePlayer.getAddress(), remotePlayer.getInvitePort());
 
-        Intent intent = new Intent(getResources().getString(R.string.S000));
-        intent.putExtra(getResources().getString(R.string.S000_MESSAGE), msg.getMessage());
-        intent.putExtra(getResources().getString(R.string.S000_INETSOCKETADDRESS), socketAddress);
+        Intent intent = new Intent(getResources().getString(R.string.S004));
+        intent.putExtra(getResources().getString(R.string.S004_MESSAGE), msg.getMessage());
+        intent.putExtra(getResources().getString(R.string.S004_INETSOCKETADDRESS), socketAddress);
         sendBroadcast(intent);
+
+
     }
 
 

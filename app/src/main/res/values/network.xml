@@ -38,6 +38,10 @@
     <string name="S003_DISPLAYNAME">S003_DISPLAYNAME</string>
     <string name="S003_PLAYERID">S003_PLAYERID</string>
 
+    <!-- PARAMETHERS S004 Room -->
+    <string name="S004_MESSAGE">S004_MESSAGE</string>
+    <string name="S004_INETSOCKETADDRESS">S004_INETSOCKETADDRESS</string>
+
 
 
 

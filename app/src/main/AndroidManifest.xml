@@ -76,6 +76,7 @@
 
         <service android:name=".modules.network.AnnouncerSenderService"/>
         <service android:name=".modules.network.UDPCommsService"/>
+        <service android:name=".modules.network.Room"/>
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"

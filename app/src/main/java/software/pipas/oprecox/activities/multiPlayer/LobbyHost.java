@@ -13,11 +13,13 @@ import com.google.android.gms.games.Player;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
+import software.pipas.oprecox.modules.network.Room;
 
 public class LobbyHost extends MultiplayerClass
 {
     private final int OPTIONS_REQUEST_CODE = 1;
 
+    private Intent room;
     private String roomName;
     Player player;
 
@@ -26,6 +28,7 @@ public class LobbyHost extends MultiplayerClass
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_lobby_host);
+        this.startRoom();
     }
 
     @Override
@@ -73,6 +76,13 @@ public class LobbyHost extends MultiplayerClass
     }
 
     @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        stopService(this.room);
+    }
+
+    @Override
     public void onBackPressed()
     {
         super.onBackPressed();
@@ -91,6 +101,12 @@ public class LobbyHost extends MultiplayerClass
         Intent intent = new Intent(this, Options.class);
         intent.putExtra(getResources().getString(R.string.roomName), this.roomName);
         startActivityForResult(intent, OPTIONS_REQUEST_CODE);
+    }
+
+    private void startRoom()
+    {
+        this.room = new Intent(this, Room.class);
+        startService(this.room);
     }
 
 }
