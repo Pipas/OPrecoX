@@ -23,7 +23,6 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAd
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
@@ -33,12 +32,13 @@ import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Invite;
+import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.network.AnnouncerSenderService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
 
-public class Hub extends MultiplayerClass
+public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
@@ -149,6 +149,12 @@ public class Hub extends MultiplayerClass
         finish();
     }
 
+    @Override
+    public void onRefreshUI()
+    {
+        this.refreshListAdapter(this.inviteListAdapter);
+    }
+
 
     public void hostButtonPressed(View view)
     {
@@ -197,7 +203,6 @@ public class Hub extends MultiplayerClass
         if(!msg.isValid() || player == null || player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
 
 
-
         Invite invite = new Invite(
                 msg.getRoomName(),
                 msg.getDisplayName(),
@@ -231,54 +236,9 @@ public class Hub extends MultiplayerClass
         }
     }
 
-
-/*
-    @Override
-    public void registerReceived(DatagramPacket packet)
-    {
-
-        Message msg = new Message(this.getApplicationContext(), packet);
-        //test self-announce REMOVE THE COMMENT LINE IN THE END
-        if(player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
-
-
-
-        Invite invite = new Invite(
-                msg.getRoomName(),
-                msg.getDisplayName(),
-                msg.getName(),
-                msg.getPlayerId(),
-                msg.getRoomPort(),
-                packet.getAddress(),
-                System.currentTimeMillis(),
-                null);
-
-
-        int index = this.invites.indexOf(invite);
-
-        if(index <= -1)
-        {
-            this.retrievePlayerURI(this.inviteListAdapter, invite);
-            this.invites.add(invite);
-            this.refreshListAdapter(this.inviteListAdapter);
-        }
-        else
-        {
-            this.invites.get(index).updateAddress(invite.getAddress());
-            this.invites.get(index).updateRoomPort(invite.getRoomPort());
-            this.invites.get(index).updateTimeReceived(invite.getTimeReceived());
-
-            if(!this.invites.get(index).getRoomName().equals(invite.getRoomName()))
-            {
-                this.invites.get(index).updateRoomName(invite.getRoomName());
-                this.refreshListAdapter(this.inviteListAdapter);
-            }
-        }
-    }
-*/
     private void retrievePlayerURI(InviteListAdapter inviteListAdapter, Invite invite)
     {
-        PlayerLoader playerLoader = new PlayerLoader(this, this.mGoogleApiClient, inviteListAdapter, invite);
+        PlayerLoader playerLoader = new PlayerLoader(Hub.this, this.mGoogleApiClient, inviteListAdapter, invite);
         playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -287,5 +247,6 @@ public class Hub extends MultiplayerClass
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(inviteListAdapter);
         this.runOnUiThread(listAdapterRefresh);
     }
+
 
 }

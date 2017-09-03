@@ -1,41 +1,37 @@
 package software.pipas.oprecox.modules.customThreads;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Semaphore;
 
-import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.dataType.Player;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
+
 /**
  * Created by nuno_ on 16-Aug-17.
  */
 
 public class PlayerListUpdater extends Thread
 {
-    private Activity activity;
+    private OnAsyncTaskCompleted asyncTaskCompleted;
+    private Context context;
     private ArrayList<Player> players;
-    private PlayerListAdapter playerListAdapter;
     private boolean closed;
 
     private int timeBetweenRefresh;
     private int timeOfPlayerExpired;
 
 
-    public PlayerListUpdater(Activity activity, ArrayList<Player> players, PlayerListAdapter playerListAdapter)
+    public PlayerListUpdater(Context context, OnAsyncTaskCompleted asyncTaskCompleted, ArrayList<Player> players)
     {
-        this.activity = activity;
+        this.asyncTaskCompleted = asyncTaskCompleted;
+        this.context = context;
         this.players = players;
-        this.playerListAdapter = playerListAdapter;
         this.closed = false;
-        this.timeBetweenRefresh = this.activity.getResources().getInteger(R.integer.TIME_BETWEEN_UPDATES);
-        this.timeOfPlayerExpired = this.activity.getResources().getInteger(R.integer.TIME_LIMIT_FOR_PLAYER_LIST_REFRESH);
+        this.timeBetweenRefresh = this.context.getResources().getInteger(R.integer.TIME_BETWEEN_UPDATES);
+        this.timeOfPlayerExpired = this.context.getResources().getInteger(R.integer.TIME_LIMIT_FOR_PLAYER_LIST_REFRESH);
 
     }
 
@@ -44,7 +40,7 @@ public class PlayerListUpdater extends Thread
     {
         while(!this.closed)
         {
-            if(this.update()) {this.refresh();}
+            if(this.update()) {asyncTaskCompleted.onRefreshUI();}
             this.sleep();
         }
     }
@@ -84,13 +80,6 @@ public class PlayerListUpdater extends Thread
         }
 
         return update;
-    }
-
-
-    private void refresh()
-    {
-        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(this.playerListAdapter);
-        this.activity.runOnUiThread(listAdapterRefresh);
     }
 
     private void sleep()

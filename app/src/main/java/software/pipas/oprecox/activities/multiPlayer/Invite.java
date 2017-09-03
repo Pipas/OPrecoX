@@ -25,11 +25,12 @@ import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
+import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
-public class Invite extends MultiplayerClass {
+public class Invite extends MultiplayerClass implements OnAsyncTaskCompleted{
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
@@ -99,6 +100,12 @@ public class Invite extends MultiplayerClass {
         finish();
     }
 
+    @Override
+    public void onRefreshUI()
+    {
+        this.refreshListAdapter(this.playerListAdapter);
+    }
+
     private void startBroadcastReceiver()
     {
         this.broadcastReceiver = new BroadcastReceiver() {
@@ -113,7 +120,7 @@ public class Invite extends MultiplayerClass {
 
     private void startUpdater()
     {
-        this.playerListUpdater = new PlayerListUpdater(this, this.players, this.playerListAdapter);
+        this.playerListUpdater = new PlayerListUpdater(this.getApplicationContext(),Invite.this, this.players);
         this.playerListUpdater.start();
     }
 
@@ -165,7 +172,7 @@ public class Invite extends MultiplayerClass {
 
     private void retrievePlayerURI(PlayerListAdapter playerListAdapter, software.pipas.oprecox.modules.dataType.Player player)
     {
-        PlayerLoader playerLoader = new PlayerLoader(this, this.mGoogleApiClient, playerListAdapter, player);
+        PlayerLoader playerLoader = new PlayerLoader(Invite.this, this.mGoogleApiClient, playerListAdapter, player);
         playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -211,5 +218,6 @@ public class Invite extends MultiplayerClass {
         intent.putExtra(getResources().getString(R.string.S000_INETSOCKETADDRESS), socketAddress);
         sendBroadcast(intent);
     }
+
 
 }
