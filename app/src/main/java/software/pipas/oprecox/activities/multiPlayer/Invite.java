@@ -25,12 +25,12 @@ import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
-import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
+import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
-public class Invite extends MultiplayerClass implements OnAsyncTaskCompleted{
+public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
@@ -216,8 +216,8 @@ public class Invite extends MultiplayerClass implements OnAsyncTaskCompleted{
         Intent intent = new Intent(getResources().getString(R.string.S004));
         intent.putExtra(getResources().getString(R.string.S004_MESSAGE), msg.getMessage());
         intent.putExtra(getResources().getString(R.string.S004_INETSOCKETADDRESS), socketAddress);
+        intent.putExtra(getResources().getString(R.string.S004_PLAYER),remotePlayer);
         sendBroadcast(intent);
-
 
     }
 

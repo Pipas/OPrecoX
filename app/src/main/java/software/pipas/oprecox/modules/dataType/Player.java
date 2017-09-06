@@ -1,20 +1,23 @@
 package software.pipas.oprecox.modules.dataType;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 
 import software.pipas.oprecox.util.Util;
 
-public class Player extends DataType
+public class Player extends DataType implements Parcelable
 {
     private String name;
     private String displayName;
-    private long timeAnnounced;
-    private int invitePort;
+    private Long timeAnnounced;
+    private Integer invitePort;
     private InetAddress address;
 
-    public Player(String name, String displayName, String id, Uri playerImage, int invitePort, InetAddress address,long timeAnnounced)
+    public Player(String name, String displayName, String id, Uri playerImage, Integer invitePort, InetAddress address,Long timeAnnounced)
     {
         this.name = name;
         this.displayName = displayName;
@@ -25,6 +28,8 @@ public class Player extends DataType
         this.address = address;
 
     }
+
+
 
     public String getName()
     {
@@ -85,4 +90,47 @@ public class Player extends DataType
                 "PlayerAddress: " + this.address);
         return str;
     }
+
+    /**
+     * Parcelable stuff
+     */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(name);
+        dest.writeString(displayName);
+        dest.writeString(playerID);
+        dest.writeParcelable(playerImage, flags);
+        dest.writeLong(timeAnnounced);
+        dest.writeInt(invitePort);
+        dest.writeSerializable(address);
+    }
+
+    protected Player(Parcel in) {
+        name = in.readString();
+        displayName = in.readString();
+        playerID = in.readString();
+        playerImage = in.readParcelable(Uri.class.getClassLoader());
+        timeAnnounced = in.readLong();
+        invitePort = in.readInt();
+        address = (InetAddress) in.readSerializable();
+    }
+
+    public static final Creator<Player> CREATOR = new Creator<Player>() {
+        @Override
+        public Player createFromParcel(Parcel in) {
+            return new Player(in);
+        }
+
+        @Override
+        public Player[] newArray(int size) {
+            return new Player[size];
+        }
+    };
 }

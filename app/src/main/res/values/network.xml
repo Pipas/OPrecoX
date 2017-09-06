@@ -5,6 +5,8 @@
     <integer name="TIME_BETWEEN_SEND">1000</integer>
     <integer name="TIME_BETWEEN_UPDATES">1000</integer>
     <integer name="TIME_LIMIT_FOR_PLAYER_LIST_REFRESH">5000</integer>
+    <integer name="TIME_LIMIT_FOR_ROOM_REFRESH">5000</integer>
+    <integer name="TIME_FOR_ACCEPT_LIMIT">20000</integer>
     <string name="address_send">255.255.255.255</string>
     <string name="address_receive">0.0.0.0</string>
     <string name="network_app_name">OPRECOX</string>
@@ -19,6 +21,8 @@
     <string name="S002">S002</string> <!-- Destination: Invite -->
     <string name="S003">S003</string> <!-- Destination: AnnouncerSenderService -->
     <string name="S004">S004</string> <!-- Destination: Room -->
+    <string name="S005">S005</string> <!-- Destination: TCPCommsService -->
+    <string name="S006">S006</string> <!-- Destination: LobbyClient -->
 
 
     <!-- PARAMETHERS S000 UDPCommsService -->
@@ -28,6 +32,9 @@
     <!-- PARAMETHERS S001 Hub -->
     <string name="S001_MESSAGE">S001_MESSAGE</string>
     <string name="S001_INETSOCKETADDRESS">S001_INETSOCKETADDRESS</string>
+    <string name="S001_RESPONSE">S001_RESPONSE</string>
+    <string name="S001_RESPONSETYPE">S001_RESPONSETYPE</string>
+
 
     <!-- PARAMETHERS S002 Invite -->
     <string name="S002_MESSAGE">S002_MESSAGE</string>
@@ -41,6 +48,14 @@
     <!-- PARAMETHERS S004 Room -->
     <string name="S004_MESSAGE">S004_MESSAGE</string>
     <string name="S004_INETSOCKETADDRESS">S004_INETSOCKETADDRESS</string>
+    <string name="S004_PLAYER">S004_PLAYER</string>
+
+    <!-- PARAMETHERS S005 TCPCommsService -->
+    <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>
+
+    <!-- PARAMETHERS S006 LobbyClient -->
+    <string name="S006_MESSAGE">S006_MESSAGE</string>
+    <string name="S006_RESPONSE">S006_RESPONSE</string>
 
 
 

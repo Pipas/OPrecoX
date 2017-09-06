@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import software.pipas.oprecox.modules.dataType.Player;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
+import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 
 /**
  * Created by nuno_ on 16-Aug-17.
@@ -15,7 +15,7 @@ import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
 
 public class PlayerListUpdater extends Thread
 {
-    private OnAsyncTaskCompleted asyncTaskCompleted;
+    private AsyncTaskCompleted asyncTaskCompleted;
     private Context context;
     private ArrayList<Player> players;
     private boolean closed;
@@ -24,7 +24,7 @@ public class PlayerListUpdater extends Thread
     private int timeOfPlayerExpired;
 
 
-    public PlayerListUpdater(Context context, OnAsyncTaskCompleted asyncTaskCompleted, ArrayList<Player> players)
+    public PlayerListUpdater(Context context, AsyncTaskCompleted asyncTaskCompleted, ArrayList<Player> players)
     {
         this.asyncTaskCompleted = asyncTaskCompleted;
         this.context = context;

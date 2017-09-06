@@ -2,6 +2,7 @@ package software.pipas.oprecox.modules.dataType;
 
 import android.net.Uri;
 
+
 /**
  * Created by nuno_ on 19-Aug-17.
  */

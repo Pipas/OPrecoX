@@ -34,8 +34,7 @@
         <activity
             android:name=".activities.menus.MainMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar">
-        </activity>
+            android:theme="@style/AppThemeNoBar"></activity>
         <activity
             android:name=".activities.menus.SettingsIntent"
             android:screenOrientation="portrait" />
@@ -50,7 +49,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.Invite"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.Options"
             android:screenOrientation="portrait" />
@@ -59,10 +58,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.other.CategoryChooser"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.other.CategoryDetails"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.other.SplashScreen"
             android:screenOrientation="portrait"
@@ -74,9 +73,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".modules.network.AnnouncerSenderService"/>
-        <service android:name=".modules.network.UDPCommsService"/>
-        <service android:name=".modules.network.Room"/>
+        <service android:name=".modules.network.AnnouncerSenderService" />
+        <service android:name=".modules.network.UDPCommsService" />
+        <service android:name=".modules.network.Room" />
+        <service android:name=".modules.network.TCPCommsService"/>
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
@@ -85,7 +85,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
+        <activity android:name=".activities.multiPlayer.LobbyClient"></activity>
     </application>
 
 </manifest>

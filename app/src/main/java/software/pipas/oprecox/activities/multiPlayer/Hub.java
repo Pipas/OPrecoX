@@ -1,5 +1,6 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,13 +33,15 @@ import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Invite;
-import software.pipas.oprecox.modules.interfaces.OnAsyncTaskCompleted;
+import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
+import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.modules.network.AnnouncerSenderService;
+import software.pipas.oprecox.modules.network.TCPCommsService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
 
-public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
+public class Hub extends MultiplayerClass implements AsyncTaskCompleted
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
@@ -46,7 +49,9 @@ public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
 
     private Intent udpCommsService;
     private Intent announcerSenderService;
+    private Intent tcpCommsService;
     private BroadcastReceiver broadcastReceiver;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,9 +87,13 @@ public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
             {
                 Invite invite = invites.get(position);
                 Log.d("LOG_DEBUG", invite.toString());
+                acceptInvite(invite);
             }
         });
         this.inviteListAdapter = inviteListAdapter;
+
+        //start ProgressUpdater
+        this.startProgressUpdater();
 
         //registering the broacastReceiver
         this.startBroadcastReceiver();
@@ -140,6 +149,7 @@ public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
         unregisterReceiver(this.broadcastReceiver);
         stopService(this.udpCommsService);
         stopService(this.announcerSenderService);
+        stopService(this.tcpCommsService);
     }
 
     @Override
@@ -163,6 +173,15 @@ public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
             Intent intent = new Intent(this, LobbyHost.class);
             startActivity(intent);
         }
+    }
+
+    private void startProgressUpdater()
+    {
+        this.progressDialog =  new ProgressDialog(this);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Trying to Establish Connection");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
     }
 
     private void startBroadcastReceiver()
@@ -195,8 +214,34 @@ public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
     //callback for recived intents with S001 action, only INVITE messages for now
     private void handleReceivedIntent(Context context, Intent intent)
     {
+
+        String response = intent.getExtras().getString(getResources().getString(R.string.S001_RESPONSE));
+
+        if(response != null)
+        {
+            this.progressDialog.dismiss();
+
+            if(response.equals(ResponseType.TIMEOUT.toString()))
+            {
+                Toast.makeText(this, "Connection Timed Out!", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.equals(ResponseType.CLOSED.toString()))
+            {
+                Toast.makeText(this, "Connection interrupted!", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.equals(ResponseType.CONNECTED.toString()))
+            {
+                Intent activity = new Intent(this, LobbyClient.class);
+                startActivity(activity);
+            }
+
+        }
+
+
+
         String message = intent.getExtras().getString(getResources().getString(R.string.S001_MESSAGE));
         InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S001_INETSOCKETADDRESS));
+        if(message == null || socketAddress == null) return;
 
         Message msg = new Message(this.getApplicationContext(), message);
         //test self-announce REMOVE THE COMMENT LINE IN THE END
@@ -234,6 +279,17 @@ public class Hub extends MultiplayerClass implements OnAsyncTaskCompleted
                 this.refreshListAdapter(this.inviteListAdapter);
             }
         }
+    }
+
+    private void acceptInvite(Invite invite)
+    {
+        if(this.tcpCommsService != null) stopService(this.tcpCommsService);
+
+        this.progressDialog.show();
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(invite.getAddress(), invite.getRoomPort());
+        this.tcpCommsService = new Intent(this, TCPCommsService.class);
+        this.tcpCommsService.putExtra(getResources().getString(R.string.S005_INETSOCKETADDRESS), inetSocketAddress);
+        startService(this.tcpCommsService);
     }
 
     private void retrievePlayerURI(InviteListAdapter inviteListAdapter, Invite invite)

@@ -6,24 +6,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.LinkedList;
 
-import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.dataType.Player;
+import software.pipas.oprecox.modules.interfaces.TCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
-import software.pipas.oprecox.modules.message.MessageType;
+import software.pipas.oprecox.modules.message.ResponseType;
 
 /**
  * Created by nuno_ on 31-Aug-17.
  */
 
-public class Room extends IntentService
+public class Room extends IntentService implements TCPConnectionManager
 {
     private BroadcastReceiver broadcastReceiver;
+    private ServerSocket serverSocket;
     private boolean closed;
     private int time;
+
+    private LinkedList<Socket> joined;
+    private LinkedList<Player> playersDB;
 
     public Room() {super("Room");}
     public Room(String name) {super(name);}
@@ -32,8 +41,11 @@ public class Room extends IntentService
     public void onCreate()
     {
         super.onCreate();
-        this.time = getResources().getInteger(R.integer.TIME_BETWEEN_UPDATES);
+        this.joined = new LinkedList<>();
+        this.playersDB = new LinkedList<>();
+        this.time = getResources().getInteger(R.integer.TIME_LIMIT_FOR_ROOM_REFRESH);
         this.closed = false;
+        this.initializeServerSocket();
         this.initializeBroadcastReceiver();
     }
 
@@ -42,7 +54,20 @@ public class Room extends IntentService
     {
         while (!this.closed)
         {
-            this.sleep();
+            try
+            {
+                Socket socket = this.serverSocket.accept();
+                this.joined.add(socket);
+                startTCPPlayerHandler(socket);
+            }
+            catch (SocketException s)
+            {
+                this.closed = true;
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -51,10 +76,21 @@ public class Room extends IntentService
     {
         super.onDestroy();
         this.closed = true;
+        this.terminateConnections();
         unregisterReceiver(this.broadcastReceiver);
+
+        try {this.serverSocket.close();}
+        catch (IOException e) {e.printStackTrace();}
     }
 
-
+    public void terminateConnections()
+    {
+        for(Socket socket : this.joined)
+        {
+            try {socket.close();}
+            catch (IOException e) {e.printStackTrace();}
+        }
+    }
 
     public void initializeBroadcastReceiver()
     {
@@ -70,15 +106,32 @@ public class Room extends IntentService
         registerReceiver(this.broadcastReceiver, filter);
     }
 
-    //receiver for Room, receive of Pre-Invites to send Invites
+    public void initializeServerSocket()
+    {
+        try
+        {
+            this.serverSocket = new ServerSocket(0);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            stopSelf();
+        }
+    }
+
+    //receiver for Room, S004 receive of Pre-Invites to send Invites
     public void handleIntentReceived(Context context, Intent intent)
     {
         String message = intent.getExtras().getString(getResources().getString(R.string.S004_MESSAGE));
         InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S004_INETSOCKETADDRESS));
+        Player remotePlayer = intent.getExtras().getParcelable(getResources().getString(R.string.S004_PLAYER));
+        this.playersDB.add(remotePlayer);
 
         Message msg = new Message(this.getApplicationContext(), message);
-
         if(!msg.isValid()) return;
+
+        String roomPort = this.requestPort();
+        if(roomPort == null) return;
 
         String[] args = new String[8];
         args[0] = msg.getAppName();
@@ -88,7 +141,7 @@ public class Room extends IntentService
         args[4] = msg.getDisplayName();
         args[5] = msg.getDisplayName();
         args[6] = msg.getPlayerId();
-        args[7] = this.requestPort();
+        args[7] = roomPort;
 
         Message newMsg = new Message(this.getApplicationContext(), args);
 
@@ -101,18 +154,39 @@ public class Room extends IntentService
         sendBroadcast(newIntent);
     }
 
+    @Override
+    //callback from every TCPPlayerHandler
+    public void onConnectionCallback(Socket remotePlayerSocket, ResponseType type, String message)
+    {
+        if(type.equals(ResponseType.CLOSED))
+        {
+            this.joined.remove(remotePlayerSocket);
+        }
+        else if(type.equals(ResponseType.INFO))
+        {
+            //IMPLEMENT NEW MESSAGE DECODER AND FIGURE OUT NEW MESSAGE TYPES
+        }
+
+    }
+
     public String requestPort()
     {
-        return "1111";
+        return Integer.toString(this.serverSocket.getLocalPort());
+
     }
+
+    public void startTCPPlayerHandler(Socket socket)
+    {
+        TCPPlayerHandler tcpPlayerHandler = new TCPPlayerHandler(Room.this, socket);
+        tcpPlayerHandler.start();
+    }
+
 
     public void sleep()
     {
         try {Thread.sleep(this.time);}
         catch (InterruptedException e) {e.printStackTrace();}
     }
-
-
 
 
 
