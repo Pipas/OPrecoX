@@ -1,5 +1,6 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
@@ -93,6 +94,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             imagePreviewIndicator.setVisibility(View.GONE);
         else
             imagePreviewIndicator.setVisibility(View.VISIBLE);
+
         imagePreviewIndicator.setViewPager(imagePreview);
         imagePreviewIndicator.setSelection(0);
     }
@@ -247,5 +249,18 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         Log.d("DEBUG", "Im being destroyed");
         super.onDestroy();
         gameDataFragment.setData(gameSize, score, 0, adIndex, app.getAds());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 1)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                int page = data.getIntExtra("page", 0);
+                imagePreview.setCurrentItem(page);
+            }
+        }
     }
 }

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".activities.singlePlayer.GameOver">
+    tools:context=".activities.singlePlayer.GameOver"
+    android:background="@color/softWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,15 +68,14 @@
         android:layout_height="56dp"
         android:text="acabar"
         android:textAllCaps="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_margin="12dp"
         android:onClick="pressFinish"
-        app:backgroundTint="@color/darkOrange"
         android:textSize="20sp"
         android:shadowDy="1"
         android:shadowDx="0"
         android:shadowRadius="5"
-        android:textColor="@color/softWhite"/>
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:theme="@style/ButtonStyle"/>
 
 </LinearLayout>

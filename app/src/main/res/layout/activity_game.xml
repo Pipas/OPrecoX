@@ -129,7 +129,8 @@
             android:layout_height="match_parent"
             android:background="@color/lightOrange"
             android:elevation="8dp"
-            android:layout_below="@id/blankSpace">
+            android:layout_below="@id/blankSpace"
+            android:animateLayoutChanges="true">
         </FrameLayout>
 
     </android.support.percent.PercentRelativeLayout>

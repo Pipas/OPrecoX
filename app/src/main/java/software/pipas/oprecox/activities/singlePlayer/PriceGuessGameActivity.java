@@ -1,8 +1,6 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,17 +8,35 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.modules.database.DatabaseHandler;
+
+import static software.pipas.oprecox.R.id.priceGuess;
 
 public class PriceGuessGameActivity extends GameActivity
 {
+    private View afterGuess;
+    private View priceGuesser;
+
     private ArrayList<TextView> dialpadButtons = new ArrayList<>();
-    private TextView priceGuess;
+    private TextView beforePriceGuess;
+    private TextView afterPriceGuess;
+    private TextView scorePlusTextView;
+    private TextView correctPriceOutput;
+    private TextView scoreOutput;
+
     private String dialpadString = "";
     private float guessPrice;
+
+    private int scorePlus;
+
+    private DatabaseHandler database;
+    private Boolean adSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +46,9 @@ public class PriceGuessGameActivity extends GameActivity
         Intent intent = getIntent();
         gameSize = intent.getIntExtra("gameSize", 10);
 
-        inflateGuesserView();
+        database = new DatabaseHandler(this);
+
+        inflateGuesserViews();
 
         initiateCustomFonts();
 
@@ -39,11 +57,15 @@ public class PriceGuessGameActivity extends GameActivity
         startDataParses();
     }
 
-    private void inflateGuesserView()
+    private void inflateGuesserViews()
     {
         FrameLayout guesserFrameLayout = (FrameLayout)findViewById(R.id.guesserFrameLayout);
-        View child = getLayoutInflater().inflate(R.layout.price_guesser_layout, null);
-        guesserFrameLayout.addView(child);
+        priceGuesser = getLayoutInflater().inflate(R.layout.price_guesser_layout, null);
+        guesserFrameLayout.addView(priceGuesser);
+
+        afterGuess = getLayoutInflater().inflate(R.layout.after_guess_layout, null);
+        guesserFrameLayout.addView(afterGuess);
+        afterGuess.setVisibility(View.GONE);
     }
 
     private void initiateCustomFonts()
@@ -59,19 +81,33 @@ public class PriceGuessGameActivity extends GameActivity
         TextView dialpadDot = (TextView)findViewById(R.id.dialpadDot);
         dialpadButtons.add(dialpadDot);
 
-        priceGuess = (TextView)findViewById(R.id.priceGuess);
+        beforePriceGuess = (TextView) priceGuesser.findViewById(priceGuess);
         TextView confirmButtonTextView = (TextView)findViewById(R.id.confirmButtonTextView);
 
+        CustomFontHelper.setCustomFont(beforePriceGuess, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(confirmButtonTextView, "font/Antonio-Regular.ttf", getBaseContext());
 
-
-        Typeface Antonio_Regular = Typeface.createFromAsset(getAssets(),  "font/Antonio-Regular.ttf");
-
-        priceGuess.setTypeface(Antonio_Regular);
-        confirmButtonTextView.setTypeface(Antonio_Regular);
         for(TextView dialpadButton : dialpadButtons)
         {
-            dialpadButton.setTypeface(Antonio_Regular);
+            CustomFontHelper.setCustomFont(dialpadButton, "font/Antonio-Regular.ttf", getBaseContext());
         }
+
+        afterPriceGuess = (TextView) afterGuess.findViewById(priceGuess);
+        TextView correctPriceOutputTextView = (TextView) afterGuess.findViewById(R.id.correctPriceOutputTextView);
+        correctPriceOutput = (TextView) afterGuess.findViewById(R.id.correctPriceOutput);
+
+        TextView scoreOutputTextView = (TextView) afterGuess.findViewById(R.id.scoreOutputTextView);
+        scoreOutput = (TextView) afterGuess.findViewById(R.id.scoreOutput);
+        scorePlusTextView = (TextView) afterGuess.findViewById(R.id.scorePlus);
+        TextView continueButtonTextView = (TextView) findViewById(R.id.continueButtonTextView);
+
+        CustomFontHelper.setCustomFont(afterPriceGuess, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(correctPriceOutputTextView, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(correctPriceOutput, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(scoreOutputTextView, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(scoreOutput, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(scorePlusTextView, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(continueButtonTextView, "font/Antonio-Regular.ttf", getBaseContext());
     }
 
     private void initiateButtonListeners()
@@ -89,7 +125,7 @@ public class PriceGuessGameActivity extends GameActivity
             });
         }
 
-        ImageView dialpadBackspace = (ImageView) findViewById(R.id.dialpadBackspace);
+        ImageView dialpadBackspace = (ImageView) priceGuesser.findViewById(R.id.dialpadBackspace);
         dialpadBackspace.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -99,13 +135,33 @@ public class PriceGuessGameActivity extends GameActivity
             }
         });
 
-        LinearLayout confirmButton = (LinearLayout) findViewById(R.id.confirmButton);
+        ImageView savedAdsButton = (ImageView) afterGuess.findViewById(R.id.savedAdsButton);
+        savedAdsButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                saveAd();
+            }
+        });
+
+        LinearLayout confirmButton = (LinearLayout) priceGuesser.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 confirmSelection();
+            }
+        });
+
+        LinearLayout continueButton = (LinearLayout) afterGuess.findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                continuePressed();
             }
         });
     }
@@ -166,53 +222,122 @@ public class PriceGuessGameActivity extends GameActivity
         else
             outputFormat = "";
 
-        priceGuess.setText(outputFormat);
+        beforePriceGuess.setText(outputFormat);
 
-        Log.d("INPUT", String.format("%s | %s", dialpadString, priceGuess.getText()));
+        Log.d("INPUT", String.format("%s | %s", dialpadString, beforePriceGuess.getText()));
+    }
+
+    private Boolean calculateScore()
+    {
+        float correctPrice = app.getAd(adIndex).getPrice();
+
+        if(correctPrice == guessPrice)
+            scorePlus = 50;
+        else if(correctPrice <= 30)
+        {
+            if(guessPrice >= 0.75*correctPrice && guessPrice <= 1.25*correctPrice)
+                scorePlus = 25;
+            else if(guessPrice >= 0.5*correctPrice && guessPrice <= 1.5*correctPrice)
+                scorePlus = 10;
+            else
+            {
+                scorePlus = 0;
+                return false;
+            }
+        }
+        else if(correctPrice <= 10000)
+        {
+            if(guessPrice >= 0.90*correctPrice && guessPrice <= 1.10*correctPrice)
+                scorePlus = 25;
+            else if(guessPrice >= 0.75*correctPrice && guessPrice <= 1.25*correctPrice)
+                scorePlus = 10;
+            else
+            {
+                scorePlus = 0;
+                return false;
+            }
+        }
+        else
+        {
+            if(guessPrice >= 0.90*correctPrice && guessPrice <= 1.10*correctPrice)
+                scorePlus = 25;
+            else if(guessPrice >= 0.85*correctPrice && guessPrice <= 1.15*correctPrice)
+                scorePlus = 10;
+            else
+            {
+                scorePlus = 0;
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void confirmSelection()
     {
-        Intent myIntent = new Intent(this, AfterGuessActivity.class);
-        myIntent.putExtra("score", score);
-        myIntent.putExtra("correctPrice", app.getAd(adIndex).getPrice());
-        myIntent.putExtra("guessPrice", guessPrice);
-        myIntent.putExtra("adIndex", adIndex);
-        startActivityForResult(myIntent, 2 );
+        priceGuesser.setVisibility(View.GONE);
+        afterGuess.setVisibility(View.VISIBLE);
+
+        populateAfterGuessViews();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    private void continuePressed()
     {
-        if (requestCode == 1)
+        if(adIndex >= gameSize - 1)
         {
-            if(resultCode == Activity.RESULT_OK)
-            {
-                int page = data.getIntExtra("page", 0);
-                imagePreview.setCurrentItem(page);
-            }
+            Intent myIntent = new Intent(this, GameOver.class);
+            myIntent.putExtra("gameSize", gameSize);
+            myIntent.putExtra("score", score);
+            startActivity(myIntent);
+            finish();
         }
-        if (requestCode == 2)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
-                score = data.getIntExtra("score", 0);
-                if(adIndex >= gameSize - 1)
-                {
-                    Intent myIntent = new Intent(this, GameOver.class);
-                    myIntent.putExtra("gameSize", gameSize);
-                    myIntent.putExtra("score", score);
-                    startActivity(myIntent);
-                    finish();
-                }
-                else
-                    adIndex++;
+        else
+            adIndex++;
 
-                setViewsWithAd(app.getAd(adIndex));
-                dialpadString = "";
-                priceGuess.setText("");
-                togglePanel(null);
-            }
+        setViewsWithAd(app.getAd(adIndex));
+        dialpadString = "";
+        beforePriceGuess.setText("");
+        scorePlusTextView.setVisibility(View.GONE);
+        togglePanel(null);
+
+        priceGuesser.setVisibility(View.VISIBLE);
+        afterGuess.setVisibility(View.GONE);
+    }
+
+    private void saveAd()
+    {
+        if(!adSaved)
+        {
+            database.open();
+            database.createAd(app.getAd(adIndex));
+            database.close();
+            adSaved = true;
+        }
+        Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
+    }
+
+    private void populateAfterGuessViews()
+    {
+        float correctPrice = app.getAd(adIndex).getPrice();
+
+        if(guessPrice == (int) guessPrice)
+            afterPriceGuess.setText(String.format("%,d€", (int) guessPrice));
+        else
+            afterPriceGuess.setText(String.format("%,.2f€", guessPrice));
+
+
+        if(correctPrice == (int) correctPrice)
+            correctPriceOutput.setText(String.format("%,d€", (int) correctPrice));
+        else
+            correctPriceOutput.setText(String.format("%,.2f€", correctPrice));
+
+        scoreOutput.setText(String.format("%d", score));
+
+        if (calculateScore())
+        {
+            scorePlusTextView.setText(String.format("+%d", scorePlus));
+            scorePlusTextView.setVisibility(View.VISIBLE);
+            score += scorePlus;
         }
     }
 }
