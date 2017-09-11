@@ -33,11 +33,13 @@ public class ParentCategory extends Category
         {
             subCategories.get(i).toggleSelected();
             this.toggleSelected();
+            Boolean selected = false;
             for(SubCategory subCategory : subCategories)
             {
                 if (subCategory.isSelected())
-                    this.toggleSelected();
+                    selected = true;
             }
+            this.setSelected(selected);
         }
         else
         {
@@ -54,5 +56,26 @@ public class ParentCategory extends Category
         {
             subCategory.setSelected(true);
         }
+    }
+
+    public void toggleAll()
+    {
+        if(this.isSelected())
+        {
+            for(SubCategory subCategory : subCategories)
+            {
+                subCategory.setSelected(false);
+            }
+            this.setSelected(false);
+        }
+        else
+        {
+            for(SubCategory subCategory : subCategories)
+            {
+                subCategory.setSelected(true);
+            }
+            this.setSelected(true);
+        }
+
     }
 }
