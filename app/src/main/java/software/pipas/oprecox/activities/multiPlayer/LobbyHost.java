@@ -1,27 +1,43 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
+import java.util.ArrayList;
+
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.adapters.InviteListAdapter;
+import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
-import software.pipas.oprecox.modules.network.Room;
+import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
+import software.pipas.oprecox.modules.network.RoomService;
 
 public class LobbyHost extends MultiplayerClass
 {
     private final int OPTIONS_REQUEST_CODE = 1;
 
+    private BroadcastReceiver broadcastReceiver;
+
     private Intent room;
     private String roomName;
-    Player player;
+    private Player player;
+
+    private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
+    private PlayerListAdapter playerListAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +45,16 @@ public class LobbyHost extends MultiplayerClass
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_lobby_host);
         this.startRoom();
+
+        ListView listView = (ListView) findViewById(R.id.playersListViewer);
+        this.players = new ArrayList<>();
+
+        final PlayerListAdapter playerListAdapter = new PlayerListAdapter(this.players, getApplicationContext(), getContentResolver());
+        listView.setAdapter(playerListAdapter);
+
+        this.playerListAdapter = playerListAdapter;
+
+        this.startBroadcastReceiver();
     }
 
     @Override
@@ -80,6 +106,7 @@ public class LobbyHost extends MultiplayerClass
     {
         super.onDestroy();
         stopService(this.room);
+        unregisterReceiver(this.broadcastReceiver);
     }
 
     @Override
@@ -105,8 +132,50 @@ public class LobbyHost extends MultiplayerClass
 
     private void startRoom()
     {
-        this.room = new Intent(this, Room.class);
+        this.room = new Intent(this, RoomService.class);
         startService(this.room);
     }
 
+    private void startBroadcastReceiver()
+    {
+        this.broadcastReceiver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleReceivedIntent(context, intent);
+            }
+        };
+        IntentFilter filter = new IntentFilter(getString(R.string.S007));
+        registerReceiver(this.broadcastReceiver, filter);
+    }
+
+    //for receive of intents S007
+    private void handleReceivedIntent(Context context, Intent intent)
+    {
+        Log.d("LOBBY_HOST", intent.toString());
+
+        software.pipas.oprecox.modules.dataType.Player player = intent.getExtras().getParcelable(getString(R.string.S007_ADDPLAYERLIST));
+
+        if(player != null)
+        {
+            this.players.add(player);
+            this.refreshListAdapter(this.playerListAdapter);
+            return;
+        }
+
+        player = intent.getExtras().getParcelable(getString(R.string.S007_REMOVEPLAYERLIST));
+
+        if(player != null)
+        {
+            this.players.remove(player);
+            this.refreshListAdapter(this.playerListAdapter);
+            return;
+        }
+    }
+
+    private void refreshListAdapter(PlayerListAdapter playerListAdapter)
+    {
+        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
+        this.runOnUiThread(listAdapterRefresh);
+    }
 }

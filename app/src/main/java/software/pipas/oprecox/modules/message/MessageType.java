@@ -3,7 +3,11 @@ package software.pipas.oprecox.modules.message;
 public enum MessageType
 {
     ANNOUNCE("ANNOUNCE"),
-    INVITE("INVITE");
+    INVITE("INVITE"),
+    REQUESTID("REQUESTID"),
+    ID("ID"),
+    ADDPLAYERLIST("ADDPLAYERLIST"),
+    REMOVEPLAYERLIST("REMOVEPLAYERLIST");
 
     private final String message;
 

@@ -47,11 +47,11 @@
 
     </LinearLayout>
 
-    <ListView
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+        android:id="@+id/playersListViewer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.49">
-    </ListView>
+        android:layout_height="255dp"></com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
+
 
     <LinearLayout
         android:layout_width="match_parent"

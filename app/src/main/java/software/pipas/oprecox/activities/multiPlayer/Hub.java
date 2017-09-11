@@ -27,6 +27,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCa
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
@@ -38,7 +39,7 @@ import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.modules.network.AnnouncerSenderService;
-import software.pipas.oprecox.modules.network.TCPCommsService;
+import software.pipas.oprecox.modules.network.ClientService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
 
 public class Hub extends MultiplayerClass implements AsyncTaskCompleted
@@ -52,6 +53,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
     private Intent tcpCommsService;
     private BroadcastReceiver broadcastReceiver;
     private ProgressDialog progressDialog;
+    private Invite latestAcceptedInvite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,6 +88,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Invite invite = invites.get(position);
+                inviteListAdapter.remove(position);
                 Log.d("LOG_DEBUG", invite.toString());
                 acceptInvite(invite);
             }
@@ -149,7 +152,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
         unregisterReceiver(this.broadcastReceiver);
         stopService(this.udpCommsService);
         stopService(this.announcerSenderService);
-        stopService(this.tcpCommsService);
+        if(this.tcpCommsService != null) stopService(this.tcpCommsService);
     }
 
     @Override
@@ -224,70 +227,107 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
             if(response.equals(ResponseType.TIMEOUT.toString()))
             {
                 Toast.makeText(this, "Connection Timed Out!", Toast.LENGTH_SHORT).show();
+                if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CLOSED.toString()))
             {
                 Toast.makeText(this, "Connection interrupted!", Toast.LENGTH_SHORT).show();
+                if(this.tcpCommsService != null) stopService(this.tcpCommsService);
+            }
+            else if(response.equals(ResponseType.CLIENT_CLOSED.toString()))
+            {
+                if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CONNECTED.toString()))
             {
                 Intent activity = new Intent(this, LobbyClient.class);
+                if(this.latestAcceptedInvite != null)
+                {
+                    activity.putExtra(getString(R.string.S006_ROOMNAME), this.latestAcceptedInvite.getRealRoomName());
+                    activity.putExtra(getString(R.string.S006_HOSTERNAME), this.latestAcceptedInvite.getDisplayName());
+                    while (this.latestAcceptedInvite.getPlayerImage() == null) {}
+                    activity.putExtra(getString(R.string.S006_ROOMIMAGE), this.latestAcceptedInvite.getPlayerImage());
+                }
                 startActivity(activity);
             }
 
+            return;
+
         }
 
 
-
-        String message = intent.getExtras().getString(getResources().getString(R.string.S001_MESSAGE));
-        InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S001_INETSOCKETADDRESS));
-        if(message == null || socketAddress == null) return;
-
-        Message msg = new Message(this.getApplicationContext(), message);
-        //test self-announce REMOVE THE COMMENT LINE IN THE END
-        if(!msg.isValid() || player == null || player.getPlayerId().equals(msg.getPlayerId()) || this.inviteListAdapter == null || !msg.getMessageType().equals(MessageType.INVITE.toString())) return;
-
-
-        Invite invite = new Invite(
-                msg.getRoomName(),
-                msg.getDisplayName(),
-                msg.getName(),
-                msg.getPlayerId(),
-                msg.getRoomPort(),
-                socketAddress.getAddress(),
-                System.currentTimeMillis(),
-                null);
-
-
-        int index = this.invites.indexOf(invite);
-
-        if(index <= -1)
+        String str = intent.getExtras().getString(getResources().getString(R.string.S001_MESSAGE));
+        if(str != null)
         {
-            this.retrievePlayerURI(this.inviteListAdapter, invite);
-            this.invites.add(invite);
-            this.refreshListAdapter(this.inviteListAdapter);
-        }
-        else
-        {
-            this.invites.get(index).updateAddress(invite.getAddress());
-            this.invites.get(index).updateRoomPort(invite.getRoomPort());
-            this.invites.get(index).updateTimeReceived(invite.getTimeReceived());
+            Message msg = new Message(this.getApplicationContext(), str);
 
-            if(!this.invites.get(index).getRoomName().equals(invite.getRoomName()))
+            if(msg.isValid() && player != null && !player.getPlayerId().equals(msg.getPlayerId()) && this.inviteListAdapter != null && msg.getMessageType().equals(MessageType.INVITE.toString()))
             {
-                this.invites.get(index).updateRoomName(invite.getRoomName());
-                this.refreshListAdapter(this.inviteListAdapter);
+                InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S001_INETSOCKETADDRESS));
+                if(socketAddress == null) return;
+
+                Invite invite = new Invite(
+                        msg.getRoomName(),
+                        msg.getDisplayName(),
+                        msg.getName(),
+                        msg.getPlayerId(),
+                        msg.getRoomPort(),
+                        socketAddress.getAddress(),
+                        System.currentTimeMillis(),
+                        null);
+
+
+                int index = this.invites.indexOf(invite);
+
+                if(index <= -1)
+                {
+                    this.retrievePlayerURI(this.inviteListAdapter, invite);
+                    this.invites.add(invite);
+                    this.refreshListAdapter(this.inviteListAdapter);
+                }
+                else
+                {
+                    this.invites.get(index).updateAddress(invite.getAddress());
+                    this.invites.get(index).updateRoomPort(invite.getRoomPort());
+                    this.invites.get(index).updateTimeReceived(invite.getTimeReceived());
+
+                    if(!this.invites.get(index).getRoomName().equals(invite.getRoomName()))
+                    {
+                        this.invites.get(index).updateRoomName(invite.getRoomName());
+                        this.refreshListAdapter(this.inviteListAdapter);
+                    }
+                }
+
+            }
+            else if (msg.isValid() && player != null && msg.getMessageType().equals(MessageType.REQUESTID.toString()))
+            {
+                String[] args = new String[4];
+
+                args[0] = this.getString(R.string.network_app_name);
+                args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+                args[2] = MessageType.ID.toString();
+                args[3] = this.player.getPlayerId();
+
+                Message newMsg = new Message(this.getApplicationContext(), args);
+
+                if (!newMsg.isValid()) return;
+
+                Intent intent1 = new Intent(getResources().getString(R.string.S005));
+                intent1.putExtra(getResources().getString(R.string.S005_MESSAGE), newMsg.getMessage());
+                sendBroadcast(intent1);
             }
         }
+
     }
 
     private void acceptInvite(Invite invite)
     {
         if(this.tcpCommsService != null) stopService(this.tcpCommsService);
 
+        this.latestAcceptedInvite = invite;
         this.progressDialog.show();
         InetSocketAddress inetSocketAddress = new InetSocketAddress(invite.getAddress(), invite.getRoomPort());
-        this.tcpCommsService = new Intent(this, TCPCommsService.class);
+        this.tcpCommsService = new Intent(this, ClientService.class);
         this.tcpCommsService.putExtra(getResources().getString(R.string.S005_INETSOCKETADDRESS), inetSocketAddress);
         startService(this.tcpCommsService);
     }

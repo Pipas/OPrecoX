@@ -9,7 +9,8 @@ public enum ResponseType
     TIMEOUT("TIMEOUT"),
     CONNECTED("CONNECTED"),
     CLOSED("CLOSED"),
-    INFO("INVITE");
+    INFO("INVITE"),
+    CLIENT_CLOSED("CLIENT_CLOSED");
 
     private final String response;
 

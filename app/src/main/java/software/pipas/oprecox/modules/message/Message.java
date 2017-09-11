@@ -112,6 +112,27 @@ public class Message
             this.roomPort = args[7];
             return true;
         }
+        else if(messageType.equals(MessageType.REQUESTID) && args.length == 3)
+        {
+            return true;
+        }
+        else if(messageType.equals(MessageType.ID) && args.length == 4)
+        {
+            this.playerId = args[3];
+            return true;
+        }
+        else if(messageType.equals(MessageType.ADDPLAYERLIST) && args.length == 6)
+        {
+            this.name = args[3];
+            this.displayName = args[4];
+            this.playerId = args[5];
+            return true;
+        }
+        else if(messageType.equals(MessageType.REMOVEPLAYERLIST) && args.length == 4)
+        {
+            this.playerId = args[3];
+            return true;
+        }
         else
         {
             return false;
@@ -166,6 +187,22 @@ public class Message
         else if(messageType.equals(MessageType.INVITE))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.roomName + " " + this.displayName + " " + this.name + " " + this.playerId + " " + this.roomPort);
+        }
+        else if(messageType.equals(MessageType.REQUESTID))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
+        }
+        else if(messageType.equals(MessageType.ID))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
+        }
+        else if(messageType.equals(MessageType.ADDPLAYERLIST))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.name + " " + this.displayName + " " + this.playerId);
+        }
+        else if(messageType.equals(MessageType.REMOVEPLAYERLIST))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
         }
         else
         {

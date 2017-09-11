@@ -29,7 +29,18 @@ public class Player extends DataType implements Parcelable
 
     }
 
+    public Player(String name, String displayName, String id, Uri playerImage)
+    {
+        this.name = name;
+        this.displayName = displayName;
+        this.playerID = id;
+        this.playerImage = playerImage;
+    }
 
+    public Player(String playerID)
+    {
+        this.playerID = playerID;
+    }
 
     public String getName()
     {
