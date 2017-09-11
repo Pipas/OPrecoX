@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/softWhite"
     tools:context=".activities.other.GameSizeChooser">
 
     <LinearLayout
-        android:id="@+id/guesses5"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp">
+
+        <TextView
+            android:id="@+id/gameSizeTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/gameSizeTitle"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@color/softWhite"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="?attr/selectableItemBackground"
@@ -18,15 +36,17 @@
         android:paddingRight="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/shortGameTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/shortsize"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/shortGameTooltip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5"
@@ -41,7 +61,6 @@
         android:background="#e0e0e0" />
 
     <LinearLayout
-        android:id="@+id/guesses10"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="?attr/selectableItemBackground"
@@ -51,15 +70,17 @@
         android:paddingRight="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/normalGameTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/normalsize"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/normalGameTooltip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10"
@@ -74,7 +95,6 @@
         android:background="#e0e0e0"/>
 
     <LinearLayout
-        android:id="@+id/guesses20"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="?attr/selectableItemBackground"
@@ -84,15 +104,17 @@
         android:paddingRight="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/longGameTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/longsize"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/longGameTooltip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20"

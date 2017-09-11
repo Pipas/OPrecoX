@@ -34,14 +34,21 @@ public class SavedAds extends AppCompatActivity
         setContentView(R.layout.activity_saved_adds);
 
         TextView savedAdsTitleTextView = (TextView)findViewById(R.id.savedAdsTitleTextView);
-        CustomFontHelper.setCustomFont(savedAdsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        TextView savedAdsTooltip = (TextView)findViewById(R.id.savedAdsTooltip);
 
+        CustomFontHelper.setCustomFont(savedAdsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(savedAdsTooltip, "font/Conforta_Regular.ttf", getBaseContext());
 
         database = new DatabaseHandler(this);
         database.open();
         DynamicListView myAddsList = (DynamicListView) findViewById(R.id.myAddsList);
 
         ArrayList<AdPreview> ads = database.getAllComments();
+
+        if(!ads.isEmpty())
+        {
+            savedAdsTooltip.setVisibility(View.GONE);
+        }
 
         adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver());
         SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(adListAdapter);

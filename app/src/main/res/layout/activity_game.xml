@@ -38,7 +38,7 @@
             android:id="@+id/imagePreviewColoredShadow"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@color/lightOrange"
+            android:background="@color/colorPrimary"
             android:layout_below="@id/imagePreviewLayout">
         </View>
 
@@ -67,7 +67,7 @@
                     android:id="@+id/titleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     android:textColor="@color/darkGrey"
                     android:layout_margin="12dp"/>
 
@@ -127,7 +127,7 @@
             android:id="@+id/guesserFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightOrange"
+            android:background="@color/colorPrimary"
             android:elevation="8dp"
             android:layout_below="@id/blankSpace"
             android:animateLayoutChanges="true">

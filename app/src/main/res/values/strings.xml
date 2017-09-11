@@ -13,6 +13,16 @@
     <string name="categories">Categorias</string>
     <string name="processDialog">A carregar...</string>
 
+    <!--           Game Size Strings         -->
+    <string name="gameSizeTitle">Tamanho do Jogo</string>
+    <string name="shortsize">Jogo curto</string>
+    <string name="normalsize">Jogo normal</string>
+    <string name="longsize">Jogo longo</string>
+
+    <!--           Saved Ads Strings         -->
+
+    <string name="savedAdsTooltip">Ainda não tens Anúncios Guardados.\nPodes salvar anúncios depois de dares um palpite.</string>
+
     <!--         Game Activity Strings       -->
 
     <string name="leavegame">Sair do jogo?</string>
@@ -25,6 +35,11 @@
     <string name="score">Pontuação</string>
     <string name="savedAd">Anúncio Guardado</string>
 
+    <!--           Game Over Strings         -->
+
+    <string name="gameOverTitle">Fim do Jogo</string>
+    <string name="finish">Acabar</string>
+    <string name="finalScore">Pontuação Final</string>
 
 
     <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
@@ -60,9 +75,7 @@
     <string name="gameoptionssingleplayer">Opções Um Jogador</string>
     <string name="gameoptionsmultiplayer">Opções Multijogador</string>
     <string name="startcaps">COMEÇAR</string>
-    <string name="shortsize">Jogo curto</string>
-    <string name="normalsize">Jogo normal</string>
-    <string name="longsize">Jogo longo</string>
+
 
     <string name="leaveapp">Sair da Aplicação</string>
     <string name="leaveappsub">Deseja sair da Aplicação?</string>

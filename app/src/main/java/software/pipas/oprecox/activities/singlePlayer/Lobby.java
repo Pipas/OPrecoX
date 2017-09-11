@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
 import software.pipas.oprecox.application.OPrecoX;
@@ -28,6 +29,8 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
     private int gameSize = 10;
     private ProgressDialog progressDialog;
     private OPrecoX app;
+
+    private Boolean blocked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -143,6 +146,18 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
             Intent myIntent = new Intent(this, PriceGuessGameActivity.class);
             myIntent.putExtra("gameSize", gameSize);
             startActivity(myIntent);
+        }
+    }
+
+    @Override
+    public void olxChangeException()
+    {
+        if(!blocked)
+        {
+            blocked = true;
+            Intent myIntent = new Intent(this, BlockedApp.class);
+            startActivity(myIntent);
+            finish();
         }
     }
 }

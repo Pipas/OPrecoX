@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="35sp"
                         android:textColor="@color/correctGreen"
-                        android:layout_marginLeft="12dp"/>
+                        android:layout_marginLeft="8dp"/>
 
                 </LinearLayout>
 

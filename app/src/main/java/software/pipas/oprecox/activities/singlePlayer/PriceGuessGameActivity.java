@@ -2,6 +2,7 @@ package software.pipas.oprecox.activities.singlePlayer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -286,22 +287,23 @@ public class PriceGuessGameActivity extends GameActivity
         if(adIndex >= gameSize - 1)
         {
             Intent myIntent = new Intent(this, GameOver.class);
-            myIntent.putExtra("gameSize", gameSize);
             myIntent.putExtra("score", score);
             startActivity(myIntent);
             finish();
         }
         else
+        {
             adIndex++;
 
-        setViewsWithAd(app.getAd(adIndex));
-        dialpadString = "";
-        beforePriceGuess.setText("");
-        scorePlusTextView.setVisibility(View.GONE);
-        togglePanel(null);
+            setViewsWithAd(app.getAd(adIndex));
+            dialpadString = "";
+            beforePriceGuess.setText("");
+            scorePlusTextView.setVisibility(View.GONE);
+            togglePanel(null);
 
-        priceGuesser.setVisibility(View.VISIBLE);
-        afterGuess.setVisibility(View.GONE);
+            priceGuesser.setVisibility(View.VISIBLE);
+            afterGuess.setVisibility(View.GONE);
+        }
     }
 
     private void saveAd()
@@ -337,7 +339,11 @@ public class PriceGuessGameActivity extends GameActivity
         {
             scorePlusTextView.setText(String.format("+%d", scorePlus));
             scorePlusTextView.setVisibility(View.VISIBLE);
+            afterPriceGuess.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.correctGreen));
             score += scorePlus;
+            app.getAd(adIndex).setScoreGained(scorePlus);
         }
+        else
+            afterPriceGuess.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.wrongRed));
     }
 }

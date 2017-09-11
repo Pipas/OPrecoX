@@ -12,8 +12,12 @@ public class Ad
     private ArrayList<Bitmap> images;
     private String url;
     private String category;
+    private int scoreGained;
 
-    public Ad() {}
+    public Ad()
+    {
+        scoreGained = 0;
+    }
 
     public String getTitle()
     {
@@ -73,5 +77,15 @@ public class Ad
     public void setCategory(String category)
     {
         this.category = category;
+    }
+
+    public int getScoreGained()
+    {
+        return scoreGained;
+    }
+
+    public void setScoreGained(int scoreGained)
+    {
+        this.scoreGained = scoreGained;
     }
 }

@@ -15,7 +15,6 @@ import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
-import software.pipas.oprecox.util.Settings;
 
 public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 {
@@ -24,6 +23,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     private OPrecoX app;
     private int index;
     private boolean validURL = false;
+    private boolean olxchange = false;
 
     public AsyncGetAll(ParsingCallingActivity activity, OPrecoX app, int index)
     {
@@ -76,7 +76,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             catch(OLXSyntaxChangeException e)
             {
                 Log.d("PARSE", "OLX changed in url '" + randomURL + "'");
-                Settings.setLocked(true);
+                olxchange = true;
                 return null;
             }
         }
@@ -86,8 +86,13 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result)
     {
-        app.addAd(ad, index);
-        activity.parsingEnded();
-        Log.d("PARSE", String.format("Finished background async parse '" + ad.getUrl() +"'"));
+        if(olxchange)
+            activity.olxChangeException();
+        else
+        {
+            app.addAd(ad, index);
+            activity.parsingEnded();
+            Log.d("PARSE", String.format("Finished background async parse '" + ad.getUrl() +"'"));
+        }
     }
 }

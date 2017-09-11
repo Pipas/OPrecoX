@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".activities.singlePlayer.GameActivity"
-            android:screenOrientation="portrait"
+
             android:theme="@style/GameActivity" />
         <activity
             android:name=".activities.singlePlayer.PriceGuessGameActivity"

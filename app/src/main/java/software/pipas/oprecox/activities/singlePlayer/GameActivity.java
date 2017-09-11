@@ -21,8 +21,10 @@ import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.fragments.GameDataFragment;
 import software.pipas.oprecox.modules.imageViewer.ImageViewer;
@@ -40,6 +42,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private TextView titleTextView;
     private TextView descriptionTextView;
     private PageIndicatorView imagePreviewIndicator;
+    private Boolean blocked = false;
 
     private GameDataFragment gameDataFragment;
 
@@ -59,6 +62,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         gameDataFragment = (GameDataFragment) fm.findFragmentByTag("gamedata");
 
         initiateViews();
+
+        initiateCustomFonts();
 
         setSlideupGuesserListener();
         setGuessTabListeners(true);
@@ -110,12 +115,17 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         imagePreviewIndicator.setAnimationType(AnimationType.SCALE);
         imagePreviewIndicator.setRadius(5);
-        imagePreviewIndicator.setSelectedColor(Color.parseColor("#FFCA72"));
+        imagePreviewIndicator.setSelectedColor(Color.parseColor("#EF913F"));
 
         titleTextView = (TextView) findViewById(R.id.titleTextView);
         descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
 
         app = (OPrecoX) getApplicationContext();
+    }
+
+    private void initiateCustomFonts()
+    {
+        CustomFontHelper.setCustomFont(titleTextView, "font/antipastopro-demibold.otf", getBaseContext());
     }
 
     private void setSlideupGuesserListener()
@@ -241,6 +251,18 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     public void parsingEnded()
     {
 
+    }
+
+    @Override
+    public void olxChangeException()
+    {
+        if(!blocked)
+        {
+            blocked = true;
+            Intent myIntent = new Intent(this, BlockedApp.class);
+            startActivity(myIntent);
+            finish();
+        }
     }
 
     @Override

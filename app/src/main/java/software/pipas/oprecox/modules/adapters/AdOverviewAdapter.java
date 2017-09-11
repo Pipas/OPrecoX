@@ -2,6 +2,7 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,16 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
-import software.pipas.oprecox.modules.dataType.AdPreview;
-import software.pipas.oprecox.util.Util;
+import software.pipas.oprecox.modules.dataType.Ad;
 
-public class AdListAdapter extends ArrayAdapter<AdPreview>
+public class AdOverviewAdapter extends ArrayAdapter<Ad>
 {
     Context mContext;
     ContentResolver mContentResolver;
 
-    public AdListAdapter(ArrayList<AdPreview> data, Context context, ContentResolver contentResolver)
+    public AdOverviewAdapter(ArrayList<Ad> data, Context context, ContentResolver contentResolver)
     {
-        super(context, R.layout.saved_ad_layout, data);
+        super(context, R.layout.ad_overview_layout, data);
         this.mContext = context;
         this.mContentResolver = contentResolver;
     }
@@ -43,16 +43,15 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
         {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.saved_ad_layout, null);
+            v = vi.inflate(R.layout.ad_overview_layout, null);
         }
 
-        AdPreview ad = getItem(position);
+        Ad ad = getItem(position);
 
         if (ad != null)
         {
             TextView title = (TextView) v.findViewById(R.id.title);
-            TextView description = (TextView) v.findViewById(R.id.description);
-
+            TextView scoreGained = (TextView) v.findViewById(R.id.scoreGained);
             CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.image);
 
             if (title != null)
@@ -61,15 +60,26 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
                 CustomFontHelper.setCustomFont(title, "font/antipastopro-demibold.otf", mContext);
             }
 
-            if (description != null)
+            if (scoreGained != null)
             {
-                description.setText(ad.getDescription());
-                CustomFontHelper.setCustomFont(description, "font/Comfortaa_Regular.ttf", mContext);
+                if(ad.getScoreGained() != 0)
+                {
+                    scoreGained.setTextColor(ContextCompat.getColor(mContext, R.color.correctGreen));
+                    scoreGained.setText(String.format("+%d", ad.getScoreGained()));
+                }
+                else
+                {
+                    scoreGained.setTextColor(ContextCompat.getColor(mContext, R.color.letterGrey));
+                    scoreGained.setText(String.format("%d", ad.getScoreGained()));
+                }
+
+                CustomFontHelper.setCustomFont(scoreGained, "font/Comfortaa_Thin.ttf", mContext);
             }
+
 
             if (circleImageView != null)
             {
-                circleImageView.setImageBitmap(Util.biteArrayToBitmap(ad.getThumbnail()));
+                circleImageView.setImageBitmap(ad.getImages().get(0));
             }
         }
 
