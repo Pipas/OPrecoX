@@ -193,7 +193,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
                         if(player1.equals(dummyPlayer))
                         {
                             this.joined.put(player1, remotePlayerSocket);
-                            this.addPlayerToListAndSendToAll(player1);
+                            this.addPlayerToListAndSendToAll(player1, remotePlayerSocket);
                             break;
                         }
                     }
@@ -217,7 +217,6 @@ public class RoomService extends IntentService implements TCPConnectionManager
         HostPlayerHandler hostPlayerHandler = new HostPlayerHandler(RoomService.this, socket);
         hostPlayerHandler.start();
         this.identifyPlayer(socket);
-        this.sendJoinedPlayersInfo(socket); //enviar lista atual para o jogador
     }
 
     private void identifyPlayer(Socket socket)
@@ -244,12 +243,14 @@ public class RoomService extends IntentService implements TCPConnectionManager
         }
     }
 
-    private void addPlayerToListAndSendToAll(Player player)
+    private void addPlayerToListAndSendToAll(Player player, Socket socket)
     {
+        //sending to me
         Intent intent = new Intent(getString(R.string.S007));
         intent.putExtra(getString(R.string.S007_ADDPLAYERLIST), player);
         sendBroadcast(intent);
 
+        //sending new player to everyone
         String playerName = player.getName();
         String displayName = player.getDisplayName();
         String playerID = player.getPlayerID();
@@ -268,6 +269,9 @@ public class RoomService extends IntentService implements TCPConnectionManager
         if(!msg.isValid()) return;
 
         this.sendBroadcastToClients(msg);
+
+        //must send joined players, except own 'player' to 'socket'
+        this.sendRestToPlayer(player, socket);
 
     }
 
@@ -299,11 +303,13 @@ public class RoomService extends IntentService implements TCPConnectionManager
         }
     }
 
-    private void sendJoinedPlayersInfo(Socket socket)
+    private void sendRestToPlayer(Player playerToSend, Socket socket)
     {
         for(HashMap.Entry<Player, Socket> entry : this.joined.entrySet())
         {
             Player player = entry.getKey();
+
+            if(playerToSend.equals(player)) continue;
 
             String playerName = player.getName();
             String displayName = player.getDisplayName();
@@ -334,7 +340,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
                 try
                 {
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
-                    out.write(message.getMessage());
+                    out.write(message.getMessage() + "\n");
                     out.flush();
                 }
                 catch (IOException e)
@@ -356,7 +362,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
                     try
                     {
                         PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
-                        out.write(message.getMessage());
+                        out.write(message.getMessage() + "\n");
                         out.flush();
                     }
                     catch (IOException e)

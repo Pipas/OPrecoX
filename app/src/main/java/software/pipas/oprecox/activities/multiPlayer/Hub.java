@@ -231,7 +231,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
             }
             else if(response.equals(ResponseType.CLOSED.toString()))
             {
-                Toast.makeText(this, "Connection interrupted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Connection no longer available", Toast.LENGTH_SHORT).show();
                 if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CLIENT_CLOSED.toString()))
@@ -315,6 +315,10 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
                 Intent intent1 = new Intent(getResources().getString(R.string.S005));
                 intent1.putExtra(getResources().getString(R.string.S005_MESSAGE), newMsg.getMessage());
                 sendBroadcast(intent1);
+            }
+            else if (msg.isValid() && player != null && msg.getMessageType().equals(MessageType.ADDPLAYERLIST.toString()))
+            {
+                Log.d("RECEIVE_HUB", msg.getMessage());
             }
         }
 

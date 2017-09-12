@@ -1,9 +1,12 @@
 package software.pipas.oprecox.application;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentName;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import software.pipas.oprecox.modules.dataType.Ad;
 

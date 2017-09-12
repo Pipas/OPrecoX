@@ -3,6 +3,7 @@ package software.pipas.oprecox.modules.customThreads;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import software.pipas.oprecox.modules.dataType.Player;
 
@@ -70,6 +71,7 @@ public class PlayerListUpdater extends Thread
             }
         }
 
+        Collections.reverse(indexes);
 
         if(update)
         {

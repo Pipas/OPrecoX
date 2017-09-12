@@ -35,12 +35,13 @@ import software.pipas.oprecox.modules.message.ResponseType;
 
 public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
 {
+    private static boolean loaded = false;
+
     private BroadcastReceiver broadcastReceiver;
     private Player player;
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
-
 
 
     @Override
@@ -78,6 +79,8 @@ public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
         this.playerListAdapter = playerListAdapter;
 
         this.startBroadcastReceiver();
+
+
     }
 
     @Override
@@ -94,6 +97,7 @@ public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
         super.onDestroy();
         this.sendClosedtoHub();
         unregisterReceiver(this.broadcastReceiver);
+        loaded = false;
     }
 
     private void startBroadcastReceiver()
@@ -107,10 +111,12 @@ public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
         };
         IntentFilter filter = new IntentFilter(getResources().getString(R.string.S006));
         registerReceiver(this.broadcastReceiver, filter);
+        loaded = true;
     }
 
     public void handleReceivedIntent(Context context, Intent intent)
     {
+        Log.d("RECEIVE_LOBBY", intent.toString());
         String str = intent.getExtras().getString(getResources().getString(R.string.S006_RESPONSE));
         if (str != null && str.equals(ResponseType.CLOSED.toString()))
         {
@@ -165,6 +171,8 @@ public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
         sendBroadcast(intent);
 
     }
+
+    public static boolean isLoaded() {return loaded;}
 }
 
 

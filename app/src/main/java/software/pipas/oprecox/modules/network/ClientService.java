@@ -1,10 +1,13 @@
 package software.pipas.oprecox.modules.network;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -15,8 +18,10 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.List;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.multiPlayer.LobbyClient;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
@@ -97,15 +102,25 @@ public class ClientService extends IntentService
         sendBroadcast(intent1);
     }
 
-    public void sendMessage(String str)
+    public void sendMessage(final String str)
     {
         Intent intent1 = new Intent(getResources().getString(R.string.S001));
         intent1.putExtra(getResources().getString(R.string.S001_MESSAGE), str);
         sendBroadcast(intent1);
 
-        Intent intent = new Intent(getResources().getString(R.string.S006));
-        intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
-        sendBroadcast(intent);
+
+        //failsafe in case LobbyClient hasnt started
+        (new Thread()
+        {
+            public void run()
+            {
+                while (!LobbyClient.isLoaded()) {}
+                Intent intent = new Intent(getResources().getString(R.string.S006));
+                intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
+                sendBroadcast(intent);
+            }
+        }).start();
+
     }
 
     public void terminate()
@@ -113,8 +128,8 @@ public class ClientService extends IntentService
         try
         {
             this.socket.close();
-            this.in.close();
-            this.out.close();
+            if(this.in != null) this.in.close();
+            if(this.out != null) this.out.close();
         }
         catch (IOException e)
         {
@@ -224,4 +239,5 @@ public class ClientService extends IntentService
         }
 
     }
+
 }

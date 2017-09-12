@@ -25,34 +25,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/roomNameClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                android:layout_weight="0.95" />
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/roomHostNameClient"
                 android:layout_width="match_parent"
-                android:layout_height="78dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:textSize="20sp" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 
     <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/playersListViewer"
         android:layout_width="match_parent"
-        android:layout_height="314dp"
-        android:layout_weight="0.17"></com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
+        android:layout_height="350dp"></com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
 
 
 </LinearLayout>
