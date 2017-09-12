@@ -43,4 +43,9 @@
         <item name="colorAccent">@color/darkOrange</item>
     </style>
 
+    <style name="CheckBoxStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+    </style>
+
 </resources>

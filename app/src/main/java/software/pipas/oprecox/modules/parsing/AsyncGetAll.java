@@ -48,21 +48,15 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
         {
             try
             {
-                subCategory = CategoryHandler.getRandomSubCategory();
-                ad.setCategory(subCategory.getParentCategory());
+                subCategory = setSubCategory();
                 randomURL = OlxParser.getRandomURL(subCategory.getUrlEnd());
-                ad.setDescription(OlxParser.getDescription(randomURL));
-                ad.setTitle(OlxParser.getTitle(randomURL));
-                ad.setPrice(OlxParser.getPrice(randomURL));
-                ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
-                ArrayList<Bitmap> images = new ArrayList<Bitmap>();
-                for(int i = 0; i < imageUrls.size(); i++)
-                {
-                    InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
-                    images.add(BitmapFactory.decodeStream(input));
-                }
-                ad.setImages(images);
+
+                getText(randomURL);
+
+                getImages(randomURL);
+
                 ad.setUrl(randomURL);
+
                 validURL = true;
             }
             catch (NumberFormatException e)
@@ -81,6 +75,40 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             }
         }
         return null;
+    }
+
+    private void getImages(String randomURL) throws IOException
+    {
+        ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
+        ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+
+        int imageMax;
+        if(imageUrls.size() < 8)
+            imageMax = imageUrls.size();
+        else
+            imageMax = 8;
+
+        for(int i = 0; i < imageMax; i++)
+        {
+            InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
+            images.add(BitmapFactory.decodeStream(input));
+        }
+        ad.setImages(images);
+    }
+
+    private void getText(String randomURL) throws IOException, OLXSyntaxChangeException
+    {
+        ad.setDescription(OlxParser.getDescription(randomURL));
+        ad.setTitle(OlxParser.getTitle(randomURL));
+        ad.setPrice(OlxParser.getPrice(randomURL));
+    }
+
+    private SubCategory setSubCategory()
+    {
+        SubCategory subCategory;
+        subCategory = CategoryHandler.getRandomSubCategory();
+        ad.setCategory(subCategory.getParentCategory());
+        return subCategory;
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.categories.SubCategory;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 
 public class SubCategoryListAdapter extends ArrayAdapter<SubCategory>
 {
@@ -52,6 +53,7 @@ public class SubCategoryListAdapter extends ArrayAdapter<SubCategory>
             if (subCategoryTitle != null)
             {
                 subCategoryTitle.setText(category.getTitle());
+                CustomFontHelper.setCustomFont(subCategoryTitle, "font/antipastopro-demibold.otf", mContext);
             }
 
             if(category.isSelected())

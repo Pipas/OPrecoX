@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="software.pipas.oprecox.activities.other.CategoryChooser">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorPrimaryDark"
@@ -23,7 +23,19 @@
             android:textSize="20sp"
             android:textColor="@color/softWhite"/>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/pressMore"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/more"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:tint="@color/softWhite"/>
+
+    </RelativeLayout>
 
     <GridView
         android:id="@+id/categoryGridView"

@@ -65,12 +65,19 @@ public class GameOver extends AppCompatActivity
 
     public void pressFinish(View v)
     {
+        resetAdArray();
         finish();
     }
 
     @Override
     public void onBackPressed()
     {
+        resetAdArray();
         finish();
+    }
+
+    public void resetAdArray()
+    {
+        app.setAds(null);
     }
 }
