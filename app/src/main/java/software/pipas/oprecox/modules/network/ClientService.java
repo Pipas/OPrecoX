@@ -229,16 +229,22 @@ public class ClientService extends IntentService
     }
 
     //for receiving S005 stuff, from own app
-    private void handleIntentReceived(Context context, Intent intent)
+    private void handleIntentReceived(Context context, final Intent intent)
     {
-        String str = intent.getExtras().getString(getString(R.string.S005_MESSAGE));
-        Message msg = new Message(this.getApplicationContext(), str);
-
-        if(msg.isValid() && msg.getMessageType().equals(MessageType.ID.toString()))
+        (new Thread()
         {
-            this.out.write(msg.getMessage() + "\n");
-            this.out.flush();
-        }
+            public void run()
+            {
+                String str = intent.getExtras().getString(getString(R.string.S005_MESSAGE));
+                Message msg = new Message(getApplicationContext(), str);
+
+                if(msg.isValid() && msg.getMessageType().equals(MessageType.ID.toString()))
+                {
+                    out.write(msg.getMessage() + "\n");
+                    out.flush();
+                }
+            }
+        }).start();
 
     }
 
