@@ -2,12 +2,13 @@ package software.pipas.oprecox.activities.menus;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.AdListAdapter;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
-import software.pipas.oprecox.util.Settings;
 
-public class MyAds extends AppCompatActivity
+public class SavedAds extends AppCompatActivity
 {
     private DatabaseHandler database;
     private AdListAdapter adListAdapter;
@@ -30,17 +31,24 @@ public class MyAds extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_adds);
+        setContentView(R.layout.activity_saved_adds);
 
-        setTitle("Anúncios Guardados");
+        TextView savedAdsTitleTextView = (TextView)findViewById(R.id.savedAdsTitleTextView);
+        TextView savedAdsTooltip = (TextView)findViewById(R.id.savedAdsTooltip);
 
-        Settings.resetNewSavedAds(getSharedPreferences("gameSettings", MODE_PRIVATE).edit());
+        CustomFontHelper.setCustomFont(savedAdsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(savedAdsTooltip, "font/Conforta_Regular.ttf", getBaseContext());
 
         database = new DatabaseHandler(this);
         database.open();
         DynamicListView myAddsList = (DynamicListView) findViewById(R.id.myAddsList);
 
         ArrayList<AdPreview> ads = database.getAllComments();
+
+        if(!ads.isEmpty())
+        {
+            savedAdsTooltip.setVisibility(View.GONE);
+        }
 
         adListAdapter = new AdListAdapter(ads, getApplicationContext(), getContentResolver());
         SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(adListAdapter);
@@ -90,7 +98,6 @@ public class MyAds extends AppCompatActivity
         super.onBackPressed();
         finish();
     }
-
 
     private void removeAdFromDatabase(int position)
     {

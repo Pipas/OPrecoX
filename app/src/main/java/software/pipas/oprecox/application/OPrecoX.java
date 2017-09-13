@@ -1,18 +1,12 @@
 package software.pipas.oprecox.application;
 
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.ComponentName;
-import android.graphics.Bitmap;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import software.pipas.oprecox.modules.dataType.Ad;
 
 public class OPrecoX extends Application
 {
-    Ad tempAd;
+    private Ad Ads[];
 
     @Override
     public void onCreate()
@@ -20,14 +14,23 @@ public class OPrecoX extends Application
         super.onCreate();
     }
 
-    public void storeAd(Ad ad)
+    public Ad[] getAds()
     {
-        this.tempAd = ad;
+        return Ads;
     }
 
-    public Ad getTempAd()
+    public Ad getAd(int index)
     {
-        return tempAd;
+        return Ads[index];
     }
 
+    public void setAds(Ad[] ads)
+    {
+        Ads = ads;
+    }
+
+    public void addAd(Ad ad, int index)
+    {
+        Ads[index] = ad;
+    }
 }

@@ -82,7 +82,7 @@
     </parent>
 
     <parent>
-        <ptitle>Carros, Motas e Barcos</ptitle>
+        <ptitle>Veículos</ptitle>
         <image>cars</image>
 
         <child>
@@ -311,6 +311,52 @@
     </parent>
 
     <parent>
+        <ptitle>Casa e Jardim</ptitle>
+        <image>furniture</image>
+
+        <child>
+            <ctitle>Utilidades e Decoração</ctitle>
+
+            <url>
+                <urlend>moveis-casa-e-jardim/utilidades-e-decoracao</urlend>
+                <dist>1.0</dist>
+            </url>
+
+        </child>
+
+        <child>
+            <ctitle>Electrodomésticos</ctitle>
+
+            <url>
+                <urlend>moveis-casa-e-jardim/electrodomesticos</urlend>
+                <dist>1.0</dist>
+            </url>
+
+        </child>
+
+        <child>
+            <ctitle>Jardim e Bricolage</ctitle>
+
+            <url>
+                <urlend>moveis-casa-e-jardim/jardim-e-bricolage</urlend>
+                <dist>1.0</dist>
+            </url>
+
+        </child>
+
+        <child>
+            <ctitle>Móveis e Decoração</ctitle>
+
+            <url>
+                <urlend>moveis-casa-e-jardim/moveis-decoracao</urlend>
+                <dist>1.0</dist>
+            </url>
+
+        </child>
+
+    </parent>
+
+    <parent>
         <ptitle>Moda</ptitle>
         <image>fashion</image>
 
@@ -367,53 +413,7 @@
     </parent>
 
     <parent>
-        <ptitle>Móveis, Casa e Jardim</ptitle>
-        <image>furniture</image>
-
-        <child>
-            <ctitle>Utilidades e Decoração</ctitle>
-
-            <url>
-                <urlend>moveis-casa-e-jardim/utilidades-e-decoracao</urlend>
-                <dist>1.0</dist>
-            </url>
-
-        </child>
-
-        <child>
-            <ctitle>Electrodomésticos</ctitle>
-
-            <url>
-                <urlend>moveis-casa-e-jardim/electrodomesticos</urlend>
-                <dist>1.0</dist>
-            </url>
-
-        </child>
-
-        <child>
-            <ctitle>Jardim e Bricolage</ctitle>
-
-            <url>
-                <urlend>moveis-casa-e-jardim/jardim-e-bricolage</urlend>
-                <dist>1.0</dist>
-            </url>
-
-        </child>
-
-        <child>
-            <ctitle>Móveis e Decoração</ctitle>
-
-            <url>
-                <urlend>moveis-casa-e-jardim/moveis-decoracao</urlend>
-                <dist>1.0</dist>
-            </url>
-
-        </child>
-
-    </parent>
-
-    <parent>
-        <ptitle>Tecnologia e Informática</ptitle>
+        <ptitle>Tecnologia</ptitle>
         <image>technology</image>
 
         <child>
@@ -459,11 +459,11 @@
     </parent>
 
     <parent>
-        <ptitle>Telemoveis e Tablets</ptitle>
+        <ptitle>Telemóveis</ptitle>
         <image>phones</image>
 
         <child>
-            <ctitle>Telemoveis e Tablets</ctitle>
+            <ctitle>Telemóveis e Tablets</ctitle>
 
             <url>
                 <urlend>telemoveis-e-tablets/telemoveis</urlend>

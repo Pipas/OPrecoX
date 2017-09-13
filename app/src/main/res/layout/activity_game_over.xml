@@ -4,160 +4,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.singlePlayer.GameOver">
+    tools:context=".activities.singlePlayer.GameOver"
+    android:background="@color/softWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp">
+
+        <TextView
+            android:id="@+id/gameOverTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/gameOverTitle"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@color/softWhite"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scoreLayout"
-        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="6dp"
         android:orientation="vertical">
 
-        <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/scoreOutput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center"
+            android:text="200"
+            android:textColor="@color/darkGrey"
+            android:textSize="70sp" />
 
-            <TextView
-                android:id="@+id/guesses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textColor="#000000"
-                android:textSize="30sp"
-                android:text="5/10"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/scoreOutput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textColor="#000000"
-                android:textSize="70sp"
-                android:text="200"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="PONTUAÇÃO FINAL"
-                android:textColor="#9e9e9e"
-                android:textSize="14sp"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/finalScoreTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/finalScore"
+            android:textAllCaps="true"
+            android:textColor="@color/letterGrey"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottomOptions"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
 
-        <RelativeLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/adOverviewList"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:divider="@color/softGrey"
+            android:dividerHeight="1dp">
 
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true">
 
-            <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/share"
-                android:tint="@color/colorPrimary" />
+        </ListView>
 
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="PARTILHAR"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10sp" />
+    </FrameLayout>
 
-        </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
 
-        <RelativeLayout
-            android:id="@+id/restartButton"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:onClick="pressRestart">
-
-            <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/replay"
-                android:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="RECOMEÇAR"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10sp"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:onClick="pressFinish">
-
-            <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/check"
-                android:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="ACABAR"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10sp" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/finish"
+        android:textAllCaps="true"
+        android:layout_margin="12dp"
+        android:onClick="pressFinish"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:theme="@style/ButtonStyle"/>
 
 </LinearLayout>

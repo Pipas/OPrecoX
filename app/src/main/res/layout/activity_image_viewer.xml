@@ -25,10 +25,12 @@
         android:shadowDy="2"
         android:shadowRadius="2"/>
 
-    <me.relex.circleindicator.CircleIndicator
+    <com.rd.PageIndicatorView
         android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
         android:layout_alignTop="@id/vpPager"/>
 
 </RelativeLayout>

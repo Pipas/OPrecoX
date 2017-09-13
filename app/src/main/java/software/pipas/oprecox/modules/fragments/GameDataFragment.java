@@ -3,18 +3,15 @@ package software.pipas.oprecox.modules.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-
 import software.pipas.oprecox.modules.dataType.Ad;
 
 public class GameDataFragment extends Fragment
 {
-    private int NGUESSES;
+    private int gameSize;
+    private int adIndex;
     private int score;
     private int correctGuesses;
-    private ArrayList<Ad> ads;
-    private Ad shownAd;
-    private float guess;
+    private Ad[] ads;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -23,34 +20,24 @@ public class GameDataFragment extends Fragment
         setRetainInstance(true);
     }
 
-    public void setAds(ArrayList<Ad> ads)
+    public int getGameSize()
     {
-        this.ads = ads;
+        return gameSize;
     }
 
-    public ArrayList<Ad> getAds()
+    public void setGameSize(int gameSize)
     {
-        return ads;
+        this.gameSize = gameSize;
     }
 
-    public Ad getShownAd()
+    public int getAdIndex()
     {
-        return shownAd;
+        return adIndex;
     }
 
-    public void setShownAd(Ad shownAd)
+    public void setAdIndex(int adIndex)
     {
-        this.shownAd = shownAd;
-    }
-
-    public int getNGUESSES()
-    {
-        return NGUESSES;
-    }
-
-    public void setNGUESSES(int NGUESSES)
-    {
-        this.NGUESSES = NGUESSES;
+        this.adIndex = adIndex;
     }
 
     public int getScore()
@@ -73,23 +60,22 @@ public class GameDataFragment extends Fragment
         this.correctGuesses = correctGuesses;
     }
 
-    public float getGuess()
+    public Ad[] getAds()
     {
-        return guess;
+        return ads;
     }
 
-    public void setGuess(float guess)
+    public void setAds(Ad[] ads)
     {
-        this.guess = guess;
+        this.ads = ads;
     }
 
-    public void setData(int NGUESSES, int score, int correctGuesses, ArrayList<Ad> ads, Ad shownAd, float guess)
+    public void setData(int gameSize, int score, int correctGuesses, int adIndex, Ad[] ads)
     {
-        this.NGUESSES = NGUESSES;
+        this.gameSize = gameSize;
         this.score = score;
         this.correctGuesses = correctGuesses;
         this.ads = ads;
-        this.shownAd = shownAd;
-        this.guess = guess;
+        this.adIndex = adIndex;
     }
 }

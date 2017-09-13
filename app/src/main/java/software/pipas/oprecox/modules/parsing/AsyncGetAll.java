@@ -9,31 +9,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
-import software.pipas.oprecox.util.Settings;
 
 public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 {
     private Ad ad = new Ad();
     private ParsingCallingActivity activity;
-    private boolean isFirst;
+    private OPrecoX app;
+    private int index;
     private boolean validURL = false;
+    private boolean olxchange = false;
 
-    public AsyncGetAll(ParsingCallingActivity pca, boolean iF)
+    public AsyncGetAll(ParsingCallingActivity activity, OPrecoX app, int index)
     {
-        activity = pca;
-        isFirst = iF;
+        this.activity = activity;
+        this.app = app;
+        this.index = index;
     }
 
     @Override
     protected void onPreExecute()
     {
         super.onPreExecute();
-        Log.d("ASYNC", "Started background async parse");
+        Log.d("PARSE", "Started background async parse");
     }
 
     @Override
@@ -45,21 +48,15 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
         {
             try
             {
-                subCategory = CategoryHandler.getRandomSubCategory();
-                ad.setCategory(subCategory.getParentCategory());
+                subCategory = setSubCategory();
                 randomURL = OlxParser.getRandomURL(subCategory.getUrlEnd());
-                ad.setPrice(OlxParser.getPrice(randomURL));
-                ad.setTitle(OlxParser.getTitle(randomURL));
-                ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
-                ArrayList<Bitmap> images = new ArrayList<Bitmap>();
-                for(int i = 0; i < imageUrls.size(); i++)
-                {
-                    InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
-                    images.add(BitmapFactory.decodeStream(input));
-                }
-                ad.setImages(images);
-                ad.setDescription(OlxParser.getDescription(randomURL));
+
+                getText(randomURL);
+
+                getImages(randomURL);
+
                 ad.setUrl(randomURL);
+
                 validURL = true;
             }
             catch (NumberFormatException e)
@@ -73,24 +70,57 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             catch(OLXSyntaxChangeException e)
             {
                 Log.d("PARSE", "OLX changed in url '" + randomURL + "'");
-                Settings.setLocked(true);
+                olxchange = true;
                 return null;
             }
         }
         return null;
     }
 
+    private void getImages(String randomURL) throws IOException
+    {
+        ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
+        ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+
+        int imageMax;
+        if(imageUrls.size() < 8)
+            imageMax = imageUrls.size();
+        else
+            imageMax = 8;
+
+        for(int i = 0; i < imageMax; i++)
+        {
+            InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
+            images.add(BitmapFactory.decodeStream(input));
+        }
+        ad.setImages(images);
+    }
+
+    private void getText(String randomURL) throws IOException, OLXSyntaxChangeException
+    {
+        ad.setDescription(OlxParser.getDescription(randomURL));
+        ad.setTitle(OlxParser.getTitle(randomURL));
+        ad.setPrice(OlxParser.getPrice(randomURL));
+    }
+
+    private SubCategory setSubCategory()
+    {
+        SubCategory subCategory;
+        subCategory = CategoryHandler.getRandomSubCategory();
+        ad.setCategory(subCategory.getParentCategory());
+        return subCategory;
+    }
+
     @Override
     protected void onPostExecute(Void result)
     {
-        if(isFirst)
-        {
-            activity.setShownAd(ad);
-            activity.closeProgressPopup();
-        }
+        if(olxchange)
+            activity.olxChangeException();
         else
-            activity.addAdd(ad);
-
-        Log.d("ASYNC", String.format("Finished background async parse '" + ad.getUrl() +"'"));
+        {
+            app.addAd(ad, index);
+            activity.parsingEnded();
+            Log.d("PARSE", String.format("Finished background async parse '" + ad.getUrl() +"'"));
+        }
     }
 }

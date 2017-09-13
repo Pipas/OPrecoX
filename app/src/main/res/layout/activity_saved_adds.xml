@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/softWhite"
+    tools:context="software.pipas.oprecox.activities.menus.SavedAds">
+
+    <LinearLayout
+        android:id="@+id/savedAdsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp">
+
+        <TextView
+            android:id="@+id/savedAdsTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/savedAds"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@color/softWhite"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/savedAdsTooltip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/savedAdsTitle"
+        android:layout_centerHorizontal="true"
+        android:text="@string/savedAdsTooltip"
+        android:textAlignment="center"
+        android:layout_marginTop="12dp"/>
+
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+        android:id="@+id/myAddsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/savedAdsTitle">
+
+    </com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
+
+</RelativeLayout>

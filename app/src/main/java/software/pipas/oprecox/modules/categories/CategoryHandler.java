@@ -1,6 +1,7 @@
 package software.pipas.oprecox.modules.categories;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -11,6 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
+
+import software.pipas.oprecox.util.Settings;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public abstract class CategoryHandler
 {
@@ -180,6 +185,28 @@ public abstract class CategoryHandler
         catch (IOException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    public static void checkIfRestart(Activity activity)
+    {
+        if(categories == null)
+        {
+            Settings.setDeviceDisplayMetrics(activity.getResources().getDisplayMetrics());
+            SharedPreferences sharedPref = activity.getSharedPreferences("gameSettings", MODE_PRIVATE);
+            try
+            {
+                CategoryHandler.initiateFromXml(activity.getApplicationContext().getAssets().open("categories.xml"), activity);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            String c = sharedPref.getString("categories", null);
+            if(c != null)
+                CategoryHandler.selectFromString(c);
+            else
+                CategoryHandler.selectAll();
         }
     }
 

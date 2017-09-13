@@ -1,6 +1,5 @@
 package software.pipas.oprecox.modules.imageViewer;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.singlePlayer.GameActivity;
-import software.pipas.oprecox.application.OPrecoX;
 
 
 public class SmallImagePage extends Fragment

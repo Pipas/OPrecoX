@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_game_settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.singlePlayer.Lobby"
+    android:background="@color/softWhite">
+
+    <LinearLayout
+        android:id="@+id/singleplayerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp">
+
+            <TextView
+                android:id="@+id/singleplayerTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/singleplayer"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:textColor="@color/softWhite"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gameTypeButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@id/singleplayerTitle">
+
+        <TextView
+            android:id="@+id/gameTypeButtonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gameType"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/gameTypeTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adivinhar o preço"
+            android:textSize="16sp"
+            android:textColor="@color/letterGrey"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"
+        android:layout_below="@id/gameTypeButton"/>
+
+    <LinearLayout
+        android:id="@+id/gameSizeButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="selectGameSize"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/gameTypeButton">
+
+        <TextView
+            android:id="@+id/gameSizeButtonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gameSize"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/gameSizeTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="20sp"
+            android:textColor="@color/letterGrey"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"
+        android:layout_below="@id/gameSizeButton"/>
+
+    <LinearLayout
+        android:id="@+id/categoriesButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="selectCategory"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@id/gameSizeButton">
+
+        <TextView
+            android:id="@+id/categoriesButtonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/categories"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e0e0e0"
+        android:layout_below="@id/categoriesButton"/>
+
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Começar"
+        android:textAllCaps="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="12dp"
+        android:onClick="startGame"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:theme="@style/ButtonStyle"/>
+
+
+</RelativeLayout>

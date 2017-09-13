@@ -1,8 +1,49 @@
 <resources>
-    <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
     <string name="app_name">O Preço X</string>
-    <string name="default_title">default_title</string>
-    <string name="default_description">default_description</string>
+
+    <!--           Main Menu Strings         -->
+    <string name="singleplayer">Jogar</string>
+    <string name="multiplayer">Jogar com Amigos</string>
+    <string name="savedAds">Anúncios Guardados</string>
+
+    <!--          Game Options Strings       -->
+
+    <string name="gameType">Tipo de jogo</string>
+    <string name="gameSize">Tamanho</string>
+    <string name="categories">Categorias</string>
+    <string name="processDialog">A carregar...</string>
+
+    <!--           Game Size Strings         -->
+    <string name="gameSizeTitle">Tamanho do Jogo</string>
+    <string name="shortsize">Jogo curto</string>
+    <string name="normalsize">Jogo normal</string>
+    <string name="longsize">Jogo longo</string>
+
+    <!--           Saved Ads Strings         -->
+
+    <string name="savedAdsTooltip">Ainda não tens Anúncios Guardados.\nPodes salvar anúncios depois de dares um palpite.</string>
+
+    <!--         Game Activity Strings       -->
+
+    <string name="leavegame">Sair do jogo?</string>
+    <string name="leavegamesub">Se saires do jogo o teu progresso e os anúncios gerados serão perdidos.</string>
+    <string name="leave">Sair</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="next">Continuar</string>
+    <string name="correctprice">Preço Certo</string>
+    <string name="score">Pontuação</string>
+    <string name="savedAd">Anúncio Guardado</string>
+
+    <!--           Game Over Strings         -->
+
+    <string name="gameOverTitle">Fim do Jogo</string>
+    <string name="finish">Acabar</string>
+    <string name="finalScore">Pontuação Final</string>
+
+
+    <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
+
     <string name="animals">Animais</string>
     <string name="agriculture">Agricultura</string>
     <string name="baby">Bebé e Criança</string>
@@ -17,7 +58,7 @@
     <string name="technology">Tecnologia</string>
     <string name="phones">Telemóveis e Tablets</string>
     <string name="others">Outras Vendas</string>
-    <string name="categories">Categorias</string>
+
     <string name="all">Todas as categorias</string>
     <string name="guesscaps">PALPITE</string>
     <string name="makeguesscaps">ADIVINHAR</string>
@@ -29,24 +70,15 @@
     <string name="seeaddcaps">VER ANUNCIO</string>
     <string name="continuecaps">CONTINUAR</string>
     <string name="gameover">Fim do jogo</string>
-    <string name="guessnumber">Tamanho</string>
-    <string name="gametype">Tipo de jogo</string>
+
+
     <string name="gameoptionssingleplayer">Opções Um Jogador</string>
     <string name="gameoptionsmultiplayer">Opções Multijogador</string>
     <string name="startcaps">COMEÇAR</string>
-    <string name="shortsize">Jogo curto</string>
-    <string name="normalsize">Jogo normal</string>
-    <string name="longsize">Jogo longo</string>
-    <string name="loadingadds">A carregar anuncios</string>
-    <string name="loading">A carregar...</string>
-    <string name="leavegame">Sair do jogo?</string>
-    <string name="leavegamesub">Se saires do jogo o progresso e os anuncios gerados serão perdidos.</string>
+
+
     <string name="leaveapp">Sair da Aplicação</string>
     <string name="leaveappsub">Deseja sair da Aplicação?</string>
-    <string name="leave">Sair</string>
-    <string name="cancel">Voltar</string>
-    <string name="singleplayer">Jogar Sozinho</string>
-    <string name="multiplayer">Jogar com Amigos</string>
     <string name="comingsoon">Brevemente...</string>
     <string name="namehint">Nome do jogador</string>
     <string name="signin_failure">Failed to Sign-In</string>

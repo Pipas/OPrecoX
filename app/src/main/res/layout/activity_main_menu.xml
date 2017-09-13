@@ -1,188 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.menus.MainMenu">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/softWhite"
+    tools:context=".activities.menus.MainMenu"
+    android:orientation="vertical">
 
-    <software.pipas.oprecox.modules.customViews.HalfScreenToolbar
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:elevation="8dp">
-    </software.pipas.oprecox.modules.customViews.HalfScreenToolbar>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:elevation="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:onClick="pressSettings">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="56dp">
 
         <ImageView
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:padding="12dp"
-            android:src="@drawable/settings"
-            android:tint="#ffffff" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/web_logo"/>
 
-    </LinearLayout>
-
-    <software.pipas.oprecox.modules.customViews.CustomMainMenuImageView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/web_logo"
-        android:elevation="8dp"
-        android:paddingTop="18dp"
-        android:paddingBottom="72dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/logo"
-        android:layout_marginBottom="18dp"
-        android:elevation="8dp"
-        android:textColor="#ffffff"
-        android:text="@string/app_name"
-        android:textSize="36dp"
-        android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/logo"
-        android:orientation="vertical"
-        android:animateLayoutChanges="true">
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp"
+        android:layout_marginBottom="12dp">
 
         <LinearLayout
+            android:id="@+id/singleplayerButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
-            android:id="@+id/startSinglePlayerGame"
-            android:elevation="4dp">
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="pressSinglePlayer">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/singleplayerButtonTextView"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:onClick="pressSinglePlayer"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/singleplayer"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:text="@string/singleplayer"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="22sp"
+                android:textColor="@color/softWhite"/>
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e0e0e0"
-            android:elevation="4dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
-            android:id="@+id/startMultiPlayerGame"
-            android:elevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:onClick="pressMultiPlayer"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/multiplayer"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e0e0e0"
-            android:elevation="4dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
-            android:elevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:onClick="pressMyAds"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Anúncios Guardados"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/newAdsDisplay"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:background="@drawable/roundsquare"
-                    android:maxLength="2"
-                    android:textColor="@color/white"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e0e0e0"
-            android:elevation="4dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/cardview_light_background"
-            android:elevation="4dp">
-        </View>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp"
+        android:layout_marginBottom="12dp">
 
+        <LinearLayout
+            android:id="@+id/multiplayerButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="pressMultiPlayer">
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/multiplayerButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/multiplayer"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="22sp"
+                android:textColor="@color/softWhite"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp">
+
+        <LinearLayout
+            android:id="@+id/savedAdsButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="pressMyAds">
+
+            <TextView
+                android:id="@+id/savedAdsButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/savedAds"
+                android:textAllCaps="true"
+                android:textColor="@color/softWhite"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

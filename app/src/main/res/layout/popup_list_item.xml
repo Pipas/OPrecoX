@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="64dp"
+    android:padding="12dp"
+    android:textSize="22sp"
+    android:text="test"
+    android:gravity="center_vertical"/>

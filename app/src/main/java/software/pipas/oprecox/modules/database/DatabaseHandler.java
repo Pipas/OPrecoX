@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class DatabaseHandler
     {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_TITLE, ad.getTitle());
-        values.put(DatabaseHelper.COLUMN_DESCRIPTION, ad.getDescription());
+        values.put(DatabaseHelper.COLUMN_DESCRIPTION, getStringPrice(ad.getPrice()) + " \u00b7 " + ad.getDescription());
         values.put(DatabaseHelper.COLUMN_THUMBNAIL, Util.bitmapToByteArray(Util.bitmapToThumbnail(ad.getImages().get(0), 56)));
         values.put(DatabaseHelper.COLUMN_URL, ad.getUrl());
 
@@ -56,6 +55,14 @@ public class DatabaseHandler
         AdPreview newAd = cursorToAd(cursor);
         cursor.close();
         return newAd;
+    }
+
+    private String getStringPrice(float price)
+    {
+        if (price == (int) price)
+            return String.format("%d€", (int) price);
+        else
+            return String.format("%.2f€", price);
     }
 
     public void deleteComment(AdPreview add)

@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import java.io.IOException;
 
-import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.util.Settings;
@@ -19,33 +18,25 @@ public class SplashScreen extends Activity {
     {
         super.onCreate(savedInstanceState);
 
+        Intent myIntent = getIntent();
+        Boolean restart = myIntent.getBooleanExtra("restart", false);
+
         getPreferences();
 
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
+        Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
+
+        if(!restart)
+        {
+            Intent intent = new Intent(this, MainMenu.class);
+            startActivity(intent);
+        }
         finish();
     }
 
     private void getPreferences()
     {
         SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
-        Settings.setLocked(sharedPref.getBoolean("locked", false));
         int version = sharedPref.getInt("lockVersion", Integer.MAX_VALUE);
-        if(Settings.isLocked())
-        {
-            if(version < BuildConfig.VERSION_CODE)
-            {
-                SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
-                editor.putBoolean("locked", false);
-                editor.apply();
-            }
-            else
-            {
-                Intent intent = new Intent(this, BlockedApp.class);
-                startActivity(intent);
-            }
-        }
-
         try
         {
             CategoryHandler.initiateFromXml(getApplicationContext().getAssets().open("categories.xml"), this);
@@ -59,7 +50,6 @@ public class SplashScreen extends Activity {
             CategoryHandler.selectFromString(c);
         else
             CategoryHandler.selectAll();
-        Settings.setNewSavedAds(sharedPref.getInt("newSavedAds", 0));
 
     }
 }

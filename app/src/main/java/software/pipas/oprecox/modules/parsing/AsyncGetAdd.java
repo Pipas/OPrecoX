@@ -1,20 +1,20 @@
 package software.pipas.oprecox.modules.parsing;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import software.pipas.oprecox.activities.singlePlayer.GameActivity;
 import software.pipas.oprecox.modules.dataType.Ad;
 
 public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
 {
     Ad ad = new Ad();
-    GameActivity activity;
+    Activity activity;
     boolean isFirst;
     String url;
     int index;
 
-    public AsyncGetAdd(GameActivity act, String u, int i, boolean iF)
+    public AsyncGetAdd(Activity act, String u, int i, boolean iF)
     {
         activity = act;
         isFirst = iF;
@@ -58,13 +58,7 @@ public class AsyncGetAdd extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result)
     {
-        if(isFirst)
-        {
-            activity.setShownAd(ad);
-            activity.closeProgressPopup();
-        }
-        else
-            activity.addAdd(ad);
+
 
         Log.d("ASYNC", String.format("Finished background async parse %d", index + 1));
     }
