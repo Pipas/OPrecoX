@@ -2,10 +2,7 @@ package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +20,7 @@ import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
+import software.pipas.oprecox.util.Util;
 
 public class Lobby extends AppCompatActivity implements ParsingCallingActivity
 {
@@ -88,7 +86,7 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
 
     public void startGame(View v)
     {
-        if(!isNetworkAvailable())
+        if(!Util.isNetworkAvailable(getApplicationContext()))
         {
             Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
             return;
@@ -127,14 +125,6 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
     {
         Intent myIntent = new Intent(this, GameSizeChooser.class);
         startActivityForResult(myIntent, 2);
-    }
-
-    private boolean isNetworkAvailable()
-    {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override

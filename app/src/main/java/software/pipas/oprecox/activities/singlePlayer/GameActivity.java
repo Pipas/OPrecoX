@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -30,7 +29,6 @@ import software.pipas.oprecox.modules.fragments.GameDataFragment;
 import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.listeners.OnSwipeTouchListener;
-import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 
 public class GameActivity extends AppCompatActivity implements ParsingCallingActivity
 {
@@ -194,16 +192,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             slideupGuesser.setState(BottomSheetBehavior.STATE_EXPANDED);
         else
             slideupGuesser.setState(BottomSheetBehavior.STATE_COLLAPSED);
-    }
-
-    protected void startDataParses()
-    {
-        AsyncGetAll parsingAyncTask;
-        for(int i = 2; i < gameSize; i++)
-        {
-            parsingAyncTask = new AsyncGetAll(this, app, i);
-            parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
     }
 
     public void startImageViewerActivity(int page)

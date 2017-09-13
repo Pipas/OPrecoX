@@ -1,6 +1,7 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
+import software.pipas.oprecox.modules.parsing.AsyncGetAll;
 
 import static software.pipas.oprecox.R.id.priceGuess;
 
@@ -345,5 +347,15 @@ public class PriceGuessGameActivity extends GameActivity
         }
         else
             afterPriceGuess.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.wrongRed));
+    }
+
+    private void startDataParses()
+    {
+        AsyncGetAll parsingAyncTask;
+        for(int i = 2; i < gameSize; i++)
+        {
+            parsingAyncTask = new AsyncGetAll(this, app, i);
+            parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 }
