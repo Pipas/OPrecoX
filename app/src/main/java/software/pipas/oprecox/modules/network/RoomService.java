@@ -46,6 +46,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
     @Override
     public void onCreate()
     {
+        Log.d("HANDLE", "created ROOM");
         super.onCreate();
         this.pending = new LinkedList<>();
         this.joined = new HashMap<>();
@@ -59,6 +60,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
     @Override
     protected void onHandleIntent(@Nullable Intent intent)
     {
+        Log.d("HANDLE", "started ROOM");
         while (!this.closed)
         {
             try

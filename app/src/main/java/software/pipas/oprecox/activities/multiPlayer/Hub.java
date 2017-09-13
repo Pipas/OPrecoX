@@ -214,7 +214,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
         startService(this.announcerSenderService);
     }
 
-    //callback for recived intents with S001 action, only INVITE messages for now
+    //callback for received intents with S001 action, only INVITE messages for now
     private void handleReceivedIntent(Context context, Intent intent)
     {
 

@@ -42,12 +42,13 @@ public class AnnouncerSenderService extends IntentService
         super.onCreate();
         this.context = this.getApplicationContext();
         this.closed = false;
+        Log.d("HANDLE","created ANNOUNCER");
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent)
     {
-        Log.d("HANDEL","");
+        Log.d("HANDLE","started ANNOUNCER");
         this.name = intent.getExtras().getString(getResources().getString(R.string.S003_NAME));
         this.displayName = intent.getExtras().getString(getResources().getString(R.string.S003_DISPLAYNAME));
         this.playerId = intent.getExtras().getString(getResources().getString(R.string.S003_PLAYERID));

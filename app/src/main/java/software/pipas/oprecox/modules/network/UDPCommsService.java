@@ -45,6 +45,7 @@ public class UDPCommsService extends IntentService
     @Override
     public void onCreate()
     {
+        Log.d("HANDLE", "created UDP");
         super.onCreate();
         this.initializeSocket();
         this.initializeBroadcastReceiver();
@@ -56,6 +57,7 @@ public class UDPCommsService extends IntentService
     //TO RECEIVE PACKET FROM DATAGRAMSOCKET
     protected void onHandleIntent(@Nullable Intent intent)
     {
+        Log.d("HANDLE", "started UDP");
         byte[] buff = new byte[getResources().getInteger(R.integer.MAX_SIZE)];
         DatagramPacket packet = new DatagramPacket(buff, 0, buff.length);
 
@@ -63,7 +65,9 @@ public class UDPCommsService extends IntentService
         {
             try
             {
+                Log.d("RECEIVING", "receiving");
                 this.socket.receive(packet);
+                Log.d("RECEIVING", packet.toString());
                 this.handlePacketReceived(new String(packet.getData(),0,packet.getLength()), new InetSocketAddress(packet.getAddress(), packet.getPort()));
             }
             catch (IOException e)

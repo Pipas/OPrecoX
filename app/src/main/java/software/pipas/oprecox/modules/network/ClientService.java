@@ -46,6 +46,7 @@ public class ClientService extends IntentService
     @Override
     public void onCreate()
     {
+        Log.d("HANDLE","created CLIENT");
         super.onCreate();
         this.time = getResources().getInteger(R.integer.TIME_FOR_ACCEPT_LIMIT);
         this.startBroadcastReceiver();
@@ -54,6 +55,7 @@ public class ClientService extends IntentService
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
+        Log.d("HANDLE","started CLIENT");
         //CONNECTING
         InetSocketAddress inetSocketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S005_INETSOCKETADDRESS));
 

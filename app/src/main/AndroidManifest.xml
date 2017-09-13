@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true">
+
         <activity
             android:name=".activities.singlePlayer.Lobby"
             android:screenOrientation="portrait"/>

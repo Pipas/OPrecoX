@@ -91,7 +91,7 @@ public class MainMenu extends AppCompatActivity
     }
 
     public void pressMultiPlayer(View v)
-    {
+    {/*
         count++;
 
         if(count >= 10)
@@ -104,7 +104,7 @@ public class MainMenu extends AppCompatActivity
             Toast.makeText(this, "Multijogador brevemente!", Toast.LENGTH_SHORT).show();
             showToast = true;
         }
-
+*/
 
 
         /*if(!Util.isNetworkAvailable(this))
@@ -115,10 +115,10 @@ public class MainMenu extends AppCompatActivity
 
         */
 
-        /*
+
         Intent myIntent = new Intent(this, Hub.class);
         startActivity(myIntent);
-        */
+
     }
 
     public void pressMyAds(View v)
