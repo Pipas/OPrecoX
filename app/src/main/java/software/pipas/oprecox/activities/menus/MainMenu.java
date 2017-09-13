@@ -19,6 +19,7 @@ import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 public class MainMenu extends AppCompatActivity
 {
     private int count = 0;
+    private Boolean showToast = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,7 +92,6 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
-        Boolean showToast = false;
         count++;
 
         if(count >= 10)

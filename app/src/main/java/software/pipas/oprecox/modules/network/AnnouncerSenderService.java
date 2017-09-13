@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
@@ -46,6 +47,7 @@ public class AnnouncerSenderService extends IntentService
     @Override
     protected void onHandleIntent(@Nullable Intent intent)
     {
+        Log.d("HANDEL","");
         this.name = intent.getExtras().getString(getResources().getString(R.string.S003_NAME));
         this.displayName = intent.getExtras().getString(getResources().getString(R.string.S003_DISPLAYNAME));
         this.playerId = intent.getExtras().getString(getResources().getString(R.string.S003_PLAYERID));

@@ -143,8 +143,8 @@ public class UDPCommsService extends IntentService
         {
             public void run()
             {
-                try {socket.send(newPacket);}
-                catch (IOException e) {e.printStackTrace();}
+                try {socket.send(newPacket); Log.d("UDP_DEBUG", "sent");}
+                catch (IOException e) {e.printStackTrace(); Log.d("UDP_DEBUG", "failed");}
             }
         }).start();
     }

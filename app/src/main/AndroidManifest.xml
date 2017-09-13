@@ -47,7 +47,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.LobbyClient"
-            android:screenOrientation="portrait" />/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.Invite"
             android:screenOrientation="portrait" />
@@ -81,11 +81,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/GameActivity" />
 
-        <service android:name=".modules.network.AnnouncerSenderService" />
-        <service android:name=".modules.network.UDPCommsService" />
-        <service android:name=".modules.network.RoomService" />
-        <service android:name=".modules.network.ClientService"/>
-
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
@@ -93,6 +88,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <service android:name=".modules.network.AnnouncerSenderService" />
+        <service android:name=".modules.network.UDPCommsService" />
+        <service android:name=".modules.network.RoomService" />
+        <service android:name=".modules.network.ClientService"/>
 
 
     </application>
