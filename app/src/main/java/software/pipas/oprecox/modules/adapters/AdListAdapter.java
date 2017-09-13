@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
+
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.AdPreview;
@@ -53,7 +54,7 @@ public class AdListAdapter extends ArrayAdapter<AdPreview>
             TextView title = (TextView) v.findViewById(R.id.title);
             TextView description = (TextView) v.findViewById(R.id.description);
 
-            CircleImageView circleImageView = (CircleImageView) v.findViewById(R.id.image);
+            CircularImageView circleImageView = (CircularImageView) v.findViewById(R.id.image);
 
             if (title != null)
             {

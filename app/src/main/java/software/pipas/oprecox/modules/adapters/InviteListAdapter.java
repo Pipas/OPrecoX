@@ -2,8 +2,6 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.images.ImageManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.dataType.Invite;

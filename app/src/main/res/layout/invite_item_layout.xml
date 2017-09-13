@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
     
-    <com.alexvasilkov.gestures.commons.circle.CircleImageView
+    <ImageView
         android:id="@+id/inviteImage"
         android:layout_width="56dp"
         android:layout_height="56dp"/>

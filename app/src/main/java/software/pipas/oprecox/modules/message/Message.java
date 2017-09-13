@@ -156,7 +156,7 @@ public class Message
     private boolean testAppVersion(String appVersion)
     {
         this.appVersion = appVersion;
-        return appVersion.matches("\\d");
+        return appVersion.matches("\\d+");
     }
 
     private boolean testType(String messageType)

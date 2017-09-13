@@ -12,10 +12,6 @@ import com.google.android.gms.games.Players;
 import software.pipas.oprecox.modules.dataType.DataType;
 import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 
-/**
- * Created by nuno_ on 17-Aug-17.
- */
-
 public class PlayerLoader extends AsyncTask<Void, Void, Void>
 {
     private AsyncTaskCompleted asyncTaskCompleted;

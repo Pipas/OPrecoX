@@ -77,6 +77,14 @@ public class AnnouncerSenderService extends IntentService
         args[5] = this.playerId;
 
         this.message = new Message(this.context, args);
+
+        for (String str : args)
+        {
+            Log.d("ANNOUNCE_PACKET", str);
+        }
+
+
+
         if(!this.message.isValid()) return false;
 
         try
