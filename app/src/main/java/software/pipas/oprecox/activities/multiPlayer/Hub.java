@@ -149,9 +149,9 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
     public void onDestroy()
     {
         super.onDestroy();
-        unregisterReceiver(this.broadcastReceiver);
-        stopService(this.udpCommsService);
-        stopService(this.announcerSenderService);
+        if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
+        if(this.udpCommsService != null )stopService(this.udpCommsService);
+        if(this.announcerSenderService != null) stopService(this.announcerSenderService);
         if(this.tcpCommsService != null) stopService(this.tcpCommsService);
     }
 

@@ -96,7 +96,7 @@ public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
     {
         super.onDestroy();
         this.sendClosedtoHub();
-        unregisterReceiver(this.broadcastReceiver);
+        if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
         loaded = false;
     }
 

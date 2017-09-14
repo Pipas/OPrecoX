@@ -105,8 +105,8 @@ public class LobbyHost extends MultiplayerClass
     public void onDestroy()
     {
         super.onDestroy();
-        stopService(this.room);
-        unregisterReceiver(this.broadcastReceiver);
+        if(this.room != null) stopService(this.room);
+        if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
     }
 
     @Override

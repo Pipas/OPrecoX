@@ -89,8 +89,8 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
     public void onDestroy()
     {
         super.onDestroy();
-        this.playerListUpdater.close();
-        unregisterReceiver(this.broadcastReceiver);
+        if(this.playerListUpdater != null) this.playerListUpdater.close();
+        if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
     }
 
     @Override
