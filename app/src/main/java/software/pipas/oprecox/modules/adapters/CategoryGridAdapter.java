@@ -85,7 +85,7 @@ public class CategoryGridAdapter extends BaseAdapter
         if(!category.isSelected())
             parentCategoryImage.setColorFilter(Color.argb(150,200,200,200));
 
-        parentCategoryImage.setImageResource(category.getImageId());
+        parentCategoryImage.setImageResource(category.getRegularImageId());
         parentCategoryTitle.setText(category.getTitle());
 
         CustomFontHelper.setCustomFont(parentCategoryTitle, "font/antipastopro-demibold.otf", mContext);

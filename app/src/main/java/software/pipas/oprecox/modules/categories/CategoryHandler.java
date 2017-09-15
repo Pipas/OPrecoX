@@ -55,6 +55,12 @@ public abstract class CategoryHandler
             parentCategory.selectAll();
     }
 
+    public static void deSelectAll()
+    {
+        for(ParentCategory parentCategory : categories)
+            parentCategory.deSelectAll();
+    }
+
     public static void validSelection()
     {
         for(ParentCategory parentCategory : categories)
@@ -170,7 +176,7 @@ public abstract class CategoryHandler
                         }
                         else if (tag.equalsIgnoreCase("parent"))
                         {
-                            categories.add(new ParentCategory(parentTitle, subCategories, activity.getResources().getIdentifier(parentImage, "drawable", activity.getPackageName())));
+                            categories.add(new ParentCategory(parentTitle, subCategories, activity.getResources().getIdentifier(parentImage, "drawable", activity.getPackageName()), activity.getResources().getIdentifier(parentImage + "big", "drawable", activity.getPackageName())));
                         }
                 }
                 eventType = parser.next();

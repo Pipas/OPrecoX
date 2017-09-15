@@ -6,14 +6,16 @@ public class ParentCategory extends Category
 {
     private ArrayList<SubCategory> subCategories;
     private int imageId;
+    private int bigImageId;
 
-    public ParentCategory(String title, ArrayList<SubCategory> subCategories, int categoryImage)
+    public ParentCategory(String title, ArrayList<SubCategory> subCategories, int regularImageId, int bigImageId)
     {
         super(title);
         this.subCategories = subCategories;
         for(SubCategory subCategory : subCategories)
             subCategory.setParentCategory(title);
-        this.imageId = categoryImage;
+        this.imageId = regularImageId;
+        this.bigImageId = bigImageId;
     }
 
     public ArrayList<SubCategory> getSubCategories()
@@ -21,9 +23,14 @@ public class ParentCategory extends Category
         return subCategories;
     }
 
-    public int getImageId()
+    public int getRegularImageId()
     {
         return imageId;
+    }
+
+    public int getBigImageId()
+    {
+        return bigImageId;
     }
 
     public void toggleSubCategory(int i)
@@ -55,6 +62,15 @@ public class ParentCategory extends Category
         for(SubCategory subCategory : subCategories)
         {
             subCategory.setSelected(true);
+        }
+    }
+
+    public void deSelectAll()
+    {
+        this.setSelected(false);
+        for(SubCategory subCategory : subCategories)
+        {
+            subCategory.setSelected(false);
         }
     }
 
