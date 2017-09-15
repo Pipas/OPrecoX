@@ -3,18 +3,18 @@ package software.pipas.oprecox.activities.menus;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
-import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.activities.singlePlayer.Lobby;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.util.Settings;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -45,7 +45,13 @@ public class MainMenu extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        AlertDialog.Builder popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+
+        AlertDialog.Builder popup;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+        else
+            popup = new AlertDialog.Builder(this);
+
         popup.setTitle(getString(R.string.leaveapp));
         popup.setMessage(getString(R.string.leaveappsub));
         popup.setCancelable(true);

@@ -127,7 +127,7 @@
             android:id="@+id/guesserFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             android:elevation="8dp"
             android:layout_below="@id/blankSpace"
             android:animateLayoutChanges="true">

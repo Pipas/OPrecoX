@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -13,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -66,6 +68,11 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         setSlideupGuesserListener();
         setGuessTabListeners(true);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         if (gameDataFragment == null)
         {
             gameDataFragment = new GameDataFragment();
@@ -77,7 +84,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         {
             gameSize = gameDataFragment.getGameSize();
             score = gameDataFragment.getScore();
-            //correctGuesses = gameDataFragment.getCorrectGuesses();
             adIndex = gameDataFragment.getAdIndex();
             app.setAds(gameDataFragment.getAds());
 
@@ -113,7 +119,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         imagePreviewIndicator.setAnimationType(AnimationType.SCALE);
         imagePreviewIndicator.setRadius(5);
-        imagePreviewIndicator.setSelectedColor(Color.parseColor("#EF913F"));
+        imagePreviewIndicator.setSelectedColor(Color.parseColor("#FFCA72"));
 
         titleTextView = (TextView) findViewById(R.id.titleTextView);
         descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
@@ -209,7 +215,11 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             slideupGuesser.setState(BottomSheetBehavior.STATE_COLLAPSED);
         else
         {
-            AlertDialog.Builder popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+            AlertDialog.Builder popup;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+            else
+                popup = new AlertDialog.Builder(this);
             popup.setTitle(getString(R.string.leavegame));
             popup.setMessage(getString(R.string.leavegamesub));
             popup.setCancelable(true);
@@ -258,7 +268,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     {
         Log.d("DEBUG", "Im being destroyed");
         super.onDestroy();
-        gameDataFragment.setData(gameSize, score, 0, adIndex, app.getAds());
+        gameDataFragment.setData(gameSize, score, adIndex, app.getAds());
     }
 
     @Override

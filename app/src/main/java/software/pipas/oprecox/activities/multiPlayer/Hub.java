@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Invite;
 import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 import software.pipas.oprecox.modules.message.Message;
@@ -60,6 +62,8 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_hub);
+
+        initiateCustomFonts();
 
         DynamicListView listView = (DynamicListView) findViewById(R.id.list);
         invites = new ArrayList<>();
@@ -93,6 +97,17 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
                 acceptInvite(invite);
             }
         });
+
+        Button hostButton = (Button) findViewById(R.id.hostButton);
+        hostButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                hostButtonPressed();
+            }
+        });
+
         this.inviteListAdapter = inviteListAdapter;
 
         //start ProgressUpdater
@@ -103,6 +118,15 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
 
         //starting comms udp service
         this.startUDPCommsService();
+    }
+
+    private void initiateCustomFonts()
+    {
+        TextView displayName = (TextView)findViewById(R.id.displayName);
+        TextView realName = (TextView)findViewById(R.id.realName);
+
+        CustomFontHelper.setCustomFont(displayName, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(realName, "font/antipastopro-demibold.otf", getBaseContext());
     }
 
 
@@ -169,7 +193,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
     }
 
 
-    public void hostButtonPressed(View view)
+    public void hostButtonPressed()
     {
         if(mGoogleApiClient != null && mGoogleApiClient.isConnected())
         {

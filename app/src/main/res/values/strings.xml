@@ -12,6 +12,7 @@
     <string name="gameSize">Tamanho</string>
     <string name="categories">Categorias</string>
     <string name="processDialog">A carregar...</string>
+    <string name="start">Começar</string>
 
     <!--           Game Size Strings         -->
     <string name="gameSizeTitle">Tamanho do Jogo</string>
@@ -41,23 +42,11 @@
     <string name="finish">Acabar</string>
     <string name="finalScore">Pontuação Final</string>
 
+    <!--            Multiplayer Hub          -->
+
+    <string name="host">Criar Sala</string>
 
     <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
-
-    <string name="animals">Animais</string>
-    <string name="agriculture">Agricultura</string>
-    <string name="baby">Bebé e Criança</string>
-    <string name="cars">Carros e Motas</string>
-    <string name="sports">Desporto</string>
-    <string name="jobs">Emprego</string>
-    <string name="houses">Imóveis</string>
-    <string name="leisure">Lazer</string>
-    <string name="fashion">Moda</string>
-    <string name="furniture">Móveis, Casa e Jardim</string>
-    <string name="services">Serviços</string>
-    <string name="technology">Tecnologia</string>
-    <string name="phones">Telemóveis e Tablets</string>
-    <string name="others">Outras Vendas</string>
 
     <string name="all">Todas as categorias</string>
     <string name="guesscaps">PALPITE</string>

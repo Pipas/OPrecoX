@@ -1,46 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/softWhite">
 
     <LinearLayout
+        android:id="@+id/multiplayerTitleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <ImageView
-            android:id="@+id/playerImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:layout_margin="16dp"/>
+        android:orientation="vertical"
+        android:background="@color/colorAccent"
+        android:elevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:background="@color/colorAccent">
 
-            <TextView
-                android:id="@+id/displayName"
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardViewClickable"
+                android:layout_gravity="center_horizontal"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/playerImage"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"/>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/realName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/displayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/softWhite"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/realName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/softWhite"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/edit"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/edit"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:tint="@color/softWhite"/>
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 
@@ -50,11 +86,18 @@
         android:layout_height="0dp"
         android:layout_weight="0.45"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="host"
-        android:onClick="hostButtonPressed"
-        android:layout_margin="16dp"/>
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/hostButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/host"
+        android:textAllCaps="true"
+        android:layout_margin="12dp"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 </LinearLayout>

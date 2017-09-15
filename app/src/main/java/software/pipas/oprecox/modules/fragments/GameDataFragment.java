@@ -10,7 +10,6 @@ public class GameDataFragment extends Fragment
     private int gameSize;
     private int adIndex;
     private int score;
-    private int correctGuesses;
     private Ad[] ads;
 
     @Override
@@ -50,16 +49,6 @@ public class GameDataFragment extends Fragment
         this.score = score;
     }
 
-    public int getCorrectGuesses()
-    {
-        return correctGuesses;
-    }
-
-    public void setCorrectGuesses(int correctGuesses)
-    {
-        this.correctGuesses = correctGuesses;
-    }
-
     public Ad[] getAds()
     {
         return ads;
@@ -70,11 +59,10 @@ public class GameDataFragment extends Fragment
         this.ads = ads;
     }
 
-    public void setData(int gameSize, int score, int correctGuesses, int adIndex, Ad[] ads)
+    public void setData(int gameSize, int score, int adIndex, Ad[] ads)
     {
         this.gameSize = gameSize;
         this.score = score;
-        this.correctGuesses = correctGuesses;
         this.ads = ads;
         this.adIndex = adIndex;
     }

@@ -33,13 +33,14 @@
         <activity
             android:name=".activities.menus.MainMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/MainMenuTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.menus.SettingsIntent"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.Hub"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
         <activity
             android:name=".activities.other.BlockedApp"
             android:screenOrientation="portrait" />
@@ -63,7 +64,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.other.CategoryDetails"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
         <activity
             android:name=".activities.other.SplashScreen"
             android:screenOrientation="portrait"

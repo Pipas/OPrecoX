@@ -14,6 +14,7 @@ import com.google.android.gms.common.images.ImageManager;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Invite;
 
 public class InviteListAdapter extends ArrayAdapter<Invite>
@@ -57,11 +58,13 @@ public class InviteListAdapter extends ArrayAdapter<Invite>
             if (inviteHostName != null)
             {
                 inviteHostName.setText(invite.getDisplayName());
+                CustomFontHelper.setCustomFont(inviteHostName, "font/antipastopro-demibold.otf", mContext);
             }
 
             if (inviteRoomName != null)
             {
                 inviteRoomName.setText(invite.getRealRoomName());
+                CustomFontHelper.setCustomFont(inviteRoomName, "font/antipastopro-demibold.otf", mContext);
             }
 
             if (inviteImage != null)

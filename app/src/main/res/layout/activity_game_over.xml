@@ -88,18 +88,17 @@
         android:background="@color/softGrey"/>
 
     <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/finishButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:text="@string/finish"
         android:textAllCaps="true"
         android:layout_margin="12dp"
-        android:onClick="pressFinish"
         android:textSize="20sp"
         android:shadowDy="1"
         android:shadowDx="0"
         android:shadowRadius="5"
         android:textColor="@color/softWhite"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/ButtonStyle"/>
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 </LinearLayout>

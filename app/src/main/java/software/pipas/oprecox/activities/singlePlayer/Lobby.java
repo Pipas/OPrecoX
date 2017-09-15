@@ -1,12 +1,15 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,16 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
 
         app = (OPrecoX) getApplicationContext();
         initiateCustomFonts();
+
+        Button startButton = (Button) findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+               startGame();
+            }
+        });
     }
 
     private void initiateCustomFonts()
@@ -84,7 +97,7 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
         finish();
     }
 
-    public void startGame(View v)
+    public void startGame()
     {
         if(!Util.isNetworkAvailable(getApplicationContext()))
         {
@@ -97,7 +110,11 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
 
     private void startProcessDialog()
     {
-        progressDialog = new ProgressDialog(Lobby.this, R.style.DialogTheme);
+        AlertDialog.Builder popup;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            progressDialog = new ProgressDialog(Lobby.this, R.style.DialogTheme);
+        else
+            progressDialog = new ProgressDialog(Lobby.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.processDialog));
         progressDialog.setCancelable(false);

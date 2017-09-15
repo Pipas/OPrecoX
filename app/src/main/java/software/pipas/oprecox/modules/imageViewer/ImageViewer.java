@@ -2,10 +2,12 @@ package software.pipas.oprecox.modules.imageViewer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.rd.PageIndicatorView;
@@ -35,6 +37,11 @@ public class ImageViewer extends AppCompatActivity
         Intent myIntent = getIntent();
         page = myIntent.getIntExtra("page", 0);
         adIndex = myIntent.getIntExtra("adIndex", 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
         OPrecoX app = (OPrecoX) getApplicationContext();
         ad = app.getAd(adIndex);

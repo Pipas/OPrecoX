@@ -33,7 +33,8 @@
         android:layout_height="wrap_content"
         android:textColor="@color/letterGrey"
         android:textSize="17sp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:gravity="center"/>
 
 
 </LinearLayout>

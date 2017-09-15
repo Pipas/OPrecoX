@@ -133,21 +133,19 @@
         android:layout_below="@id/categoriesButton"/>
 
     <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/startButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="Começar"
+        android:text="@string/start"
         android:textAllCaps="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_margin="12dp"
-        android:onClick="startGame"
         android:textSize="20sp"
         android:shadowDy="1"
         android:shadowDx="0"
         android:shadowRadius="5"
         android:textColor="@color/softWhite"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/ButtonStyle"/>
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 
 </RelativeLayout>

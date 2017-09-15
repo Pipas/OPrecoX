@@ -7,9 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 
@@ -53,7 +52,7 @@ public class AdOverviewAdapter extends ArrayAdapter<Ad>
         {
             TextView title = (TextView) v.findViewById(R.id.title);
             TextView scoreGained = (TextView) v.findViewById(R.id.scoreGained);
-            CircularImageView circleImageView = (CircularImageView) v.findViewById(R.id.image);
+            ImageView image = (ImageView) v.findViewById(R.id.image);
 
             if (title != null)
             {
@@ -77,10 +76,9 @@ public class AdOverviewAdapter extends ArrayAdapter<Ad>
                 CustomFontHelper.setCustomFont(scoreGained, "font/Comfortaa_Thin.ttf", mContext);
             }
 
-
-            if (circleImageView != null)
+            if (image != null)
             {
-                circleImageView.setImageBitmap(ad.getImages().get(0));
+                image.setImageBitmap(ad.getImages().get(0));
             }
         }
 

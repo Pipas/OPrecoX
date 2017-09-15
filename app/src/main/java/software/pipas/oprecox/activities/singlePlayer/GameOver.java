@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,9 +62,19 @@ public class GameOver extends AppCompatActivity
                 startActivity(browserIntent);
             }
         });
+
+        Button finishButton = (Button) findViewById(R.id.finishButton);
+        finishButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                pressFinish();
+            }
+        });
     }
 
-    public void pressFinish(View v)
+    public void pressFinish()
     {
         resetAdArray();
         finish();
