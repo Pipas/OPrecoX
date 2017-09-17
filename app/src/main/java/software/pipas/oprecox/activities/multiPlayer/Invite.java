@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.games.Games;
@@ -25,6 +26,7 @@ import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
@@ -39,6 +41,7 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
     private String roomName;
 
     private BroadcastReceiver broadcastReceiver;
+    private TextView inviteTooltip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,6 +50,8 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
         setContentView(R.layout.activity_multiplayer_invite);
 
         this.roomName = getIntent().getExtras().getString(getResources().getString(R.string.roomName));
+
+        initiateCustomFonts();
 
         ListView listView = (ListView) findViewById(R.id.playersListViewer);
         this.players = new ArrayList<>();
@@ -69,8 +74,15 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
 
         //start BroadcastReceiver
         this.startBroadcastReceiver();
+    }
 
+    private void initiateCustomFonts()
+    {
+        TextView invitesTitleTextView = (TextView)findViewById(R.id.invitesTitleTextView);
+        //inviteTooltip = (TextView)findViewById(R.id.inviteTooltip);
 
+        CustomFontHelper.setCustomFont(invitesTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        //CustomFontHelper.setCustomFont(inviteTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
     }
 
     @Override
@@ -82,7 +94,6 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
         //UPDATER
         if(this.playerListUpdater == null)
             this.startUpdater();
-
     }
 
     @Override
@@ -161,7 +172,6 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
             this.players.get(index).updatePlayerInvitePort(player.getInvitePort());
             this.players.get(index).updatePlayerAnnouncedTime(player.getTimeAnnounced());
         }
-
     }
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)

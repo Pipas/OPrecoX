@@ -97,29 +97,27 @@ public class MainMenu extends AppCompatActivity
     }
 
     public void pressMultiPlayer(View v)
-    {/*
-        count++;
+    {
+        /*count++;
 
         if(count >= 10)
         {
-            Intent myIntent = new Intent(this, Hub.class);
-            startActivity(myIntent);
+            if(!Util.isNetworkAvailable(this))
+            {
+                Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else
+            {
+                Intent myIntent = new Intent(this, Hub.class);
+                startActivity(myIntent);
+            }
         }
         else if(!showToast)
         {
             Toast.makeText(this, "Multijogador brevemente!", Toast.LENGTH_SHORT).show();
             showToast = true;
-        }
-*/
-
-
-        /*if(!Util.isNetworkAvailable(this))
-        {
-            Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        */
+        }*/
 
 
         Intent myIntent = new Intent(this, Hub.class);

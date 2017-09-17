@@ -3,12 +3,11 @@ package software.pipas.oprecox.activities.multiPlayer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 
 /**
  * Created by nuno_ on 22-Aug-17.
@@ -27,8 +26,29 @@ public class Options extends AppCompatActivity
         Intent intent = getIntent();
         this.roomName = intent.getExtras().getString(getResources().getString(R.string.roomName));
 
+        initiateCustomFonts();
+    }
+
+    private void initiateCustomFonts()
+    {
+        TextView optionsTitleTextView = (TextView)findViewById(R.id.optionsTitleTextView);
+        TextView gameTypeButtonTextView = (TextView)findViewById(R.id.gameTypeButtonTextView);
+        TextView gameSizeButtonTextView = (TextView)findViewById(R.id.gameSizeButtonTextView);
+        TextView categoriesButtonTextView = (TextView)findViewById(R.id.categoriesButtonTextView);
+
+        TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
+        TextView gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
+
         TextView roomNameEdit = (TextView) findViewById(R.id.roomNameEdit);
         roomNameEdit.setText(this.roomName);
+
+        CustomFontHelper.setCustomFont(roomNameEdit, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(optionsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTypeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameSizeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(categoriesButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTypeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameSizeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
     }
 
     @Override

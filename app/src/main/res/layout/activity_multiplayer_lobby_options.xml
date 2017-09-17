@@ -1,67 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+    android:layout_height="match_parent">
 
-    <EditText
+    <LinearLayout
+        android:id="@+id/optionsTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"
-        android:ems="10"
-        android:inputType="text"
-        android:singleLine="false"
-        android:text="Room Name"
-        android:textAlignment="viewStart"
-        android:layout_gravity="start"
-        android:textColor="@color/black"
-        android:background="@android:color/transparent"
-        android:layout_marginLeft="20dp"
-        android:editable="false"
-        android:focusableInTouchMode="false"/>
+        android:layout_height="56dp"
+        android:background="@color/purple"
+        android:elevation="2dp">
 
-    <EditText
-        android:id="@+id/roomNameEdit"
+        <TextView
+            android:id="@+id/optionsTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/singleplayer"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@color/softWhite"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/roomNameButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_weight="0.05"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="viewStart"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="24sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <EditText
+            android:id="@+id/roomNameEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="textPersonName"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
+
+    <LinearLayout
+        android:id="@+id/gameTypeButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/gameTypeButtonTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gameType"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/gameTypeTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adivinhar o preço"
+            android:textSize="16sp"
+            android:textColor="@color/letterGrey"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
+
+    <LinearLayout
+        android:id="@+id/gameSizeButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="selectGameSize"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:id="@+id/gameSizeButtonTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gameSize"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/gameSizeTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="20sp"
+            android:textColor="@color/letterGrey"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
+
+    <LinearLayout
+        android:id="@+id/categoriesButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="selectCategory"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/categoriesButtonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/categories"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e0e0e0"/>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.03" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <LinearLayout
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/startButton"
         android:layout_width="match_parent"
-        android:layout_height="102dp"
-        android:orientation="horizontal">
+        android:layout_height="56dp"
+        android:text="@string/start"
+        android:textAllCaps="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="12dp"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
-        <Button
-            android:text="OK"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="50dp"
-            android:onClick="onOkPressed"/>
-
-        <Button
-            android:text="CANCEL"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:onClick="onCancelPressed"/>
-
-
-    </LinearLayout>
 </LinearLayout>

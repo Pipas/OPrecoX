@@ -7,10 +7,11 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
@@ -19,10 +20,10 @@ import com.google.android.gms.games.Player;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.network.RoomService;
 
 public class LobbyHost extends MultiplayerClass
@@ -49,12 +50,35 @@ public class LobbyHost extends MultiplayerClass
         ListView listView = (ListView) findViewById(R.id.playersListViewer);
         this.players = new ArrayList<>();
 
-        final PlayerListAdapter playerListAdapter = new PlayerListAdapter(this.players, getApplicationContext(), getContentResolver());
+        initiateCustomFonts();
+
+        Button startButton = (Button) findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(getBaseContext(), "TODO", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        playerListAdapter = new PlayerListAdapter(this.players, getApplicationContext(), getContentResolver());
         listView.setAdapter(playerListAdapter);
 
-        this.playerListAdapter = playerListAdapter;
-
         this.startBroadcastReceiver();
+    }
+
+    private void initiateCustomFonts()
+    {
+        TextView roomName = (TextView)findViewById(R.id.roomName);
+        TextView roomHostName = (TextView)findViewById(R.id.roomHostName);
+        TextView optionsTooltip = (TextView) findViewById(R.id.optionsTooltip);
+        TextView inviteTooltip = (TextView) findViewById(R.id.inviteTooltip);
+
+        CustomFontHelper.setCustomFont(roomName, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(roomHostName, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(optionsTooltip, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(inviteTooltip, "font/antipastopro-demibold.otf", getBaseContext());
     }
 
     @Override

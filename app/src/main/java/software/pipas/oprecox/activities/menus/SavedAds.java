@@ -31,13 +31,13 @@ public class SavedAds extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_adds);
+        setContentView(R.layout.activity_saved_ads);
 
         TextView savedAdsTitleTextView = (TextView)findViewById(R.id.savedAdsTitleTextView);
         TextView savedAdsTooltip = (TextView)findViewById(R.id.savedAdsTooltip);
 
         CustomFontHelper.setCustomFont(savedAdsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
-        CustomFontHelper.setCustomFont(savedAdsTooltip, "font/Conforta_Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(savedAdsTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
 
         database = new DatabaseHandler(this);
         database.open();
@@ -104,6 +104,4 @@ public class SavedAds extends AppCompatActivity
         database.deleteComment(adListAdapter.getItem(position));
         adListAdapter.remove(position);
     }
-
-
 }

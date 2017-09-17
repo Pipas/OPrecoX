@@ -46,16 +46,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.LobbyHost"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
         <activity
             android:name=".activities.multiPlayer.LobbyClient"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
         <activity
             android:name=".activities.multiPlayer.Invite"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
         <activity
             android:name=".activities.multiPlayer.Options"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
         <activity
             android:name=".activities.menus.SavedAds"
             android:screenOrientation="portrait" />

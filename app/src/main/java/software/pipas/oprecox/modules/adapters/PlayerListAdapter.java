@@ -14,7 +14,7 @@ import com.google.android.gms.common.images.ImageManager;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.dataType.Invite;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Player;
 
 public class PlayerListAdapter extends ArrayAdapter<Player>
@@ -37,9 +37,6 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-
-
-
         View v = convertView;
 
         if (v == null)
@@ -59,6 +56,7 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
             if (playerName != null)
             {
                 playerName.setText(player.getDisplayName());
+                CustomFontHelper.setCustomFont(playerName, "font/antipastopro-demibold.otf", mContext);
             }
 
             if (playerImage != null)
