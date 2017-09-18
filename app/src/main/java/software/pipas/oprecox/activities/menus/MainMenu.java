@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
@@ -15,6 +16,7 @@ import software.pipas.oprecox.activities.singlePlayer.Lobby;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.util.Settings;
+import software.pipas.oprecox.util.Util;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -98,7 +100,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
-        /*count++;
+        count++;
 
         if(count >= 10)
         {
@@ -117,11 +119,11 @@ public class MainMenu extends AppCompatActivity
         {
             Toast.makeText(this, "Multijogador brevemente!", Toast.LENGTH_SHORT).show();
             showToast = true;
-        }*/
+        }
 
 
-        Intent myIntent = new Intent(this, Hub.class);
-        startActivity(myIntent);
+        /*Intent myIntent = new Intent(this, Hub.class);
+        startActivity(myIntent);*/
 
     }
 

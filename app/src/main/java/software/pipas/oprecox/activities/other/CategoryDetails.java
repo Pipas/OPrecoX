@@ -26,6 +26,7 @@ import software.pipas.oprecox.modules.adapters.SubCategoryListAdapter;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.util.Settings;
+import software.pipas.oprecox.util.Util;
 
 public class CategoryDetails extends AppCompatActivity
 {
@@ -45,12 +46,12 @@ public class CategoryDetails extends AppCompatActivity
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             LinearLayout centerLayout = (LinearLayout) findViewById(R.id.centerLayout);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) centerLayout.getLayoutParams();
-            params.setMargins(0, params.topMargin + getStatusBarHeight(), 0, params.bottomMargin);
+            params.setMargins(0, params.topMargin + Util.getStatusBarHeight(getResources()), 0, params.bottomMargin);
             centerLayout.setLayoutParams(params);
 
             LinearLayout pressMoreLayout = (LinearLayout) findViewById(R.id.pressMoreLayout);
             RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) pressMoreLayout.getLayoutParams();
-            params2.setMargins(0, params2.topMargin + getStatusBarHeight(), 0, params2.bottomMargin);
+            params2.setMargins(0, params2.topMargin + Util.getStatusBarHeight(getResources()), 0, params2.bottomMargin);
             pressMoreLayout.setLayoutParams(params2);
         }
 
@@ -60,16 +61,6 @@ public class CategoryDetails extends AppCompatActivity
         initiateViews();
 
         initiatePressMoreButton();
-    }
-
-    public int getStatusBarHeight()
-    {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 
     private void initiateViews()

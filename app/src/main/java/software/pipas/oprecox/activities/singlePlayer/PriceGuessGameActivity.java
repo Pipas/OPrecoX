@@ -188,7 +188,7 @@ public class PriceGuessGameActivity extends GameActivity
 
         if(digit == 0)
         {
-            if (dialpadString.length() == 0)
+            if (dialpadString.equals("0"))
                     return;
 
             dialpadString += digit;
@@ -248,6 +248,18 @@ public class PriceGuessGameActivity extends GameActivity
                 return false;
             }
         }
+        else if(correctPrice <= 80)
+        {
+            if(guessPrice >= 0.85*correctPrice && guessPrice <= 1.15*correctPrice)
+                scorePlus = 25;
+            else if(guessPrice >= 0.6*correctPrice && guessPrice <= 1.4*correctPrice)
+                scorePlus = 10;
+            else
+            {
+                scorePlus = 0;
+                return false;
+            }
+        }
         else if(correctPrice <= 10000)
         {
             if(guessPrice >= 0.90*correctPrice && guessPrice <= 1.10*correctPrice)
@@ -278,6 +290,9 @@ public class PriceGuessGameActivity extends GameActivity
 
     private void confirmSelection()
     {
+        if(dialpadString.equals(""))
+            return;
+
         priceGuesser.setVisibility(View.GONE);
         afterGuess.setVisibility(View.VISIBLE);
 
@@ -316,8 +331,8 @@ public class PriceGuessGameActivity extends GameActivity
             database.createAd(app.getAd(adIndex));
             database.close();
             adSaved = true;
+            Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
     }
 
     private void populateAfterGuessViews()
