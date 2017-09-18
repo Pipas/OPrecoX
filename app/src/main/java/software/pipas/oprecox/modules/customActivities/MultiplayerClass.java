@@ -113,7 +113,7 @@ public abstract class MultiplayerClass extends AppCompatActivity implements Goog
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        //builder.setCancelable(false);
+        builder.setCancelable(false);
         builder.setTitle("Connection Failed!");
         builder.setMessage("Do you wish to retry?");
         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
