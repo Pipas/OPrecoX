@@ -39,7 +39,22 @@
     <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/playersListViewer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/inviteButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/inviteIP"
+        android:textAllCaps="true"
+        android:layout_margin="12dp"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 
 

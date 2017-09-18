@@ -140,7 +140,8 @@ public class RoomService extends IntentService implements TCPConnectionManager
         String message = intent.getExtras().getString(getResources().getString(R.string.S004_MESSAGE));
         InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S004_INETSOCKETADDRESS));
         Player remotePlayer = intent.getExtras().getParcelable(getResources().getString(R.string.S004_PLAYER));
-        this.playersDB.add(remotePlayer);
+
+        if(remotePlayer != null) this.playersDB.add(remotePlayer);
 
         Message msg = new Message(this.getApplicationContext(), message);
         if(!msg.isValid()) return;

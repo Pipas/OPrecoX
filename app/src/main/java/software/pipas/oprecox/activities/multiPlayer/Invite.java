@@ -1,14 +1,20 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +22,10 @@ import android.widget.Toast;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.BuildConfig;
@@ -67,6 +76,66 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
                 software.pipas.oprecox.modules.dataType.Player player = playerListAdapter.getItem(position);
                 Log.d("INVITE_DEBUG", player.toString());
                 sendInvite(player);
+            }
+        });
+
+        Button inviteButton = (Button) findViewById(R.id.inviteButton);
+        inviteButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this);
+                builder.setTitle("Title");
+
+                // Set up the input
+                final EditText input = new EditText(Invite.this);
+
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_PHONE);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        final String m_Text = input.getText().toString();
+                        (new Thread()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                try
+                                {
+                                    InetAddress address = InetAddress.getByName(m_Text);
+                                    if(address instanceof Inet4Address)
+                                    {
+
+                                    }
+                                    else {throw new UnknownHostException();}
+                                }
+                                catch (UnknownHostException e)
+                                {
+                                    Toast.makeText(getApplicationContext(), "IP invalido", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
             }
         });
 
@@ -227,6 +296,49 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
         intent.putExtra(getResources().getString(R.string.S004_MESSAGE), msg.getMessage());
         intent.putExtra(getResources().getString(R.string.S004_INETSOCKETADDRESS), socketAddress);
         intent.putExtra(getResources().getString(R.string.S004_PLAYER),remotePlayer);
+        sendBroadcast(intent);
+
+    }
+
+    private void sendInvite(InetAddress address)
+    {
+        //get stuff from the room asap
+        String roomName = Util.substituteSpace(this.roomName);//temp
+        String hostDisplayName = this.player.getDisplayName();
+        String hostName;
+
+        if(this.player.getName() == null)
+            hostName = hostDisplayName;
+        else
+            hostName = Util.substituteSpace(this.player.getName());
+
+        String playerID = this.player.getPlayerId();
+        String roomPort = "-1";//temp
+
+
+        String[] args = new String[8];
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.INVITE.toString();
+        args[3] = roomName;
+        args[4] = hostDisplayName;
+        args[5] = hostName;
+        args[6] = playerID;
+        args[7] = roomPort;
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if(!msg.isValid())
+        {
+            Toast.makeText(this, "Unable to send Invite", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        InetSocketAddress socketAddress = new InetSocketAddress(address, getResources().getInteger(R.integer.network_port));
+
+        Intent intent = new Intent(getResources().getString(R.string.S004));
+        intent.putExtra(getResources().getString(R.string.S004_MESSAGE), msg.getMessage());
+        intent.putExtra(getResources().getString(R.string.S004_INETSOCKETADDRESS), socketAddress);
         sendBroadcast(intent);
 
     }

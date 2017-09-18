@@ -46,6 +46,7 @@
 
     <string name="host">Criar Sala</string>
     <string name="invite">Convidar </string>
+    <string name="inviteIP">convidar por ip</string>
     <string name="invitetitle">Convidar Amigos</string>
     <string name="inviteTooltip">Para encontrar dispositivos é necessario estarem na mesma rede Wi-Fi</string>
 

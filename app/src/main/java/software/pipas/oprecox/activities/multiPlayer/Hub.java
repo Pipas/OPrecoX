@@ -25,6 +25,7 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAd
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.modules.network.AnnouncerSenderService;
 import software.pipas.oprecox.modules.network.ClientService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
+import software.pipas.oprecox.util.Util;
 
 public class Hub extends MultiplayerClass implements AsyncTaskCompleted
 {
@@ -56,6 +58,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
     private BroadcastReceiver broadcastReceiver;
     private ProgressDialog progressDialog;
     private Invite latestAcceptedInvite;
+    private InetAddress myIP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -118,6 +121,8 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
 
         //starting comms udp service
         this.startUDPCommsService();
+
+        this.myIP = Util.listMyIP();
     }
 
     private void initiateCustomFonts()
@@ -148,7 +153,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
         displayName.setText(player.getDisplayName());
 
         TextView realName = (TextView) findViewById(R.id.realName);
-        realName.setText(player.getName());
+        realName.setText(this.myIP.toString().substring(1));
 
 
         ImageView imageView = (ImageView) findViewById(R.id.playerImage);

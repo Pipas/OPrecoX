@@ -15,6 +15,8 @@ import android.util.Log;
 import android.util.TypedValue;
 
 import java.io.ByteArrayOutputStream;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
@@ -107,6 +109,43 @@ public abstract class Util
         catch (SocketException e)
         {
             Log.d("NETWORK_INTERFACES_LIST", "failed to get");
+            return null;
+        }
+    }
+
+    public static InetAddress listMyIP()
+    {
+        try
+        {
+            Enumeration<NetworkInterface> list = NetworkInterface.getNetworkInterfaces();
+
+            for (Enumeration<NetworkInterface> e = list; e.hasMoreElements();)
+            {
+                //Log.d("NETWORK_INTERFACES_LIST", e.nextElement().getName());
+                NetworkInterface networkInterface = e.nextElement();
+
+                if(networkInterface.getName().contains("wlan"))
+                {
+                    List<InterfaceAddress> addressEnumeration = networkInterface.getInterfaceAddresses();
+
+                    for (int i = 0; i < addressEnumeration.size(); i++)
+                    {
+                        InetAddress address = addressEnumeration.get(i).getAddress();
+
+                        if(address instanceof Inet4Address)
+                        {
+                            return address;
+                        }
+                    }
+                }
+            }
+
+            return null;
+
+        }
+        catch (SocketException e)
+        {
+            Log.d("MY_IP", "failed to get");
             return null;
         }
     }
