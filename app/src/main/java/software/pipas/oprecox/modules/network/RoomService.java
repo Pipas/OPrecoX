@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -16,11 +18,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.multiPlayer.Hub;
+import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
+import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Player;
-import software.pipas.oprecox.modules.interfaces.TCPConnectionManager;
+import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
+import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
@@ -29,7 +36,7 @@ import software.pipas.oprecox.modules.message.ResponseType;
  * Created by nuno_ on 31-Aug-17.
  */
 
-public class RoomService extends IntentService implements TCPConnectionManager
+public class RoomService extends IntentService implements OnTCPConnectionManager
 {
     private BroadcastReceiver broadcastReceiver;
     private ServerSocket serverSocket;
@@ -38,6 +45,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
 
     private LinkedList<Socket> pending;
     private HashMap<Player, Socket> joined;
+    private HashMap<Player, Socket> pendingLoaded;
     private LinkedList<Player> playersDB;
 
     public RoomService() {super("Room");}
@@ -50,6 +58,7 @@ public class RoomService extends IntentService implements TCPConnectionManager
         super.onCreate();
         this.pending = new LinkedList<>();
         this.joined = new HashMap<>();
+        this.pendingLoaded = new HashMap<>();
         this.playersDB = new LinkedList<>();
         this.time = getResources().getInteger(R.integer.TIME_LIMIT_FOR_ROOM_REFRESH);
         this.closed = false;
@@ -143,31 +152,56 @@ public class RoomService extends IntentService implements TCPConnectionManager
 
         if(remotePlayer != null) this.playersDB.add(remotePlayer);
 
-        Message msg = new Message(this.getApplicationContext(), message);
-        if(!msg.isValid()) return;
+        if(message != null && socketAddress != null)
+        {
+            Message msg = new Message(this.getApplicationContext(), message);
+            if (!msg.isValid()) return;
 
-        String roomPort = this.requestPort();
-        if(roomPort == null) return;
+            String roomPort = this.requestPort();
+            if (roomPort == null) return;
 
-        String[] args = new String[8];
-        args[0] = msg.getAppName();
-        args[1] = msg.getAppVersion();
-        args[2] = msg.getMessageType();
-        args[3] = msg.getRoomName();
-        args[4] = msg.getDisplayName();
-        args[5] = msg.getDisplayName();
-        args[6] = msg.getPlayerId();
-        args[7] = roomPort;
+            String[] args = new String[8];
+            args[0] = msg.getAppName();
+            args[1] = msg.getAppVersion();
+            args[2] = msg.getMessageType();
+            args[3] = msg.getRoomName();
+            args[4] = msg.getDisplayName();
+            args[5] = msg.getDisplayName();
+            args[6] = msg.getPlayerId();
+            args[7] = roomPort;
 
-        Message newMsg = new Message(this.getApplicationContext(), args);
+            Message newMsg = new Message(this.getApplicationContext(), args);
 
-        if(!newMsg.isValid()) return;
+            if (!newMsg.isValid()) return;
 
 
-        Intent newIntent = new Intent(getResources().getString(R.string.S000));
-        newIntent.putExtra(getResources().getString(R.string.S000_MESSAGE), newMsg.getMessage());
-        newIntent.putExtra(getResources().getString(R.string.S000_INETSOCKETADDRESS), socketAddress);
-        sendBroadcast(newIntent);
+            Intent newIntent = new Intent(getResources().getString(R.string.S000));
+            newIntent.putExtra(getResources().getString(R.string.S000_MESSAGE), newMsg.getMessage());
+            newIntent.putExtra(getResources().getString(R.string.S000_INETSOCKETADDRESS), socketAddress);
+            sendBroadcast(newIntent);
+        }
+
+        Player playerLoaded = intent.getExtras().getParcelable(getString(R.string.S004_LOADEDPLAYER));
+        if(playerLoaded != null)
+        {
+            this.playersDB.add(playerLoaded);
+
+            for(Player player : this.pendingLoaded.keySet())
+            {
+                if(player.equals(playerLoaded))
+                {
+                    Socket socket = this.pendingLoaded.get(player);
+                    playerLoaded.updatePlayerAddress(socket.getInetAddress());
+                    playerLoaded.updatePlayerInvitePort(socket.getPort());
+
+                    this.joined.put(playerLoaded, socket);
+                    this.addPlayerToListAndSendToAll(playerLoaded, socket);
+                    this.pendingLoaded.remove(player);
+                    break;
+                }
+            }
+        }
+
     }
 
     @Override
@@ -190,6 +224,8 @@ public class RoomService extends IntentService implements TCPConnectionManager
                 {
                     String id = msg.getPlayerId();
                     Player dummyPlayer = new Player(id);
+                    dummyPlayer.updatePlayerAnnouncedTime(System.currentTimeMillis());
+                    dummyPlayer.updatePlayerInvitePort(-1);
 
                     for(Player player1 : this.playersDB)
                     {
@@ -200,10 +236,12 @@ public class RoomService extends IntentService implements TCPConnectionManager
                             break;
                         }
                     }
+
+                    Log.d("MY_IP_DEBUG", "putting pending");
+                    this.pendingLoaded.put(dummyPlayer, remotePlayerSocket);
+                    this.sendToActivityToLoad(dummyPlayer);
                 }
-
                 //other messages...
-
             }
         }
 
@@ -212,7 +250,6 @@ public class RoomService extends IntentService implements TCPConnectionManager
     public String requestPort()
     {
         return Integer.toString(this.serverSocket.getLocalPort());
-
     }
 
     public void startTCPPlayerHandler(Socket socket)
@@ -335,6 +372,13 @@ public class RoomService extends IntentService implements TCPConnectionManager
         }
     }
 
+    private void sendToActivityToLoad(Player dummyPlayer)
+    {
+        Intent intent = new Intent(getString(R.string.S007));
+        intent.putExtra(getString(R.string.S007_REQUESPLAYERLOADER), dummyPlayer);
+        sendBroadcast(intent);
+    }
+
     private void singleSend(final Socket socket, final Message message)
     {
         (new Thread() {
@@ -377,6 +421,4 @@ public class RoomService extends IntentService implements TCPConnectionManager
             }).start();
         }
     }
-
-
 }

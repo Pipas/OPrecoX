@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,14 +33,14 @@ import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
-import software.pipas.oprecox.modules.customThreads.PlayerLoader;
+import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
-import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
+import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
-public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
+public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
@@ -112,7 +111,8 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
                                     InetAddress address = InetAddress.getByName(m_Text);
                                     if(address instanceof Inet4Address)
                                     {
-
+                                        sendInvite(address);
+                                        finish();
                                     }
                                     else {throw new UnknownHostException();}
                                 }
@@ -251,8 +251,8 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
 
     private void retrievePlayerURI(PlayerListAdapter playerListAdapter, software.pipas.oprecox.modules.dataType.Player player)
     {
-        PlayerLoader playerLoader = new PlayerLoader(Invite.this, this.mGoogleApiClient, playerListAdapter, player);
-        playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        PlayerImageLoader playerImageLoader = new PlayerImageLoader(Invite.this, this.mGoogleApiClient, playerListAdapter, player);
+        playerImageLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
@@ -340,7 +340,6 @@ public class Invite extends MultiplayerClass implements AsyncTaskCompleted {
         intent.putExtra(getResources().getString(R.string.S004_MESSAGE), msg.getMessage());
         intent.putExtra(getResources().getString(R.string.S004_INETSOCKETADDRESS), socketAddress);
         sendBroadcast(intent);
-
     }
 
 

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,10 +24,12 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
+import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.network.RoomService;
 
-public class LobbyHost extends MultiplayerClass
+public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
 {
     private final int OPTIONS_REQUEST_CODE = 1;
 
@@ -177,7 +180,6 @@ public class LobbyHost extends MultiplayerClass
     private void handleReceivedIntent(Context context, Intent intent)
     {
         Log.d("LOBBY_HOST", intent.toString());
-
         software.pipas.oprecox.modules.dataType.Player player = intent.getExtras().getParcelable(getString(R.string.S007_ADDPLAYERLIST));
 
         if(player != null)
@@ -195,11 +197,32 @@ public class LobbyHost extends MultiplayerClass
             this.refreshListAdapter(this.playerListAdapter);
             return;
         }
+
+        player = intent.getExtras().getParcelable(getString(R.string.S007_REQUESPLAYERLOADER));
+        if (player != null)
+        {
+            Log.d("MY_IP_DEBUG", "sendload->load");
+
+            PlayerLoader playerLoader = new PlayerLoader(LobbyHost.this, this.mGoogleApiClient, player);
+            playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            Log.d("MY_IP_DEBUG", "trying to load");
+            return;
+        }
     }
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
     {
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
         this.runOnUiThread(listAdapterRefresh);
+    }
+
+    @Override
+    public void playerLoaded(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        Log.d("MY_IP_DEBUG","loaded" + "\n" + player.toString());
+        Intent intent = new Intent(getString(R.string.S004));
+        intent.putExtra(getString(R.string.S004_LOADEDPLAYER), player);
+        sendBroadcast(intent);
     }
 }

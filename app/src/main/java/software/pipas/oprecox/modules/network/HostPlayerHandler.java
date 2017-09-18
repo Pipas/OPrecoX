@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import software.pipas.oprecox.modules.interfaces.TCPConnectionManager;
+import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.ResponseType;
 
 /**
@@ -15,13 +15,13 @@ import software.pipas.oprecox.modules.message.ResponseType;
 
 public class HostPlayerHandler extends Thread
 {
-    TCPConnectionManager tcpConnectionManager;
+    OnTCPConnectionManager onTcpConnectionManager;
     Socket socket;
     BufferedReader in;
 
-    public HostPlayerHandler(TCPConnectionManager tcpConnectionManager, Socket socket)
+    public HostPlayerHandler(OnTCPConnectionManager onTcpConnectionManager, Socket socket)
     {
-        this.tcpConnectionManager = tcpConnectionManager;
+        this.onTcpConnectionManager = onTcpConnectionManager;
         this.socket = socket;
     }
 
@@ -58,12 +58,12 @@ public class HostPlayerHandler extends Thread
 
     private void sendClosedSignal()
     {
-        this.tcpConnectionManager.onConnectionCallback(this.socket, ResponseType.CLOSED, "socket closed");
+        this.onTcpConnectionManager.onConnectionCallback(this.socket, ResponseType.CLOSED, "socket closed");
     }
 
     private void sendResponse(String str)
     {
-        this.tcpConnectionManager.onConnectionCallback(this.socket, ResponseType.INFO, str);
+        this.onTcpConnectionManager.onConnectionCallback(this.socket, ResponseType.INFO, str);
     }
 
     private void terminate()

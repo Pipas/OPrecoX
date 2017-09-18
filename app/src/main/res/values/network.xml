@@ -46,10 +46,11 @@
     <string name="S003_DISPLAYNAME">S003_DISPLAYNAME</string>
     <string name="S003_PLAYERID">S003_PLAYERID</string>
 
-    <!-- PARAMETHERS S004 Room -->
+    <!-- PARAMETHERS S004 RoomService -->
     <string name="S004_MESSAGE">S004_MESSAGE</string>
     <string name="S004_INETSOCKETADDRESS">S004_INETSOCKETADDRESS</string>
     <string name="S004_PLAYER">S004_PLAYER</string>
+    <string name="S004_LOADEDPLAYER">S004_LOADEDPLAYER</string>
 
     <!-- PARAMETHERS S005 ClientService -->
     <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>
@@ -68,6 +69,7 @@
     <string name="S007_RESPONSE">S007_RESPONSE</string>
     <string name="S007_ADDPLAYERLIST">S007_ADDPLAYERLIST</string>
     <string name="S007_REMOVEPLAYERLIST">S007_REMOVEPLAYERLIST</string>
+    <string name="S007_REQUESPLAYERLOADER">S007_REQUESPLAYERLOADER</string>
 
 
 

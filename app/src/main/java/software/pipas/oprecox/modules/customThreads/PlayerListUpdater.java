@@ -8,7 +8,7 @@ import java.util.Collections;
 import software.pipas.oprecox.modules.dataType.Player;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
+import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
 
 /**
  * Created by nuno_ on 16-Aug-17.
@@ -16,7 +16,7 @@ import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
 
 public class PlayerListUpdater extends Thread
 {
-    private AsyncTaskCompleted asyncTaskCompleted;
+    private OnPlayerImageLoader onPlayerImageLoader;
     private Context context;
     private ArrayList<Player> players;
     private boolean closed;
@@ -25,9 +25,9 @@ public class PlayerListUpdater extends Thread
     private int timeOfPlayerExpired;
 
 
-    public PlayerListUpdater(Context context, AsyncTaskCompleted asyncTaskCompleted, ArrayList<Player> players)
+    public PlayerListUpdater(Context context, OnPlayerImageLoader onPlayerImageLoader, ArrayList<Player> players)
     {
-        this.asyncTaskCompleted = asyncTaskCompleted;
+        this.onPlayerImageLoader = onPlayerImageLoader;
         this.context = context;
         this.players = players;
         this.closed = false;
@@ -41,7 +41,8 @@ public class PlayerListUpdater extends Thread
     {
         while(!this.closed)
         {
-            if(this.update()) {asyncTaskCompleted.onRefreshUI();}
+            if(this.update()) {
+                onPlayerImageLoader.onRefreshUI();}
             this.sleep();
         }
     }

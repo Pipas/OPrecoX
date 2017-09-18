@@ -19,21 +19,17 @@ import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
 
-import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
-import software.pipas.oprecox.modules.customThreads.PlayerLoader;
-import software.pipas.oprecox.modules.dataType.*;
-import software.pipas.oprecox.modules.dataType.Invite;
-import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
+import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
+import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
 
-public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
+public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 {
     private static boolean loaded = false;
 
@@ -148,8 +144,8 @@ public class LobbyClient extends MultiplayerClass implements AsyncTaskCompleted
 
     private void retrievePlayerURI(PlayerListAdapter playerListAdapter, software.pipas.oprecox.modules.dataType.Player player)
     {
-        PlayerLoader playerLoader = new PlayerLoader(LobbyClient.this, this.mGoogleApiClient, playerListAdapter, player);
-        playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        PlayerImageLoader playerImageLoader = new PlayerImageLoader(LobbyClient.this, this.mGoogleApiClient, playerListAdapter, player);
+        playerImageLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override

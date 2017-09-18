@@ -86,6 +86,7 @@ public class UDPCommsService extends IntentService
         packet.setAddress(address.getAddress());
         packet.setPort(address.getPort());
         this.sendPacket(packet);
+        Log.d("MY_IP_DEBUG", str);
     }
 
     @Override

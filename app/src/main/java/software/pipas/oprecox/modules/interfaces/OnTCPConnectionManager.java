@@ -9,7 +9,7 @@ import software.pipas.oprecox.modules.message.ResponseType;
  * Created by nuno_ on 04-Sep-17.
  */
 
-public interface TCPConnectionManager
+public interface OnTCPConnectionManager
 {
     void onConnectionCallback(Socket socket, ResponseType type, String message);
 }

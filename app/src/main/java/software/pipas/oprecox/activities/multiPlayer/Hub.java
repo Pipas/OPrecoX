@@ -34,10 +34,10 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
-import software.pipas.oprecox.modules.customThreads.PlayerLoader;
+import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Invite;
-import software.pipas.oprecox.modules.interfaces.AsyncTaskCompleted;
+import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
@@ -46,7 +46,7 @@ import software.pipas.oprecox.modules.network.ClientService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
 import software.pipas.oprecox.util.Util;
 
-public class Hub extends MultiplayerClass implements AsyncTaskCompleted
+public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
@@ -169,7 +169,7 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
         if(name == null) name = player.getDisplayName();
 
         //starting the announcerSender service
-        this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
+        //this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
 
     }
 
@@ -367,8 +367,8 @@ public class Hub extends MultiplayerClass implements AsyncTaskCompleted
 
     private void retrievePlayerURI(InviteListAdapter inviteListAdapter, Invite invite)
     {
-        PlayerLoader playerLoader = new PlayerLoader(Hub.this, this.mGoogleApiClient, inviteListAdapter, invite);
-        playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        PlayerImageLoader playerImageLoader = new PlayerImageLoader(Hub.this, this.mGoogleApiClient, inviteListAdapter, invite);
+        playerImageLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void refreshListAdapter(InviteListAdapter inviteListAdapter)
