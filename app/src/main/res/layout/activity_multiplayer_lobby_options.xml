@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/softWhite"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
         android:id="@+id/optionsTitle"
@@ -27,20 +30,20 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:clickable="true">
 
         <EditText
             android:id="@+id/roomNameEdit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="textPersonName"
             android:layout_gravity="center_vertical"
             android:textColor="@color/darkGrey"
             android:textSize="22sp"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
 
     </LinearLayout>
 
@@ -154,10 +157,10 @@
         android:layout_weight="1"/>
 
     <software.pipas.oprecox.modules.customViews.CustomButton
-        android:id="@+id/startButton"
+        android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="@string/start"
+        android:text="@string/confirm"
         android:textAllCaps="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="12dp"

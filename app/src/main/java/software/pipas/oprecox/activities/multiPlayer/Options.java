@@ -1,21 +1,23 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.other.CategoryChooser;
+import software.pipas.oprecox.activities.other.GameSizeChooser;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
-
-/**
- * Created by nuno_ on 22-Aug-17.
- */
 
 public class Options extends AppCompatActivity
 {
     private String roomName;
+    private int gameSize;
+    private TextView roomNameEdit;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -27,6 +29,16 @@ public class Options extends AppCompatActivity
         this.roomName = intent.getExtras().getString(getResources().getString(R.string.roomName));
 
         initiateCustomFonts();
+
+        Button confirmButton = (Button) findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onConfirmPressed();
+            }
+        });
     }
 
     private void initiateCustomFonts()
@@ -39,7 +51,7 @@ public class Options extends AppCompatActivity
         TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
         TextView gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
 
-        TextView roomNameEdit = (TextView) findViewById(R.id.roomNameEdit);
+        roomNameEdit = (TextView) findViewById(R.id.roomNameEdit);
         roomNameEdit.setText(this.roomName);
 
         CustomFontHelper.setCustomFont(roomNameEdit, "font/antipastopro-demibold.otf", getBaseContext());
@@ -58,21 +70,15 @@ public class Options extends AppCompatActivity
         finish();
     }
 
-    public void onOkPressed(View v)
+    public void onConfirmPressed()
     {
         this.updateName();
         this.setResult();
         finish();
     }
 
-    public void onCancelPressed(View v)
-    {
-        finish();
-    }
-
     private void updateName()
     {
-        TextView roomNameEdit = (TextView) findViewById(R.id.roomNameEdit);
         String roomNameNew = roomNameEdit.getText().toString();
 
         if(roomNameNew.length() > 0)
@@ -86,5 +92,35 @@ public class Options extends AppCompatActivity
         Intent intent = new Intent();
         intent.putExtra(getResources().getString(R.string.roomName), this.roomName);
         setResult(RESULT_OK, intent);
+    }
+
+    public void selectCategory(View v)
+    {
+        Intent myIntent = new Intent(this, CategoryChooser.class);
+        myIntent.putExtra("multiplayer", true);
+        roomNameEdit.clearFocus();
+        startActivity(myIntent);
+    }
+
+    public void selectGameSize(View v)
+    {
+        Intent myIntent = new Intent(this, GameSizeChooser.class);
+        myIntent.putExtra("multiplayer", true);
+        roomNameEdit.clearFocus();
+        startActivityForResult(myIntent, 2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 2)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                gameSize = data.getIntExtra("gameSize", 10);
+                TextView numberGuessesTooltip = (TextView) findViewById(R.id.gameSizeTooltip);
+                numberGuessesTooltip.setText(Integer.toString(gameSize));
+            }
+        }
     }
 }
