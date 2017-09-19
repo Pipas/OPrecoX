@@ -163,7 +163,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
     {
-        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
+        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter, null, null);
         this.runOnUiThread(listAdapterRefresh);
     }
 

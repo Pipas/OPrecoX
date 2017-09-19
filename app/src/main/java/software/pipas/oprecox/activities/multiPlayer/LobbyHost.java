@@ -216,7 +216,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
     {
-        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
+        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter, null, null);
         this.runOnUiThread(listAdapterRefresh);
     }
 
