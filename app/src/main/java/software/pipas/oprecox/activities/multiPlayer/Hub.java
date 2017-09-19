@@ -57,6 +57,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     private Intent tcpCommsService;
     private BroadcastReceiver broadcastReceiver;
     private ProgressDialog progressDialog;
+    private ProgressDialog loadDialog;
     private Invite latestAcceptedInvite;
     private InetAddress myIP;
 
@@ -125,6 +126,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
         this.startUDPCommsService();
 
         this.myIP = Util.listMyIP();
+
+        this.initializeAndStartProgressDialog();
     }
 
     private void initiateCustomFonts()
@@ -173,7 +176,9 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
         if(name == null) name = player.getDisplayName();
 
         //starting the announcerSender service
-        //this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
+        this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
+
+        this.loadDialog.dismiss();
 
     }
 
@@ -245,6 +250,16 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
         this.announcerSenderService.putExtra(getResources().getString(R.string.S003_DISPLAYNAME), displayName);
         this.announcerSenderService.putExtra(getResources().getString(R.string.S003_PLAYERID), playerID);
         startService(this.announcerSenderService);
+    }
+
+    private void initializeAndStartProgressDialog()
+    {
+        this.loadDialog = new ProgressDialog(this);
+        this.loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        this.loadDialog.setTitle("Por Favor Espera!");
+        this.loadDialog.setMessage("A Carregar Jogador");
+        this.loadDialog.setCancelable(false);
+        this.loadDialog.show();
     }
 
     //callback for received intents with S001 action, only INVITE messages for now
