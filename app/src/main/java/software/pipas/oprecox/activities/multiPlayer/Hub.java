@@ -60,6 +60,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     private Invite latestAcceptedInvite;
     private InetAddress myIP;
 
+    private TextView multiplayerHubTooltip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -128,10 +130,12 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     private void initiateCustomFonts()
     {
         TextView displayName = (TextView)findViewById(R.id.displayName);
-        TextView realName = (TextView)findViewById(R.id.realName);
+        TextView ipOutput = (TextView)findViewById(R.id.realName);
+        multiplayerHubTooltip = (TextView) findViewById(R.id.multiplayerHubTooltip);
 
         CustomFontHelper.setCustomFont(displayName, "font/antipastopro-demibold.otf", getBaseContext());
-        CustomFontHelper.setCustomFont(realName, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(ipOutput, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(multiplayerHubTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
     }
 
 
@@ -152,8 +156,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
         TextView displayName = (TextView) findViewById(R.id.displayName);
         displayName.setText(player.getDisplayName());
 
-        TextView realName = (TextView) findViewById(R.id.realName);
-        realName.setText(this.myIP.toString().substring(1));
+        TextView ipOutput = (TextView) findViewById(R.id.realName);
+        ipOutput.setText("IP: " + this.myIP.toString().substring(1));
 
 
         ImageView imageView = (ImageView) findViewById(R.id.playerImage);
@@ -373,7 +377,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
     private void refreshListAdapter(InviteListAdapter inviteListAdapter)
     {
-        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(inviteListAdapter);
+        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(inviteListAdapter, multiplayerHubTooltip, null);
         this.runOnUiThread(listAdapterRefresh);
     }
 

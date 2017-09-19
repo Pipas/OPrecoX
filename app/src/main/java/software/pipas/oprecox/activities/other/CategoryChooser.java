@@ -3,12 +3,14 @@ package software.pipas.oprecox.activities.other;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,8 +31,21 @@ public class CategoryChooser extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Intent intent = getIntent();
+        Boolean multiplayer = intent.getBooleanExtra("multiplayer", false);
+        if(multiplayer)
+            setTheme(R.style.MultiplayerTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_chooser);
+
+        if(multiplayer)
+        {
+            RelativeLayout headerLayout = (RelativeLayout) findViewById(R.id.headerLayout);
+            headerLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.purple));
+        }
+
+        CategoryHandler.checkIfRestart(this);
 
         TextView categoriesTitle = (TextView) findViewById(R.id.categoriesTitle);
         CustomFontHelper.setCustomFont(categoriesTitle, "font/antipastopro-demibold.otf", getBaseContext());

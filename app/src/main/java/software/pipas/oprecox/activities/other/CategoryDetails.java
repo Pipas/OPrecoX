@@ -55,6 +55,8 @@ public class CategoryDetails extends AppCompatActivity
             pressMoreLayout.setLayoutParams(params2);
         }
 
+        CategoryHandler.checkIfRestart(this);
+
         Intent intent = getIntent();
         categoryIndex = intent.getIntExtra("category", 0);
 

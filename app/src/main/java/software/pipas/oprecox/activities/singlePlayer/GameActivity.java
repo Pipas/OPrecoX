@@ -2,7 +2,6 @@ package software.pipas.oprecox.activities.singlePlayer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -27,7 +25,6 @@ import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
-import software.pipas.oprecox.modules.fragments.GameDataFragment;
 import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.listeners.OnSwipeTouchListener;
@@ -44,8 +41,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private PageIndicatorView imagePreviewIndicator;
     private Boolean blocked = false;
 
-    private GameDataFragment gameDataFragment;
-
     protected OPrecoX app;
 
     protected int gameSize;
@@ -56,10 +51,11 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        app = (OPrecoX) getApplicationContext();
+        if(app.getAds() == null)
+            return;
 
-        FragmentManager fm = getFragmentManager();
-        gameDataFragment = (GameDataFragment) fm.findFragmentByTag("gamedata");
+        setContentView(R.layout.activity_game);
 
         initiateViews();
 
@@ -73,22 +69,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        if (gameDataFragment == null)
-        {
-            gameDataFragment = new GameDataFragment();
-            fm.beginTransaction().add(gameDataFragment, "gamedata").commit();
+        setViewsWithAd(app.getAd(adIndex));
 
-            setViewsWithAd(app.getAd(adIndex));
-        }
-        else
-        {
-            gameSize = gameDataFragment.getGameSize();
-            score = gameDataFragment.getScore();
-            adIndex = gameDataFragment.getAdIndex();
-            app.setAds(gameDataFragment.getAds());
-
-            setViewsWithAd(app.getAd(adIndex));
-        }
     }
 
     protected void setViewsWithAd(Ad ad)
@@ -123,8 +105,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         titleTextView = (TextView) findViewById(R.id.titleTextView);
         descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
-
-        app = (OPrecoX) getApplicationContext();
     }
 
     private void initiateCustomFonts()
@@ -261,14 +241,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             startActivity(myIntent);
             finish();
         }
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        Log.d("DEBUG", "Im being destroyed");
-        super.onDestroy();
-        gameDataFragment.setData(gameSize, score, adIndex, app.getAds());
     }
 
     @Override

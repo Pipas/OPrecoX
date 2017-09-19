@@ -10,11 +10,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +34,8 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
-import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
+import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
@@ -54,6 +56,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
 
     private BroadcastReceiver broadcastReceiver;
     private TextView inviteTooltip;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,18 +91,17 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
             @Override
             public void onClick(View v)
             {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this);
-                builder.setTitle("Title");
+                AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this, R.style.DialogTheme);
 
-                // Set up the input
-                final EditText input = new EditText(Invite.this);
+                LayoutInflater inflater = Invite.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.input_ip_layout, null);
+                builder.setView(dialogView);
 
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                final EditText input = (EditText) dialogView.findViewById(R.id.inputIp);
+
                 input.setInputType(InputType.TYPE_CLASS_PHONE);
-                builder.setView(input);
 
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
@@ -133,7 +135,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
 
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
@@ -157,10 +159,11 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
     private void initiateCustomFonts()
     {
         TextView invitesTitleTextView = (TextView)findViewById(R.id.invitesTitleTextView);
-        //inviteTooltip = (TextView)findViewById(R.id.inviteTooltip);
+        inviteTooltip = (TextView)findViewById(R.id.inviteTooltip);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         CustomFontHelper.setCustomFont(invitesTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
-        //CustomFontHelper.setCustomFont(inviteTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(inviteTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
     }
 
     @Override
@@ -269,7 +272,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
     {
-        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter);
+        ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(playerListAdapter, inviteTooltip, progressBar);
         this.runOnUiThread(listAdapterRefresh);
     }
 
