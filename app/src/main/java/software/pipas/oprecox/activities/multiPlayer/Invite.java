@@ -34,13 +34,17 @@ import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerListUpdater;
 import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
+import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
+import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.util.Util;
 
-public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
+public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnPlayerLoader
+{
+    private static boolean closed;
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
@@ -112,13 +116,16 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
                                     if(address instanceof Inet4Address)
                                     {
                                         sendInvite(address);
-                                        finish();
                                     }
                                     else {throw new UnknownHostException();}
                                 }
                                 catch (UnknownHostException e)
                                 {
-                                    Toast.makeText(getApplicationContext(), "IP invalido", Toast.LENGTH_SHORT).show();
+                                    runOnUiThread(new Runnable()
+                                    {
+                                        @Override
+                                        public void run() {Toast.makeText(getApplication(), "IP invalido", Toast.LENGTH_SHORT).show();}
+                                    });
                                     e.printStackTrace();
                                 }
                             }
@@ -144,6 +151,8 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
         //start BroadcastReceiver
         this.startBroadcastReceiver();
     }
+
+    public static boolean isClosed() {return closed;}
 
     private void initiateCustomFonts()
     {
@@ -171,6 +180,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
         super.onDestroy();
         if(this.playerListUpdater != null) this.playerListUpdater.close();
         if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
+        closed = true;
     }
 
     @Override
@@ -196,6 +206,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
         };
         IntentFilter filter = new IntentFilter(getResources().getString(R.string.S002));
         registerReceiver(this.broadcastReceiver, filter);
+        closed = false;
     }
 
     private void startUpdater()
@@ -210,36 +221,49 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
         String message = intent.getExtras().getString(getResources().getString(R.string.S002_MESSAGE));
         InetSocketAddress socketAddress = (InetSocketAddress) intent.getExtras().getSerializable(getResources().getString(R.string.S002_INETSOCKETADDRESS));
 
-        Message msg = new Message(this.getApplicationContext(), message);
-        //test self-announce REMOVE THE COMMENT LINE IN THE END
-        if(!msg.isValid() || player == null ||player.getPlayerId().equals(msg.getPlayerId()) || this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString())) return;
+        if(message != null && socketAddress != null) {
+            Message msg = new Message(this.getApplicationContext(), message);
+            //test self-announce REMOVE THE COMMENT LINE IN THE END
+            if (!msg.isValid() || player == null || player.getPlayerId().equals(msg.getPlayerId()) || this.playerListAdapter == null || !msg.getMessageType().equals(MessageType.ANNOUNCE.toString()))
+                return;
 
-        //the new player
-        software.pipas.oprecox.modules.dataType.Player player =
-                new software.pipas.oprecox.modules.dataType.Player(
-                        msg.getName(),
-                        msg.getDisplayName(),
-                        msg.getPlayerId(),
-                        null,
-                        socketAddress.getPort(),
-                        socketAddress.getAddress(),
-                        System.currentTimeMillis());
+            //the new player
+            software.pipas.oprecox.modules.dataType.Player player =
+                    new software.pipas.oprecox.modules.dataType.Player(
+                            msg.getName(),
+                            msg.getDisplayName(),
+                            msg.getPlayerId(),
+                            null,
+                            socketAddress.getPort(),
+                            socketAddress.getAddress(),
+                            System.currentTimeMillis());
 
 
-        int index = this.players.indexOf(player);
+            int index = this.players.indexOf(player);
 
-        //if does not exist add, else actualize
-        if (index <= -1)
-        {
-            this.retrievePlayerURI(this.playerListAdapter, player);
-            this.players.add(player);
-            this.refreshListAdapter(this.playerListAdapter);
+            //if does not exist add, else actualize
+            if (index <= -1) {
+                this.retrievePlayerURI(this.playerListAdapter, player);
+                this.players.add(player);
+                this.refreshListAdapter(this.playerListAdapter);
+            } else {
+                this.players.get(index).updatePlayerAddress(player.getAddress());
+                this.players.get(index).updatePlayerInvitePort(player.getInvitePort());
+                this.players.get(index).updatePlayerAnnouncedTime(player.getTimeAnnounced());
+            }
         }
-        else
+
+
+        software.pipas.oprecox.modules.dataType.Player player = intent.getExtras().getParcelable(getString(R.string.S002_REQUESPLAYERLOADER));
+        if (player != null && !Invite.isClosed())
         {
-            this.players.get(index).updatePlayerAddress(player.getAddress());
-            this.players.get(index).updatePlayerInvitePort(player.getInvitePort());
-            this.players.get(index).updatePlayerAnnouncedTime(player.getTimeAnnounced());
+            Log.d("MY_IP_DEBUG", "sendload->load");
+
+            PlayerLoader playerLoader = new PlayerLoader(Invite.this, this.mGoogleApiClient, player);
+            playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            Log.d("MY_IP_DEBUG", "trying to load");
+            return;
         }
     }
 
@@ -342,5 +366,12 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader {
         sendBroadcast(intent);
     }
 
-
+    @Override
+    public void playerLoaded(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        Log.d("MY_IP_DEBUG","loaded" + "\n" + player.toString());
+        Intent intent = new Intent(getString(R.string.S004));
+        intent.putExtra(getString(R.string.S004_LOADEDPLAYER), player);
+        sendBroadcast(intent);
+    }
 }
