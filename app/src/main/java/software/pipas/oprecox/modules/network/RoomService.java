@@ -23,6 +23,7 @@ import java.util.Set;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
+import software.pipas.oprecox.activities.multiPlayer.Invite;
 import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Player;
@@ -109,6 +110,12 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             catch (IOException e) {e.printStackTrace();}
         }
 
+        for(Socket socket : this.pendingLoaded.values())
+        {
+            try {socket.close();}
+            catch (IOException e) {e.printStackTrace();}
+        }
+
         for(Socket socket : this.pending)
         {
             try {socket.close();}
@@ -190,6 +197,12 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             {
                 if(player.equals(playerLoaded))
                 {
+                    for(Player playerJoined : this.joined.keySet())
+                    {
+                        //failsafe in case the same player joins two times
+                        if(playerJoined.equals(playerLoaded)) {return;}
+                    }
+
                     Socket socket = this.pendingLoaded.get(player);
                     playerLoaded.updatePlayerAddress(socket.getInetAddress());
                     playerLoaded.updatePlayerInvitePort(socket.getPort());
@@ -201,6 +214,24 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 }
             }
         }
+
+        String roomName = intent.getExtras().getString(getString(R.string.S004_ACTUALIZEROOMNAME));
+        if (roomName != null)
+        {
+            String[] args = new String[4];
+            args[0] = this.getString(R.string.network_app_name);
+            args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+            args[2] = MessageType.ACTUALIZEROOMNAME.toString();
+            args[3] = roomName;
+
+            Message messageRoom = new Message(this, args);
+
+            if(!messageRoom.isValid()) { Log.d("ROOM_NAME", "not valid"); return;}
+
+            this.sendBroadcastToClients(messageRoom);
+            return;
+        }
+
 
     }
 
@@ -374,9 +405,20 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void sendToActivityToLoad(Player dummyPlayer)
     {
-        Intent intent = new Intent(getString(R.string.S007));
-        intent.putExtra(getString(R.string.S007_REQUESPLAYERLOADER), dummyPlayer);
-        sendBroadcast(intent);
+        //chosing which activity it loads from
+        if(Invite.isClosed())
+        {
+            Intent intent = new Intent(getString(R.string.S007));
+            intent.putExtra(getString(R.string.S007_REQUESPLAYERLOADER), dummyPlayer);
+            sendBroadcast(intent);
+        }
+        else
+        {
+            Intent intent = new Intent(getString(R.string.S002));
+            intent.putExtra(getString(R.string.S002_REQUESPLAYERLOADER), dummyPlayer);
+            sendBroadcast(intent);
+        }
+
     }
 
     private void singleSend(final Socket socket, final Message message)

@@ -43,7 +43,7 @@ public class SavedAds extends AppCompatActivity
         database.open();
         DynamicListView myAddsList = (DynamicListView) findViewById(R.id.myAddsList);
 
-        ArrayList<AdPreview> ads = database.getAllComments();
+        ArrayList<AdPreview> ads = database.getAllAds();
 
         if(!ads.isEmpty())
         {
@@ -101,7 +101,7 @@ public class SavedAds extends AppCompatActivity
 
     private void removeAdFromDatabase(int position)
     {
-        database.deleteComment(adListAdapter.getItem(position));
+        database.deleteAd(adListAdapter.getItem(position));
         adListAdapter.remove(position);
     }
 }

@@ -22,7 +22,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.singlePlayer.GameOver"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.imageViewer.ImageViewer"
             android:screenOrientation="portrait"

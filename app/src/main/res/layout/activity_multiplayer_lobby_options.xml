@@ -169,6 +169,7 @@
         android:shadowDx="0"
         android:shadowRadius="5"
         android:textColor="@color/softWhite"
+        android:onClick="onOkPressed"
         style="@style/Widget.AppCompat.Button.Colored"/>
 
 </LinearLayout>

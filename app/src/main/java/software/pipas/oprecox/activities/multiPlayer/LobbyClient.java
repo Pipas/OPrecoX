@@ -121,7 +121,8 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         }
 
         str = intent.getExtras().getString(getResources().getString(R.string.S006_MESSAGE));
-        if (str != null) {
+        if (str != null)
+        {
             Message message = new Message(this.getApplicationContext(), str);
 
             if (message.getMessageType().equals(MessageType.ADDPLAYERLIST.toString()))
@@ -137,6 +138,12 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
                 software.pipas.oprecox.modules.dataType.Player player = new software.pipas.oprecox.modules.dataType.Player(message.getPlayerId());
                 this.players.remove(player);
                 this.refreshListAdapter(this.playerListAdapter);
+            }
+            else if (message.getMessageType().equals(MessageType.ACTUALIZEROOMNAME.toString()))
+            {
+                Log.d("ROOM_NAME", "settef");
+                TextView displayName = (TextView) findViewById(R.id.roomNameClient);
+                displayName.setText(message.getRoomName());
             }
 
         }

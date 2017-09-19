@@ -133,6 +133,11 @@ public class Message
             this.playerId = args[3];
             return true;
         }
+        else if(messageType.equals(MessageType.ACTUALIZEROOMNAME) && args.length == 4)
+        {
+            this.roomName = args[3];
+            return true;
+        }
         else
         {
             return false;
@@ -203,6 +208,10 @@ public class Message
         else if(messageType.equals(MessageType.REMOVEPLAYERLIST))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
+        }
+        else if(messageType.equals(MessageType.ACTUALIZEROOMNAME))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.roomName);
         }
         else
         {

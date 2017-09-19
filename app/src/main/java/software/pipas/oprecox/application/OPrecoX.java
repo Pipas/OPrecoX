@@ -1,6 +1,7 @@
 package software.pipas.oprecox.application;
 
 import android.app.Application;
+import android.content.Intent;
 
 import software.pipas.oprecox.modules.dataType.Ad;
 
@@ -33,4 +34,5 @@ public class OPrecoX extends Application
     {
         Ads[index] = ad;
     }
+
 }

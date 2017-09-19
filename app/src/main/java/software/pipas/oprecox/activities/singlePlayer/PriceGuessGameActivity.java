@@ -46,6 +46,13 @@ public class PriceGuessGameActivity extends GameActivity
     {
         super.onCreate(savedInstanceState);
 
+        if(app.getAds() == null)
+        {
+            Log.d("TEST", "ADS IS NULL LADS");
+            finish();
+            return;
+        }
+
         Intent intent = getIntent();
         gameSize = intent.getIntExtra("gameSize", 10);
 
@@ -310,6 +317,11 @@ public class PriceGuessGameActivity extends GameActivity
         }
         else
         {
+            if(app.getAd(adIndex + 1) == null)
+            {
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.loadingAds), Toast.LENGTH_SHORT).show();
+                return;
+            }
             adIndex++;
 
             setViewsWithAd(app.getAd(adIndex));

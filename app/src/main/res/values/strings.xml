@@ -35,6 +35,7 @@
     <string name="correctprice">Preço Certo</string>
     <string name="score">Pontuação</string>
     <string name="savedAd">Anúncio Guardado</string>
+    <string name="loadingAds">A carregar anúncios...</string>
 
     <!--           Game Over Strings         -->
 

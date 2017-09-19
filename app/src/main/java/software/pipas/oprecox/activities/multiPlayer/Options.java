@@ -11,6 +11,7 @@ import android.widget.TextView;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
+import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 
 public class Options extends AppCompatActivity
@@ -24,6 +25,8 @@ public class Options extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_lobby_options);
+
+        CategoryHandler.checkIfRestart(this);
 
         Intent intent = getIntent();
         this.roomName = intent.getExtras().getString(getResources().getString(R.string.roomName));

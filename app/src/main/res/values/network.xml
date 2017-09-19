@@ -40,6 +40,7 @@
     <!-- PARAMETHERS S002 Invite -->
     <string name="S002_MESSAGE">S002_MESSAGE</string>
     <string name="S002_INETSOCKETADDRESS">S002_INETSOCKETADDRESS</string>
+    <string name="S002_REQUESPLAYERLOADER">S002_REQUESPLAYERLOADER</string>
 
     <!-- PARAMETHERS S003 AnnouncerSenderService -->
     <string name="S003_NAME">S003_NAME</string>
@@ -51,6 +52,7 @@
     <string name="S004_INETSOCKETADDRESS">S004_INETSOCKETADDRESS</string>
     <string name="S004_PLAYER">S004_PLAYER</string>
     <string name="S004_LOADEDPLAYER">S004_LOADEDPLAYER</string>
+    <string name="S004_ACTUALIZEROOMNAME">S004_ACTUALIZEROOMNAME</string>
 
     <!-- PARAMETHERS S005 ClientService -->
     <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>

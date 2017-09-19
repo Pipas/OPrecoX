@@ -123,7 +123,10 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
             this.roomName = newRoomName;
             TextView roomName = (TextView) findViewById(R.id.roomName);
             roomName.setText(this.roomName);
-            Log.d("LOBBY_DEBUG", this.roomName);
+
+            Intent newIntent = new Intent(getString(R.string.S004));
+            newIntent.putExtra(getString(R.string.S004_ACTUALIZEROOMNAME),this.roomName);
+            sendBroadcast(newIntent);
         }
 
     }

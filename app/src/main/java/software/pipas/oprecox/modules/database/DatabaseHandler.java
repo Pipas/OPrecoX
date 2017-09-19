@@ -65,7 +65,7 @@ public class DatabaseHandler
             return String.format("%.2f€", price);
     }
 
-    public void deleteComment(AdPreview add)
+    public void deleteAd(AdPreview add)
     {
         long id = add.getId();
         Log.d("DATABASE", "Ad deleted with id: " + id);
@@ -73,7 +73,7 @@ public class DatabaseHandler
                 + " = " + id, null);
     }
 
-    public ArrayList<AdPreview> getAllComments()
+    public ArrayList<AdPreview> getAllAds()
     {
         ArrayList<AdPreview> ads = new ArrayList<AdPreview>();
 

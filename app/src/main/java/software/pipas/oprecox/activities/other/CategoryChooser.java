@@ -45,6 +45,8 @@ public class CategoryChooser extends AppCompatActivity
             headerLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.purple));
         }
 
+        CategoryHandler.checkIfRestart(this);
+
         TextView categoriesTitle = (TextView) findViewById(R.id.categoriesTitle);
         CustomFontHelper.setCustomFont(categoriesTitle, "font/antipastopro-demibold.otf", getBaseContext());
 

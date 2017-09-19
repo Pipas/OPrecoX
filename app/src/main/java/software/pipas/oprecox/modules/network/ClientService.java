@@ -110,6 +110,7 @@ public class ClientService extends IntentService
         intent1.putExtra(getResources().getString(R.string.S001_MESSAGE), str);
         sendBroadcast(intent1);
 
+        Log.d("ROOM_NAME",str);
 
         //failsafe in case LobbyClient hasnt started
         (new Thread()
