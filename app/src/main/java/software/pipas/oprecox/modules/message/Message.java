@@ -252,6 +252,8 @@ public class Message
 
     public String getRoomName() {return this.roomName;}
 
+    public String getRealRoomName() {return Util.substituteUnder(this.roomName);}
+
     public String getRoomPort() {return this.roomPort;}
 
     @Override

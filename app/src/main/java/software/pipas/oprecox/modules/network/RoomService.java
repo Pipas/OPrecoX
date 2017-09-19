@@ -226,7 +226,9 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
             Message messageRoom = new Message(this, args);
 
-            if(!messageRoom.isValid()) { Log.d("ROOM_NAME", "not valid"); return;}
+            if(!messageRoom.isValid()) { Log.d("ROOM_NAME", "not valid" + "\n" + messageRoom.getMessage()); return;}
+
+            Log.d("ROOM_NAME", messageRoom.getMessage());
 
             this.sendBroadcastToClients(messageRoom);
             return;

@@ -28,6 +28,7 @@ import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.network.RoomService;
+import software.pipas.oprecox.util.Util;
 
 public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
 {
@@ -125,7 +126,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
             roomName.setText(this.roomName);
 
             Intent newIntent = new Intent(getString(R.string.S004));
-            newIntent.putExtra(getString(R.string.S004_ACTUALIZEROOMNAME),this.roomName);
+            newIntent.putExtra(getString(R.string.S004_ACTUALIZEROOMNAME), Util.substituteSpace(this.roomName));
             sendBroadcast(newIntent);
         }
 
