@@ -49,15 +49,14 @@ public class GameOver extends AppCompatActivity
             finish();
             return;
         }
-
-        Settings.setAdCountdown(0);
+        
         playAd = (Settings.getAdCountdown() == 0);
 
         if(playAd)
         {
             mInterstitialAd = new InterstitialAd(this);
             mInterstitialAd.setAdUnitId("ca-app-pub-9386790266312341/4116148417");
-            AdRequest ad = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+            AdRequest ad = new AdRequest.Builder().build();
             mInterstitialAd.loadAd(ad);
             mInterstitialAd.setAdListener(new AdListener()
             {
