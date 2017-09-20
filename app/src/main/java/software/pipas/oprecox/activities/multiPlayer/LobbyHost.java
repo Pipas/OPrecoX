@@ -33,10 +33,13 @@ import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.network.RoomService;
+
 import software.pipas.oprecox.modules.parsing.AsyncGetAd;
 import software.pipas.oprecox.modules.parsing.AsyncGetUrl;
 import software.pipas.oprecox.modules.parsing.OlxParser;
 import software.pipas.oprecox.util.Settings;
+
+import software.pipas.oprecox.util.Util;
 
 public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, ParsingCallingActivity
 {
@@ -142,7 +145,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             roomName.setText(this.roomName);
 
             Intent newIntent = new Intent(getString(R.string.S004));
-            newIntent.putExtra(getString(R.string.S004_ACTUALIZEROOMNAME),this.roomName);
+            newIntent.putExtra(getString(R.string.S004_ACTUALIZEROOMNAME), Util.substituteSpace(this.roomName));
             sendBroadcast(newIntent);
         }
 

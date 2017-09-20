@@ -141,9 +141,9 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
             }
             else if (message.getMessageType().equals(MessageType.ACTUALIZEROOMNAME.toString()))
             {
-                Log.d("ROOM_NAME", "settef");
+                Log.d("ROOM_NAME", message.getRoomName());
                 TextView displayName = (TextView) findViewById(R.id.roomNameClient);
-                displayName.setText(message.getRoomName());
+                displayName.setText(message.getRealRoomName());
             }
 
         }
