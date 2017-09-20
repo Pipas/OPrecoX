@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
-import software.pipas.oprecox.activities.singlePlayer.Lobby;
+import software.pipas.oprecox.activities.singlePlayer.Options;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.util.Settings;
@@ -92,7 +92,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressSinglePlayer(View v)
     {
-        Intent myIntent = new Intent(this, Lobby.class);
+        Intent myIntent = new Intent(this, Options.class);
         startActivity(myIntent);
     }
 

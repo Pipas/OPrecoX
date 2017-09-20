@@ -213,6 +213,8 @@ public abstract class CategoryHandler
                 CategoryHandler.selectFromString(c);
             else
                 CategoryHandler.selectAll();
+
+            Settings.setGameSize(sharedPref.getInt("gameSize", 10));
         }
     }
 

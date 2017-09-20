@@ -24,12 +24,14 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
     private int index;
     private boolean validURL = false;
     private boolean olxchange = false;
+    private OlxParser olxParser;
 
-    public AsyncGetAll(ParsingCallingActivity activity, OPrecoX app, int index)
+    public AsyncGetAll(ParsingCallingActivity activity, OPrecoX app, int index, OlxParser olxParser)
     {
         this.activity = activity;
         this.app = app;
         this.index = index;
+        this.olxParser = olxParser;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             try
             {
                 subCategory = setSubCategory();
-                randomURL = OlxParser.getRandomURL(subCategory.getUrlEnd());
+                randomURL = olxParser.getRandomURL(subCategory.getUrlEnd());
 
                 getText(randomURL);
 
@@ -61,15 +63,15 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             }
             catch (NumberFormatException e)
             {
-                Log.d("PARSE", "Exception caught invalid url '" + randomURL + "'");
+                Log.d("PARSE", "Exception caught async parse " + index + " '" + randomURL + "'");
             }
             catch (IOException e)
             {
-                Log.d("PARSE", "Exception caught in url '" + randomURL + "'");
+                Log.d("PARSE", "Exception caught async parse " + index + " '" + randomURL + "'");
             }
             catch(OLXSyntaxChangeException e)
             {
-                Log.d("PARSE", "OLX changed in url '" + randomURL + "'");
+                Log.d("PARSE", "Olx change async parse " + index + " '" + randomURL + "'");
                 olxchange = true;
                 return null;
             }
@@ -79,7 +81,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 
     private void getImages(String randomURL) throws IOException
     {
-        ArrayList<String> imageUrls = OlxParser.getImageUrls(randomURL);
+        ArrayList<String> imageUrls = olxParser.getImageUrls(randomURL);
         ArrayList<Bitmap> images = new ArrayList<Bitmap>();
 
         int imageMax;
@@ -98,9 +100,9 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
 
     private void getText(String randomURL) throws IOException, OLXSyntaxChangeException
     {
-        ad.setDescription(OlxParser.getDescription(randomURL));
-        ad.setTitle(OlxParser.getTitle(randomURL));
-        ad.setPrice(OlxParser.getPrice(randomURL));
+        ad.setDescription(olxParser.getDescription(randomURL));
+        ad.setTitle(olxParser.getTitle(randomURL));
+        ad.setPrice(olxParser.getPrice(randomURL));
     }
 
     private SubCategory setSubCategory()
@@ -120,7 +122,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
         {
             app.addAd(ad, index);
             activity.parsingEnded();
-            Log.d("PARSE", String.format("Finished background async parse '" + ad.getUrl() +"'"));
+            Log.d("PARSE", String.format("Finished async parse " + index +": '" + ad.getUrl() +"'"));
         }
     }
 }

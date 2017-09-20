@@ -5,24 +5,23 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import software.pipas.oprecox.application.OPrecoX;
+import software.pipas.oprecox.activities.multiPlayer.LobbyHost;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
-import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 
-public class AsyncGetURL extends AsyncTask<Void, Void, Void>
+public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
 {
-    private ParsingCallingActivity activity;
-    private int index;
+    private LobbyHost activity;
     private boolean validURL = false;
     private boolean olxchange = false;
     private String url;
+    private OlxParser olxParser;
 
-    public AsyncGetURL(ParsingCallingActivity activity, OPrecoX app, int index)
+    public AsyncGetUrl(LobbyHost activity, OlxParser olxParser)
     {
         this.activity = activity;
-        this.index = index;
+        this.olxParser = olxParser;
     }
 
     @Override
@@ -42,9 +41,9 @@ public class AsyncGetURL extends AsyncTask<Void, Void, Void>
             try
             {
                 subCategory = setSubCategory();
-                url = OlxParser.getRandomURL(subCategory.getUrlEnd());
+                url = olxParser.getRandomURL(subCategory.getUrlEnd());
 
-                validURL = true;
+                validURL = olxParser.isValid(url);
             }
             catch (NumberFormatException e)
             {
@@ -74,6 +73,8 @@ public class AsyncGetURL extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result)
     {
-        Log.d("PARSE", String.format("Finished background async parse '" + url +"'"));
+        Log.d("PARSE", String.format("Finished background async parse '" + url + "'"));
+        if(validURL)
+            activity.addAdUrl(url);
     }
 }

@@ -1,10 +1,12 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
@@ -21,15 +22,23 @@ import com.google.android.gms.games.Player;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.other.BlockedApp;
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
+import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.network.RoomService;
+import software.pipas.oprecox.modules.parsing.AsyncGetAd;
+import software.pipas.oprecox.modules.parsing.AsyncGetUrl;
+import software.pipas.oprecox.modules.parsing.OlxParser;
+import software.pipas.oprecox.util.Settings;
 
-public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
+public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, ParsingCallingActivity
 {
     private final int OPTIONS_REQUEST_CODE = 1;
 
@@ -38,10 +47,16 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
     private Intent room;
     private String roomName;
     private Player player;
+    private Boolean blocked;
 
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
+    private ProgressDialog barDialog;
+    private ProgressDialog circleDialog;
+    private OlxParser olxParser;
 
+    private ArrayList<String> urls;
+    private OPrecoX app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +68,8 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
         ListView listView = (ListView) findViewById(R.id.playersListViewer);
         this.players = new ArrayList<>();
 
+        app = (OPrecoX) getApplicationContext();
+
         initiateCustomFonts();
 
         Button startButton = (Button) findViewById(R.id.startButton);
@@ -61,7 +78,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getBaseContext(), "TODO", Toast.LENGTH_SHORT).show();
+                startGame();
             }
         });
 
@@ -146,6 +163,22 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
         finish();
     }
 
+    private void startGame()
+    {
+        //CHECK IF IT HAS PEOPLE IN THE ROOM
+
+        //STARTS LOADING THE ADS
+        olxParser = new OlxParser();
+        urls = new ArrayList<>();
+        AsyncGetUrl parsingAsyncTask;
+        startProgressBar();
+        for(int i = 0; i < Settings.getGameSize(); i++)
+        {
+            parsingAsyncTask = new AsyncGetUrl(this, olxParser);
+            parsingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
     public void onInvitePressed(View v)
     {
         Intent intent = new Intent(this, Invite.class);
@@ -227,5 +260,85 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader
         Intent intent = new Intent(getString(R.string.S004));
         intent.putExtra(getString(R.string.S004_LOADEDPLAYER), player);
         sendBroadcast(intent);
+    }
+
+    public void addAdUrl(String url)
+    {
+        if(urls == null)
+            urls = new ArrayList<>();
+        urls.add(url);
+
+        checkUrlParsingEnd();
+    }
+
+    private void checkUrlParsingEnd()
+    {
+        if(urls.size() == Settings.getGameSize())
+        {
+            barDialog.dismiss();
+            sendUrlsToPlayers();
+        }
+        else
+            barDialog.setProgress(urls.size());
+    }
+
+    private void sendUrlsToPlayers()
+    {
+        //SEND URLS TO OTHER PLAYERS
+
+        //LOAD 2 ADS
+        app.setAds(new Ad [Settings.getGameSize()]);
+        AsyncGetAd parsingAsyncTask;
+        startProgressCircle();
+        for(int i = 0; i < 2; i++)
+        {
+            parsingAsyncTask = new AsyncGetAd(this, app, urls.get(i), i, olxParser);
+            parsingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    private void startProgressBar()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            barDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            barDialog = new ProgressDialog(this);
+        barDialog.setMessage("A carregar anúncios");
+        barDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        barDialog.setProgress(0);
+        barDialog.setMax(Settings.getGameSize());
+        barDialog.setCancelable(false);
+        barDialog.show();
+    }
+
+    private void startProgressCircle()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            circleDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            circleDialog = new ProgressDialog(this);
+        circleDialog.setIndeterminate(true);
+        circleDialog.setMessage("A carregar anuncios");
+        circleDialog.setCancelable(false);
+        circleDialog.show();
+    }
+
+    @Override
+    public void parsingEnded()
+    {
+        if(app.getAds()[0] != null && app.getAds()[0] != null)
+            circleDialog.dismiss();
+    }
+
+    @Override
+    public void olxChangeException()
+    {
+        if(!blocked)
+        {
+            blocked = true;
+            Intent myIntent = new Intent(this, BlockedApp.class);
+            startActivity(myIntent);
+            finish();
+        }
     }
 }

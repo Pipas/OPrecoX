@@ -5,7 +5,7 @@
     android:id="@+id/activity_game_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.singlePlayer.Lobby"
+    tools:context=".activities.singlePlayer.Options"
     android:background="@color/softWhite">
 
     <LinearLayout

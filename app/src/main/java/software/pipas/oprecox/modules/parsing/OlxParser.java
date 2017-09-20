@@ -11,11 +11,11 @@ import java.util.Random;
 
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
 
-public abstract class OlxParser
+public class OlxParser
 {
     private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "centimo", "cêntimo"};
 
-    public static String getRandomURL(String urlMid) throws IOException, OLXSyntaxChangeException
+    public String getRandomURL(String urlMid) throws IOException, OLXSyntaxChangeException
     {
         String urlStart = "https://www.olx.pt/";
         String urlEnd = "/?search[description]=1&page=";
@@ -48,7 +48,7 @@ public abstract class OlxParser
         return links.get(articleNumber).attr("href");
     }
 
-    public static String getDescription(String pageURL) throws IOException, OLXSyntaxChangeException
+    public String getDescription(String pageURL) throws IOException, OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements descriptionContainer = document.select("div[id=textContent]");
@@ -73,7 +73,7 @@ public abstract class OlxParser
         return rawDescription;
     }
 
-    public static String getTitle(String pageURL) throws IOException, OLXSyntaxChangeException
+    public String getTitle(String pageURL) throws IOException, OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements titleE = document.select("h1");
@@ -90,7 +90,7 @@ public abstract class OlxParser
 
     }
 
-    public static ArrayList<String> getImageUrls(String pageURL) throws IOException
+    public ArrayList<String> getImageUrls(String pageURL) throws IOException
     {
         ArrayList<String> imgs = new ArrayList<String>();
         Document document = Jsoup.connect(pageURL).get();
@@ -102,7 +102,7 @@ public abstract class OlxParser
         return imgs;
     }
 
-    public static float getPrice(String pageURL) throws IOException, OLXSyntaxChangeException
+    public float getPrice(String pageURL) throws IOException, OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements priceContainer = document.select("strong[class^=xxxx-large ");
@@ -115,7 +115,7 @@ public abstract class OlxParser
         return Float.parseFloat(priceNo);
     }
 
-    public static boolean isValid(String pageURL)
+    public boolean isValid(String pageURL)
     {
         try
         {

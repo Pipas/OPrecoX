@@ -2,6 +2,7 @@ package software.pipas.oprecox.activities.other;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.util.Settings;
 
 public class GameSizeChooser extends AppCompatActivity
 {
@@ -71,12 +73,14 @@ public class GameSizeChooser extends AppCompatActivity
         confirmSelection(20);
     }
 
-    private void confirmSelection(int n)
+    private void confirmSelection(int gameSize)
     {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("gameSize", n);
+        Settings.setGameSize(gameSize);
+        SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+        editor.putInt("gameSize", gameSize);
+        editor.apply();
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
-
 }

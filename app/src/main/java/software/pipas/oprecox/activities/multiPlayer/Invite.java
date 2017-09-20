@@ -91,7 +91,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
             @Override
             public void onClick(View v)
             {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this, R.style.DialogTheme);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this, R.style.DialogThemePurple);
 
                 LayoutInflater inflater = Invite.this.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.input_ip_layout, null);

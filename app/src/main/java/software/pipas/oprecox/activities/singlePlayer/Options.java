@@ -23,23 +23,31 @@ import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
+import software.pipas.oprecox.modules.parsing.OlxParser;
+import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
-public class Lobby extends AppCompatActivity implements ParsingCallingActivity
+public class Options extends AppCompatActivity implements ParsingCallingActivity
 {
     private int gameSize = 10;
     private ProgressDialog progressDialog;
     private OPrecoX app;
+    private OlxParser olxParser;
 
     private Boolean blocked;
+    private TextView gameSizeTooltip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player_lobby);
+        setContentView(R.layout.activity_singleplayer_options);
 
         CategoryHandler.checkIfRestart(this);
+
+        gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
+
+        updateGameSize();
 
         app = (OPrecoX) getApplicationContext();
         initiateCustomFonts();
@@ -63,13 +71,12 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
         TextView categoriesButtonTextView = (TextView)findViewById(R.id.categoriesButtonTextView);
 
         TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
-        TextView gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
 
         CustomFontHelper.setCustomFont(singleplayerTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(gameTypeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(gameSizeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(categoriesButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
-        CustomFontHelper.setCustomFont(gameTypeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTypeTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(gameSizeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
     }
 
@@ -80,13 +87,7 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                gameSize = data.getIntExtra("gameSize", 10);
-                TextView numberGuessesTooltip = (TextView) findViewById(R.id.gameSizeTooltip);
-                numberGuessesTooltip.setText(Integer.toString(gameSize));
-            }
-            if (resultCode == Activity.RESULT_CANCELED)
-            {
-                //Write your code if there's no result
+                updateGameSize();
             }
         }
     }
@@ -112,9 +113,9 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
     {
         AlertDialog.Builder popup;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            progressDialog = new ProgressDialog(Lobby.this, R.style.DialogTheme);
+            progressDialog = new ProgressDialog(Options.this, R.style.DialogTheme);
         else
-            progressDialog = new ProgressDialog(Lobby.this);
+            progressDialog = new ProgressDialog(Options.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.processDialog));
         progressDialog.setCancelable(false);
@@ -123,13 +124,20 @@ public class Lobby extends AppCompatActivity implements ParsingCallingActivity
 
     private void startDataParses()
     {
+        olxParser = new OlxParser();
         app.setAds(new Ad[gameSize]);
         AsyncGetAll parsingAyncTask;
         for(int i = 0; i < 2; i++)
         {
-            parsingAyncTask = new AsyncGetAll(this, app, i);
+            parsingAyncTask = new AsyncGetAll(this, app, i, olxParser);
             parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
+    }
+
+    private void updateGameSize()
+    {
+        gameSize = Settings.getGameSize();
+        gameSizeTooltip.setText(Integer.toString(gameSize));
     }
 
     public void selectCategory(View v)

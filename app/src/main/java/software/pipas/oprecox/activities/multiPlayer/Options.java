@@ -13,12 +13,14 @@ import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.util.Settings;
 
 public class Options extends AppCompatActivity
 {
     private String roomName;
     private int gameSize;
     private TextView roomNameEdit;
+    private TextView gameSizeTooltip;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -32,6 +34,8 @@ public class Options extends AppCompatActivity
         this.roomName = intent.getExtras().getString(getResources().getString(R.string.roomName));
 
         initiateCustomFonts();
+
+        updateGameSize();
 
         Button confirmButton = (Button) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener()
@@ -52,7 +56,7 @@ public class Options extends AppCompatActivity
         TextView categoriesButtonTextView = (TextView)findViewById(R.id.categoriesButtonTextView);
 
         TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
-        TextView gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
+        gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
 
         roomNameEdit = (TextView) findViewById(R.id.roomNameEdit);
         roomNameEdit.setText(this.roomName);
@@ -120,10 +124,14 @@ public class Options extends AppCompatActivity
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                gameSize = data.getIntExtra("gameSize", 10);
-                TextView numberGuessesTooltip = (TextView) findViewById(R.id.gameSizeTooltip);
-                numberGuessesTooltip.setText(Integer.toString(gameSize));
+                updateGameSize();
             }
         }
+    }
+
+    private void updateGameSize()
+    {
+        gameSize = Settings.getGameSize();
+        gameSizeTooltip.setText(Integer.toString(gameSize));
     }
 }

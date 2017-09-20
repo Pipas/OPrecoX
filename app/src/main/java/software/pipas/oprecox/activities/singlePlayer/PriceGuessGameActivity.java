@@ -18,6 +18,7 @@ import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
 import software.pipas.oprecox.modules.parsing.AsyncGetAll;
+import software.pipas.oprecox.modules.parsing.OlxParser;
 
 import static software.pipas.oprecox.R.id.priceGuess;
 
@@ -37,6 +38,7 @@ public class PriceGuessGameActivity extends GameActivity
     private float guessPrice;
 
     private int scorePlus;
+    private OlxParser olxParser;
 
     private DatabaseHandler database;
     private Boolean adSaved = false;
@@ -378,10 +380,11 @@ public class PriceGuessGameActivity extends GameActivity
 
     private void startDataParses()
     {
+        olxParser = new OlxParser();
         AsyncGetAll parsingAyncTask;
         for(int i = 2; i < gameSize; i++)
         {
-            parsingAyncTask = new AsyncGetAll(this, app, i);
+            parsingAyncTask = new AsyncGetAll(this, app, i, olxParser);
             parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
