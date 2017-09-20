@@ -3,12 +3,17 @@ package software.pipas.oprecox.activities.singlePlayer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +25,7 @@ import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.dataType.AdPreview;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
+import software.pipas.oprecox.util.Settings;
 
 public class GameOver extends AppCompatActivity
 {
@@ -31,6 +37,9 @@ public class GameOver extends AppCompatActivity
     private DatabaseHandler database;
     private ArrayList<Integer> savedAds = new ArrayList<>();
 
+    private InterstitialAd mInterstitialAd;
+    private Boolean playAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,6 +48,25 @@ public class GameOver extends AppCompatActivity
         {
             finish();
             return;
+        }
+
+        Settings.setAdCountdown(0);
+        playAd = (Settings.getAdCountdown() == 0);
+
+        if(playAd)
+        {
+            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId("ca-app-pub-9386790266312341/4116148417");
+            AdRequest ad = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+            mInterstitialAd.loadAd(ad);
+            mInterstitialAd.setAdListener(new AdListener()
+            {
+                @Override
+                public void onAdClosed()
+                {
+                    finish();
+                }
+            });
         }
 
         super.onCreate(savedInstanceState);
@@ -114,14 +142,28 @@ public class GameOver extends AppCompatActivity
     private void pressFinish()
     {
         resetAdArray();
-        finish();
+        Log.d("Ads", "AdCountdown = " + Settings.getAdCountdown());
+        if(playAd)
+        {
+            if (mInterstitialAd.isLoaded())
+            {
+                Settings.updateAdCountdown(this);
+                mInterstitialAd.show();
+            }
+            else
+                finish();
+        }
+        else
+        {
+            Settings.updateAdCountdown(this);
+            finish();
+        }
     }
 
     @Override
     public void onBackPressed()
     {
-        resetAdArray();
-        finish();
+        pressFinish();
     }
 
     public void resetAdArray()

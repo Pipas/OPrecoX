@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -254,10 +255,11 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
     private void initializeAndStartProgressDialog()
     {
-        this.loadDialog = new ProgressDialog(this);
-        this.loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        this.loadDialog.setTitle("Por Favor Espera!");
-        this.loadDialog.setMessage("A Carregar Jogador");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            this.loadDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            this.loadDialog = new ProgressDialog(this);
+        this.loadDialog.setMessage(getString(R.string.processDialog));
         this.loadDialog.setCancelable(false);
         this.loadDialog.show();
     }
