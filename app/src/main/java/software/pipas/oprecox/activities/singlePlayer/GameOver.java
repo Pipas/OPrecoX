@@ -49,7 +49,7 @@ public class GameOver extends AppCompatActivity
             finish();
             return;
         }
-        
+
         playAd = (Settings.getAdCountdown() == 0);
 
         if(playAd)

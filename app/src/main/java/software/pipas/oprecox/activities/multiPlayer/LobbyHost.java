@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
@@ -169,6 +170,11 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
     private void startGame()
     {
         //CHECK IF IT HAS PEOPLE IN THE ROOM
+        if(players.size() <= 0)
+        {
+            Toast.makeText(this.getApplicationContext(), getString(R.string.aloneinlobby), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //STARTS LOADING THE ADS
         olxParser = new OlxParser();
@@ -229,7 +235,6 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         }
 
         player = intent.getExtras().getParcelable(getString(R.string.S007_REMOVEPLAYERLIST));
-
         if(player != null)
         {
             this.players.remove(player);

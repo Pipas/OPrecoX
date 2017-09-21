@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.net.DatagramPacket;
+import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.util.Util;
@@ -21,6 +22,8 @@ public class Message
     private String playerId;
     private String roomName;
     private String roomPort;
+    private int numberOfUrls;
+    private ArrayList<String> urlsArrayList;
 
     private boolean valid;
 
@@ -64,6 +67,8 @@ public class Message
         this.valid = false;
         this.roomName = null;
         this.roomPort = null;
+        this.numberOfUrls = -1;
+        this.urlsArrayList = null;
     }
     //--------------------------------------------------
 
@@ -136,6 +141,25 @@ public class Message
         else if(messageType.equals(MessageType.ACTUALIZEROOMNAME) && args.length == 4)
         {
             this.roomName = args[3];
+            return true;
+        }
+        else if(messageType.equals(MessageType.GAMEURLS) && (args.length == 9 || args.length == 14 || args.length == 24))
+        {
+            try {this.numberOfUrls = Integer.parseInt(args[3]);}
+            catch (NumberFormatException n) {return false;}
+
+            int count = 3 + 1 + this.numberOfUrls; //3 for first three mandatory arguments, 1 for numberourls, numberofurls for number of urls
+            if(count != args.length) return false;
+
+            this.urlsArrayList = new ArrayList<>();
+
+            for(int i = 4; i < args.length; i++)
+            {
+                this.urlsArrayList.add(args[i]);
+            }
+
+            if(urlsArrayList.size() != this.numberOfUrls) return false;
+
             return true;
         }
         else
@@ -213,6 +237,10 @@ public class Message
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.roomName);
         }
+        else if(messageType.equals(MessageType.GAMEURLS))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + Integer.toString(numberOfUrls) + " " + getURLArrayList());
+        }
         else
         {
             return null;
@@ -256,6 +284,23 @@ public class Message
 
     public String getRoomPort() {return this.roomPort;}
 
+    public String getURLArrayList()
+    {
+        if(this.urlsArrayList == null) return "";
+        else
+        {
+            String str = "";
+
+            for(String url : this.urlsArrayList)
+            {
+                str += url + " ";
+            }
+
+            str = str.substring(0, str.length() - 1);
+            return str;
+        }
+    }
+
     @Override
     public String toString()
     {
@@ -268,7 +313,10 @@ public class Message
                 "DisplayName: " + this.displayName + "\n" +
                 "ID" + this.playerId + "\n" +
                 "RoomName: " + this.roomName + "\n" +
-                "RoomPort: " + this.roomPort + "\n");
+                "RoomPort: " + this.roomPort + "\n" +
+                "NumberOfUrls: " + Integer.toString(numberOfUrls) + "\n" +
+                "ArrayListURL:" + getURLArrayList() + "\n");
+
         return str;
     }
 }

@@ -42,6 +42,7 @@ import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
 import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
+import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
 public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnPlayerLoader
@@ -57,6 +58,8 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
     private BroadcastReceiver broadcastReceiver;
     private TextView inviteTooltip;
     private ProgressBar progressBar;
+
+    private Inet4Address lastIP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,60 +94,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
             @Override
             public void onClick(View v)
             {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this, R.style.DialogThemePurple);
-
-                LayoutInflater inflater = Invite.this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.input_ip_layout, null);
-                builder.setView(dialogView);
-
-                final EditText input = (EditText) dialogView.findViewById(R.id.inputIp);
-
-                input.setInputType(InputType.TYPE_CLASS_PHONE);
-
-                builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        final String m_Text = input.getText().toString();
-                        (new Thread()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                try
-                                {
-                                    InetAddress address = InetAddress.getByName(m_Text);
-                                    if(address instanceof Inet4Address)
-                                    {
-                                        sendInvite(address);
-                                    }
-                                    else {throw new UnknownHostException();}
-                                }
-                                catch (UnknownHostException e)
-                                {
-                                    runOnUiThread(new Runnable()
-                                    {
-                                        @Override
-                                        public void run() {Toast.makeText(getApplication(), "IP invalido", Toast.LENGTH_SHORT).show();}
-                                    });
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-                    }
-                });
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
+                inviteByIP();
             }
         });
 
@@ -280,6 +230,85 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
     {
         PlayerImageLoader playerImageLoader = new PlayerImageLoader(Invite.this, this.mGoogleApiClient, playerListAdapter, player);
         playerImageLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void inviteByIP()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Invite.this, R.style.DialogThemePurple);
+
+        LayoutInflater inflater = Invite.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.input_ip_layout, null);
+        builder.setView(dialogView);
+
+        final EditText input = (EditText) dialogView.findViewById(R.id.inputIp);
+        if(Settings.getLastIP() != null)
+        {
+            input.setText(Settings.getLastIP().toString().substring(1));
+        }
+
+        input.setInputType(InputType.TYPE_CLASS_PHONE);
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(final DialogInterface dialog, int which)
+            {
+                final String m_Text = input.getText().toString();
+                (new Thread()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            InetAddress address = InetAddress.getByName(m_Text);
+                            if(address instanceof Inet4Address)
+                            {
+                                sendInvite(address);
+                                Settings.setLastIP((Inet4Address) address);
+
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        Toast.makeText(getApplication(), getString(R.string.sendinviteip), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                finish();
+                            }
+                            else {throw new UnknownHostException();}
+                        }
+                        catch (UnknownHostException e)
+                        {
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    Toast.makeText(getApplication(), getString(R.string.invalidoip), Toast.LENGTH_SHORT).show();
+                                    inviteByIP();
+                                }
+                            });
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 
 

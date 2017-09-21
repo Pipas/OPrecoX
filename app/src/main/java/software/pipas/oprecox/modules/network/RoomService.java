@@ -234,7 +234,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             return;
         }
 
-
     }
 
     @Override
