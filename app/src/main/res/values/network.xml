@@ -20,7 +20,7 @@
     <string name="S001">S001</string> <!-- Destination: Hub -->
     <string name="S002">S002</string> <!-- Destination: Invite -->
     <string name="S003">S003</string> <!-- Destination: AnnouncerSenderService -->
-    <string name="S004">S004</string> <!-- Destination: Room -->
+    <string name="S004">S004</string> <!-- Destination: RoomService -->
     <string name="S005">S005</string> <!-- Destination: ClientService -->
     <string name="S006">S006</string> <!-- Destination: LobbyClient -->
     <string name="S007">S007</string> <!-- Destination: LobbyHost -->
@@ -53,6 +53,7 @@
     <string name="S004_PLAYER">S004_PLAYER</string>
     <string name="S004_LOADEDPLAYER">S004_LOADEDPLAYER</string>
     <string name="S004_ACTUALIZEROOMNAME">S004_ACTUALIZEROOMNAME</string>
+    <string name="S004_GAMEURLS">S004_GAMEURLS</string>
 
     <!-- PARAMETHERS S005 ClientService -->
     <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>

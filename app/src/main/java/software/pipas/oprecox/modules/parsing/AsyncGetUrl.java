@@ -22,6 +22,7 @@ public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
     {
         this.activity = activity;
         this.olxParser = olxParser;
+
     }
 
     @Override
@@ -68,6 +69,7 @@ public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
         SubCategory subCategory;
         subCategory = CategoryHandler.getRandomSubCategory();
         return subCategory;
+
     }
 
     @Override

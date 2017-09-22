@@ -22,6 +22,7 @@ import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.application.OPrecoX;
@@ -33,6 +34,8 @@ import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
+import software.pipas.oprecox.modules.message.Message;
+import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.network.RoomService;
 
 import software.pipas.oprecox.modules.parsing.AsyncGetAd;
@@ -292,7 +295,28 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
 
     private void sendUrlsToPlayers()
     {
-        //SEND URLS TO OTHER PLAYERS
+        //SEND URLS TO OTHER PLAYERSurls
+        int count = 3 + 1 + this.urls.size();
+        String[] args = new String[count];
+
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.GAMEURLS.toString();
+        args[3] = Integer.toString(this.urls.size());
+
+        for(int i = 4; i < count; i++)
+        {
+            args[i] = this.urls.get(i - 4);
+        }
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if(msg.isValid())
+        {
+            Intent intent = new Intent(getString(R.string.S004));
+            intent.putExtra(getString(R.string.S004_GAMEURLS), msg.getMessage());
+            sendBroadcast(intent);
+        }
 
         //LOAD 2 ADS
         app.setAds(new Ad [Settings.getGameSize()]);

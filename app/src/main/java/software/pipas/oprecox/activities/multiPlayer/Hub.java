@@ -161,7 +161,10 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
         displayName.setText(player.getDisplayName());
 
         TextView ipOutput = (TextView) findViewById(R.id.realName);
-        ipOutput.setText("IP: " + this.myIP.toString().substring(1));
+        if(this.myIP == null)
+            ipOutput.setText("IP: " + getString(R.string.notavailable));
+        else
+            ipOutput.setText("IP: " + this.myIP.toString().substring(1));
 
 
         ImageView imageView = (ImageView) findViewById(R.id.playerImage);

@@ -234,6 +234,14 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             return;
         }
 
+        String urls = intent.getExtras().getString(getString(R.string.S004_GAMEURLS));
+        if(urls != null)
+        {
+            Message msg = new Message(this.getApplicationContext(), urls);
+            if(msg.isValid())
+                this.sendBroadcastToClients(msg);
+        }
+
     }
 
     @Override

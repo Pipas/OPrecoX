@@ -1,7 +1,6 @@
 package software.pipas.oprecox.modules.message;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.net.DatagramPacket;
 import java.util.ArrayList;
@@ -239,7 +238,7 @@ public class Message
         }
         else if(messageType.equals(MessageType.GAMEURLS))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + Integer.toString(numberOfUrls) + " " + getURLArrayList());
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + Integer.toString(numberOfUrls) + " " + printURLArrayList());
         }
         else
         {
@@ -284,7 +283,9 @@ public class Message
 
     public String getRoomPort() {return this.roomPort;}
 
-    public String getURLArrayList()
+    public ArrayList<String> getUrlsArrayList() {return this.urlsArrayList;}
+
+    public String printURLArrayList()
     {
         if(this.urlsArrayList == null) return "";
         else
@@ -315,7 +316,7 @@ public class Message
                 "RoomName: " + this.roomName + "\n" +
                 "RoomPort: " + this.roomPort + "\n" +
                 "NumberOfUrls: " + Integer.toString(numberOfUrls) + "\n" +
-                "ArrayListURL:" + getURLArrayList() + "\n");
+                "ArrayListURL:" + printURLArrayList() + "\n");
 
         return str;
     }

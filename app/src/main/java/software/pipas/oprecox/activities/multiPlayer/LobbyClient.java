@@ -39,6 +39,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
     private ArrayList<software.pipas.oprecox.modules.dataType.Player> players;
     private PlayerListAdapter playerListAdapter;
 
+    private ArrayList<String> urls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -125,7 +126,9 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         {
             Message message = new Message(this.getApplicationContext(), str);
 
-            if (message.getMessageType().equals(MessageType.ADDPLAYERLIST.toString()))
+
+
+            if (message.isValid() && message.getMessageType().equals(MessageType.ADDPLAYERLIST.toString()))
             {
                 software.pipas.oprecox.modules.dataType.Player player;
                 player = new software.pipas.oprecox.modules.dataType.Player(message.getName(), message.getDisplayName(), message.getPlayerId(), null);
@@ -133,17 +136,22 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
                 this.retrievePlayerURI(this.playerListAdapter, player);
                 this.refreshListAdapter(this.playerListAdapter);
             }
-            else if (message.getMessageType().equals(MessageType.REMOVEPLAYERLIST.toString()))
+            else if (message.isValid() && message.getMessageType().equals(MessageType.REMOVEPLAYERLIST.toString()))
             {
                 software.pipas.oprecox.modules.dataType.Player player = new software.pipas.oprecox.modules.dataType.Player(message.getPlayerId());
                 this.players.remove(player);
                 this.refreshListAdapter(this.playerListAdapter);
             }
-            else if (message.getMessageType().equals(MessageType.ACTUALIZEROOMNAME.toString()))
+            else if (message.isValid() && message.getMessageType().equals(MessageType.ACTUALIZEROOMNAME.toString()))
             {
                 Log.d("ROOM_NAME", message.getRoomName());
                 TextView displayName = (TextView) findViewById(R.id.roomNameClient);
                 displayName.setText(message.getRealRoomName());
+            }
+            else if(message.isValid() && message.getMessageType().equals(MessageType.GAMEURLS.toString()))
+            {
+                this.urls = message.getUrlsArrayList();
+                this.gotURLStartLoading();
             }
 
         }
@@ -176,6 +184,11 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
     }
 
     public static boolean isLoaded() {return loaded;}
+
+    private void gotURLStartLoading()
+    {
+
+    }
 }
 
 
