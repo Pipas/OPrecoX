@@ -2,7 +2,6 @@ package software.pipas.oprecox.util;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.util.DisplayMetrics;
 
 import java.net.Inet4Address;
 
@@ -10,20 +9,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 public abstract class Settings
 {
-    private static DisplayMetrics deviceDisplayMetrics;
     private static int gameSize;
     private static int adCountdown;
+
     private static Inet4Address lastIP;
-
-    public static DisplayMetrics getDeviceDisplayMetrics()
-    {
-        return deviceDisplayMetrics;
-    }
-
-    public static void setDeviceDisplayMetrics(DisplayMetrics deviceDisplayMetrics)
-    {
-        Settings.deviceDisplayMetrics = deviceDisplayMetrics;
-    }
 
     public static int getGameSize()
     {
@@ -53,7 +42,7 @@ public abstract class Settings
     public static void updateAdCountdown(Activity activity)
     {
         if(Settings.adCountdown == 0)
-            Settings.adCountdown = 5;
+            Settings.adCountdown = 3;
         else
             Settings.adCountdown = adCountdown - 1;
 

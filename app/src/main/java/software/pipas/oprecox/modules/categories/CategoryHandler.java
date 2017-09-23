@@ -198,7 +198,6 @@ public abstract class CategoryHandler
     {
         if(categories == null)
         {
-            Settings.setDeviceDisplayMetrics(activity.getResources().getDisplayMetrics());
             SharedPreferences sharedPref = activity.getSharedPreferences("gameSettings", MODE_PRIVATE);
             try
             {
@@ -215,7 +214,7 @@ public abstract class CategoryHandler
                 CategoryHandler.selectAll();
 
             Settings.setGameSize(sharedPref.getInt("gameSize", 10), activity);
-            Settings.setAdCountdown(sharedPref.getInt("gameSize", 5));
+            Settings.setAdCountdown(sharedPref.getInt("gameSize", 3));
         }
     }
 

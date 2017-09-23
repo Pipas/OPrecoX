@@ -1,5 +1,6 @@
 package software.pipas.oprecox.modules.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,6 +16,7 @@ import software.pipas.oprecox.util.Util;
 
 public class DatabaseHandler
 {
+    private Activity activity;
     private SQLiteDatabase database;
     private DatabaseHelper dbHelper;
     private String[] allColumns = { DatabaseHelper.COLUMN_ID,
@@ -23,9 +25,10 @@ public class DatabaseHandler
                                     DatabaseHelper.COLUMN_THUMBNAIL,
                                     DatabaseHelper.COLUMN_URL };
 
-    public DatabaseHandler(Context context)
+    public DatabaseHandler(Context context, Activity activity)
     {
         dbHelper = new DatabaseHelper(context);
+        this.activity = activity;
     }
 
     public void open() throws SQLException
@@ -43,7 +46,7 @@ public class DatabaseHandler
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_TITLE, ad.getTitle());
         values.put(DatabaseHelper.COLUMN_DESCRIPTION, getStringPrice(ad.getPrice()) + " \u00b7 " + ad.getDescription());
-        values.put(DatabaseHelper.COLUMN_THUMBNAIL, Util.bitmapToByteArray(Util.bitmapToThumbnail(ad.getImages().get(0), 56)));
+        values.put(DatabaseHelper.COLUMN_THUMBNAIL, Util.bitmapToByteArray(Util.bitmapToThumbnail(ad.getImages().get(0), 56, activity.getResources().getDisplayMetrics())));
         values.put(DatabaseHelper.COLUMN_URL, ad.getUrl());
 
         long insertId = database.insert(DatabaseHelper.ADS_TABLE, null,

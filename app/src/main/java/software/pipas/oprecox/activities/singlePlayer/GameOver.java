@@ -74,7 +74,7 @@ public class GameOver extends AppCompatActivity
         Intent intent = getIntent();
         score = intent.getIntExtra("score", 0);
 
-        database = new DatabaseHandler(this);
+        database = new DatabaseHandler(this, GameOver.this);
 
         scoreOutput = (TextView) findViewById(R.id.scoreOutput);
         TextView finalScoreTextView = (TextView) findViewById(R.id.finalScoreTextView);

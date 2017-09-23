@@ -39,7 +39,7 @@ public class SavedAds extends AppCompatActivity
         CustomFontHelper.setCustomFont(savedAdsTitleTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(savedAdsTooltip, "font/Comfortaa_Regular.ttf", getBaseContext());
 
-        database = new DatabaseHandler(this);
+        database = new DatabaseHandler(this, SavedAds.this);
         database.open();
         DynamicListView myAddsList = (DynamicListView) findViewById(R.id.myAddsList);
 
