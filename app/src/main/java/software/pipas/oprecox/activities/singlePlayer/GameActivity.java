@@ -1,23 +1,31 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
+
+import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.BlockedApp;
@@ -28,6 +36,8 @@ import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.imageViewer.ImageViewer;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.listeners.OnSwipeTouchListener;
+import software.pipas.oprecox.modules.parsing.AsyncGetAll;
+import software.pipas.oprecox.modules.parsing.OlxParser;
 
 public class GameActivity extends AppCompatActivity implements ParsingCallingActivity
 {
@@ -40,9 +50,12 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private TextView descriptionTextView;
     private PageIndicatorView imagePreviewIndicator;
     private Boolean blocked = false;
+    private OlxParser olxParser;
+    private View countdownTimer;
+    private ValueAnimator countdownAnimation;
 
     protected OPrecoX app;
-
+    ArrayList<AsyncGetAll> asyncTasks;
     protected int gameSize;
     protected int score;
     protected int adIndex = 0;
@@ -71,6 +84,44 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
         setViewsWithAd(app.getAd(adIndex));
 
+        startCountdownAnimation(30);
+    }
+
+    protected void startCountdownAnimation(int duration)
+    {
+        countdownAnimation = ValueAnimator.ofInt(countdownTimer.getMeasuredWidth(), getResources().getDisplayMetrics().widthPixels);
+        countdownAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator)
+            {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = countdownTimer.getLayoutParams();
+                layoutParams.width = val;
+                countdownTimer.setLayoutParams(layoutParams);
+            }
+        });
+        countdownAnimation.addListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                Log.d("ANIMATION", "Animation finished");
+            }
+        });
+        countdownAnimation.setDuration(duration * 1000);
+        countdownAnimation.start();
+    }
+
+    protected void resetCountdownView()
+    {
+        ViewGroup.LayoutParams layoutParams = countdownTimer.getLayoutParams();
+        layoutParams.width = 0;
+        countdownTimer.setLayoutParams(layoutParams);
+    }
+
+    protected void stopCountdown()
+    {
+        countdownAnimation.cancel();
     }
 
     protected void setViewsWithAd(Ad ad)
@@ -95,6 +146,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         guesserLayout = findViewById(R.id.guesserLayout);
         guessTag = (ImageView) findViewById(R.id.guessTag);
         guessTab = findViewById(R.id.guessTab);
+
+        countdownTimer = findViewById(R.id.countdownTimer);
 
         imagePreview = (ViewPager) findViewById(R.id.imagePreview);
         imagePreviewIndicator = (PageIndicatorView) findViewById(R.id.imagePreviewIndicator);
@@ -188,6 +241,19 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         startActivityForResult(myIntent, 1);
     }
 
+    protected void startDataParses()
+    {
+        olxParser = new OlxParser();
+        asyncTasks = new ArrayList<>();
+        AsyncGetAll parsingAyncTask;
+        for(int i = 2; i < gameSize; i++)
+        {
+            parsingAyncTask = new AsyncGetAll(this, app, i, olxParser);
+            parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            asyncTasks.add(parsingAyncTask);
+        }
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -208,7 +274,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
                     R.string.leave,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            finish();
+                            leaveGame();
                         }
                     });
 
@@ -223,6 +289,14 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             AlertDialog alert = popup.create();
             alert.show();
         }
+    }
+
+    private void leaveGame()
+    {
+        for(AsyncGetAll asyncTask : asyncTasks)
+            asyncTask.cancel(true);
+
+        finish();
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -61,9 +62,9 @@ public abstract class Util
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
-    public static Bitmap bitmapToThumbnail(Bitmap bitmap, int thumbnailSize)
+    public static Bitmap bitmapToThumbnail(Bitmap bitmap, int thumbnailSize, DisplayMetrics displayMetrics)
     {
-        float dpPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, thumbnailSize, Settings.getDeviceDisplayMetrics());
+        float dpPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, thumbnailSize, displayMetrics);
         return ThumbnailUtils.extractThumbnail(bitmap, (int) dpPixels, (int) dpPixels);
     }
 

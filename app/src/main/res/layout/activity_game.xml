@@ -43,6 +43,14 @@
         </View>
 
         <View
+            android:id="@+id/countdownTimer"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:background="@color/purple"
+            android:layout_below="@id/imagePreviewLayout">
+        </View>
+
+        <View
             android:id="@+id/guessTab"
             android:layout_width="match_parent"
             android:layout_height="56dp"

@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import software.pipas.oprecox.activities.menus.MainMenu;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
-import software.pipas.oprecox.util.Settings;
 
 public class SplashScreen extends Activity
 {
@@ -17,8 +16,6 @@ public class SplashScreen extends Activity
         super.onCreate(savedInstanceState);
 
         CategoryHandler.checkIfRestart(this);
-
-        Settings.setDeviceDisplayMetrics(getResources().getDisplayMetrics());
 
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);

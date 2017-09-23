@@ -25,7 +25,6 @@ import software.pipas.oprecox.modules.adapters.OptionsPopupAdapter;
 import software.pipas.oprecox.modules.adapters.SubCategoryListAdapter;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
-import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
 public class CategoryDetails extends AppCompatActivity
@@ -114,8 +113,8 @@ public class CategoryDetails extends AppCompatActivity
         options.add("Anular seleção");
         listPopupWindow.setAdapter(new OptionsPopupAdapter(options, getApplicationContext(), getContentResolver()));
         listPopupWindow.setAnchorView(anchorView);
-        listPopupWindow.setWidth((int) (200 * Settings.getDeviceDisplayMetrics().density + 0.5f));
-        listPopupWindow.setHeight((int) (56 * options.size() * Settings.getDeviceDisplayMetrics().density + 0.5f));
+        listPopupWindow.setWidth((int) (200 * getResources().getDisplayMetrics().density + 0.5f));
+        listPopupWindow.setHeight((int) (56 * options.size() * getResources().getDisplayMetrics().density + 0.5f));
         listPopupWindow.setModal(true);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
