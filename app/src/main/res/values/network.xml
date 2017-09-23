@@ -72,6 +72,7 @@
     <string name="S007_ADDPLAYERLIST">S007_ADDPLAYERLIST</string>
     <string name="S007_REMOVEPLAYERLIST">S007_REMOVEPLAYERLIST</string>
     <string name="S007_REQUESPLAYERLOADER">S007_REQUESPLAYERLOADER</string>
+    <string name="S007_STARTGAME">S007_STARTGAME</string>
 
 
 

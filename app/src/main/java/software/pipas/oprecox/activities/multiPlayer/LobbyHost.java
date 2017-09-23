@@ -33,6 +33,7 @@ import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
+import software.pipas.oprecox.modules.interfaces.OnUrlLoaded;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
@@ -45,7 +46,7 @@ import software.pipas.oprecox.util.Settings;
 
 import software.pipas.oprecox.util.Util;
 
-public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, ParsingCallingActivity
+public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, ParsingCallingActivity, OnUrlLoaded
 {
     private final int OPTIONS_REQUEST_CODE = 1;
 
@@ -76,6 +77,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         this.players = new ArrayList<>();
 
         app = (OPrecoX) getApplicationContext();
+
 
         initiateCustomFonts();
 
@@ -186,7 +188,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         startProgressBar();
         for(int i = 0; i < Settings.getGameSize(); i++)
         {
-            parsingAsyncTask = new AsyncGetUrl(this, olxParser);
+            parsingAsyncTask = new AsyncGetUrl(LobbyHost.this, olxParser);
             parsingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -256,6 +258,14 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             Log.d("MY_IP_DEBUG", "trying to load");
             return;
         }
+
+        String startGame = intent.getExtras().getString(getString(R.string.S007_STARTGAME));
+        if(startGame != null)
+        {
+            circleDialog.dismiss();
+            startGameActivity();
+        }
+
     }
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)
@@ -273,6 +283,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         sendBroadcast(intent);
     }
 
+    @Override
     public void addAdUrl(String url)
     {
         if(urls == null)
@@ -355,11 +366,27 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         circleDialog.show();
     }
 
+    private void startWaitingForPlayersCircle()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            circleDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            circleDialog = new ProgressDialog(this);
+        circleDialog.setIndeterminate(true);
+        circleDialog.setMessage("A esperar por jogadores");
+        circleDialog.setCancelable(false);
+        circleDialog.show();
+    }
+
     @Override
     public void parsingEnded()
     {
-        if(app.getAds()[0] != null && app.getAds()[0] != null)
+        if(app.getAds()[0] != null && app.getAds()[1] != null)
+        {
             circleDialog.dismiss();
+            startWaitingForPlayersCircle();
+        }
+
     }
 
     @Override
@@ -372,5 +399,13 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             startActivity(myIntent);
             finish();
         }
+    }
+
+
+    private void startGameActivity()
+    {
+        //SEND TO PLAYERS
+
+        //START INTENT ACTIVITY
     }
 }

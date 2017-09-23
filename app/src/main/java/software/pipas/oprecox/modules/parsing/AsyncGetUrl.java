@@ -9,18 +9,19 @@ import software.pipas.oprecox.activities.multiPlayer.LobbyHost;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
+import software.pipas.oprecox.modules.interfaces.OnUrlLoaded;
 
 public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
 {
-    private LobbyHost activity;
+    private OnUrlLoaded onUrlLoaded;
     private boolean validURL = false;
     private boolean olxchange = false;
     private String url;
     private OlxParser olxParser;
 
-    public AsyncGetUrl(LobbyHost activity, OlxParser olxParser)
+    public AsyncGetUrl(OnUrlLoaded onUrlLoaded, OlxParser olxParser)
     {
-        this.activity = activity;
+        this.onUrlLoaded = onUrlLoaded;
         this.olxParser = olxParser;
 
     }
@@ -77,6 +78,6 @@ public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
     {
         Log.d("PARSE", String.format("Finished background async parse '" + url + "'"));
         if(validURL)
-            activity.addAdUrl(url);
+            this.onUrlLoaded.addAdUrl(url);
     }
 }

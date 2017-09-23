@@ -244,6 +244,11 @@ public class ClientService extends IntentService
                     out.write(msg.getMessage() + "\n");
                     out.flush();
                 }
+                else if(msg.isValid() && msg.getMessageType().equals(MessageType.READY.toString()))
+                {
+                    out.write(msg.getMessage() + "\n");
+                    out.flush();
+                }
             }
         }).start();
 

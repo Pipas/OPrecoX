@@ -1,11 +1,13 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,17 +21,25 @@ import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.other.BlockedApp;
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
+import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
+import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
+import software.pipas.oprecox.modules.parsing.AsyncGetAd;
+import software.pipas.oprecox.modules.parsing.OlxParser;
+import software.pipas.oprecox.util.Settings;
 
-public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
+public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader, ParsingCallingActivity
 {
     private static boolean loaded = false;
 
@@ -41,11 +51,18 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
     private ArrayList<String> urls;
 
+    private OPrecoX app;
+    private ProgressDialog circleDialog;
+    private OlxParser olxParser;
+    private Boolean blocked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_lobby_client);
+
+        this.app = (OPrecoX) this.getApplicationContext();
 
         String roomName = getIntent().getExtras().getString(getString(R.string.S006_ROOMNAME));
         String hosterName = getIntent().getExtras().getString(getString(R.string.S006_HOSTERNAME));
@@ -111,6 +128,18 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         loaded = true;
     }
 
+    private void startProgressCircle()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            circleDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            circleDialog = new ProgressDialog(this);
+        circleDialog.setIndeterminate(true);
+        circleDialog.setMessage("A carregar anuncios");
+        circleDialog.setCancelable(false);
+        circleDialog.show();
+    }
+
     public void handleReceivedIntent(Context context, Intent intent)
     {
         Log.d("RECEIVE_LOBBY", intent.toString());
@@ -150,8 +179,16 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
             }
             else if(message.isValid() && message.getMessageType().equals(MessageType.GAMEURLS.toString()))
             {
+                //GOT URLS START LOADING 2
+                Log.d("URLS_DEBUG", "client gets urls");
+                this.olxParser = new OlxParser();
                 this.urls = message.getUrlsArrayList();
                 this.gotURLStartLoading();
+            }
+            else if(message.isValid() && message.getMessageType().equals(MessageType.STARTGAME.toString()))
+            {
+                circleDialog.dismiss();
+                this.startGameActivity();
             }
 
         }
@@ -186,6 +223,77 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
     public static boolean isLoaded() {return loaded;}
 
     private void gotURLStartLoading()
+    {
+        app.setAds(new Ad[Settings.getGameSize()]);
+        AsyncGetAd parsingAsyncTask;
+        startProgressCircle();
+        for(int i = 0; i < 2; i++)
+        {
+            parsingAsyncTask = new AsyncGetAd(this, app, urls.get(i), i, olxParser);
+            parsingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    @Override
+    public void parsingEnded()
+    {
+        if(app.getAds()[0] != null && app.getAds()[1] != null)
+        {
+            circleDialog.dismiss();
+            this.startWaitingForHost();
+            this.sendReadyMessage();
+        }
+    }
+
+    @Override
+    public void olxChangeException()
+    {
+        if(!blocked)
+        {
+            blocked = true;
+            Intent myIntent = new Intent(this, BlockedApp.class);
+            startActivity(myIntent);
+            finish();
+        }
+    }
+
+    private void startWaitingForHost()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            circleDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            circleDialog = new ProgressDialog(this);
+        circleDialog.setIndeterminate(true);
+        circleDialog.setMessage("A esperar pelo Host");
+        circleDialog.setCancelable(false);
+        circleDialog.show();
+    }
+
+    private void sendReadyMessage()
+    {
+        if(this.player == null) return;
+
+        String[] args = new String[4];
+
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.READY.toString();
+        args[3] = this.player.getPlayerId();
+
+        Message msg = new Message(this, args);
+
+        Log.d("READY_DEBUG", "message created");
+
+        if(!msg.isValid()) return;
+
+        Log.d("READY_DEBUG", "message valid, send to ClientService");
+
+        Intent intent = new Intent(getString(R.string.S005));
+        intent.putExtra(getString(R.string.S005_MESSAGE), msg.getMessage());
+        sendBroadcast(intent);
+    }
+
+    private void startGameActivity()
     {
 
     }

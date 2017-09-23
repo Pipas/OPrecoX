@@ -161,6 +161,15 @@ public class Message
 
             return true;
         }
+        else if(messageType.equals(MessageType.READY) && args.length == 4)
+        {
+            this.playerId = args[3];
+            return true;
+        }
+        else if(messageType.equals(MessageType.STARTGAME) && args.length == 3)
+        {
+            return true;
+        }
         else
         {
             return false;
@@ -239,6 +248,14 @@ public class Message
         else if(messageType.equals(MessageType.GAMEURLS))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + Integer.toString(numberOfUrls) + " " + printURLArrayList());
+        }
+        else if(messageType.equals(MessageType.READY))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
+        }
+        else if(messageType.equals(MessageType.STARTGAME))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
         }
         else
         {

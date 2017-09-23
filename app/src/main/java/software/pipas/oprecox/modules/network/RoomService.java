@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.text.LoginFilter;
 import android.util.Log;
 
 import java.io.IOException;
@@ -48,6 +49,9 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     private HashMap<Player, Socket> joined;
     private HashMap<Player, Socket> pendingLoaded;
     private LinkedList<Player> playersDB;
+
+    private HashMap<Player, Socket> reservedPlayers;
+    private LinkedList<Player> readyPlayers;
 
     public RoomService() {super("Room");}
     public RoomService(String name) {super(name);}
@@ -150,6 +154,12 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         }
     }
 
+    private void reserveJoinedPlayers()
+    {
+        this.reservedPlayers = this.joined;
+        this.readyPlayers = new LinkedList<>();
+    }
+
     //receiver for Room, S004 receive of Pre-Invites to send Invites
     public void handleIntentReceived(Context context, Intent intent)
     {
@@ -239,7 +249,10 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         {
             Message msg = new Message(this.getApplicationContext(), urls);
             if(msg.isValid())
+            {
                 this.sendBroadcastToClients(msg);
+                this.reserveJoinedPlayers();
+            }
         }
 
     }
@@ -280,6 +293,25 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                     Log.d("MY_IP_DEBUG", "putting pending");
                     this.pendingLoaded.put(dummyPlayer, remotePlayerSocket);
                     this.sendToActivityToLoad(dummyPlayer);
+                }
+                else if(msg.getMessageType().equals(MessageType.READY.toString()))
+                {
+                    Log.d("READY_DEBUG", "received ready");
+                    Player playerTemp = new Player(msg.getPlayerId());
+                    this.readyPlayers.remove(playerTemp);
+                    this.readyPlayers.add(playerTemp);
+
+                    if(this.checkReadyAndJoined())
+                    {
+                        Log.d("READY_DEBUG", "starting game");
+
+                        //enviar gamestart para LobbyHost and LobbyClient
+                        Intent intent = new Intent(getString(R.string.S007));
+                        intent.putExtra(getString(R.string.S007_STARTGAME), "");
+                        sendBroadcast(intent);
+
+                        this.sendGameStartToPlayers(this.reservedPlayers);
+                    }
                 }
                 //other messages...
             }
@@ -428,6 +460,52 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             sendBroadcast(intent);
         }
 
+    }
+
+    private void sendGameStartToPlayers(HashMap<Player, Socket> readyPlayers)
+    {
+        String[] args = new String[3];
+
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.STARTGAME.toString();
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if (!msg.isValid()) return;
+
+        for(Socket socket : readyPlayers.values())
+        {
+            this.singleSend(socket, msg);
+        }
+
+    }
+
+    private boolean checkReadyAndJoined()
+    {
+        if(this.readyPlayers != null && this.reservedPlayers != null)
+        {
+            int size1 = this.readyPlayers.size();
+            int size2 = this.reservedPlayers.size();
+
+            Log.d("READY_DEBUG", "number: " + size1 + " " + size2);
+
+            if(size1 != size2) return false;
+
+            Player player1 = this.readyPlayers.get(0);
+
+            for(Player player : this.reservedPlayers.keySet())
+            {
+                int i = this.readyPlayers.indexOf(player);
+
+                if(i < 0) return false;
+            }
+
+
+            return true;
+
+        }
+        else return false;
     }
 
     private void singleSend(final Socket socket, final Message message)
