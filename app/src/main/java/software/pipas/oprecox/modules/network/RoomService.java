@@ -5,10 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.text.LoginFilter;
 import android.util.Log;
 
 import java.io.IOException;
@@ -19,16 +16,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.multiPlayer.Invite;
-import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
-import software.pipas.oprecox.modules.customThreads.PlayerLoader;
 import software.pipas.oprecox.modules.dataType.Player;
-import software.pipas.oprecox.modules.interfaces.OnPlayerLoader;
 import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
@@ -52,6 +44,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private HashMap<Player, Socket> reservedPlayers;
     private LinkedList<Player> readyPlayers;
+    private boolean hostReady;
 
     public RoomService() {super("Room");}
     public RoomService(String name) {super(name);}
@@ -69,6 +62,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         this.closed = false;
         this.initializeServerSocket();
         this.initializeBroadcastReceiver();
+        this.hostReady = false;
     }
 
     @Override
@@ -253,8 +247,19 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 this.sendBroadcastToClients(msg);
                 this.reserveJoinedPlayers();
             }
+            return;
         }
 
+        String hostReady = intent.getExtras().getString(getString(R.string.S004_HOSTREADY));
+        if(hostReady != null)
+        {
+            this.hostReady = true;
+            if(this.checkReadyAndJoined())
+            {
+                this.sendGameStartToPlayersAndHost(this.reservedPlayers);
+            }
+            return;
+        }
     }
 
     @Override
@@ -296,24 +301,15 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 }
                 else if(msg.getMessageType().equals(MessageType.READY.toString()))
                 {
-                    Log.d("READY_DEBUG", "received ready");
                     Player playerTemp = new Player(msg.getPlayerId());
                     this.readyPlayers.remove(playerTemp);
                     this.readyPlayers.add(playerTemp);
 
                     if(this.checkReadyAndJoined())
                     {
-                        Log.d("READY_DEBUG", "starting game");
-
-                        //enviar gamestart para LobbyHost and LobbyClient
-                        Intent intent = new Intent(getString(R.string.S007));
-                        intent.putExtra(getString(R.string.S007_STARTGAME), "");
-                        sendBroadcast(intent);
-
-                        this.sendGameStartToPlayers(this.reservedPlayers);
+                        this.sendGameStartToPlayersAndHost(this.reservedPlayers);
                     }
                 }
-                //other messages...
             }
         }
 
@@ -462,8 +458,12 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     }
 
-    private void sendGameStartToPlayers(HashMap<Player, Socket> readyPlayers)
+    private void sendGameStartToPlayersAndHost(HashMap<Player, Socket> readyPlayers)
     {
+        Intent intent = new Intent(getString(R.string.S007));
+        intent.putExtra(getString(R.string.S007_STARTGAME), "");
+        sendBroadcast(intent);
+
         String[] args = new String[3];
 
         args[0] = this.getString(R.string.network_app_name);
@@ -481,10 +481,19 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     }
 
+    private void resetStartGame()
+    {
+        this.readyPlayers = null;
+        this.reservedPlayers = null;
+        this.hostReady = false;
+    }
+
     private boolean checkReadyAndJoined()
     {
         if(this.readyPlayers != null && this.reservedPlayers != null)
         {
+            if(!this.hostReady) return false;
+
             int size1 = this.readyPlayers.size();
             int size2 = this.reservedPlayers.size();
 

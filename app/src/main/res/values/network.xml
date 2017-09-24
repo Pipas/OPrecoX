@@ -54,6 +54,7 @@
     <string name="S004_LOADEDPLAYER">S004_LOADEDPLAYER</string>
     <string name="S004_ACTUALIZEROOMNAME">S004_ACTUALIZEROOMNAME</string>
     <string name="S004_GAMEURLS">S004_GAMEURLS</string>
+    <string name="S004_HOSTREADY">S004_HOSTREADY</string>
 
     <!-- PARAMETHERS S005 ClientService -->
     <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>

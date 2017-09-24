@@ -378,12 +378,14 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         circleDialog.show();
     }
 
+
     @Override
     public void parsingEnded()
     {
         if(app.getAds()[0] != null && app.getAds()[1] != null)
         {
             circleDialog.dismiss();
+            this.sendHostReady();
             startWaitingForPlayersCircle();
         }
 
@@ -399,6 +401,14 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             startActivity(myIntent);
             finish();
         }
+    }
+
+
+    private void sendHostReady()
+    {
+        Intent intent = new Intent(getString(R.string.S004));
+        intent.putExtra(getString(R.string.S004_HOSTREADY), "");
+        sendBroadcast(intent);
     }
 
 
