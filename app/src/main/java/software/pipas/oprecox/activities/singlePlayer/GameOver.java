@@ -50,8 +50,8 @@ public class GameOver extends AppCompatActivity
             return;
         }
 
+        Settings.increaseGamesPlayed(this);
         playAd = (Settings.getAdCountdown() == 0);
-
         if(playAd)
         {
             mInterstitialAd = new InterstitialAd(this);

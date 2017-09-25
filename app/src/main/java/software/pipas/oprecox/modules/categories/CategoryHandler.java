@@ -215,6 +215,8 @@ public abstract class CategoryHandler
 
             Settings.setGameSize(sharedPref.getInt("gameSize", 10), activity);
             Settings.setAdCountdown(sharedPref.getInt("gameSize", 3));
+            Settings.setGamesPlayed(sharedPref.getInt("gamesPlayed", 0));
+            Settings.setShowRateUs(sharedPref.getBoolean("showRateUs", true));
         }
     }
 

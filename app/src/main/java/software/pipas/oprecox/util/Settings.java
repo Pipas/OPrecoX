@@ -11,6 +11,8 @@ public abstract class Settings
 {
     private static int gameSize;
     private static int adCountdown;
+    private static int gamesPlayed;
+    private static Boolean showRateUs;
 
     private static Inet4Address lastIP;
 
@@ -51,7 +53,6 @@ public abstract class Settings
         editor.apply();
     }
 
-
     public static void setLastIP(Inet4Address newIP)
     {
         lastIP = newIP;
@@ -60,5 +61,33 @@ public abstract class Settings
     public static Inet4Address getLastIP()
     {
         return lastIP;
+    }
+
+    public static int getGamesPlayed()
+    {
+        return gamesPlayed;
+    }
+
+    public static void setGamesPlayed(int gamesPlayed)
+    {
+        Settings.gamesPlayed = gamesPlayed;
+    }
+
+    public static void increaseGamesPlayed(Activity activity)
+    {
+        Settings.gamesPlayed++;
+        SharedPreferences.Editor editor = activity.getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+        editor.putInt("gamesPlayed", Settings.gamesPlayed);
+        editor.apply();
+    }
+
+    public static Boolean getShowRateUs()
+    {
+        return showRateUs;
+    }
+
+    public static void setShowRateUs(Boolean showRateUs)
+    {
+        Settings.showRateUs = showRateUs;
     }
 }
