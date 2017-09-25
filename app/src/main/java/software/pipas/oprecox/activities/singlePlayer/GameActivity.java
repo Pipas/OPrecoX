@@ -42,20 +42,20 @@ import software.pipas.oprecox.modules.parsing.OlxParser;
 public class GameActivity extends AppCompatActivity implements ParsingCallingActivity
 {
     private View guesserLayout;
-    private BottomSheetBehavior slideupGuesser;
+    protected BottomSheetBehavior slideupGuesser;
     private ImageView guessTag;
-    private View guessTab;
+    private View guessTab;g
     protected ViewPager imagePreview;
     private TextView titleTextView;
     private TextView descriptionTextView;
     private PageIndicatorView imagePreviewIndicator;
     private Boolean blocked = false;
-    private OlxParser olxParser;
+    protected OlxParser olxParser;
     private View countdownTimer;
     private ValueAnimator countdownAnimation;
 
     protected OPrecoX app;
-    ArrayList<AsyncGetAll> asyncTasks;
+    private ArrayList<AsyncGetAll> asyncTasks;
     protected int gameSize;
     protected int score;
     protected int adIndex = 0;

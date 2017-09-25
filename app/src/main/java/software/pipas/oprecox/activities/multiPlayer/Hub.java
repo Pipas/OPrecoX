@@ -64,6 +64,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
     private TextView multiplayerHubTooltip;
 
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -176,7 +178,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
         }
 
 
-        String name = player.getName();
+        name = player.getName();
         if(name == null) name = player.getDisplayName();
 
         //starting the announcerSender service
