@@ -44,7 +44,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private View guesserLayout;
     protected BottomSheetBehavior slideupGuesser;
     private ImageView guessTag;
-    private View guessTab;g
+    private View guessTab;
     protected ViewPager imagePreview;
     private TextView titleTextView;
     private TextView descriptionTextView;
