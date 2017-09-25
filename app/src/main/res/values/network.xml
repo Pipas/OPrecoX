@@ -78,6 +78,7 @@
 
     <!-- PARAMETHERS S008 PriceGuessGameMultiplayerActivity -->
     <string name="S008_GAMESIZE">S008_GAMESIZE</string>
+    <string name="S008_GAMEURLS">S008_GAMEURLS</string>
 
 
 

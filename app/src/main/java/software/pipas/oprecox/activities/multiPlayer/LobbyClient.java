@@ -295,7 +295,10 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
     private void startGameActivity()
     {
-
+        Intent intent = new Intent(this, PriceGuessGameMultiplayerActivity.class);
+        intent.putExtra(getString(R.string.S008_GAMESIZE), Settings.getGameSize());
+        intent.putExtra(getString(R.string.S008_GAMEURLS), this.urls);
+        startActivity(intent);
     }
 }
 
