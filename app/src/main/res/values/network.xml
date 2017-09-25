@@ -24,6 +24,7 @@
     <string name="S005">S005</string> <!-- Destination: ClientService -->
     <string name="S006">S006</string> <!-- Destination: LobbyClient -->
     <string name="S007">S007</string> <!-- Destination: LobbyHost -->
+    <string name="S008">S008</string> <!-- Destination: PriceGuessGameMultiplayerActivity -->
 
 
     <!-- PARAMETHERS S000 UDPCommsService -->
@@ -74,6 +75,9 @@
     <string name="S007_REMOVEPLAYERLIST">S007_REMOVEPLAYERLIST</string>
     <string name="S007_REQUESPLAYERLOADER">S007_REQUESPLAYERLOADER</string>
     <string name="S007_STARTGAME">S007_STARTGAME</string>
+
+    <!-- PARAMETHERS S008 PriceGuessGameMultiplayerActivity -->
+    <string name="S008_GAMESIZE">S008_GAMESIZE</string>
 
 
 
