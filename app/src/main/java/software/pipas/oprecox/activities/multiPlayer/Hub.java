@@ -22,6 +22,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
@@ -50,7 +55,7 @@ import software.pipas.oprecox.modules.network.ClientService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
 import software.pipas.oprecox.util.Util;
 
-public class Hub extends MultiplayerClass implements OnPlayerImageLoader
+public class Hub extends MultiplayerClass implements OnPlayerImageLoader, RewardedVideoAdListener
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
@@ -66,7 +71,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     private InetAddress myIP;
 
     private TextView multiplayerHubTooltip;
-
+    private RewardedVideoAd mAd;
     private String name;
 
     @Override
@@ -79,6 +84,10 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
         DynamicListView listView = (DynamicListView) findViewById(R.id.list);
         invites = new ArrayList<>();
+
+        mAd = MobileAds.getRewardedVideoAdInstance(this);
+        mAd.setRewardedVideoAdListener(this);
+        mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
 
         final InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext(), getContentResolver());
         SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(inviteListAdapter);
@@ -453,6 +462,49 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
     private void showChangeNameAd()
     {
-        Toast.makeText(this, "THERE IS AN AD HERE LADS", Toast.LENGTH_SHORT).show();
+        if(mAd.isLoaded())
+            mAd.show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed()
+    {
+
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem)
+    {
+        Toast.makeText(this, "CHANGE NAME LADS", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i)
+    {
+
     }
 }
