@@ -171,6 +171,10 @@ public class Message
         {
             return true;
         }
+        else if(messageType.equals(MessageType.EXITGAMEACTIVITY) && args.length == 3)
+        {
+            return true;
+        }
         else
         {
             return false;
@@ -255,6 +259,10 @@ public class Message
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
         }
         else if(messageType.equals(MessageType.STARTGAME))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
+        }
+        else if(messageType.equals(MessageType.EXITGAMEACTIVITY))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
         }

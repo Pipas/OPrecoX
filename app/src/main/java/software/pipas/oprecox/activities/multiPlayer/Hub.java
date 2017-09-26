@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.InviteListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
@@ -144,6 +145,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         this.myIP = Util.listMyIP();
 
         this.initializeAndStartProgressDialog();
+
+
     }
 
     private void initiateCustomFonts()
@@ -197,7 +200,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         playerDisplayName = player.getDisplayName();
 
         //starting the announcerSender service
-        this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
+        if(OPrecoX.announcing) this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
 
         this.loadDialog.dismiss();
 

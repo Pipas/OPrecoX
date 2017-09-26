@@ -27,6 +27,9 @@ import software.pipas.oprecox.activities.singlePlayer.GameOver;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
+import software.pipas.oprecox.modules.message.Message;
+import software.pipas.oprecox.modules.message.MessageType;
+import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.modules.parsing.AsyncGetAd;
 import software.pipas.oprecox.modules.parsing.OlxParser;
 
@@ -332,6 +335,12 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             intent.putExtra(getString(R.string.S006_CLIENTFORCEEXITGAME), "");
             setResult(RESULT_OK, intent);
         }
+        else
+        {
+            Intent intent = new Intent();
+            intent.putExtra(getString(R.string.S007_HOSTFORCEEXITGAME), "");
+            setResult(RESULT_OK, intent);
+        }
     }
 
     private Boolean calculateScore()
@@ -491,6 +500,23 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private void handleIntentReceived(Context context, Intent intent)
     {
+        String response = intent.getExtras().getString(getResources().getString(R.string.S008_RESPONSE));
+        if (response != null && response.equals(ResponseType.CLOSED.toString()))
+        {
+            finish();
+            return;
+        }
 
+
+        String message = intent.getExtras().getString(getString(R.string.S008_MESSAGE));
+        if(message != null)
+        {
+            Message msg = new Message(this.getApplicationContext(), message);
+
+            if(msg.isValid() && msg.getMessageType().equals(MessageType.EXITGAMEACTIVITY.toString()))
+            {
+                finish();
+            }
+        }
     }
 }

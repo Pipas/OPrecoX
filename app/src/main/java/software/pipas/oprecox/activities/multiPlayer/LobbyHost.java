@@ -49,6 +49,7 @@ import software.pipas.oprecox.util.Util;
 public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, ParsingCallingActivity, OnUrlLoaded
 {
     private final int OPTIONS_REQUEST_CODE = 1;
+    private final int GAME_ACTIVITY_RESULT_CODE = 2;
 
     private BroadcastReceiver broadcastReceiver;
 
@@ -154,6 +155,31 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             newIntent.putExtra(getString(R.string.S004_ACTUALIZEROOMNAME), Util.substituteSpace(this.roomName));
             sendBroadcast(newIntent);
         }
+        else if(requestCode == GAME_ACTIVITY_RESULT_CODE && resultCode == RESULT_OK)
+        {
+
+            String end = intent.getExtras().getString(getString(R.string.S007_HOSTFORCEEXITGAME));
+
+            if(end != null)
+            {
+                String[] args = new String[3];
+
+                args[0] = this.getString(R.string.network_app_name);
+                args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+                args[2] = MessageType.EXITGAMEACTIVITY.toString();
+
+                Message msg = new Message(this.getApplicationContext(), args);
+
+                if (!msg.isValid()) {
+                    Log.d("LOBBY_HOST_DEBUG", "EXITGAMEACTIVITY INVALID");
+                    return;
+                }
+
+                Intent intent1 = new Intent(getString(R.string.S004));
+                intent1.putExtra(getString(R.string.S004_EXITGAMEACTIVITY), msg.getMessage());
+                sendBroadcast(intent1);
+            }
+        }
 
     }
 
@@ -180,6 +206,9 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             Toast.makeText(this.getApplicationContext(), getString(R.string.aloneinlobby), Toast.LENGTH_SHORT).show();
             return;
         }
+
+        //SETS STUFF
+        app.setAds(new Ad[Settings.getGameSize()]);
 
         //STARTS LOADING THE ADS
         olxParser = new OlxParser();
@@ -418,6 +447,6 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         intent.putExtra(getString(R.string.S008_GAMESIZE), Settings.getGameSize());
         intent.putExtra(getString(R.string.S008_GAMEURLS), this.urls);
         intent.putExtra(getString(R.string.S008_HOSTINACTIVITY), true);
-        startActivity(intent);
+        startActivityForResult(intent,GAME_ACTIVITY_RESULT_CODE);
     }
 }
