@@ -38,12 +38,10 @@ import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.network.RoomService;
-
 import software.pipas.oprecox.modules.parsing.AsyncGetAd;
 import software.pipas.oprecox.modules.parsing.AsyncGetUrl;
 import software.pipas.oprecox.modules.parsing.OlxParser;
 import software.pipas.oprecox.util.Settings;
-
 import software.pipas.oprecox.util.Util;
 
 public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, ParsingCallingActivity, OnUrlLoaded
@@ -77,7 +75,6 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         this.players = new ArrayList<>();
 
         app = (OPrecoX) getApplicationContext();
-
 
         initiateCustomFonts();
 
@@ -126,7 +123,10 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
 
         //load host name
         TextView displayName = (TextView) findViewById(R.id.roomHostName);
-        displayName.setText(this.player.getDisplayName());
+        if(Settings.getCustomName() == null)
+            displayName.setText(this.player.getDisplayName());
+        else
+            displayName.setText(Settings.getCustomName());
 
         //load player default room name
         String strTemp = this.player.getDisplayName() + "-Room";

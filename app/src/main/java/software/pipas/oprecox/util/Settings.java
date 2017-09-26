@@ -13,6 +13,7 @@ public abstract class Settings
     private static int adCountdown;
     private static int gamesPlayed;
     private static Boolean showRateUs;
+    private static String customName;
 
     private static Inet4Address lastIP;
 
@@ -89,5 +90,15 @@ public abstract class Settings
     public static void setShowRateUs(Boolean showRateUs)
     {
         Settings.showRateUs = showRateUs;
+    }
+
+    public static String getCustomName()
+    {
+        return customName;
+    }
+
+    public static void setCustomName(String customName)
+    {
+        Settings.customName = customName;
     }
 }

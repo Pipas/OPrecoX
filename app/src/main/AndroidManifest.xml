@@ -35,9 +35,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".activities.menus.SettingsIntent"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.multiPlayer.Hub"
             android:screenOrientation="portrait"
             android:theme="@style/MultiplayerTheme"/>

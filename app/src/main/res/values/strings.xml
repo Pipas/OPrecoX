@@ -51,6 +51,7 @@
     <string name="notavailable">Não Disponivel</string>
     <string name="adPopupTooltip">Para mudar de nome é necessário ver um anúncio</string>
     <string name="invitetitle">Convidar Amigos</string>
+    <string name="changeName">Mudar de nome</string>
     <string name="inviteTooltip">Para encontrar dispositivos é necessario estarem na mesma rede Wi-Fi.
     Caso não encontres amigos podes tentar convidar diretamente por IP abaixo.</string>
     <string name="inputip">Introduzir IP</string>

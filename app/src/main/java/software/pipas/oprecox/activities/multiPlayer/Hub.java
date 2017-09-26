@@ -13,11 +13,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +56,7 @@ import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.modules.network.AnnouncerSenderService;
 import software.pipas.oprecox.modules.network.ClientService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
+import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
 public class Hub extends MultiplayerClass implements OnPlayerImageLoader, RewardedVideoAdListener
@@ -72,6 +76,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
     private TextView multiplayerHubTooltip;
     private RewardedVideoAd mAd;
+    private ProgressDialog circleDialog;
     private String name;
 
     @Override
@@ -168,11 +173,19 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             finish();
         }
 
+        if(Settings.getCustomName() == null)
+        {
+            name = player.getDisplayName();
+            if(name == null)
+                name = player.getName();
+        }
+        else
+            name = Settings.getCustomName();
 
         //STARTOING ONLY IF CONNECTION SUCCEDED
         //------------------------------------------------------------------------
         TextView displayName = (TextView) findViewById(R.id.displayName);
-        displayName.setText(player.getDisplayName());
+        displayName.setText(name);
 
         TextView ipOutput = (TextView) findViewById(R.id.realName);
         if(this.myIP == null)
@@ -190,14 +203,10 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         }
 
 
-        name = player.getName();
-        if(name == null) name = player.getDisplayName();
-
         //starting the announcerSender service
         this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
 
         this.loadDialog.dismiss();
-
     }
 
 
@@ -427,7 +436,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             else
                 popup = new AlertDialog.Builder(this);
 
-            popup.setTitle(getString(R.string.adPopupTooltip));
+            popup.setMessage(getString(R.string.adPopupTooltip));
             popup.setCancelable(true);
 
             popup.setPositiveButton(
@@ -462,14 +471,62 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
     private void showChangeNameAd()
     {
-        if(mAd.isLoaded())
-            mAd.show();
+        startProgressCircle();
+    }
+
+    private void startProgressCircle()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            circleDialog = new ProgressDialog(this, R.style.DialogThemePurple);
+        else
+            circleDialog = new ProgressDialog(this);
+        circleDialog.setIndeterminate(true);
+        circleDialog.setMessage("A carregar...");
+        circleDialog.setCancelable(false);
+        circleDialog.show();
+    }
+
+    private void changeName()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Hub.this, R.style.DialogThemePurple);
+
+        LayoutInflater inflater = Hub.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.new_name, null);
+        builder.setView(dialogView);
+
+        final EditText input = (EditText) dialogView.findViewById(R.id.inputName);
+
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(final DialogInterface dialog, int which)
+            {
+                name = input.getText().toString();
+                Settings.setCustomName(name);
+                TextView displayName = (TextView) findViewById(R.id.displayName);
+                displayName.setText(name);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
     public void onRewardedVideoAdLoaded()
     {
-
+        circleDialog.dismiss();
+        if(mAd.isLoaded())
+            mAd.show();
     }
 
     @Override
@@ -493,7 +550,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onRewarded(RewardItem rewardItem)
     {
-        Toast.makeText(this, "CHANGE NAME LADS", Toast.LENGTH_SHORT).show();
+        changeName();
     }
 
     @Override
@@ -505,6 +562,6 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onRewardedVideoAdFailedToLoad(int i)
     {
-
+        circleDialog.dismiss();
     }
 }

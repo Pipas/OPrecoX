@@ -132,10 +132,4 @@ public class MainMenu extends AppCompatActivity
         Intent myIntent = new Intent(this, SavedAds.class);
         startActivity(myIntent);
     }
-
-    public void pressSettings(View v)
-    {
-        Intent myIntent = new Intent(this, SettingsIntent.class);
-        startActivity(myIntent);
-    }
 }
