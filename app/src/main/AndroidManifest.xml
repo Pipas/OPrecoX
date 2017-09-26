@@ -87,6 +87,10 @@
             android:name=".activities.singlePlayer.PriceGuessGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/GameActivity" />
+        <activity
+            android:name=".activities.multiPlayer.PriceGuessGameMultiplayerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/GameActivity" />
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"

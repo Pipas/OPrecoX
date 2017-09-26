@@ -52,6 +52,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private BroadcastReceiver broadcastReceiver;
     private ArrayList<AsyncGetAd> asyncTasks;
+    private ArrayList<String> urls;
 
     @Override
     public void onCreate(Bundle saveInstance)
@@ -64,7 +65,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
         initiateCustomFonts();
 
-        //retirar urls
+        urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
 
         this.startBroadcastReceiver();
 
@@ -82,13 +83,14 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     @Override
     protected void startDataParses()
     {
+        Log.d("HERE", urls.size() + " " + gameSize);
         olxParser = new OlxParser();
         asyncTasks = new ArrayList<>();
         AsyncGetAd parsingAyncTask;
         for(int i = 2; i < gameSize; i++)
         {
             //retirar o null, necessita de urls
-            parsingAyncTask = new AsyncGetAd(this, app, null, i, olxParser);
+            parsingAyncTask = new AsyncGetAd(this, app, urls.get(i), i, olxParser);
             parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             asyncTasks.add(parsingAyncTask);
         }
