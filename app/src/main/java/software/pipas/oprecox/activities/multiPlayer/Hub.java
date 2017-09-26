@@ -1,10 +1,13 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -401,5 +404,55 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     {
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(inviteListAdapter, multiplayerHubTooltip, null);
         this.runOnUiThread(listAdapterRefresh);
+    }
+
+    public void changeName(View v)
+    {
+        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
+        Boolean showAdPopup = sharedPref.getBoolean("showAdPopup", true);
+        if(showAdPopup)
+        {
+            AlertDialog.Builder popup;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                popup = new AlertDialog.Builder(this, R.style.DialogThemePurple);
+            else
+                popup = new AlertDialog.Builder(this);
+
+            popup.setTitle(getString(R.string.adPopupTooltip));
+            popup.setCancelable(true);
+
+            popup.setPositiveButton(
+                    "Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                            editor.putBoolean("showAdPopup", false);
+                            editor.apply();
+                            showChangeNameAd();
+                        }
+                    });
+
+            popup.setNegativeButton(
+                    R.string.cancel,
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = popup.create();
+            alert.show();
+        }
+        else
+        {
+            showChangeNameAd();
+        }
+    }
+
+    private void showChangeNameAd()
+    {
+        Toast.makeText(this, "THERE IS AN AD HERE LADS", Toast.LENGTH_SHORT).show();
     }
 }
