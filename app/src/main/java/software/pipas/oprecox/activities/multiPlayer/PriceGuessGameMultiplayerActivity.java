@@ -121,7 +121,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
                     R.string.leave,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            leaveGame();
+                            leaveGame(true);
                         }
                     });
 
@@ -312,12 +312,25 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         Log.d("INPUT", String.format("%s | %s", dialpadString, beforePriceGuess.getText()));
     }
 
-    private void leaveGame()
+    private void leaveGame(boolean forceExit)
     {
         for(AsyncGetAd asyncGetAd : this.asyncTasks)
         {
             asyncGetAd.cancel(true);
-            finish();
+        }
+
+        if (forceExit) setActivityResult();
+
+        finish();
+    }
+
+    private void setActivityResult()
+    {
+        if(!isHost)
+        {
+            Intent intent = new Intent();
+            intent.putExtra(getString(R.string.S006_CLIENTFORCEEXITGAME), "");
+            setResult(RESULT_OK, intent);
         }
     }
 

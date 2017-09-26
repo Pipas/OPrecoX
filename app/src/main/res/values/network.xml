@@ -67,6 +67,7 @@
     <string name="S006_ROOMNAME">S006_ROOMNAME</string>
     <string name="S006_HOSTERNAME">S006_HOSTERNAME</string>
     <string name="S006_ROOMIMAGE">S006_ROOMIMAGE</string>
+    <string name="S006_CLIENTFORCEEXITGAME">S006_CLIENTFORCEEXITGAME</string>
 
     <!-- PARAMETHERS S007 LobbyHost -->
     <string name="S007_MESSAGE">S007_MESSAGE</string>
@@ -80,6 +81,10 @@
     <string name="S008_GAMESIZE">S008_GAMESIZE</string>
     <string name="S008_GAMEURLS">S008_GAMEURLS</string>
     <string name="S008_HOSTINACTIVITY">S008_HOSTINACTIVITY</string>
+    <string name="S008_NEXTROUND">S008_NEXTROUND</string>
+    <string name="S008_NEXTENDROUND">S008_NEXTENDROUND</string>
+    <string name="S008_STARTCOUNTDOWN">S008_STARTCOUNTDOWN</string>
+    <string name="S008_GAMEVOER">S008_GAMEVOER</string>
 
 
 
