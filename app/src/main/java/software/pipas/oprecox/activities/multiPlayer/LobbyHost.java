@@ -417,6 +417,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         Intent intent = new Intent(this, PriceGuessGameMultiplayerActivity.class);
         intent.putExtra(getString(R.string.S008_GAMESIZE), Settings.getGameSize());
         intent.putExtra(getString(R.string.S008_GAMEURLS), this.urls);
+        intent.putExtra(getString(R.string.S008_HOSTINACTIVITY), true);
         startActivity(intent);
     }
 }

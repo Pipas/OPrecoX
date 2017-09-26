@@ -61,11 +61,13 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
         gameSize = getIntent().getIntExtra(getString(R.string.S008_GAMESIZE), 10);
 
+        urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
+
+        boolean host = getIntent().getBooleanExtra(getString(R.string.S008_HOSTINACTIVITY), false);
+
         inflateGuesserViews();
 
         initiateCustomFonts();
-
-        urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
 
         this.startBroadcastReceiver();
 
