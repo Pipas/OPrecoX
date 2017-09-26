@@ -281,9 +281,12 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 if(msg.getMessageType().equals(MessageType.ID.toString()))
                 {
                     String id = msg.getPlayerId();
+                    String displayName = msg.getDisplayName();
+
                     Player dummyPlayer = new Player(id);
                     dummyPlayer.updatePlayerAnnouncedTime(System.currentTimeMillis());
                     dummyPlayer.updatePlayerInvitePort(-1);
+                    dummyPlayer.updatePlayerDisplayName(displayName);
 
                     for(Player player1 : this.playersDB)
                     {

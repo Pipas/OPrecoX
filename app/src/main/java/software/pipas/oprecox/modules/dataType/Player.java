@@ -63,6 +63,7 @@ public class Player extends DataType implements Parcelable
 
     public void updatePlayerAddress(InetAddress address) {this.address = address;}
 
+    public void updatePlayerDisplayName(String name) {this.displayName = Util.substituteSpace(name);}
 
     @Override
     public void updateImage(Uri image) {this.playerImage = image;}

@@ -65,6 +65,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     private TextView multiplayerHubTooltip;
 
     private String name;
+    private String playerDisplayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -180,6 +181,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
         name = player.getName();
         if(name == null) name = player.getDisplayName();
+
+        playerDisplayName = player.getDisplayName();
 
         //starting the announcerSender service
         this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
@@ -356,12 +359,13 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
             }
             else if (msg.isValid() && player != null && msg.getMessageType().equals(MessageType.REQUESTID.toString()))
             {
-                String[] args = new String[4];
+                String[] args = new String[5];
 
                 args[0] = this.getString(R.string.network_app_name);
                 args[1] = Integer.toString(BuildConfig.VERSION_CODE);
                 args[2] = MessageType.ID.toString();
                 args[3] = this.player.getPlayerId();
+                args[4] = this.playerDisplayName;
 
                 Message newMsg = new Message(this.getApplicationContext(), args);
 

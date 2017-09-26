@@ -120,9 +120,10 @@ public class Message
         {
             return true;
         }
-        else if(messageType.equals(MessageType.ID) && args.length == 4)
+        else if(messageType.equals(MessageType.ID) && args.length == 5)
         {
             this.playerId = args[3];
+            this.displayName = Util.substituteSpace(args[4]);
             return true;
         }
         else if(messageType.equals(MessageType.ADDPLAYERLIST) && args.length == 6)
@@ -231,7 +232,7 @@ public class Message
         }
         else if(messageType.equals(MessageType.ID))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + this.displayName);
         }
         else if(messageType.equals(MessageType.ADDPLAYERLIST))
         {
