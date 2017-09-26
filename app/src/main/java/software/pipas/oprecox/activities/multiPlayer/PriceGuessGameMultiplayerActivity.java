@@ -49,6 +49,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private DatabaseHandler database;
     private Boolean adSaved = false;
+    private Boolean isHost;
 
     private BroadcastReceiver broadcastReceiver;
     private ArrayList<AsyncGetAd> asyncTasks;
@@ -59,20 +60,23 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     {
         super.onCreate(saveInstance);
 
+        database = new DatabaseHandler(this, PriceGuessGameMultiplayerActivity.this);
+
         gameSize = getIntent().getIntExtra(getString(R.string.S008_GAMESIZE), 10);
 
         urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
 
-        boolean host = getIntent().getBooleanExtra(getString(R.string.S008_HOSTINACTIVITY), false);
+        isHost = getIntent().getBooleanExtra(getString(R.string.S008_HOSTINACTIVITY), false);
 
         inflateGuesserViews();
 
         initiateCustomFonts();
 
+        initiateButtonListeners();
+
         this.startBroadcastReceiver();
 
         startDataParses();
-
     }
 
     @Override
@@ -91,7 +95,6 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         AsyncGetAd parsingAyncTask;
         for(int i = 2; i < gameSize; i++)
         {
-            //retirar o null, necessita de urls
             parsingAyncTask = new AsyncGetAd(this, app, urls.get(i), i, olxParser);
             parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             asyncTasks.add(parsingAyncTask);
@@ -144,6 +147,10 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         afterGuess = getLayoutInflater().inflate(R.layout.after_guess_layout, null);
         guesserFrameLayout.addView(afterGuess);
         afterGuess.setVisibility(View.GONE);
+
+        LinearLayout continueButton = (LinearLayout) afterGuess.findViewById(R.id.continueButton);
+        if(!isHost)
+            continueButton.setVisibility(View.GONE);
     }
 
     private void initiateCustomFonts()
