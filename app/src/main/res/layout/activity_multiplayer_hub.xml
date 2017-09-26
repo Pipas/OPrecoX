@@ -74,6 +74,7 @@
                 android:src="@drawable/edit"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:onClick="changeName"
                 android:tint="@color/softWhite"/>
 
         </LinearLayout>

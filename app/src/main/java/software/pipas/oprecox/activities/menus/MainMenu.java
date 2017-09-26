@@ -48,7 +48,6 @@ public class MainMenu extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-
         AlertDialog.Builder popup;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             popup = new AlertDialog.Builder(this, R.style.DialogTheme);

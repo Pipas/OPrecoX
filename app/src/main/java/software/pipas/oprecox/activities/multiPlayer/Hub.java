@@ -1,10 +1,13 @@
 package software.pipas.oprecox.activities.multiPlayer;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +22,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
@@ -47,7 +55,7 @@ import software.pipas.oprecox.modules.network.ClientService;
 import software.pipas.oprecox.modules.network.UDPCommsService;
 import software.pipas.oprecox.util.Util;
 
-public class Hub extends MultiplayerClass implements OnPlayerImageLoader
+public class Hub extends MultiplayerClass implements OnPlayerImageLoader, RewardedVideoAdListener
 {
     private ArrayList<Invite> invites;
     private InviteListAdapter inviteListAdapter;
@@ -63,7 +71,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     private InetAddress myIP;
 
     private TextView multiplayerHubTooltip;
-
+    private RewardedVideoAd mAd;
     private String name;
     private String playerDisplayName;
 
@@ -77,6 +85,10 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
 
         DynamicListView listView = (DynamicListView) findViewById(R.id.list);
         invites = new ArrayList<>();
+
+        mAd = MobileAds.getRewardedVideoAdInstance(this);
+        mAd.setRewardedVideoAdListener(this);
+        mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
 
         final InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext(), getContentResolver());
         SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(inviteListAdapter);
@@ -405,5 +417,98 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader
     {
         ListAdapterRefresh listAdapterRefresh = new ListAdapterRefresh(inviteListAdapter, multiplayerHubTooltip, null);
         this.runOnUiThread(listAdapterRefresh);
+    }
+
+    public void changeName(View v)
+    {
+        SharedPreferences sharedPref = getSharedPreferences("gameSettings", MODE_PRIVATE);
+        Boolean showAdPopup = sharedPref.getBoolean("showAdPopup", true);
+        if(showAdPopup)
+        {
+            AlertDialog.Builder popup;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                popup = new AlertDialog.Builder(this, R.style.DialogThemePurple);
+            else
+                popup = new AlertDialog.Builder(this);
+
+            popup.setTitle(getString(R.string.adPopupTooltip));
+            popup.setCancelable(true);
+
+            popup.setPositiveButton(
+                    "Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                            editor.putBoolean("showAdPopup", false);
+                            editor.apply();
+                            showChangeNameAd();
+                        }
+                    });
+
+            popup.setNegativeButton(
+                    R.string.cancel,
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = popup.create();
+            alert.show();
+        }
+        else
+        {
+            showChangeNameAd();
+        }
+    }
+
+    private void showChangeNameAd()
+    {
+        if(mAd.isLoaded())
+            mAd.show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed()
+    {
+
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem)
+    {
+        Toast.makeText(this, "CHANGE NAME LADS", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication()
+    {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i)
+    {
+
     }
 }

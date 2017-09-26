@@ -49,6 +49,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private DatabaseHandler database;
     private Boolean adSaved = false;
+    private Boolean isHost;
 
     private BroadcastReceiver broadcastReceiver;
     private ArrayList<AsyncGetAd> asyncTasks;
@@ -59,18 +60,23 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     {
         super.onCreate(saveInstance);
 
+        database = new DatabaseHandler(this, PriceGuessGameMultiplayerActivity.this);
+
         gameSize = getIntent().getIntExtra(getString(R.string.S008_GAMESIZE), 10);
+
+        urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
+
+        isHost = getIntent().getBooleanExtra(getString(R.string.S008_HOSTINACTIVITY), false);
 
         inflateGuesserViews();
 
         initiateCustomFonts();
 
-        urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
+        initiateButtonListeners();
 
         this.startBroadcastReceiver();
 
         startDataParses();
-
     }
 
     @Override
@@ -89,7 +95,6 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         AsyncGetAd parsingAyncTask;
         for(int i = 2; i < gameSize; i++)
         {
-            //retirar o null, necessita de urls
             parsingAyncTask = new AsyncGetAd(this, app, urls.get(i), i, olxParser);
             parsingAyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             asyncTasks.add(parsingAyncTask);
@@ -116,7 +121,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
                     R.string.leave,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            leaveGame();
+                            leaveGame(true);
                         }
                     });
 
@@ -142,6 +147,10 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         afterGuess = getLayoutInflater().inflate(R.layout.after_guess_layout, null);
         guesserFrameLayout.addView(afterGuess);
         afterGuess.setVisibility(View.GONE);
+
+        LinearLayout continueButton = (LinearLayout) afterGuess.findViewById(R.id.continueButton);
+        if(!isHost)
+            continueButton.setVisibility(View.GONE);
     }
 
     private void initiateCustomFonts()
@@ -303,12 +312,25 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         Log.d("INPUT", String.format("%s | %s", dialpadString, beforePriceGuess.getText()));
     }
 
-    private void leaveGame()
+    private void leaveGame(boolean forceExit)
     {
         for(AsyncGetAd asyncGetAd : this.asyncTasks)
         {
             asyncGetAd.cancel(true);
-            finish();
+        }
+
+        if (forceExit) setActivityResult();
+
+        finish();
+    }
+
+    private void setActivityResult()
+    {
+        if(!isHost)
+        {
+            Intent intent = new Intent();
+            intent.putExtra(getString(R.string.S006_CLIENTFORCEEXITGAME), "");
+            setResult(RESULT_OK, intent);
         }
     }
 
