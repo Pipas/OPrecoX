@@ -2,7 +2,9 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,12 @@ public class AdOverviewAdapter extends ArrayAdapter<Ad>
             TextView title = (TextView) v.findViewById(R.id.title);
             TextView scoreGained = (TextView) v.findViewById(R.id.scoreGained);
             ImageView image = (ImageView) v.findViewById(R.id.image);
+            CardView cardViewClickable = (CardView) v.findViewById(R.id.cardViewClickable);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            {
+                cardViewClickable.setRadius(0);
+            }
 
             if (title != null)
             {

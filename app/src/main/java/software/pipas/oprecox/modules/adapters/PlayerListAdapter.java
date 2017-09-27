@@ -2,6 +2,8 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,13 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
         {
             TextView playerName = (TextView) v.findViewById(R.id.playerPlayerName);
             ImageView playerImage = (ImageView) v.findViewById(R.id.playerPlayerImage);
+
+            CardView cardViewClickable = (CardView) v.findViewById(R.id.cardViewClickable);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            {
+                cardViewClickable.setRadius(0);
+            }
 
             if (playerName != null)
             {
