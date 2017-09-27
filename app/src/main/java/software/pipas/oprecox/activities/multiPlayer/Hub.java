@@ -61,8 +61,6 @@ import software.pipas.oprecox.modules.network.UDPCommsService;
 import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
-import static org.jsoup.Connection.Method.HEAD;
-
 public class Hub extends MultiplayerClass implements OnPlayerImageLoader, RewardedVideoAdListener
 {
     private ArrayList<Invite> invites;
@@ -153,8 +151,6 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         this.myIP = Util.listMyIP();
 
         this.initializeAndStartProgressDialog();
-
-
     }
 
     private void initiateCustomFonts()

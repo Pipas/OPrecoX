@@ -2,6 +2,8 @@ package software.pipas.oprecox.modules.adapters;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,12 @@ public class InviteListAdapter extends ArrayAdapter<Invite>
             TextView inviteHostName = (TextView) v.findViewById(R.id.inviteHostName);
             TextView inviteRoomName = (TextView) v.findViewById(R.id.inviteRoomName);
             ImageView inviteImage = (ImageView) v.findViewById(R.id.inviteImage);
+            CardView cardViewClickable = (CardView) v.findViewById(R.id.cardViewClickable);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            {
+                cardViewClickable.setRadius(0);
+            }
 
             if (inviteHostName != null)
             {

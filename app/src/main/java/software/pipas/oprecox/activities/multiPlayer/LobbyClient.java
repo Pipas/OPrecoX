@@ -29,6 +29,7 @@ import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
 import software.pipas.oprecox.modules.customThreads.ListAdapterRefresh;
 import software.pipas.oprecox.modules.customThreads.PlayerImageLoader;
+import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Ad;
 import software.pipas.oprecox.modules.interfaces.OnPlayerImageLoader;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
@@ -65,6 +66,8 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
         this.app = (OPrecoX) this.getApplicationContext();
 
+        initiateCustomFonts();
+
         String roomName = getIntent().getExtras().getString(getString(R.string.S006_ROOMNAME));
         String hosterName = getIntent().getExtras().getString(getString(R.string.S006_HOSTERNAME));
         Uri playerIamge = getIntent().getExtras().getParcelable(getString(R.string.S006_ROOMIMAGE));
@@ -96,6 +99,15 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         this.startBroadcastReceiver();
 
 
+    }
+
+    private void initiateCustomFonts()
+    {
+        TextView roomName = (TextView)findViewById(R.id.roomNameClient);
+        TextView roomHostName = (TextView)findViewById(R.id.roomHostNameClient);
+
+        CustomFontHelper.setCustomFont(roomName, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(roomHostName, "font/antipastopro-demibold.otf", getBaseContext());
     }
 
     @Override

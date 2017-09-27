@@ -36,6 +36,7 @@
     <string name="score">Pontuação</string>
     <string name="savedAd">Anúncio Guardado</string>
     <string name="loadingAds">A carregar anúncios...</string>
+    <string name="waiting">À espera de jogadores</string>
 
     <!--           Game Over Strings         -->
 
@@ -86,12 +87,12 @@
     <string name="mainDeveloperName">Paulo Correia</string>
     <string name="multiplayerDeveloper">Developer</string>
     <string name="multiplayerDeveloperName">Nuno Neto</string>
-    <string name="design">Design</string>
+    <string name="design">Designer</string>
     <string name="designName">Inês Costa</string>
     <string name="thanks">Agradecimentos</string>
     <string name="thanksNames">António Carreiro\nFrancisca Pessanha\nGonçalo Sores\nMarta Fróis</string>
     <string name="otherInfoTitle">Informações</string>
-    <string name="otherInfo">Contactos no e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nou a empresa OLX</string>
+    <string name="otherInfo">Contactos no e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nnem com a empresa Fixeads</string>
 
 
 

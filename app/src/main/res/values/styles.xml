@@ -51,4 +51,8 @@
         <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
+    <style name="WhiteAccent">
+        <item name="colorAccent">@color/softWhite</item>
+    </style>
+
 </resources>
