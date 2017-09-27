@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,224 +41,229 @@
         android:layout_below="@id/outputBar"/>
 
     <LinearLayout
-        android:id="@+id/confirmButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="12dp"
-        android:layout_alignParentBottom="true"
-        android:background="?selectableItemBackground"
-        android:clickable="true">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/softWhite"
-            android:layout_marginLeft="48dp"
-            android:layout_marginRight="48dp"/>
-
-        <TextView
-            android:id="@+id/confirmButtonTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/confirm"
-            android:textAllCaps="true"
-            android:textColor="@color/softWhite"
-            android:textSize="32sp"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="1"
-            android:shadowColor="@color/purpleShadow"
-            android:layout_marginBottom="-3dp"
-            android:layout_marginTop="-3dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/softWhite"
-            android:layout_marginLeft="48dp"
-            android:layout_marginRight="48dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dialpadLayout"
-        android:layout_below="@id/outputBar"
-        android:layout_above="@id/confirmButton"
-        android:visibility="visible"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/dialpadLayout"
+            android:visibility="visible"
+            android:orientation="vertical"
             android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/dialpad1"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
 
-                android:text="1"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/dialpad1"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
 
-            <TextView
-                android:id="@+id/dialpad2"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
 
-                android:text="2"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/dialpad2"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
 
-            <TextView
-                android:id="@+id/dialpad3"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
 
-                android:text="3"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/dialpad3"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="3"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/dialpad4"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="4"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/dialpad5"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="5"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/dialpad6"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="6"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/dialpad7"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="7"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/dialpad8"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="8"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/dialpad9"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="9"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/dialpad0"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="0"
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/dialpadDot"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center"
+
+                    android:text="."
+                    android:textColor="@color/softWhite"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/confirmButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/softWhite"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"/>
 
             <TextView
-                android:id="@+id/dialpad4"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="4"
+                android:id="@+id/confirmButtonTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/confirm"
+                android:textAllCaps="true"
                 android:textColor="@color/softWhite"
-                android:textSize="40sp" />
+                android:textSize="32sp"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="1"
+                android:shadowColor="@color/purpleShadow"
+                android:layout_marginBottom="-3dp"
+                android:layout_marginTop="-3dp"/>
 
-            <TextView
-                android:id="@+id/dialpad5"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="5"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
-
-            <TextView
-                android:id="@+id/dialpad6"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="6"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/dialpad7"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="7"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
-
-            <TextView
-                android:id="@+id/dialpad8"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="8"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
-
-            <TextView
-                android:id="@+id/dialpad9"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="9"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="85dp"
-                android:layout_height="match_parent"/>
-
-            <TextView
-                android:id="@+id/dialpad0"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="0"
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
-
-            <TextView
-                android:id="@+id/dialpadDot"
-                android:layout_width="85dp"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-
-                android:text="."
-                android:textColor="@color/softWhite"
-                android:textSize="40sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/softWhite"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

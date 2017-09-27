@@ -36,6 +36,7 @@
     <string name="score">Pontuação</string>
     <string name="savedAd">Anúncio Guardado</string>
     <string name="loadingAds">A carregar anúncios...</string>
+    <string name="waiting">À espera de jogadores</string>
 
     <!--           Game Over Strings         -->
 

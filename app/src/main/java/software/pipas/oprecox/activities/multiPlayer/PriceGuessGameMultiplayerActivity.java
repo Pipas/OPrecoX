@@ -37,10 +37,12 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 {
     private View afterGuess;
     private View priceGuesser;
+    private View waitingView;
 
     private ArrayList<TextView> dialpadButtons = new ArrayList<>();
     private TextView beforePriceGuess;
     private TextView afterPriceGuess;
+    private TextView waitingPriceGuess;
     private TextView scorePlusTextView;
     private TextView correctPriceOutput;
     private TextView scoreOutput;
@@ -151,6 +153,10 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         guesserFrameLayout.addView(afterGuess);
         afterGuess.setVisibility(View.GONE);
 
+        waitingView = getLayoutInflater().inflate(R.layout.game_wait_layout, null);
+        guesserFrameLayout.addView(waitingView);
+        waitingView.setVisibility(View.GONE);
+
         LinearLayout continueButton = (LinearLayout) afterGuess.findViewById(R.id.continueButton);
         if(!isHost)
             continueButton.setVisibility(View.GONE);
@@ -189,6 +195,8 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         scorePlusTextView = (TextView) afterGuess.findViewById(R.id.scorePlus);
         TextView continueButtonTextView = (TextView) findViewById(R.id.continueButtonTextView);
 
+        waitingPriceGuess = (TextView) waitingView.findViewById(R.id.priceGuess);
+
         CustomFontHelper.setCustomFont(afterPriceGuess, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(correctPriceOutputTextView, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(correctPriceOutput, "font/Antonio-Regular.ttf", getBaseContext());
@@ -196,6 +204,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         CustomFontHelper.setCustomFont(scoreOutput, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(scorePlusTextView, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(continueButtonTextView, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(waitingPriceGuess, "font/Antonio-Regular.ttf", getBaseContext());
     }
 
     private void initiateButtonListeners()
@@ -407,8 +416,17 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             return;
 
         priceGuesser.setVisibility(View.GONE);
-        afterGuess.setVisibility(View.VISIBLE);
+        if(guessPrice == (int) guessPrice)
+            waitingPriceGuess.setText(String.format("%,d€", (int) guessPrice));
+        else
+            waitingPriceGuess.setText(String.format("%,.2f€", guessPrice));
+        waitingView.setVisibility(View.VISIBLE);
+    }
 
+    private void showAfterScoreView()
+    {
+        waitingView.setVisibility(View.GONE);
+        afterGuess.setVisibility(View.VISIBLE);
         populateAfterGuessViews();
     }
 
