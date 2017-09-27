@@ -12,7 +12,8 @@ public enum MessageType
     GAMEURLS("GAMEURLS"),
     READY("READY"),
     STARTGAME("STARTGAME"),
-    EXITGAMEACTIVITY("EXITGAMEACTIVITY");
+    EXITGAMEACTIVITY("EXITGAMEACTIVITY"),
+    ROUNDSCORE("ROUNDSCORE");
 
     private final String message;
 

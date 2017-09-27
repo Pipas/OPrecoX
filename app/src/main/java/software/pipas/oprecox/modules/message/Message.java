@@ -23,6 +23,8 @@ public class Message
     private String roomPort;
     private int numberOfUrls;
     private ArrayList<String> urlsArrayList;
+    private int totalScore;
+    private int roundAnswer;
 
     private boolean valid;
 
@@ -68,6 +70,8 @@ public class Message
         this.roomPort = null;
         this.numberOfUrls = -1;
         this.urlsArrayList = null;
+        this.totalScore = -1;
+        this.roundAnswer = -1;
     }
     //--------------------------------------------------
 
@@ -175,6 +179,12 @@ public class Message
         {
             return true;
         }
+        else if(messageType.equals(MessageType.ROUNDSCORE) && args.length == 5)
+        {
+            this.playerId = args[3];
+            this.roundAnswer = Integer.parseInt(args[4]);
+            return true;
+        }
         else
         {
             return false;
@@ -266,6 +276,10 @@ public class Message
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
         }
+        else if(messageType.equals(MessageType.ROUNDSCORE))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + Integer.toString(this.roundAnswer));
+        }
         else
         {
             return null;
@@ -309,6 +323,10 @@ public class Message
 
     public String getRoomPort() {return this.roomPort;}
 
+    public String getRoundAnswer() {return Integer.toString(this.roundAnswer);}
+
+    public String getTotalScore() {return Integer.toString(this.totalScore);}
+
     public ArrayList<String> getUrlsArrayList() {return this.urlsArrayList;}
 
     public String printURLArrayList()
@@ -342,7 +360,9 @@ public class Message
                 "RoomName: " + this.roomName + "\n" +
                 "RoomPort: " + this.roomPort + "\n" +
                 "NumberOfUrls: " + Integer.toString(numberOfUrls) + "\n" +
-                "ArrayListURL:" + printURLArrayList() + "\n");
+                "ArrayListURL:" + printURLArrayList() + "\n" +
+                "RoundAnswer: " + getRoundAnswer() + "\n"  +
+                "TotalScore: " + getTotalScore() + "\n");
 
         return str;
     }

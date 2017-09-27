@@ -57,6 +57,7 @@
     <string name="S004_GAMEURLS">S004_GAMEURLS</string>
     <string name="S004_HOSTREADY">S004_HOSTREADY</string>
     <string name="S004_EXITGAMEACTIVITY">S004_EXITGAMEACTIVITY</string>
+    <string name="S004_ROUNDANSWER">S004_ROUNDANSWER</string>
 
     <!-- PARAMETHERS S005 ClientService -->
     <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>
@@ -90,6 +91,7 @@
     <string name="S008_GAMEVOER">S008_GAMEVOER</string>
     <string name="S008_EXITGAMEACTIVITY">S008_EXITGAMEACTIVITY</string>
     <string name="S008_RESPONSE">S008_RESPONSE</string>
+    <string name="S008_PLAYERID">S008_PLAYERID</string>
 
 
 

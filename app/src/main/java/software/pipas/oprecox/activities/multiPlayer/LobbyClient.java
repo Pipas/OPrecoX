@@ -324,8 +324,11 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         intent.putExtra(getString(R.string.S008_GAMESIZE), this.urls.size());
         intent.putExtra(getString(R.string.S008_GAMEURLS), this.urls);
         intent.putExtra(getString(R.string.S008_HOSTINACTIVITY), false);
+        intent.putExtra(getString(R.string.S008_PLAYERID), this.player.getPlayerId());
         startActivityForResult(intent, GAME_ACTIVITY_RESULT_CODE);
     }
+
+
 }
 
 

@@ -114,6 +114,16 @@ public class ClientService extends IntentService
         intent1.putExtra(getResources().getString(R.string.S001_MESSAGE), str);
         sendBroadcast(intent1);
 
+        Intent intent = new Intent(getResources().getString(R.string.S006));
+        intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
+        sendBroadcast(intent);
+
+        Intent intent2 = new Intent(getResources().getString(R.string.S008));
+        intent2.putExtra(getResources().getString(R.string.S008_MESSAGE), str);
+        sendBroadcast(intent2);
+
+
+        //previous S006 comm, dont erase, might need it
         //failsafe in case LobbyClient hasnt started
         /*
         (new Thread()
@@ -127,16 +137,6 @@ public class ClientService extends IntentService
             }
         }).start();
         */
-
-        Intent intent = new Intent(getResources().getString(R.string.S006));
-        intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
-        sendBroadcast(intent);
-
-        Intent intent2 = new Intent(getResources().getString(R.string.S008));
-        intent2.putExtra(getResources().getString(R.string.S008_MESSAGE), str);
-        sendBroadcast(intent2);
-
-        Log.d("CLIENT_SERVICE", str);
     }
 
     public void terminate()
@@ -252,12 +252,7 @@ public class ClientService extends IntentService
                 String str = intent.getExtras().getString(getString(R.string.S005_MESSAGE));
                 Message msg = new Message(getApplicationContext(), str);
 
-                if(msg.isValid() && msg.getMessageType().equals(MessageType.ID.toString()))
-                {
-                    out.write(msg.getMessage() + "\n");
-                    out.flush();
-                }
-                else if(msg.isValid() && msg.getMessageType().equals(MessageType.READY.toString()))
+                if(msg.isValid())
                 {
                     out.write(msg.getMessage() + "\n");
                     out.flush();
