@@ -102,6 +102,10 @@ public class ClientService extends IntentService
         Intent intent1 = new Intent(getResources().getString(R.string.S006));
         intent1.putExtra(getResources().getString(R.string.S006_RESPONSE), responseType.toString());
         sendBroadcast(intent1);
+
+        Intent intent2 = new Intent(getResources().getString(R.string.S008));
+        intent2.putExtra(getResources().getString(R.string.S008_RESPONSE), responseType.toString());
+        sendBroadcast(intent2);
     }
 
     public void sendMessage(final String str)
@@ -110,9 +114,8 @@ public class ClientService extends IntentService
         intent1.putExtra(getResources().getString(R.string.S001_MESSAGE), str);
         sendBroadcast(intent1);
 
-        Log.d("ROOM_NAME",str);
-
         //failsafe in case LobbyClient hasnt started
+        /*
         (new Thread()
         {
             public void run()
@@ -123,7 +126,17 @@ public class ClientService extends IntentService
                 sendBroadcast(intent);
             }
         }).start();
+        */
 
+        Intent intent = new Intent(getResources().getString(R.string.S006));
+        intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
+        sendBroadcast(intent);
+
+        Intent intent2 = new Intent(getResources().getString(R.string.S008));
+        intent2.putExtra(getResources().getString(R.string.S008_MESSAGE), str);
+        sendBroadcast(intent2);
+
+        Log.d("CLIENT_SERVICE", str);
     }
 
     public void terminate()

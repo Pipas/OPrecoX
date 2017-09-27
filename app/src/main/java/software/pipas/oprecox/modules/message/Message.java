@@ -120,9 +120,10 @@ public class Message
         {
             return true;
         }
-        else if(messageType.equals(MessageType.ID) && args.length == 4)
+        else if(messageType.equals(MessageType.ID) && args.length == 5)
         {
             this.playerId = args[3];
+            this.displayName = Util.substituteSpace(args[4]);
             return true;
         }
         else if(messageType.equals(MessageType.ADDPLAYERLIST) && args.length == 6)
@@ -167,6 +168,10 @@ public class Message
             return true;
         }
         else if(messageType.equals(MessageType.STARTGAME) && args.length == 3)
+        {
+            return true;
+        }
+        else if(messageType.equals(MessageType.EXITGAMEACTIVITY) && args.length == 3)
         {
             return true;
         }
@@ -231,7 +236,7 @@ public class Message
         }
         else if(messageType.equals(MessageType.ID))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + this.displayName);
         }
         else if(messageType.equals(MessageType.ADDPLAYERLIST))
         {
@@ -254,6 +259,10 @@ public class Message
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId);
         }
         else if(messageType.equals(MessageType.STARTGAME))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
+        }
+        else if(messageType.equals(MessageType.EXITGAMEACTIVITY))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
         }

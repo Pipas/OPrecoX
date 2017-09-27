@@ -260,6 +260,19 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             }
             return;
         }
+
+        String exitGameActivity = intent.getExtras().getString(getString(R.string.S004_EXITGAMEACTIVITY));
+        if(exitGameActivity != null)
+        {
+            Message msg = new Message(this.getApplicationContext(), exitGameActivity);
+            if(!msg.isValid()) return;
+            for(Socket socket : this.reservedPlayers.values())
+            {
+                this.singleSend(socket, msg);
+            }
+            resetStartGame();
+
+        }
     }
 
     @Override
@@ -281,9 +294,12 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 if(msg.getMessageType().equals(MessageType.ID.toString()))
                 {
                     String id = msg.getPlayerId();
+                    String displayName = msg.getDisplayName();
+
                     Player dummyPlayer = new Player(id);
                     dummyPlayer.updatePlayerAnnouncedTime(System.currentTimeMillis());
                     dummyPlayer.updatePlayerInvitePort(-1);
+                    dummyPlayer.updatePlayerDisplayName(displayName);
 
                     for(Player player1 : this.playersDB)
                     {

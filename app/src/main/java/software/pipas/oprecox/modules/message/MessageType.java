@@ -11,7 +11,8 @@ public enum MessageType
     ACTUALIZEROOMNAME("ACTUALIZEROOMNAME"),
     GAMEURLS("GAMEURLS"),
     READY("READY"),
-    STARTGAME("STARTGAME");
+    STARTGAME("STARTGAME"),
+    EXITGAMEACTIVITY("EXITGAMEACTIVITY");
 
     private final String message;
 

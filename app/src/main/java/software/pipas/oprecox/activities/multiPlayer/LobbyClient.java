@@ -42,6 +42,7 @@ import software.pipas.oprecox.util.Settings;
 public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader, ParsingCallingActivity
 {
     private static boolean loaded = false;
+    private final int GAME_ACTIVITY_RESULT_CODE = 1;
 
     private BroadcastReceiver broadcastReceiver;
     private Player player;
@@ -111,7 +112,30 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         super.onDestroy();
         this.sendClosedtoHub();
         if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
+
+    }
+
+    private void shutdown()
+    {
         loaded = false;
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        Log.d("RESULT_INTENT", requestCode + " " + resultCode);
+        if(requestCode == GAME_ACTIVITY_RESULT_CODE && resultCode == RESULT_OK)
+        {
+            Log.d("RESULT_INTENT", "reached");
+
+            String toFinishLobby = intent.getExtras().getString(getString(R.string.S006_CLIENTFORCEEXITGAME));
+
+            if(toFinishLobby != null)
+            {
+                shutdown();
+            }
+        }
     }
 
     private void startBroadcastReceiver()
@@ -146,7 +170,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         String str = intent.getExtras().getString(getResources().getString(R.string.S006_RESPONSE));
         if (str != null && str.equals(ResponseType.CLOSED.toString()))
         {
-            finish();
+            shutdown();
             return;
         }
 
@@ -224,6 +248,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
     private void gotURLStartLoading()
     {
+        Settings.setGameSize(this.urls.size(), this);
         app.setAds(new Ad[Settings.getGameSize()]);
         AsyncGetAd parsingAsyncTask;
         startProgressCircle();
@@ -253,7 +278,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
             blocked = true;
             Intent myIntent = new Intent(this, BlockedApp.class);
             startActivity(myIntent);
-            finish();
+            shutdown();
         }
     }
 
@@ -296,10 +321,10 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
     private void startGameActivity()
     {
         Intent intent = new Intent(this, PriceGuessGameMultiplayerActivity.class);
-        intent.putExtra(getString(R.string.S008_GAMESIZE), Settings.getGameSize());
+        intent.putExtra(getString(R.string.S008_GAMESIZE), this.urls.size());
         intent.putExtra(getString(R.string.S008_GAMEURLS), this.urls);
         intent.putExtra(getString(R.string.S008_HOSTINACTIVITY), false);
-        startActivity(intent);
+        startActivityForResult(intent, GAME_ACTIVITY_RESULT_CODE);
     }
 }
 

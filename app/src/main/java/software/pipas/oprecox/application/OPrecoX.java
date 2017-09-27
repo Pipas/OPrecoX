@@ -7,6 +7,8 @@ import software.pipas.oprecox.modules.dataType.Ad;
 
 public class OPrecoX extends Application
 {
+    public static boolean announcing = false;
+
     private Ad Ads[];
 
     @Override
