@@ -256,15 +256,16 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             }
         });
 
-        LinearLayout continueButton = (LinearLayout) afterGuess.findViewById(R.id.continueButton);
-        continueButton.setOnClickListener(new View.OnClickListener()
+        if(isHost)
         {
-            @Override
-            public void onClick(View v)
-            {
-                continuePressed();
-            }
-        });
+            LinearLayout continueButton = (LinearLayout) afterGuess.findViewById(R.id.continueButton);
+            continueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    continuePressed();
+                }
+            });
+        }
     }
 
     private void updateNumber(int digit)
@@ -356,7 +357,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         }
     }
 
-    private Boolean calculateScore()
+    private void calculateScore()
     {
         float correctPrice = app.getAd(adIndex).getPrice();
 
@@ -371,7 +372,6 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             else
             {
                 scorePlus = 0;
-                return false;
             }
         }
         else if(correctPrice <= 80)
@@ -383,7 +383,6 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             else
             {
                 scorePlus = 0;
-                return false;
             }
         }
         else if(correctPrice <= 10000)
@@ -395,7 +394,6 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             else
             {
                 scorePlus = 0;
-                return false;
             }
         }
         else
@@ -407,11 +405,9 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             else
             {
                 scorePlus = 0;
-                return false;
             }
         }
 
-        return true;
     }
 
     private void confirmSelection()
@@ -425,6 +421,9 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         else
             waitingPriceGuess.setText(String.format("%,.2f€", guessPrice));
         waitingView.setVisibility(View.VISIBLE);
+
+        calculateScore();
+        sendRoundAnswer(scorePlus);
     }
 
     private void showAfterGuessView()
@@ -446,6 +445,10 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         else
         {
             showBeforeGuessView();
+
+            Intent intent = new Intent(getString(R.string.S004));
+            intent.putExtra(getString(R.string.S004_NEXTROUND), "");
+            sendBroadcast(intent);
         }
     }
 
@@ -493,7 +496,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
         scoreOutput.setText(String.format("%d", score));
 
-        if (calculateScore())
+        if(scorePlus != 0)
         {
             scorePlusTextView.setText(String.format("+%d", scorePlus));
             scorePlusTextView.setVisibility(View.VISIBLE);
@@ -540,33 +543,37 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 finish();
             }
-            else if(msg.isValid() && msg.getMessageType().equals(MessageType.NEXTROUND.toString()))
+            else if(msg.isValid() && msg.getMessageType().equals(MessageType.CONTINUEGAME.toString()))
             {
-                
+                showAfterGuessView();
+            }
+            else if(msg.isValid() && msg.getMessageType().equals(MessageType.NEXTROUND.toString()) && !isHost)
+            {
+                showBeforeGuessView();
             }
         }
     }
 
-
     private void sendRoundAnswer(int answer)
     {
+
+        String[] args = new String[5];
+
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.ROUNDSCORE.toString();
+        args[3] = playerId;
+        args[4] = Integer.toString(answer);
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if (!msg.isValid()) {
+            Log.d("CLIENT_DEBUG", "round score message invalid");
+            return;
+        }
+
         if(!isHost)
         {
-            String[] args = new String[5];
-
-            args[0] = this.getString(R.string.network_app_name);
-            args[1] = Integer.toString(BuildConfig.VERSION_CODE);
-            args[2] = MessageType.ROUNDSCORE.toString();
-            args[3] = playerId;
-            args[4] = Integer.toString(answer);
-
-            Message msg = new Message(this.getApplicationContext(), args);
-
-            if (!msg.isValid()) {
-                Log.d("CLIENT_DEBUG", "round score message invalid");
-                return;
-            }
-
             Intent intent = new Intent(getString(R.string.S005));
             intent.putExtra(getString(R.string.S005_MESSAGE), msg.getMessage());
             sendBroadcast(intent);
@@ -574,7 +581,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         else
         {
             Intent intent = new Intent(getString(R.string.S004));
-            intent.putExtra(getString(R.string.S004_ROUNDANSWER), "");
+            intent.putExtra(getString(R.string.S004_ROUNDANSWER), msg.getMessage());
             sendBroadcast(intent);
         }
     }

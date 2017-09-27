@@ -14,6 +14,7 @@ public enum MessageType
     STARTGAME("STARTGAME"),
     EXITGAMEACTIVITY("EXITGAMEACTIVITY"),
     ROUNDSCORE("ROUNDSCORE"),
+    CONTINUEGAME("CONTINUEGAME"),
     NEXTROUND("NEXTROUND");
 
     private final String message;

@@ -277,7 +277,28 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         {
             Message msg = new Message(this.getApplicationContext(), answer);
             this.hostAnswer(msg);
+            return;
         }
+
+        String nextRound = intent.getExtras().getString(getString(R.string.S004_NEXTROUND));
+        if(nextRound != null)
+        {
+            String[] args = new String[3];
+            args[0] = this.getString(R.string.network_app_name);
+            args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+            args[2] = MessageType.NEXTROUND.toString();
+
+            Message msg = new Message(this.getApplicationContext(), args);
+
+            if(!msg.isValid()) {Log.d("ROOM_DEBUG", "nextround not valid"); return;}
+
+            for(Socket socket : this.reservedPlayers.values())
+            {
+                this.singleSend(socket, msg);
+            }
+        }
+
+
     }
 
     @Override
@@ -487,6 +508,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void sendGameStartToPlayersAndHost(HashMap<Player, Socket> readyPlayers)
     {
+        startGame();
         Intent intent = new Intent(getString(R.string.S007));
         intent.putExtra(getString(R.string.S007_STARTGAME), "");
         sendBroadcast(intent);
@@ -598,13 +620,13 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     {
         Player player = new Player(message.getPlayerId());
         this.roundAnswers.add(player);
-        if(this.verifyAnswersToContinue()) this.nextRound();
+        if(this.verifyAnswersToContinue()) this.waitToAfter();
     }
 
     private void hostAnswer(Message message)
     {
         this.hostAnswer = true;
-        if(this.verifyAnswersToContinue()) this.nextRound();
+        if(this.verifyAnswersToContinue()) this.waitToAfter();
     }
 
     private void startGame()
@@ -645,7 +667,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             return false;
     }
 
-    private void nextRound()
+    private void waitToAfter()
     {
         this.resetRound();
 
@@ -653,7 +675,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
         args[0] = this.getString(R.string.network_app_name);
         args[1] = Integer.toString(BuildConfig.VERSION_CODE);
-        args[2] = MessageType.NEXTROUND.toString();
+        args[2] = MessageType.CONTINUEGAME.toString();
 
         Message msg = new Message(this.getApplicationContext(), args);
 

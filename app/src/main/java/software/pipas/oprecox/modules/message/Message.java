@@ -185,6 +185,10 @@ public class Message
             this.roundAnswer = Integer.parseInt(args[4]);
             return true;
         }
+        else if(messageType.equals(MessageType.CONTINUEGAME) && args.length == 3)
+        {
+            return true;
+        }
         else if(messageType.equals(MessageType.NEXTROUND) && args.length == 3)
         {
             return true;
@@ -283,6 +287,10 @@ public class Message
         else if(messageType.equals(MessageType.ROUNDSCORE))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + Integer.toString(this.roundAnswer));
+        }
+        else if(messageType.equals(MessageType.CONTINUEGAME))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
         }
         else if(messageType.equals(MessageType.NEXTROUND))
         {
