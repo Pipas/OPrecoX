@@ -11,6 +11,7 @@ import android.widget.TextView;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
+import software.pipas.oprecox.activities.other.GameTimeChooser;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.util.Settings;
@@ -21,6 +22,7 @@ public class Options extends AppCompatActivity
     private int gameSize;
     private TextView roomNameEdit;
     private TextView gameSizeTooltip;
+    private TextView gameTimeTooltip;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -36,6 +38,7 @@ public class Options extends AppCompatActivity
         initiateCustomFonts();
 
         updateGameSize();
+        updateGameTime();
 
         Button confirmButton = (Button) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener()
@@ -54,9 +57,11 @@ public class Options extends AppCompatActivity
         TextView gameTypeButtonTextView = (TextView)findViewById(R.id.gameTypeButtonTextView);
         TextView gameSizeButtonTextView = (TextView)findViewById(R.id.gameSizeButtonTextView);
         TextView categoriesButtonTextView = (TextView)findViewById(R.id.categoriesButtonTextView);
+        TextView gameTimeButtonTextView = (TextView)findViewById(R.id.gameTimeButtonTextView);
 
         TextView gameTypeTooltip = (TextView)findViewById(R.id.gameTypeTooltip);
         gameSizeTooltip = (TextView)findViewById(R.id.gameSizeTooltip);
+        gameTimeTooltip = (TextView) findViewById(R.id.gameTimeTooltip);
 
         roomNameEdit = (TextView) findViewById(R.id.roomNameEdit);
         roomNameEdit.setText(this.roomName);
@@ -66,8 +71,10 @@ public class Options extends AppCompatActivity
         CustomFontHelper.setCustomFont(gameTypeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(gameSizeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(categoriesButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTimeButtonTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(gameTypeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(gameSizeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(gameTimeTooltip, "font/Comfortaa_Thin.ttf", getBaseContext());
     }
 
     @Override
@@ -117,6 +124,13 @@ public class Options extends AppCompatActivity
         startActivityForResult(myIntent, 2);
     }
 
+    public void selectGameTime(View v)
+    {
+        Intent myIntent = new Intent(this, GameTimeChooser.class);
+        roomNameEdit.clearFocus();
+        startActivityForResult(myIntent, 3);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -127,11 +141,23 @@ public class Options extends AppCompatActivity
                 updateGameSize();
             }
         }
+        if (requestCode == 3)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                updateGameTime();
+            }
+        }
     }
 
     private void updateGameSize()
     {
         gameSize = Settings.getGameSize();
         gameSizeTooltip.setText(Integer.toString(gameSize));
+    }
+
+    private void updateGameTime()
+    {
+        gameTimeTooltip.setText(Integer.toString(Settings.getGameTime()));
     }
 }

@@ -97,8 +97,6 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         this.playerListAdapter = playerListAdapter;
 
         this.startBroadcastReceiver();
-
-
     }
 
     private void initiateCustomFonts()

@@ -88,6 +88,13 @@
             android:name=".activities.multiPlayer.PriceGuessGameMultiplayerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/GameActivity" />
+        <activity
+            android:name=".activities.menus.InfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.other.GameTimeChooser"
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
@@ -100,8 +107,6 @@
         <service android:name=".modules.network.UDPCommsService" />
         <service android:name=".modules.network.RoomService" />
         <service android:name=".modules.network.ClientService" />
-
-        <activity android:name=".activities.menus.InfoActivity"></activity>
     </application>
 
 </manifest>

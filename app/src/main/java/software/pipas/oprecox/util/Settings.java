@@ -10,6 +10,7 @@ import static android.content.Context.MODE_PRIVATE;
 public abstract class Settings
 {
     private static int gameSize;
+    private static int gameTime;
     private static int adCountdown;
     private static int gamesPlayed;
     private static Boolean showRateUs;
@@ -100,5 +101,20 @@ public abstract class Settings
     public static void setCustomName(String customName)
     {
         Settings.customName = customName;
+    }
+
+    public static int getGameTime()
+    {
+        return gameTime;
+    }
+
+    public static void setGameTime(int gT, Activity activity)
+    {
+        if(gT == gameTime)
+            return;
+        gameTime = gT;
+        SharedPreferences.Editor editor = activity.getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+        editor.putInt("gameTime", gameTime);
+        editor.apply();
     }
 }

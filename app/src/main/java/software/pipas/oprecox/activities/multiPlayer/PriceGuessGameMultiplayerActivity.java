@@ -427,7 +427,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         waitingView.setVisibility(View.VISIBLE);
     }
 
-    private void showAfterScoreView()
+    private void showAfterGuessView()
     {
         waitingView.setVisibility(View.GONE);
         afterGuess.setVisibility(View.VISIBLE);
@@ -445,22 +445,23 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         }
         else
         {
-            if(app.getAd(adIndex + 1) == null)
-            {
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.loadingAds), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            adIndex++;
-
-            setViewsWithAd(app.getAd(adIndex));
-            dialpadString = "";
-            beforePriceGuess.setText("");
-            scorePlusTextView.setVisibility(View.GONE);
-            togglePanel(null);
-
-            priceGuesser.setVisibility(View.VISIBLE);
-            afterGuess.setVisibility(View.GONE);
+            showBeforeGuessView();
         }
+    }
+
+    private void showBeforeGuessView()
+    {
+        //FAZER UMA THREAD WHILE NOT LOADED if(app.getAd(adIndex + 1) == null)
+        adIndex++;
+
+        setViewsWithAd(app.getAd(adIndex));
+        dialpadString = "";
+        beforePriceGuess.setText("");
+        scorePlusTextView.setVisibility(View.GONE);
+        togglePanel(null);
+
+        priceGuesser.setVisibility(View.VISIBLE);
+        afterGuess.setVisibility(View.GONE);
     }
 
     private void saveAd()
