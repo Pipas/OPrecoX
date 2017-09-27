@@ -6,13 +6,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.singlePlayer.Options;
+import software.pipas.oprecox.modules.adapters.OptionsPopupAdapter;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.util.Settings;
@@ -21,6 +27,7 @@ public class MainMenu extends AppCompatActivity
 {
     private int count = 0;
     private Boolean showToast = false;
+    private ListPopupWindow listPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,10 +39,12 @@ public class MainMenu extends AppCompatActivity
 
         CategoryHandler.checkIfRestart(this);
 
-        if(Settings.getGameSize() >= 5 && Settings.getShowRateUs())
+        if(Settings.getGamesPlayed() >= 5 && Settings.getShowRateUs())
         {
-            Toast.makeText(this, "Rate Us Popup", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Rate Us Popup " + Settings.getGamesPlayed(), Toast.LENGTH_SHORT).show();
         }
+
+        initiatePressMoreButton();
     }
 
     @Override
@@ -125,6 +134,45 @@ public class MainMenu extends AppCompatActivity
         Intent myIntent = new Intent(this, Hub.class);
         startActivity(myIntent);
 
+    }
+
+    private void initiatePressMoreButton()
+    {
+        ImageView pressMore = (ImageView) findViewById(R.id.pressMore);
+        View anchorView = findViewById(R.id.anchorView);
+        pressMore.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(listPopupWindow.isShowing())
+                    listPopupWindow.dismiss();
+                else
+                    listPopupWindow.show();
+            }
+        });
+
+        listPopupWindow = new ListPopupWindow(MainMenu.this);
+        ArrayList<String> options = new ArrayList<>();
+        options.add(getResources().getString( R.string.infoTitle));
+        listPopupWindow.setAdapter(new OptionsPopupAdapter(options, getApplicationContext(), getContentResolver()));
+        listPopupWindow.setAnchorView(anchorView);
+        listPopupWindow.setWidth((int) (100 * getResources().getDisplayMetrics().density + 0.5f));
+        listPopupWindow.setHeight((int) (56 * options.size() * getResources().getDisplayMetrics().density + 0.5f));
+        listPopupWindow.setModal(true);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if(position == 0)
+                {
+                    Intent myIntent = new Intent(MainMenu.this, InfoActivity.class);
+                    startActivity(myIntent);
+                    listPopupWindow.dismiss();
+                }
+            }
+        });
     }
 
     public void pressMyAds(View v)

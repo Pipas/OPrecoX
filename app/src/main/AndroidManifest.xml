@@ -12,17 +12,16 @@
         android:configChanges="keyboardHidden"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
-
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activities.singlePlayer.Options"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.singlePlayer.GameOver"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.imageViewer.ImageViewer"
             android:screenOrientation="portrait"
@@ -33,30 +32,30 @@
         <activity
             android:name=".activities.menus.MainMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.multiPlayer.Hub"
             android:screenOrientation="portrait"
-            android:theme="@style/MultiplayerTheme"/>
+            android:theme="@style/MultiplayerTheme" />
         <activity
             android:name=".activities.other.BlockedApp"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multiPlayer.LobbyHost"
             android:screenOrientation="portrait"
-            android:theme="@style/MultiplayerTheme"/>
+            android:theme="@style/MultiplayerTheme" />
         <activity
             android:name=".activities.multiPlayer.LobbyClient"
             android:screenOrientation="portrait"
-            android:theme="@style/MultiplayerTheme"/>
+            android:theme="@style/MultiplayerTheme" />
         <activity
             android:name=".activities.multiPlayer.Invite"
             android:screenOrientation="portrait"
-            android:theme="@style/MultiplayerTheme"/>
+            android:theme="@style/MultiplayerTheme" />
         <activity
             android:name=".activities.multiPlayer.Options"
             android:screenOrientation="portrait"
-            android:theme="@style/MultiplayerTheme"/>
+            android:theme="@style/MultiplayerTheme" />
         <activity
             android:name=".activities.menus.SavedAds"
             android:screenOrientation="portrait" />
@@ -66,20 +65,21 @@
         <activity
             android:name=".activities.other.CategoryDetails"
             android:screenOrientation="portrait"
-            android:theme="@style/MultiplayerTheme"/>
+            android:theme="@style/MultiplayerTheme" />
         <activity
             android:name=".activities.other.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.singlePlayer.GameActivity"
-            android:theme="@style/GameActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/GameActivity" />
         <activity
             android:name=".activities.singlePlayer.PriceGuessGameActivity"
             android:screenOrientation="portrait"
@@ -99,9 +99,9 @@
         <service android:name=".modules.network.AnnouncerSenderService" />
         <service android:name=".modules.network.UDPCommsService" />
         <service android:name=".modules.network.RoomService" />
-        <service android:name=".modules.network.ClientService"/>
+        <service android:name=".modules.network.ClientService" />
 
-
+        <activity android:name=".activities.menus.InfoActivity"></activity>
     </application>
 
 </manifest>

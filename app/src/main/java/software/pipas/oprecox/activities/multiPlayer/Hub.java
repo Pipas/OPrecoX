@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -471,7 +472,10 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
     private void showChangeNameAd()
     {
-        startProgressCircle();
+        if(mAd.isLoaded())
+            mAd.show();
+        else
+            startProgressCircle();
     }
 
     private void startProgressCircle()
@@ -497,6 +501,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         final EditText input = (EditText) dialogView.findViewById(R.id.inputName);
 
         input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(24)});
 
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener()
         {
@@ -524,9 +529,11 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onRewardedVideoAdLoaded()
     {
-        circleDialog.dismiss();
-        if(mAd.isLoaded())
+        if(circleDialog != null)
+        {
+            circleDialog.dismiss();
             mAd.show();
+        }
     }
 
     @Override
@@ -544,7 +551,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onRewardedVideoAdClosed()
     {
-
+        circleDialog = null;
+        mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
     }
 
     @Override

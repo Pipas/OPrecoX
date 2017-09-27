@@ -73,13 +73,25 @@
     <string name="namehint">Nome do jogador</string>
     <string name="signin_failure">Failed to Sign-In</string>
 
-    <!-- Lobby Host -->
+    <!--              Lobby Host             -->
     <string name="aloneinlobby">Sem jogadores para iniciar jogo</string>
 
-    <!-- Invite -->
+    <!--               Invite                -->
     <string name="invalidoip">IP inválido</string>
     <string name="sendinviteip">Convite enviado</string>
 
+    <!--             Info Activity           -->
+    <string name="infoTitle">Sobre</string>
+    <string name="mainDeveloper">Main Developer</string>
+    <string name="mainDeveloperName">Paulo Correia</string>
+    <string name="multiplayerDeveloper">Developer</string>
+    <string name="multiplayerDeveloperName">Nuno Neto</string>
+    <string name="design">Design</string>
+    <string name="designName">Inês Costa</string>
+    <string name="thanks">Agradecimentos</string>
+    <string name="thanksNames">António Carreiro\nFrancisca Pessanha\nGonçalo Sores\nMarta Fróis</string>
+    <string name="otherInfoTitle">Informações</string>
+    <string name="otherInfo">Contactos no e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nou a empresa OLX</string>
 
 
 
