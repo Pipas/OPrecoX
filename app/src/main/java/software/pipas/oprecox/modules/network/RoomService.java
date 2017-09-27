@@ -598,45 +598,14 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     {
         Player player = new Player(message.getPlayerId());
         this.roundAnswers.add(player);
-        if(this.verifyAnswersToContinue()) this.nextState();
+        if(this.verifyAnswersToContinue()) this.nextRound();
     }
 
     private void hostAnswer(Message message)
     {
         this.hostAnswer = true;
-        if(this.verifyAnswersToContinue()) this.nextState();
+        if(this.verifyAnswersToContinue()) this.nextRound();
     }
-
-    private void goToBefore()
-    {
-
-    }
-
-    private void goToWait()
-    {
-
-    }
-
-    private void goToAfter()
-    {
-
-    }
-
-    private void goToGameOver()
-    {
-
-    }
-
-    private void goToHub()
-    {
-
-    }
-
-
-
-
-
-
 
     private void startGame()
     {
@@ -676,14 +645,30 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             return false;
     }
 
-    private void nextState()
+    private void nextRound()
     {
+        this.resetRound();
 
+        String[] args = new String[3];
+
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.NEXTROUND.toString();
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if(!msg.isValid()) {Log.d("ROOM_DEBUG", "next round message not valid"); return;}
+
+        Intent intent = new Intent(getString(R.string.S008));
+        intent.putExtra(getString(R.string.S008_MESSAGE), msg.getMessage());
+        sendBroadcast(intent);
+
+        for(Socket socket : this.reservedPlayers.values())
+        {
+            this.singleSend(socket, msg);
+        }
     }
 
-    private void startTimer()
-    {
-
-    }
+    private void startTimer() {}
 
 }

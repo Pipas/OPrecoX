@@ -539,8 +539,13 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 finish();
             }
+            else if(msg.isValid() && msg.getMessageType().equals(MessageType.NEXTROUND.toString()))
+            {
+                
+            }
         }
     }
+
 
     private void sendRoundAnswer(int answer)
     {

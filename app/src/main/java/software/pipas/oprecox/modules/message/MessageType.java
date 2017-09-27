@@ -13,7 +13,8 @@ public enum MessageType
     READY("READY"),
     STARTGAME("STARTGAME"),
     EXITGAMEACTIVITY("EXITGAMEACTIVITY"),
-    ROUNDSCORE("ROUNDSCORE");
+    ROUNDSCORE("ROUNDSCORE"),
+    NEXTROUND("NEXTROUND");
 
     private final String message;
 
