@@ -262,16 +262,21 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         }
 
         String exitGameActivity = intent.getExtras().getString(getString(R.string.S004_EXITGAMEACTIVITY));
-        if(exitGameActivity != null)
-        {
+        if(exitGameActivity != null) {
             Message msg = new Message(this.getApplicationContext(), exitGameActivity);
-            if(!msg.isValid()) return;
-            for(Socket socket : this.reservedPlayers.values())
-            {
+            if (!msg.isValid()) return;
+            for (Socket socket : this.reservedPlayers.values()) {
                 this.singleSend(socket, msg);
             }
             resetStartGame();
+            return;
+        }
 
+        String answer = intent.getExtras().getString(getString(R.string.S004_ROUNDANSWER));
+        if (answer != null)
+        {
+            Message msg = new Message(this.getApplicationContext(), answer);
+            this.hostAnswer(msg);
         }
     }
 
@@ -281,7 +286,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     {
         if(type.equals(ResponseType.CLOSED))
         {
-            this.joined.remove(remotePlayerSocket);
             this.pending.remove(remotePlayerSocket);
             this.removePlayerFromListAndSendToAll(remotePlayerSocket);
         }
@@ -325,6 +329,10 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                     {
                         this.sendGameStartToPlayersAndHost(this.reservedPlayers);
                     }
+                }
+                else if(msg.getMessageType().equals(MessageType.ROUNDSCORE.toString()))
+                {
+                    this.clientAnswer(msg);
                 }
             }
         }
@@ -423,6 +431,9 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 if(!msg.isValid()) return;
 
                 this.sendBroadcastToClients(msg);
+
+                this.joined.remove(player);
+                this.reservedPlayers.remove(player);
             }
         }
     }
@@ -575,4 +586,104 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             }).start();
         }
     }
+
+    //============================================================================================
+    //gaming part
+    //declaration temp
+    private boolean gaming;
+    private boolean hostAnswer;
+    private LinkedList<Player> roundAnswers;
+
+    private void clientAnswer(Message message)
+    {
+        Player player = new Player(message.getPlayerId());
+        this.roundAnswers.add(player);
+        if(this.verifyAnswersToContinue()) this.nextState();
+    }
+
+    private void hostAnswer(Message message)
+    {
+        this.hostAnswer = true;
+        if(this.verifyAnswersToContinue()) this.nextState();
+    }
+
+    private void goToBefore()
+    {
+
+    }
+
+    private void goToWait()
+    {
+
+    }
+
+    private void goToAfter()
+    {
+
+    }
+
+    private void goToGameOver()
+    {
+
+    }
+
+    private void goToHub()
+    {
+
+    }
+
+
+
+
+
+
+
+    private void startGame()
+    {
+        this.gaming = true;
+        this.resetRound();
+    }
+
+    private void stopGame()
+    {
+        this.gaming = false;
+        this.resetRound();
+        this.roundAnswers = null;
+    }
+
+    private void resetRound()
+    {
+        this.roundAnswers = new LinkedList<>();
+        this.hostAnswer = false;
+    }
+
+    private void setHostAnswer(boolean answer)
+    {
+        this.hostAnswer = answer;
+    }
+
+    //to verify if everyone can continue
+    private boolean verifyAnswersToContinue()
+    {
+        if((this.hostAnswer && this.roundAnswers.size() == 0) || (!this.hostAnswer && this.roundAnswers.size() == 1))
+        {
+            this.startTimer();
+        }
+
+        if(hostAnswer && roundAnswers.size() == this.reservedPlayers.size())
+            return true;
+        else
+            return false;
+    }
+
+    private void nextState()
+    {
+
+    }
+
+    private void startTimer()
+    {
+
+    }
+
 }

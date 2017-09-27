@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.singlePlayer.GameActivity;
 import software.pipas.oprecox.activities.singlePlayer.GameOver;
@@ -55,6 +56,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     private DatabaseHandler database;
     private Boolean adSaved = false;
     private Boolean isHost;
+    private String playerId;
 
     private BroadcastReceiver broadcastReceiver;
     private ArrayList<AsyncGetAd> asyncTasks;
@@ -72,6 +74,8 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         urls = (ArrayList<String>) getIntent().getSerializableExtra(getString(R.string.S008_GAMEURLS));
 
         isHost = getIntent().getBooleanExtra(getString(R.string.S008_HOSTINACTIVITY), false);
+
+        playerId = getIntent().getExtras().getString(getString(R.string.S008_PLAYERID));
 
         inflateGuesserViews();
 
@@ -536,6 +540,37 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 finish();
             }
+        }
+    }
+
+    private void sendRoundAnswer(int answer)
+    {
+        if(!isHost)
+        {
+            String[] args = new String[5];
+
+            args[0] = this.getString(R.string.network_app_name);
+            args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+            args[2] = MessageType.ROUNDSCORE.toString();
+            args[3] = playerId;
+            args[4] = Integer.toString(answer);
+
+            Message msg = new Message(this.getApplicationContext(), args);
+
+            if (!msg.isValid()) {
+                Log.d("CLIENT_DEBUG", "round score message invalid");
+                return;
+            }
+
+            Intent intent = new Intent(getString(R.string.S005));
+            intent.putExtra(getString(R.string.S005_MESSAGE), msg.getMessage());
+            sendBroadcast(intent);
+        }
+        else
+        {
+            Intent intent = new Intent(getString(R.string.S004));
+            intent.putExtra(getString(R.string.S004_ROUNDANSWER), "");
+            sendBroadcast(intent);
         }
     }
 }

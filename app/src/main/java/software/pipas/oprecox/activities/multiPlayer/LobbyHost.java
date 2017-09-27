@@ -21,6 +21,7 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
@@ -447,6 +448,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         intent.putExtra(getString(R.string.S008_GAMESIZE), Settings.getGameSize());
         intent.putExtra(getString(R.string.S008_GAMEURLS), this.urls);
         intent.putExtra(getString(R.string.S008_HOSTINACTIVITY), true);
+        intent.putExtra(getString(R.string.S008_PLAYERID), this.player.getPlayerId());
         startActivityForResult(intent,GAME_ACTIVITY_RESULT_CODE);
     }
 }
