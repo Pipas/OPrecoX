@@ -88,36 +88,35 @@
         android:background="@color/softGrey"/>
 
     <LinearLayout
-        android:id="@+id/gameSizeButton"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:onClick="selectGameSize"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginTop="1dp">
+    android:id="@+id/gameSizeButton"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:onClick="selectGameSize"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_marginTop="1dp">
 
-        <TextView
-            android:id="@+id/gameSizeButtonTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/gameSize"
-            android:textColor="@color/darkGrey"
-            android:textSize="22sp"
-            android:layout_gravity="center"
-            android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/gameSizeButtonTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/gameSize"
+        android:textColor="@color/darkGrey"
+        android:textSize="22sp"
+        android:layout_gravity="center"
+        android:layout_weight="1"/>
 
-        <TextView
-            android:id="@+id/gameSizeTooltip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10"
-            android:textSize="20sp"
-            android:textColor="@color/letterGrey"
-            android:layout_gravity="center" />
+    <TextView
+        android:id="@+id/gameSizeTooltip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/letterGrey"
+        android:layout_gravity="center" />
 
-    </LinearLayout>
+</LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -150,6 +149,42 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e0e0e0"/>
+
+    <LinearLayout
+        android:id="@+id/gameTimeButton"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="selectGameTime"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:id="@+id/gameTimeButtonTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gameTime"
+            android:textColor="@color/darkGrey"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/gameTimeTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/letterGrey"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/softGrey"/>
 
     <Space
         android:layout_width="match_parent"

@@ -20,6 +20,12 @@
     <string name="normalsize">Jogo normal</string>
     <string name="longsize">Jogo longo</string>
 
+    <!--           Game Time Strings         -->
+    <string name="gameTime">Tempo após palpite</string>
+    <string name="shortwait">30 Segundos</string>
+    <string name="normalwait">1 Minuto</string>
+    <string name="longwait">2 Minutos</string>
+
     <!--           Saved Ads Strings         -->
 
     <string name="savedAdsTooltip">Ainda não tens Anúncios Guardados.\nPodes salvar anúncios depois de dares um palpite.</string>
@@ -93,7 +99,6 @@
     <string name="thanksNames">António Carreiro\nFrancisca Pessanha\nGonçalo Sores\nMarta Fróis</string>
     <string name="otherInfoTitle">Informações</string>
     <string name="otherInfo">Contactos no e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nnem com a empresa Fixeads</string>
-
 
 
 </resources>
