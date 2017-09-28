@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
@@ -38,11 +39,11 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     private int time;
 
     private LinkedList<Socket> pending;
-    private HashMap<Player, Socket> joined;
-    private HashMap<Player, Socket> pendingLoaded;
+    private ConcurrentHashMap<Player, Socket> joined;
+    private ConcurrentHashMap<Player, Socket> pendingLoaded;
     private LinkedList<Player> playersDB;
 
-    private HashMap<Player, Socket> reservedPlayers;
+    private ConcurrentHashMap<Player, Socket> reservedPlayers;
     private LinkedList<Player> readyPlayers;
     private boolean hostReady;
 
@@ -55,8 +56,8 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         Log.d("HANDLE", "created ROOM");
         super.onCreate();
         this.pending = new LinkedList<>();
-        this.joined = new HashMap<>();
-        this.pendingLoaded = new HashMap<>();
+        this.joined = new ConcurrentHashMap<>();
+        this.pendingLoaded = new ConcurrentHashMap<>();
         this.playersDB = new LinkedList<>();
         this.time = getResources().getInteger(R.integer.TIME_LIMIT_FOR_ROOM_REFRESH);
         this.closed = false;
@@ -454,9 +455,18 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 this.sendBroadcastToClients(msg);
 
                 this.joined.remove(player);
+            }
+        }
+
+    if(this.reservedPlayers != null)
+    {
+        for (HashMap.Entry<Player, Socket> entry : this.reservedPlayers.entrySet()) {
+            if (entry.getValue().equals(socket)) {
+                Player player = entry.getKey();
                 this.reservedPlayers.remove(player);
             }
         }
+    }
     }
 
     private void sendRestToPlayer(Player playerToSend, Socket socket)
@@ -506,7 +516,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     }
 
-    private void sendGameStartToPlayersAndHost(HashMap<Player, Socket> readyPlayers)
+    private void sendGameStartToPlayersAndHost(ConcurrentHashMap<Player, Socket> readyPlayers)
     {
         startGame();
         Intent intent = new Intent(getString(R.string.S007));
