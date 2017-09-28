@@ -6,6 +6,12 @@
     <string name="multiplayer">Jogar com Amigos</string>
     <string name="savedAds">Anúncios Guardados</string>
 
+    <string name="rateUs">Classifica o nosso jogo</string>
+    <string name="rateUsTooltip">Se estás a gostar d\'O Preço X podes tirar um momento para avaliar o nosso jogo na Google Play.\nObrigado pelo apoio!</string>
+    <string name="rateUsYes">Ok</string>
+    <string name="rateUsNo">Não, obrigado.</string>
+    <string name="rateUsLater">Agora não</string>
+
     <!--          Game Options Strings       -->
 
     <string name="gameType">Tipo de jogo</string>
@@ -58,7 +64,7 @@
     <string name="notavailable">Não Disponivel</string>
     <string name="adPopupTooltip">Para mudar de nome é necessário ver um anúncio</string>
     <string name="invitetitle">Convidar Amigos</string>
-    <string name="changeName">Mudar de nome</string>
+    <string name="changeName">Novo nome</string>
     <string name="inviteTooltip">Para encontrar dispositivos é necessario estarem na mesma rede Wi-Fi.
     Caso não encontres amigos podes tentar convidar diretamente por IP abaixo.</string>
     <string name="inputip">Introduzir IP</string>

@@ -88,57 +88,6 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_hub);
 
-        initiateCustomFonts();
-
-        DynamicListView listView = (DynamicListView) findViewById(R.id.list);
-        invites = new ArrayList<>();
-
-        mAd = MobileAds.getRewardedVideoAdInstance(this);
-        mAd.setRewardedVideoAdListener(this);
-        mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
-
-        final InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext(), getContentResolver());
-        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(inviteListAdapter);
-        animationAdapter.setAbsListView(listView);
-        listView.setAdapter(animationAdapter);
-
-        listView.enableSwipeToDismiss(
-                new OnDismissCallback()
-                {
-                    @Override
-                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions)
-                        {
-                            inviteListAdapter.remove(position);
-                        }
-                    }
-                }
-        );
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Invite invite = invites.get(position);
-                inviteListAdapter.remove(position);
-                Log.d("LOG_DEBUG", invite.toString());
-                acceptInvite(invite);
-            }
-        });
-
-        Button hostButton = (Button) findViewById(R.id.hostButton);
-        hostButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                hostButtonPressed();
-            }
-        });
-
-        this.inviteListAdapter = inviteListAdapter;
-
         //start ProgressUpdater
         this.startProgressUpdater();
 
@@ -207,7 +156,59 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
         playerDisplayName = player.getDisplayName();
         //starting the announcerSender service
-        if(OPrecoX.announcing) this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
+        if(OPrecoX.announcing)
+            this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
+
+        mAd = MobileAds.getRewardedVideoAdInstance(this);
+        mAd.setRewardedVideoAdListener(this);
+        mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
+
+        initiateCustomFonts();
+
+        DynamicListView listView = (DynamicListView) findViewById(R.id.list);
+        invites = new ArrayList<>();
+
+        final InviteListAdapter inviteListAdapter = new InviteListAdapter(invites, getApplicationContext(), getContentResolver());
+        SwingRightInAnimationAdapter animationAdapter = new SwingRightInAnimationAdapter(inviteListAdapter);
+        animationAdapter.setAbsListView(listView);
+        listView.setAdapter(animationAdapter);
+
+        listView.enableSwipeToDismiss(
+                new OnDismissCallback()
+                {
+                    @Override
+                    public void onDismiss(@NonNull final ViewGroup listView, @NonNull final int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions)
+                        {
+                            inviteListAdapter.remove(position);
+                        }
+                    }
+                }
+        );
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Invite invite = invites.get(position);
+                inviteListAdapter.remove(position);
+                Log.d("LOG_DEBUG", invite.toString());
+                acceptInvite(invite);
+            }
+        });
+
+        Button hostButton = (Button) findViewById(R.id.hostButton);
+        hostButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                hostButtonPressed();
+            }
+        });
+
+        this.inviteListAdapter = inviteListAdapter;
 
         this.loadDialog.dismiss();
     }
