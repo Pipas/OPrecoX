@@ -1,8 +1,11 @@
 package software.pipas.oprecox.activities.menus;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,69 @@ public class MainMenu extends AppCompatActivity
 
         if(Settings.getGamesPlayed() >= 5 && Settings.getShowRateUs())
         {
-            Toast.makeText(this, "Rate Us Popup " + Settings.getGamesPlayed(), Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder popup;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+            else
+                popup = new AlertDialog.Builder(this);
+
+            popup.setTitle(getString(R.string.rateUs));
+            popup.setMessage(getString(R.string.rateUsTooltip));
+            popup.setCancelable(true);
+
+            popup.setPositiveButton
+                    (
+                            R.string.rateUsYes,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                                    // To count with Play market backstack, After pressing back button,
+                                    // to taken back to our application, we need to add following flags to intent.
+                                    goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                                    try {
+                                        startActivity(goToMarket);
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                                    }
+                                    Settings.setShowRateUs(false);
+                                    SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                                    editor.putBoolean("showRateUs", false);
+                                    editor.apply();
+                                    dialog.cancel();
+                                }
+                            });
+
+            popup.setNegativeButton(
+                    R.string.rateUsNo,
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            Settings.setShowRateUs(false);
+                            SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                            editor.putBoolean("showRateUs", false);
+                            editor.apply();
+                            dialog.cancel();
+                        }
+                    });
+
+            popup.setNeutralButton(
+                    R.string.rateUsLater,
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = popup.create();
+            alert.show();
         }
 
         initiatePressMoreButton();

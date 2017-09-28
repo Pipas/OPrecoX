@@ -19,5 +19,6 @@ public class SplashScreen extends Activity
 
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
+        finish();
     }
 }
