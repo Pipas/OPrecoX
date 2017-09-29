@@ -133,13 +133,18 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
         super.onDestroy();
         if(this.playerListUpdater != null) this.playerListUpdater.close();
         if(this.broadcastReceiver != null) unregisterReceiver(this.broadcastReceiver);
-        closed = true;
     }
 
     @Override
     public void onBackPressed()
     {
         super.onBackPressed();
+        this.shutdown();
+    }
+
+    public void shutdown()
+    {
+        closed = true;
         finish();
     }
 
@@ -210,12 +215,8 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
         software.pipas.oprecox.modules.dataType.Player player = intent.getExtras().getParcelable(getString(R.string.S002_REQUESPLAYERLOADER));
         if (player != null && !Invite.isClosed())
         {
-            Log.d("MY_IP_DEBUG", "sendload->load");
-
             PlayerLoader playerLoader = new PlayerLoader(Invite.this, this.mGoogleApiClient, player);
             playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-            Log.d("MY_IP_DEBUG", "trying to load");
             return;
         }
     }
@@ -276,7 +277,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
                                     }
                                 });
 
-                                finish();
+                                shutdown();
                             }
                             else {throw new UnknownHostException();}
                         }

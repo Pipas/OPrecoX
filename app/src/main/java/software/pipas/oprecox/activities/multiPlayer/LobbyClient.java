@@ -42,7 +42,7 @@ import software.pipas.oprecox.util.Settings;
 
 public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader, ParsingCallingActivity
 {
-    private static boolean loaded = false;
+    private static boolean loaded;
     private final int GAME_ACTIVITY_RESULT_CODE = 1;
 
     private BroadcastReceiver broadcastReceiver;
@@ -116,6 +116,14 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
     }
 
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        shutdown();
+    }
+
     @Override
     public void onDestroy()
     {
@@ -176,7 +184,6 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
 
     public void handleReceivedIntent(Context context, Intent intent)
     {
-        Log.d("RECEIVE_LOBBY", intent.toString());
         String str = intent.getExtras().getString(getResources().getString(R.string.S006_RESPONSE));
         if (str != null && str.equals(ResponseType.CLOSED.toString()))
         {
@@ -187,22 +194,21 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         str = intent.getExtras().getString(getResources().getString(R.string.S006_MESSAGE));
         if (str != null)
         {
+            Log.d("CLIENT_DEBUG",str);
             Message message = new Message(this.getApplicationContext(), str);
-
-
 
             if (message.isValid() && message.getMessageType().equals(MessageType.ADDPLAYERLIST.toString()))
             {
                 software.pipas.oprecox.modules.dataType.Player player;
                 player = new software.pipas.oprecox.modules.dataType.Player(message.getName(), message.getDisplayName(), message.getPlayerId(), null);
-                this.players.add(player);
+                this.checkExistsAndAdd(player);
                 this.retrievePlayerURI(this.playerListAdapter, player);
                 this.refreshListAdapter(this.playerListAdapter);
             }
             else if (message.isValid() && message.getMessageType().equals(MessageType.REMOVEPLAYERLIST.toString()))
             {
                 software.pipas.oprecox.modules.dataType.Player player = new software.pipas.oprecox.modules.dataType.Player(message.getPlayerId());
-                this.players.remove(player);
+                this.removePlayer(player);
                 this.refreshListAdapter(this.playerListAdapter);
             }
             else if (message.isValid() && message.getMessageType().equals(MessageType.ACTUALIZEROOMNAME.toString()))
@@ -226,6 +232,21 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
             }
 
         }
+    }
+
+    private synchronized void checkExistsAndAdd(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        for (software.pipas.oprecox.modules.dataType.Player player1 : this.players)
+        {
+            if(player.equals(player1)) return;
+        }
+
+        this.players.add(player);
+    }
+
+    private synchronized void removePlayer(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        this.players.remove(player);
     }
 
     private void retrievePlayerURI(PlayerListAdapter playerListAdapter, software.pipas.oprecox.modules.dataType.Player player)

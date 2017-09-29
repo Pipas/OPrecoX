@@ -117,6 +117,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
+        Log.d("CLIENT_DEBUG", "===========================");
         super.onConnected(bundle);
         player = Games.Players.getCurrentPlayer(mGoogleApiClient);
         if(player == null)
@@ -399,7 +400,11 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             }
             else if (msg.isValid() && player != null && msg.getMessageType().equals(MessageType.ADDPLAYERLIST.toString()))
             {
-                Log.d("RECEIVE_HUB", msg.getMessage());
+                /*
+                Intent intent1 = new Intent(getString(R.string.S006));
+                intent1.putExtra(getString(R.string.S006_MESSAGE), msg.getMessage());
+                sendBroadcast(intent1);
+                */
             }
         }
 

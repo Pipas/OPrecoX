@@ -18,10 +18,12 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.LobbyClient;
+import software.pipas.oprecox.modules.customThreads.PendingMessage;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
@@ -38,6 +40,7 @@ public class ClientService extends IntentService
     private PrintWriter out;
     private int time;
     private BroadcastReceiver broadcastReceiver;
+    private ArrayList<PendingMessage> pendingMessages;
 
     public ClientService() {super("TCPCommsService");}
 
@@ -50,6 +53,7 @@ public class ClientService extends IntentService
         super.onCreate();
         this.time = getResources().getInteger(R.integer.TIME_FOR_ACCEPT_LIMIT);
         this.startBroadcastReceiver();
+        this.pendingMessages = new ArrayList<>();
     }
 
     @Override
@@ -110,14 +114,16 @@ public class ClientService extends IntentService
 
     public void sendMessage(final String str)
     {
+
+
         Intent intent1 = new Intent(getResources().getString(R.string.S001));
         intent1.putExtra(getResources().getString(R.string.S001_MESSAGE), str);
         sendBroadcast(intent1);
-
+/*
         Intent intent = new Intent(getResources().getString(R.string.S006));
         intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
         sendBroadcast(intent);
-
+*/
         Intent intent2 = new Intent(getResources().getString(R.string.S008));
         intent2.putExtra(getResources().getString(R.string.S008_MESSAGE), str);
         sendBroadcast(intent2);
@@ -125,18 +131,21 @@ public class ClientService extends IntentService
 
         //previous S006 comm, dont erase, might need it
         //failsafe in case LobbyClient hasnt started
-        /*
-        (new Thread()
+
+
+        PendingMessage p = (new PendingMessage()
         {
             public void run()
             {
-                while (!LobbyClient.isLoaded()) {}
+                while (!LobbyClient.isLoaded() && !closed) {}
                 Intent intent = new Intent(getResources().getString(R.string.S006));
                 intent.putExtra(getResources().getString(R.string.S006_MESSAGE), str);
                 sendBroadcast(intent);
             }
-        }).start();
-        */
+        });
+
+        p.start();
+        this.pendingMessages.add(p);
     }
 
     public void terminate()
@@ -162,6 +171,15 @@ public class ClientService extends IntentService
         this.terminate();
         this.sendResponse(ResponseType.CLOSED);
         this.unregisterReceiver();
+        this.terminatePending();
+    }
+
+    private void terminatePending()
+    {
+        for(PendingMessage pendingMessage : this.pendingMessages)
+        {
+            pendingMessage.terminate();
+        }
     }
 
     private boolean connect(InetSocketAddress inetSocketAddress)

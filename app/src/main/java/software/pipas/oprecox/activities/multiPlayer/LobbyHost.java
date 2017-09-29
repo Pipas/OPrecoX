@@ -264,7 +264,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
 
         if(player != null)
         {
-            this.players.add(player);
+            this.checkAndAdd(player);
             this.refreshListAdapter(this.playerListAdapter);
             return;
         }
@@ -272,7 +272,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         player = intent.getExtras().getParcelable(getString(R.string.S007_REMOVEPLAYERLIST));
         if(player != null)
         {
-            this.players.remove(player);
+            this.removePlayer(player);
             this.refreshListAdapter(this.playerListAdapter);
             return;
         }
@@ -280,12 +280,8 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         player = intent.getExtras().getParcelable(getString(R.string.S007_REQUESPLAYERLOADER));
         if (player != null)
         {
-            Log.d("MY_IP_DEBUG", "sendload->load");
-
             PlayerLoader playerLoader = new PlayerLoader(LobbyHost.this, this.mGoogleApiClient, player);
             playerLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-            Log.d("MY_IP_DEBUG", "trying to load");
             return;
         }
 
@@ -296,6 +292,21 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             startGameActivity();
         }
 
+    }
+
+    private synchronized void checkAndAdd(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        for(software.pipas.oprecox.modules.dataType.Player player1 : this.players)
+        {
+            if(player.equals(player1)) return;
+        }
+
+        this.players.add(player);
+    }
+
+    private synchronized void removePlayer(software.pipas.oprecox.modules.dataType.Player player)
+    {
+        this.players.remove(player);
     }
 
     private void refreshListAdapter(PlayerListAdapter playerListAdapter)

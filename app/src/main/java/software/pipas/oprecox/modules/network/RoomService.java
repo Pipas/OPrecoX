@@ -426,7 +426,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
         //must send joined players, except own 'player' to 'socket'
         this.sendRestToPlayer(player, socket);
-
     }
 
     private void removePlayerFromListAndSendToAll(Socket socket)
