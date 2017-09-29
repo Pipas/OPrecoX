@@ -13,7 +13,7 @@ public enum MessageType
     READY("READY"),                         //ready ack
     STARTGAME("STARTGAME"),                 //command to start game
     EXITGAMEACTIVITY("EXITGAMEACTIVITY"),   //command to exit the game activity
-    ROUNDSCORE("ROUNDSCORE"),               //clients to host, round answered with score
+    ROUNDSCORE("ROUNDSCORE"),               //clients to host, round answered with score (gives, playerid, round, answer and score)
     CONTINUEGAME("CONTINUEGAME"),           //from wait to show answer (should give his round details (answer and score)
     NEXTROUND("NEXTROUND"),                 //from showing to next round
     GAMEOVER("GAMEOVER"),                   //from wait to gameover screen (should give list with everyone final scores)

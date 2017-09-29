@@ -58,7 +58,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private ArrayList<AsyncGetAll> asyncTasks;
     protected int gameSize;
     protected int score;
-    protected int adIndex = 0;
+    protected static int adIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

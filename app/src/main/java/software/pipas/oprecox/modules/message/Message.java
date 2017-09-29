@@ -6,6 +6,7 @@ import java.net.DatagramPacket;
 import java.util.ArrayList;
 
 import software.pipas.oprecox.R;
+import software.pipas.oprecox.activities.menus.InfoActivity;
 import software.pipas.oprecox.util.Util;
 
 public class Message
@@ -24,7 +25,9 @@ public class Message
     private int numberOfUrls;
     private ArrayList<String> urlsArrayList;
     private int totalScore;
-    private int roundAnswer;
+    private int round;
+    private int roundScore;
+    private float roundAnswer;
 
     private boolean valid;
 
@@ -71,7 +74,9 @@ public class Message
         this.numberOfUrls = -1;
         this.urlsArrayList = null;
         this.totalScore = -1;
-        this.roundAnswer = -1;
+        this.round = -1;
+        this.roundScore = -1;
+        this.roundAnswer = new Float(0.0);
     }
     //--------------------------------------------------
 
@@ -179,10 +184,12 @@ public class Message
         {
             return true;
         }
-        else if(messageType.equals(MessageType.ROUNDSCORE) && args.length == 5)
+        else if(messageType.equals(MessageType.ROUNDSCORE) && args.length == 7)
         {
             this.playerId = args[3];
-            this.roundAnswer = Integer.parseInt(args[4]);
+            this.round = Integer.parseInt(args[4]);
+            this.roundAnswer = Float.parseFloat(args[5]);
+            this.roundScore = Integer.parseInt(args[6]);
             return true;
         }
         else if(messageType.equals(MessageType.CONTINUEGAME) && args.length == 3)
@@ -286,7 +293,7 @@ public class Message
         }
         else if(messageType.equals(MessageType.ROUNDSCORE))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + Integer.toString(this.roundAnswer));
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + Integer.toString(this.round) + " " + Float.toString(this.roundAnswer) + " " + Integer.toString(this.roundScore));
         }
         else if(messageType.equals(MessageType.CONTINUEGAME))
         {
@@ -339,7 +346,11 @@ public class Message
 
     public String getRoomPort() {return this.roomPort;}
 
-    public String getRoundAnswer() {return Integer.toString(this.roundAnswer);}
+    public String getRoundNumber() {return Integer.toString(this.round);}
+
+    public String getRoundScore() {return Integer.toString(this.roundScore);}
+
+    public String getRoundAnswer() {return Float.toString(this.roundAnswer);}
 
     public String getTotalScore() {return Integer.toString(this.totalScore);}
 
@@ -376,8 +387,10 @@ public class Message
                 "RoomName: " + this.roomName + "\n" +
                 "RoomPort: " + this.roomPort + "\n" +
                 "NumberOfUrls: " + Integer.toString(numberOfUrls) + "\n" +
-                "ArrayListURL:" + printURLArrayList() + "\n" +
-                "RoundAnswer: " + getRoundAnswer() + "\n"  +
+                "ArrayListURL: " + printURLArrayList() + "\n" +
+                "Round: " + getRoundNumber() + "\n" +
+                "RoundAnswer: " + getRoundAnswer() + "\n" +
+                "RoundScore: " + getRoundScore() + "\n"  +
                 "TotalScore: " + getTotalScore() + "\n");
 
         return str;

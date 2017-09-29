@@ -147,6 +147,12 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         }
     }
 
+
+    public static int getAdIndex()
+    {
+        return adIndex;
+    }
+
     private void inflateGuesserViews()
     {
         FrameLayout guesserFrameLayout = (FrameLayout)findViewById(R.id.guesserFrameLayout);
@@ -423,7 +429,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         waitingView.setVisibility(View.VISIBLE);
 
         calculateScore();
-        sendRoundAnswer(scorePlus);
+        sendRoundAnswer(guessPrice, scorePlus);
     }
 
     private void showAfterGuessView()
@@ -554,16 +560,18 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         }
     }
 
-    private void sendRoundAnswer(int answer)
+    private void sendRoundAnswer(float answer, int score)
     {
 
-        String[] args = new String[5];
+        String[] args = new String[7];
 
         args[0] = this.getString(R.string.network_app_name);
         args[1] = Integer.toString(BuildConfig.VERSION_CODE);
         args[2] = MessageType.ROUNDSCORE.toString();
         args[3] = playerId;
-        args[4] = Integer.toString(answer);
+        args[4] = Integer.toString(adIndex);
+        args[5] = Float.toString(answer);
+        args[6] = Integer.toString(score);
 
         Message msg = new Message(this.getApplicationContext(), args);
 

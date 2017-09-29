@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Invite;
+import software.pipas.oprecox.activities.multiPlayer.PriceGuessGameMultiplayerActivity;
 import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
@@ -635,13 +636,29 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void clientAnswer(Message message)
     {
+
         Player player = new Player(message.getPlayerId());
+        int round = Integer.parseInt(message.getRoundNumber());
+        float answer = Float.parseFloat(message.getRoundAnswer());
+        int score = Integer.parseInt(message.getRoundScore());
+
+        this.addAnswer(round, player, answer);
+        this.addScore(round, player, score);
+
         this.roundAnswers.add(player);
         if(this.verifyAnswersToContinue()) this.waitToAfter();
     }
 
     private void hostAnswer(Message message)
     {
+        Player player = new Player(message.getPlayerId());
+        int round = Integer.parseInt(message.getRoundNumber());
+        float answer = Float.parseFloat(message.getRoundAnswer());
+        int score = Integer.parseInt(message.getRoundScore());
+
+        this.addAnswer(round, player, answer);
+        this.addScore(round, player, score);
+
         this.hostAnswer = true;
         if(this.verifyAnswersToContinue()) this.waitToAfter();
     }
@@ -709,6 +726,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void waitToAfter()
     {
+        this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
         this.resetRound();
 
         String[] args = new String[3];
