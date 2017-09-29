@@ -14,9 +14,9 @@ public enum MessageType
     STARTGAME("STARTGAME"),                 //command to start game
     EXITGAMEACTIVITY("EXITGAMEACTIVITY"),   //command to exit the game activity
     ROUNDSCORE("ROUNDSCORE"),               //clients to host, round answered with score
-    CONTINUEGAME("CONTINUEGAME"),           //from wait to show answer (should give table with round answers)
+    CONTINUEGAME("CONTINUEGAME"),           //from wait to show answer (should give his round details (answer and score)
     NEXTROUND("NEXTROUND"),                 //from showing to next round
-    GAMEOVER("GAMEOVER"),                   //from wait to gameover screen (should give table with final socres)
+    GAMEOVER("GAMEOVER"),                   //from wait to gameover screen (should give list with everyone final scores)
     GAMEOVERTOLOBBY("GAMEOVERTOLOBBY");     //from gameover to lobby
 
 
