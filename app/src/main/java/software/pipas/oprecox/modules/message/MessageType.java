@@ -10,12 +10,15 @@ public enum MessageType
     REMOVEPLAYERLIST("REMOVEPLAYERLIST"),
     ACTUALIZEROOMNAME("ACTUALIZEROOMNAME"),
     GAMEURLS("GAMEURLS"),
-    READY("READY"),
-    STARTGAME("STARTGAME"),
-    EXITGAMEACTIVITY("EXITGAMEACTIVITY"),
-    ROUNDSCORE("ROUNDSCORE"),
-    CONTINUEGAME("CONTINUEGAME"),
-    NEXTROUND("NEXTROUND");
+    READY("READY"),                         //ready ack
+    STARTGAME("STARTGAME"),                 //command to start game
+    EXITGAMEACTIVITY("EXITGAMEACTIVITY"),   //command to exit the game activity
+    ROUNDSCORE("ROUNDSCORE"),               //clients to host, round answered with score
+    CONTINUEGAME("CONTINUEGAME"),           //from wait to show answer (should give table with round answers)
+    NEXTROUND("NEXTROUND"),                 //from showing to next round
+    GAMEOVER("GAMEOVER"),                   //from wait to gameover screen (should give table with final socres)
+    GAMEOVERTOLOBBY("GAMEOVERTOLOBBY");     //from gameover to lobby
+
 
     private final String message;
 

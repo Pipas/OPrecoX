@@ -14,8 +14,11 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import software.pipas.oprecox.BuildConfig;
@@ -26,6 +29,7 @@ import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
+import software.pipas.oprecox.util.Settings;
 
 /**
  * Created by nuno_ on 31-Aug-17.
@@ -46,6 +50,10 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     private ConcurrentHashMap<Player, Socket> reservedPlayers;
     private LinkedList<Player> readyPlayers;
     private boolean hostReady;
+
+    private HashMap<Integer, HashMap<Player, Integer>> scoreBoard;
+    private HashMap<Integer, HashMap<Player, Float>> answerBoard;
+
 
     public RoomService() {super("Room");}
     public RoomService(String name) {super(name);}
@@ -640,9 +648,32 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void startGame()
     {
+        this.initializeScoreBoard();
+        this.initializeAnswerBoard();
         this.gaming = true;
         this.resetRound();
     }
+
+    private void initializeScoreBoard()
+    {
+        this.scoreBoard = new HashMap<>();
+
+        for(int i = 0; i < Settings.getGameSize(); i++)
+        {
+            this.scoreBoard.put(i, new HashMap<Player, Integer>());
+        }
+    }
+
+    private void initializeAnswerBoard()
+    {
+        this.answerBoard = new HashMap<>();
+
+        for(int i = 0;  i < Settings.getGameSize(); i++)
+        {
+            this.answerBoard.put(i, new HashMap<Player, Float>());
+        }
+    }
+
 
     private void stopGame()
     {
@@ -702,4 +733,155 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void startTimer() {}
 
+
+    //inserts a score in the score table
+    private synchronized void addScore(Integer round, Player player, Integer score)
+    {
+        this.scoreBoard.get(round).put(player, score);
+    }
+
+    //inserts a answer in the answer table
+    private synchronized void addAnswer(Integer round, Player player, Float answer)
+    {
+        this.answerBoard.get(round).put(player, answer);
+    }
+
+    //returns a string with all the total scores for each player
+    private synchronized String getTotalScores()
+    {
+        HashMap<Player, Integer> map = getTotalScoresMap();
+
+        String str = "";
+
+
+        for(HashMap.Entry<Player, Integer> entry: map.entrySet())
+        {
+            str += entry.getKey().getPlayerID() + " " + Integer.toString(entry.getValue()) + " ";
+        }
+
+        if (!str.equals(""))
+            str = str.substring(0, str.length() - 1);
+
+        return str;
+    }
+
+    //returns a string with the answers and scores for each player in one specific roun
+    private synchronized String getRoundDetails(int index)
+    {
+        HashMap<Player, Float> answers = this.answerBoard.get(index);
+        HashMap<Player, Integer> scores = this.scoreBoard.get(index);
+
+        LinkedList<Player> listOfPlayers = new LinkedList<>();
+
+        for(Player player : answers.keySet())
+        {
+            if(listOfPlayers.indexOf(player) >=0 ) listOfPlayers.add(player);
+        }
+
+        for(Player player : scores.keySet())
+        {
+            if(listOfPlayers.indexOf(player) >=0 ) listOfPlayers.add(player);
+        }
+
+        String str = "";
+
+        for(Player player : listOfPlayers)
+        {
+            Float answer = answers.get(player);
+            Integer score = scores.get(player);
+
+            str += player.getPlayerID() + " ";
+
+            if(answer != null)
+                str += answer + " ";
+            else
+                str += "0.0 ";
+
+            if(score != null)
+                str += score + " ";
+            else
+                str += "0 ";
+        }
+
+        if(!str.equals(""))
+            str = str.substring(0, str.length() - 1);
+
+        return str;
+    }
+
+    //returns a hasmap with the total score for each player
+    private synchronized HashMap<Player, Integer> getTotalScoresMap()
+    {
+        HashMap<Player, Integer> table = new HashMap<>();
+
+        int rounds = Settings.getGameSize();
+
+        for(int roundIndex = 0; roundIndex < rounds; roundIndex++)
+        {
+            HashMap<Player, Integer> roundTableScores = this.scoreBoard.get(roundIndex);
+
+            for(HashMap.Entry<Player, Integer> entry : roundTableScores.entrySet())
+            {
+                Player player = entry.getKey();
+                Integer score = entry.getValue();
+
+                if(table.containsKey(player))
+                {
+                    int previousScore = table.get(player);
+                    int newScore = previousScore + score;
+                    table.put(player, newScore);
+                }
+                else
+                {
+                    table.put(player, score);
+                }
+            }
+        }
+
+        return table;
+    }
+
+    /**
+        Asserts both the answersBoard and scoreBoard from the beginign to round 'index' included
+        checks if there is players with no answers in that interval of rounds and gives
+        them default answers (0.0) and scores (0)
+     */
+    private synchronized void assertTables(int index)
+    {
+        ArrayList<Player> listOfPlayers = new ArrayList<>();
+
+        //phase 1: build array with all players form round 0 to round index included
+        for(int i = 0; i <= index; i++)
+        {
+            HashMap<Player, Integer> scores = this.scoreBoard.get(i);
+            HashMap<Player, Float> answers = this.answerBoard.get(i);
+
+            for(Player player : scores.keySet())
+            {
+                if(listOfPlayers.indexOf(player) < 0) listOfPlayers.add(player);
+            }
+
+            for (Player player : answers.keySet())
+            {
+                if(listOfPlayers.indexOf(player) < 0) listOfPlayers.add(player);
+            }
+        }
+
+        //phase 2: verify holes and inconsistencies and add default values (has not answered)
+        for(int i = 0; i <= index; i++)
+        {
+            for(Player player : listOfPlayers)
+            {
+                if(!this.answerBoard.get(i).containsKey(player))
+                {
+                    this.answerBoard.get(i).put(player, new Float(0.0));
+                }
+
+                if(!this.scoreBoard.get(i).containsKey(player))
+                {
+                    this.scoreBoard.get(i).put(player, 0);
+                }
+            }
+        }
+    }
 }
