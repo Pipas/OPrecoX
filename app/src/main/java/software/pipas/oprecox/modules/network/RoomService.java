@@ -728,7 +728,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void waitToAfter()
     {
-        //this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
+        this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
         this.resetRound();
         String details = getRoundDetails(PriceGuessGameMultiplayerActivity.getAdIndex());
 
@@ -909,13 +909,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
             for(Player player : listOfPlayers)
             {
-
-                Log.d("ASSERT", "====================================");
-                Log.d("ASSERT", this.answerBoard.get(i).toString()  );
-                Log.d("ASSERT", this.scoreBoard.get(i).toString()  );
-                Log.d("ASSERT", "====================================");
-
-
                 if(!this.answerBoard.get(i).containsKey(player))
                 {
                     Log.d("HASH_DEBUG_ASSERT", "invoked 1 " + i);

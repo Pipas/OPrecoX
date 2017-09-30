@@ -89,6 +89,12 @@ public class Player extends DataType implements Parcelable
     }
 
     @Override
+    public int hashCode()
+    {
+        return this.playerID.hashCode();
+    }
+
+    @Override
     public String toString()
     {
 
