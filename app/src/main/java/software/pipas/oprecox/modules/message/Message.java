@@ -199,7 +199,6 @@ public class Message
         }
         else if(messageType.equals(MessageType.CONTINUEGAME) && args.length >= 3)
         {
-            Log.d("ROOM_DEBUG", "tryed create");
             int size = args.length - 3; //size of details
 
             if(size != 0)
@@ -207,7 +206,7 @@ public class Message
                 if((size % 3) != 0) return false;
             }
 
-            for(int i = 3; i < args.length; i += i + 3)
+            for(int i = 3; i < args.length; i = i + 3)
             {
                 Player player = new Player(args[i]);
                 Float answer = Float.parseFloat(args[i+1]);

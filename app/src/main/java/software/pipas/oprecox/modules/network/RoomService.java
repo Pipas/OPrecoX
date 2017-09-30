@@ -731,9 +731,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
         this.resetRound();
         String details = getRoundDetails(PriceGuessGameMultiplayerActivity.getAdIndex());
-
         String[] detailsArgs = details.split("\\s+");
-
 
         int size = detailsArgs.length;
 
