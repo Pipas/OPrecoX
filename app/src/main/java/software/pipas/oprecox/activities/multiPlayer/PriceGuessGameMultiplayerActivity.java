@@ -206,6 +206,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         TextView continueButtonTextView = (TextView) findViewById(R.id.continueButtonTextView);
 
         waitingPriceGuess = (TextView) waitingView.findViewById(R.id.priceGuess);
+        TextView waitingPlayersTooltip = (TextView)  waitingView.findViewById(R.id.waitingPlayersTooltip);
 
         CustomFontHelper.setCustomFont(afterPriceGuess, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(correctPriceOutputTextView, "font/Antonio-Regular.ttf", getBaseContext());
@@ -215,6 +216,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         CustomFontHelper.setCustomFont(scorePlusTextView, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(continueButtonTextView, "font/Antonio-Regular.ttf", getBaseContext());
         CustomFontHelper.setCustomFont(waitingPriceGuess, "font/Antonio-Regular.ttf", getBaseContext());
+        CustomFontHelper.setCustomFont(waitingPlayersTooltip, "font/Antonio-Regular.ttf", getBaseContext());
     }
 
     private void initiateButtonListeners()
