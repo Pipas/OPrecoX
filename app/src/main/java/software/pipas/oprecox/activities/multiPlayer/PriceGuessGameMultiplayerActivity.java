@@ -446,10 +446,13 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     {
         if(adIndex >= gameSize - 1)
         {
+            //PARA ELIMINAR QUANDO GAMEOVERMULTIPLAYER CLASS ESTIVER FEITA
+            /*
             Intent myIntent = new Intent(this, GameOver.class);
             myIntent.putExtra("score", score);
             startActivity(myIntent);
             finish();
+            */
 
             //lançado messagem de gameover para os clients
             Intent intent = new Intent(getString(R.string.S004));
@@ -576,9 +579,9 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 showBeforeGuessView();
             }
-            else if(msg.isValid() && msg.getMessageType().equals(MessageType.GAMEOVER.toString()) && !isHost)
+            else if(msg.isValid() && msg.getMessageType().equals(MessageType.GAMEOVER.toString()))
             {
-                Log.d("GAME_OVER", "debug");
+                //msg contais total score, invoke getTotatScore, returns HashMap<Player, Integer (total Score)>
                 showGameOver();
             }
         }

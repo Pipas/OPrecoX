@@ -94,8 +94,10 @@
     <string name="S008_EXITGAMEACTIVITY">S008_EXITGAMEACTIVITY</string>
     <string name="S008_RESPONSE">S008_RESPONSE</string>
     <string name="S008_PLAYERID">S008_PLAYERID</string>
+    <string name="S008_GAMEOVER">S008_GAMEOVER</string>
 
-
+    <!-- PARAMETHERS S009 GameOverMultiplayer -->
+    <string name="S009_EXITACTIVITY">S009_EXITACTIVITY</string>
 
 
 

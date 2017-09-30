@@ -314,15 +314,33 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         String gameOver = intent.getExtras().getString(getString(R.string.S004_GAMEOVER));
         if(gameOver != null)
         {
-            String[] args = new String[3];
+
+            String gameDetails = getTotalScores();
+
+            String[] gameDetailsArgs = gameDetails.split("\\s+");
+
+
+            String[] args = new String[3 + gameDetailsArgs.length];
             args[0] = this.getString(R.string.network_app_name);
             args[1] = Integer.toString(BuildConfig.VERSION_CODE);
             args[2] = MessageType.GAMEOVER.toString();
+
+            for(int i = 3; i < args.length; i++)
+            {
+                args[i] = gameDetailsArgs[i-3];
+            }
 
             Message msg = new Message(this.getApplicationContext(), args);
 
             if(!msg.isValid()) {Log.d("ROOM_DEBUG", "gameover not valid"); return;}
 
+
+            //SEND TO ME
+            Intent intent1 = new Intent(getString(R.string.S008));
+            intent1.putExtra(getString(R.string.S008_MESSAGE), msg.getMessage());
+            sendBroadcast(intent1);
+
+            //SEND TO OTHER PLAYERS
             for(Socket socket : this.reservedPlayers.values())
             {
                 this.singleSend(socket, msg);
@@ -864,7 +882,8 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     }
 
     //returns a hasmap with the total score for each player
-    private synchronized HashMap<Player, Integer> getTotalScoresMap()
+    private synchronized HashMap<Player, Integer>
+    getTotalScoresMap()
     {
         HashMap<Player, Integer> table = new HashMap<>();
 

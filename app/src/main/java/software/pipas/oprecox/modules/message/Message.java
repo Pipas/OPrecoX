@@ -32,6 +32,7 @@ public class Message
     private int roundScore;
     private float roundAnswer;
     private HashMap<Player, HashMap<Float, Integer>> roundDetails;
+    private HashMap<Player, Integer> gameScore;
 
     private boolean valid;
 
@@ -82,6 +83,7 @@ public class Message
         this.roundScore = -1;
         this.roundAnswer = new Float(0.0);
         this.roundDetails = new HashMap<>();
+        this.gameScore = new HashMap<>();
     }
     //--------------------------------------------------
 
@@ -225,7 +227,22 @@ public class Message
         }
         else if(messageType.equals(MessageType.GAMEOVER) && args.length >= 3)
         {
-            //to implement round scores
+            int size = args.length - 3;
+
+            if(size != 0)
+            {
+                if((size % 2) != 0) return false;
+            }
+
+            for(int i = 3; i < args.length; i = i + 2)
+            {
+                Player player = new Player(args[i]);
+                Integer totalScore = Integer.parseInt(args[i+1]);
+
+                this.gameScore.put(player, totalScore);
+            }
+
+
             return true;
         }
         else
@@ -333,7 +350,7 @@ public class Message
         }
         else if(messageType.equals(MessageType.GAMEOVER))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + printTotalScore());
         }
         else
         {
@@ -390,6 +407,9 @@ public class Message
 
     public HashMap<Player, HashMap<Float, Integer>> getRoundDetails() {return this.roundDetails;}
 
+    public HashMap<Player, Integer> getGameScore() {return this.gameScore;}
+
+
     public String printRoundDetails()
     {
         String str = "";
@@ -410,6 +430,18 @@ public class Message
         return str;
     }
 
+    public String printTotalScore()
+    {
+        String str = "";
+
+        for(HashMap.Entry<Player, Integer> entry : this.gameScore.entrySet())
+        {
+            str += entry.getKey() + " " + Integer.toString(entry.getValue()) + " ";
+        }
+
+        if(!str.equals("")) str = str.substring(0, str.length() - 1);
+        return str;
+    }
 
     public String printURLArrayList()
     {
