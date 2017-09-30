@@ -25,6 +25,7 @@
     <string name="S006">S006</string> <!-- Destination: LobbyClient -->
     <string name="S007">S007</string> <!-- Destination: LobbyHost -->
     <string name="S008">S008</string> <!-- Destination: PriceGuessGameMultiplayerActivity -->
+    <string name="S009">S009</string> <!-- Destination: GameOverMultiplayer -->
 
 
     <!-- PARAMETHERS S000 UDPCommsService -->

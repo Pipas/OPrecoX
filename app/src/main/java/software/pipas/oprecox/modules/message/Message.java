@@ -236,6 +236,7 @@ public class Message
 
             for(int i = 3; i < args.length; i = i + 2)
             {
+
                 Player player = new Player(args[i]);
                 Integer totalScore = Integer.parseInt(args[i+1]);
 
@@ -436,7 +437,7 @@ public class Message
 
         for(HashMap.Entry<Player, Integer> entry : this.gameScore.entrySet())
         {
-            str += entry.getKey() + " " + Integer.toString(entry.getValue()) + " ";
+            str += entry.getKey().getPlayerID() + " " + Integer.toString(entry.getValue()) + " ";
         }
 
         if(!str.equals("")) str = str.substring(0, str.length() - 1);

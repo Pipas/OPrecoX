@@ -314,16 +314,14 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         String gameOver = intent.getExtras().getString(getString(R.string.S004_GAMEOVER));
         if(gameOver != null)
         {
-
             String gameDetails = getTotalScores();
-
             String[] gameDetailsArgs = gameDetails.split("\\s+");
-
 
             String[] args = new String[3 + gameDetailsArgs.length];
             args[0] = this.getString(R.string.network_app_name);
             args[1] = Integer.toString(BuildConfig.VERSION_CODE);
             args[2] = MessageType.GAMEOVER.toString();
+
 
             for(int i = 3; i < args.length; i++)
             {
@@ -334,6 +332,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
             if(!msg.isValid()) {Log.d("ROOM_DEBUG", "gameover not valid"); return;}
 
+            Log.d("DETAILS_DEBUG", msg.getMessage());
 
             //SEND TO ME
             Intent intent1 = new Intent(getString(R.string.S008));
@@ -949,18 +948,14 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             {
                 if(!this.answerBoard.get(i).containsKey(player))
                 {
-                    Log.d("HASH_DEBUG_ASSERT", "invoked 1 " + i);
                     this.answerBoard.get(i).put(player, new Float(0.0));
                 }
 
                 if(!this.scoreBoard.get(i).containsKey(player))
                 {
-                    Log.d("HASH_DEBUG_ASSERT", "invoked 2 " + i);
                     this.scoreBoard.get(i).put(player, 0);
                 }
             }
-
-            Log.d("ASSERT", "---------------------------------------");
         }
     }
 }

@@ -86,6 +86,8 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
         this.startBroadcastReceiver();
 
+        this.sendGameOverToFinish();
+
         startDataParses();
     }
 
@@ -548,6 +550,13 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         IntentFilter filter = new IntentFilter(getString(R.string.S008));
         registerReceiver(this.broadcastReceiver, filter);
 
+    }
+
+    private void sendGameOverToFinish()
+    {
+        Intent intent = new Intent(getString(R.string.S009));
+        intent.putExtra(getString(R.string.S009_EXITACTIVITY), "");
+        sendBroadcast(intent);
     }
 
     private void handleIntentReceived(Context context, Intent intent)
