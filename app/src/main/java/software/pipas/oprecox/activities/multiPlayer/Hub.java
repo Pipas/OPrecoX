@@ -579,6 +579,9 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onRewardedVideoAdFailedToLoad(int i)
     {
-        circleDialog.dismiss();
+        if(circleDialog != null)
+            circleDialog.dismiss();
+
+        mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
     }
 }

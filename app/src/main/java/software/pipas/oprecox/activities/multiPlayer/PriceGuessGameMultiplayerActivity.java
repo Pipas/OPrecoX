@@ -468,7 +468,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         beforePriceGuess.setText("");
         scorePlusTextView.setVisibility(View.GONE);
         togglePanel(null);
-
+        
         priceGuesser.setVisibility(View.VISIBLE);
         afterGuess.setVisibility(View.GONE);
     }
