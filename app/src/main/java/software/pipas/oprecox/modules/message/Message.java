@@ -223,6 +223,11 @@ public class Message
         {
             return true;
         }
+        else if(messageType.equals(MessageType.GAMEOVER) && args.length >= 3)
+        {
+            //to implement round scores
+            return true;
+        }
         else
         {
             return false;
@@ -323,6 +328,10 @@ public class Message
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + printRoundDetails());
         }
         else if(messageType.equals(MessageType.NEXTROUND))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
+        }
+        else if(messageType.equals(MessageType.GAMEOVER))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
         }

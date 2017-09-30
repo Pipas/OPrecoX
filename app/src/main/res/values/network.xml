@@ -59,6 +59,7 @@
     <string name="S004_EXITGAMEACTIVITY">S004_EXITGAMEACTIVITY</string>
     <string name="S004_ROUNDANSWER">S004_ROUNDANSWER</string>
     <string name="S004_NEXTROUND">S004_NEXTROUND</string>
+    <string name="S004_GAMEOVER">S004_GAMEOVER</string>
 
     <!-- PARAMETHERS S005 ClientService -->
     <string name="S005_INETSOCKETADDRESS">S005_INETSOCKETADDRESS</string>

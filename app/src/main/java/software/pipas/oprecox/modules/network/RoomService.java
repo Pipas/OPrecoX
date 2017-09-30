@@ -308,7 +308,28 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             {
                 this.singleSend(socket, msg);
             }
+            return;
         }
+
+        String gameOver = intent.getExtras().getString(getString(R.string.S004_GAMEOVER));
+        if(gameOver != null)
+        {
+            String[] args = new String[3];
+            args[0] = this.getString(R.string.network_app_name);
+            args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+            args[2] = MessageType.GAMEOVER.toString();
+
+            Message msg = new Message(this.getApplicationContext(), args);
+
+            if(!msg.isValid()) {Log.d("ROOM_DEBUG", "gameover not valid"); return;}
+
+            for(Socket socket : this.reservedPlayers.values())
+            {
+                this.singleSend(socket, msg);
+            }
+            return;
+        }
+
 
 
     }

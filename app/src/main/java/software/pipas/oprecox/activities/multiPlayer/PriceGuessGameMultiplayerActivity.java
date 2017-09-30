@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -449,6 +450,12 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             myIntent.putExtra("score", score);
             startActivity(myIntent);
             finish();
+
+            //lançado messagem de gameover para os clients
+            Intent intent = new Intent(getString(R.string.S004));
+            intent.putExtra(getString(R.string.S004_GAMEOVER), "");
+            sendBroadcast(intent);
+
         }
         else
         {
@@ -473,6 +480,14 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         
         priceGuesser.setVisibility(View.VISIBLE);
         afterGuess.setVisibility(View.GONE);
+    }
+
+    private void showGameOver()
+    {
+        Intent myIntent = new Intent(this, GameOver.class);
+        myIntent.putExtra("score", score);
+        startActivity(myIntent);
+        finish();
     }
 
     private void saveAd()
@@ -560,6 +575,11 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             else if(msg.isValid() && msg.getMessageType().equals(MessageType.NEXTROUND.toString()) && !isHost)
             {
                 showBeforeGuessView();
+            }
+            else if(msg.isValid() && msg.getMessageType().equals(MessageType.GAMEOVER.toString()) && !isHost)
+            {
+                Log.d("GAME_OVER", "debug");
+                showGameOver();
             }
         }
     }
