@@ -551,6 +551,8 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             }
             else if(msg.isValid() && msg.getMessageType().equals(MessageType.CONTINUEGAME.toString()))
             {
+                //TER EM ATENCAO MSG CONTEM TODOS OS DETALHES E JOGADAS DA RONDA... CASO SE QUEIRA IMPRIMIR
+                //invocar msg.getRoundDetails(), retorna HashMap<Player, HashMap<Float (answer), Integer (score)>>
                 showAfterGuessView();
             }
             else if(msg.isValid() && msg.getMessageType().equals(MessageType.NEXTROUND.toString()) && !isHost)
