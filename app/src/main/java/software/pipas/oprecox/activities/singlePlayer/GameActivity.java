@@ -58,7 +58,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private ArrayList<AsyncGetAll> asyncTasks;
     protected int gameSize;
     protected int score;
-    protected static int adIndex = 0;
+    protected static int adIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,6 +67,8 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         app = (OPrecoX) getApplicationContext();
         if(app.getAds() == null)
             return;
+
+        adIndex = 0;
 
         setContentView(R.layout.activity_game);
 
