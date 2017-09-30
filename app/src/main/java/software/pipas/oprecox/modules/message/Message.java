@@ -1,12 +1,15 @@
 package software.pipas.oprecox.modules.message;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.net.DatagramPacket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.menus.InfoActivity;
+import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.util.Util;
 
 public class Message
@@ -28,6 +31,7 @@ public class Message
     private int round;
     private int roundScore;
     private float roundAnswer;
+    private HashMap<Player, HashMap<Float, Integer>> roundDetails;
 
     private boolean valid;
 
@@ -77,6 +81,7 @@ public class Message
         this.round = -1;
         this.roundScore = -1;
         this.roundAnswer = new Float(0.0);
+        this.roundDetails = new HashMap<>();
     }
     //--------------------------------------------------
 
@@ -192,8 +197,27 @@ public class Message
             this.roundScore = Integer.parseInt(args[6]);
             return true;
         }
-        else if(messageType.equals(MessageType.CONTINUEGAME) && args.length == 3)
+        else if(messageType.equals(MessageType.CONTINUEGAME) && args.length >= 3)
         {
+            Log.d("ROOM_DEBUG", "tryed create");
+            int size = args.length - 3; //size of details
+
+            if(size != 0)
+            {
+                if((size % 3) != 0) return false;
+            }
+
+            for(int i = 3; i < args.length; i += i + 3)
+            {
+                Player player = new Player(args[i]);
+                Float answer = Float.parseFloat(args[i+1]);
+                Integer score = Integer.parseInt(args[i+2]);
+
+                this.roundDetails.put(player, new HashMap<Float, Integer>());
+                this.roundDetails.get(player).put(answer, score);
+            }
+
+
             return true;
         }
         else if(messageType.equals(MessageType.NEXTROUND) && args.length == 3)
@@ -297,7 +321,7 @@ public class Message
         }
         else if(messageType.equals(MessageType.CONTINUEGAME))
         {
-            return (this.appName + " " + this.appVersion + " " + this.messageType.toString());
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + printRoundDetails());
         }
         else if(messageType.equals(MessageType.NEXTROUND))
         {
@@ -356,6 +380,29 @@ public class Message
 
     public ArrayList<String> getUrlsArrayList() {return this.urlsArrayList;}
 
+    public HashMap<Player, HashMap<Float, Integer>> getRoundDetails() {return this.roundDetails;}
+
+    public String printRoundDetails()
+    {
+        String str = "";
+
+        for(HashMap.Entry<Player, HashMap<Float, Integer>> entry : this.roundDetails.entrySet())
+        {
+            str += entry.getKey().getPlayerID() + " ";
+
+            for(HashMap.Entry<Float, Integer> conj : entry.getValue().entrySet())
+            {
+                str += Float.toString(conj.getKey()) + " ";
+                str += Integer.toString(conj.getValue()) + " ";
+                break;
+            }
+        }
+
+        if(!str.equals("")) str = str.substring(0, str.length() - 1);
+        return str;
+    }
+
+
     public String printURLArrayList()
     {
         if(this.urlsArrayList == null) return "";
@@ -391,7 +438,8 @@ public class Message
                 "Round: " + getRoundNumber() + "\n" +
                 "RoundAnswer: " + getRoundAnswer() + "\n" +
                 "RoundScore: " + getRoundScore() + "\n"  +
-                "TotalScore: " + getTotalScore() + "\n");
+                "TotalScore: " + getTotalScore() + "\n" +
+                "RoundDetails; " + printRoundDetails() + "\n");
 
         return str;
     }

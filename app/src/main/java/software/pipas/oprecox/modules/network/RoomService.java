@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.icu.text.LocaleDisplayNames;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -31,6 +32,7 @@ import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.util.Settings;
+import software.pipas.oprecox.util.Util;
 
 /**
  * Created by nuno_ on 31-Aug-17.
@@ -726,14 +728,25 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void waitToAfter()
     {
-        this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
+        //this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
         this.resetRound();
+        String details = getRoundDetails(PriceGuessGameMultiplayerActivity.getAdIndex());
 
-        String[] args = new String[3];
+        String[] detailsArgs = details.split("\\s+");
+
+
+        int size = detailsArgs.length;
+
+        String[] args = new String[3 + size];
 
         args[0] = this.getString(R.string.network_app_name);
         args[1] = Integer.toString(BuildConfig.VERSION_CODE);
         args[2] = MessageType.CONTINUEGAME.toString();
+
+        for(int i = 3; i < args.length; i++)
+        {
+            args[i] = detailsArgs[i - 3];
+        }
 
         Message msg = new Message(this.getApplicationContext(), args);
 
@@ -793,13 +806,15 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
         for(Player player : answers.keySet())
         {
-            if(listOfPlayers.indexOf(player) >=0 ) listOfPlayers.add(player);
+            if(listOfPlayers.indexOf(player) < 0 ) listOfPlayers.add(player);
         }
 
         for(Player player : scores.keySet())
         {
-            if(listOfPlayers.indexOf(player) >=0 ) listOfPlayers.add(player);
+            if(listOfPlayers.indexOf(player) < 0 ) listOfPlayers.add(player);
         }
+
+
 
         String str = "";
 
@@ -807,6 +822,8 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         {
             Float answer = answers.get(player);
             Integer score = scores.get(player);
+
+            Log.d("HASH_DEBUG", player + " : " + answer + " : " + score);
 
             str += player.getPlayerID() + " ";
 
@@ -885,21 +902,34 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             }
         }
 
+
         //phase 2: verify holes and inconsistencies and add default values (has not answered)
         for(int i = 0; i <= index; i++)
         {
+
             for(Player player : listOfPlayers)
             {
+
+                Log.d("ASSERT", "====================================");
+                Log.d("ASSERT", this.answerBoard.get(i).toString()  );
+                Log.d("ASSERT", this.scoreBoard.get(i).toString()  );
+                Log.d("ASSERT", "====================================");
+
+
                 if(!this.answerBoard.get(i).containsKey(player))
                 {
+                    Log.d("HASH_DEBUG_ASSERT", "invoked 1 " + i);
                     this.answerBoard.get(i).put(player, new Float(0.0));
                 }
 
                 if(!this.scoreBoard.get(i).containsKey(player))
                 {
+                    Log.d("HASH_DEBUG_ASSERT", "invoked 2 " + i);
                     this.scoreBoard.get(i).put(player, 0);
                 }
             }
+
+            Log.d("ASSERT", "---------------------------------------");
         }
     }
 }

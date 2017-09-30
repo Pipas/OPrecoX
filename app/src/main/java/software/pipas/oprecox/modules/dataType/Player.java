@@ -91,6 +91,11 @@ public class Player extends DataType implements Parcelable
     @Override
     public String toString()
     {
+
+        if(this.displayName == null || this.name == null)
+
+            return "PlayerId: " + playerID;
+
         String str = new String(
                 "DataType: Player" + "\n" +
                 "PlayerAnnouncedName | Real: " +  this.name + " " + this.getRealName() + "\n" +
