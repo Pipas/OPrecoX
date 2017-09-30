@@ -83,8 +83,6 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         }
 
         setViewsWithAd(app.getAd(adIndex));
-
-        startCountdownAnimation(5);
     }
 
     protected void startCountdownAnimation(int duration)
