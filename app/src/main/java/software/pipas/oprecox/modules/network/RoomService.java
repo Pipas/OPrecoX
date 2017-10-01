@@ -23,6 +23,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 import software.pipas.oprecox.BuildConfig;
@@ -64,7 +66,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     public RoomService() {super("Room");}
     public RoomService(String name) {super(name);}
 
-    private CountDownTimer countDownTimer;
+    private Timer countDownTimer;
 
     @Override
     public void onCreate()
@@ -827,31 +829,28 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             this.singleSend(socket, msg);
         }
 
-        countDownTimer = new CountDownTimer((long) Settings.getGameTime() * 1000, (long) Settings.getGameTime() * 1000)
+        TimerTask timerTask = new TimerTask()
         {
-
-
             @Override
-            public void onFinish()
+            public void run()
             {
                 onCountdownFinish();
-
             }
+        };
+        this.countDownTimer = new Timer();
+        Log.d("TIMER_DEBUG", (Settings.getGameTime() * 1000) + "");
+        this.countDownTimer.schedule(timerTask, (long) (Settings.getGameTime() * 1000));
 
-            @Override
-            public void onTick(long millisUntilFinished) {}
-
-        }.start();
     }
 
     private void onCountdownFinish()
     {
+        Log.d("TIMER_DEBUG", "INVOKED");
         waitToAfter();
     }
 
     private void stopCountdown()
     {
-
         countDownTimer.cancel();
     }
 
