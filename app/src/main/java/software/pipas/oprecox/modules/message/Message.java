@@ -251,10 +251,17 @@ public class Message
             this.timeout = Integer.parseInt(args[3]);
             return true;
         }
+        else if(messageType.equals(MessageType.UPDATEID) && args.length == 5)
+        {
+            this.playerId = args[3];
+            this.displayName = Util.substituteSpace(args[4]);
+            return true;
+        }
         else
         {
             return false;
         }
+
 
     }
     //--------------------------------------------------
@@ -361,6 +368,10 @@ public class Message
         else if(messageType.equals(MessageType.STARTCOUNTDOWN))
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + getTimeout());
+        }
+        else if(messageType.equals(MessageType.UPDATEID))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + this.playerId + " " + this.displayName);
         }
         else
         {
