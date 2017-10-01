@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 
 import java.net.Inet4Address;
+import java.util.ArrayList;
+
+import software.pipas.oprecox.modules.dataType.Player;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -17,6 +20,8 @@ public abstract class Settings
     private static String customName;
 
     private static Inet4Address lastIP;
+
+    private static ArrayList<Player> sharedPlayerDB = new ArrayList<>();
 
     public static int getGameSize()
     {
@@ -32,6 +37,7 @@ public abstract class Settings
         editor.putInt("gameSize", gameSize);
         editor.apply();
     }
+
 
     public static int getAdCountdown()
     {
@@ -116,5 +122,15 @@ public abstract class Settings
         SharedPreferences.Editor editor = activity.getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
         editor.putInt("gameTime", gameTime);
         editor.apply();
+    }
+
+    public static ArrayList<Player> getSharedPlayerDB()
+    {
+        return sharedPlayerDB;
+    }
+
+    public static void addToSharedPlayerDB(Player player)
+    {
+        sharedPlayerDB.add(player);
     }
 }

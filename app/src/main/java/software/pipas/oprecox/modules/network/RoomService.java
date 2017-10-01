@@ -332,7 +332,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
             if(!msg.isValid()) {Log.d("ROOM_DEBUG", "gameover not valid"); return;}
 
-            Log.d("DETAILS_DEBUG", msg.getMessage());
 
             //SEND TO ME
             Intent intent1 = new Intent(getString(R.string.S008));

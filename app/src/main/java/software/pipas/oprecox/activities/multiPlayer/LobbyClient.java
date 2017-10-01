@@ -204,6 +204,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
                 this.checkExistsAndAdd(player);
                 this.retrievePlayerURI(this.playerListAdapter, player);
                 this.refreshListAdapter(this.playerListAdapter);
+                Settings.addToSharedPlayerDB(player);
             }
             else if (message.isValid() && message.getMessageType().equals(MessageType.REMOVEPLAYERLIST.toString()))
             {

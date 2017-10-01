@@ -82,6 +82,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     private String name;
     private String playerDisplayName;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

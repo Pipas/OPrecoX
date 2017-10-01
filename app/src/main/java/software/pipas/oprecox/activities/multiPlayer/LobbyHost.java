@@ -264,6 +264,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
 
         if(player != null)
         {
+            Settings.addToSharedPlayerDB(player);
             this.checkAndAdd(player);
             this.refreshListAdapter(this.playerListAdapter);
             return;
