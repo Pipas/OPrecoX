@@ -5,9 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.icu.text.LocaleDisplayNames;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import com.google.android.gms.common.api.OptionalPendingResult;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,21 +23,19 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Invite;
 import software.pipas.oprecox.activities.multiPlayer.PriceGuessGameMultiplayerActivity;
+import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.util.Settings;
-import software.pipas.oprecox.util.Util;
 
 /**
  * Created by nuno_ on 31-Aug-17.
@@ -60,6 +63,8 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     public RoomService() {super("Room");}
     public RoomService(String name) {super(name);}
+
+    private CountDownTimer countDownTimer;
 
     @Override
     public void onCreate()
@@ -765,6 +770,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void waitToAfter()
     {
+        this.stopCountdown();
         this.assertTables(PriceGuessGameMultiplayerActivity.getAdIndex());
         this.resetRound();
         String details = getRoundDetails(PriceGuessGameMultiplayerActivity.getAdIndex());
@@ -797,8 +803,57 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         }
     }
 
-    private void startTimer() {}
+    private void startTimer()
+    {
+        String[] args = new String[4];
 
+        args[0] = this.getString(R.string.network_app_name);
+        args[1] = Integer.toString(BuildConfig.VERSION_CODE);
+        args[2] = MessageType.STARTCOUNTDOWN.toString();
+        args[3] = Integer.toString(Settings.getGameTime());
+
+        Message msg = new Message(this.getApplicationContext(), args);
+
+        if(!msg.isValid()) {Log.d("MESSAGE_DEBUG", "start timeout not valid"); return;}
+
+        //send broadcast
+        Intent intent = new Intent(getString(R.string.S008));
+        intent.putExtra(getString(R.string.S008_MESSAGE), msg.getMessage());
+        sendBroadcast(intent);
+
+        //send to all
+        for(Socket socket : this.reservedPlayers.values())
+        {
+            this.singleSend(socket, msg);
+        }
+
+        countDownTimer = new CountDownTimer((long) Settings.getGameTime() * 1000, (long) Settings.getGameTime() * 1000)
+        {
+
+
+            @Override
+            public void onFinish()
+            {
+                onCountdownFinish();
+
+            }
+
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+        }.start();
+    }
+
+    private void onCountdownFinish()
+    {
+        waitToAfter();
+    }
+
+    private void stopCountdown()
+    {
+
+        countDownTimer.cancel();
+    }
 
     //inserts a score in the score table
     private synchronized void addScore(Integer round, Player player, Integer score)

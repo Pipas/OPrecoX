@@ -52,7 +52,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private Boolean blocked = false;
     protected OlxParser olxParser;
     private View countdownTimer;
-    private ValueAnimator countdownAnimation;
+    protected ValueAnimator countdownAnimation;
 
     protected OPrecoX app;
     private ArrayList<AsyncGetAll> asyncTasks;
@@ -100,27 +100,19 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
                 countdownTimer.setLayoutParams(layoutParams);
             }
         });
-        countdownAnimation.addListener(new AnimatorListenerAdapter()
-        {
-            @Override
-            public void onAnimationEnd(Animator animation)
-            {
-                Log.d("ANIMATION", "Animation finished");
-                finishActivity(1);
-            }
-        });
         countdownAnimation.setDuration(duration * 1000);
         countdownAnimation.start();
     }
 
-    protected void resetCountdownView()
+    protected void resetCountdownAnimation()
     {
+        stopCountdownAnimation();
         ViewGroup.LayoutParams layoutParams = countdownTimer.getLayoutParams();
         layoutParams.width = 0;
         countdownTimer.setLayoutParams(layoutParams);
     }
 
-    protected void stopCountdown()
+    protected void stopCountdownAnimation()
     {
         countdownAnimation.cancel();
     }

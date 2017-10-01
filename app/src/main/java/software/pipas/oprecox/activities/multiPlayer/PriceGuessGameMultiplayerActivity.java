@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
+import android.os.CountDownTimer;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -58,6 +58,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     private Boolean adSaved = false;
     private Boolean isHost;
     private String playerId;
+    private Boolean hasAnswered = false;
 
     private BroadcastReceiver broadcastReceiver;
     private ArrayList<AsyncGetAd> asyncTasks;
@@ -426,6 +427,12 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         if(dialpadString.equals(""))
             return;
 
+        if(countdownAnimation != null)
+            if(countdownAnimation.isRunning())
+            resetCountdownAnimation();
+
+        hasAnswered = true;
+
         priceGuesser.setVisibility(View.GONE);
         if(guessPrice == (int) guessPrice)
             waitingPriceGuess.setText(String.format("%,d€", (int) guessPrice));
@@ -439,6 +446,12 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private void showAfterGuessView()
     {
+        if(priceGuesser.getVisibility() == View.VISIBLE)
+        {
+            guessPrice = 0;
+            dialpadString = "0";
+            confirmSelection();
+        }
         waitingView.setVisibility(View.GONE);
         afterGuess.setVisibility(View.VISIBLE);
         populateAfterGuessViews();
@@ -476,6 +489,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
     {
         //FAZER UMA THREAD WHILE NOT LOADED if(app.getAd(adIndex + 1) == null)
         adIndex++;
+        hasAnswered = false;
 
         setViewsWithAd(app.getAd(adIndex));
         dialpadString = "";
@@ -582,6 +596,8 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 //TER EM ATENCAO MSG CONTEM TODOS OS DETALHES E JOGADAS DA RONDA... CASO SE QUEIRA IMPRIMIR
                 //invocar msg.getRoundDetails(), retorna HashMap<Player, HashMap<Float (answer), Integer (score)>>
+                if(countdownAnimation != null)
+                    resetCountdownAnimation();
                 showAfterGuessView();
             }
             else if(msg.isValid() && msg.getMessageType().equals(MessageType.NEXTROUND.toString()) && !isHost)
@@ -592,6 +608,11 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 //msg contais total score, invoke getTotatScore, returns HashMap<Player, Integer (total Score)>
                 showGameOver();
+            }
+            else if(msg.isValid() && msg.getMessageType().equals(MessageType.STARTCOUNTDOWN.toString()))
+            {
+                if(!hasAnswered)
+                    startCountdownAnimation(msg.getTimeoutInt());
             }
         }
     }

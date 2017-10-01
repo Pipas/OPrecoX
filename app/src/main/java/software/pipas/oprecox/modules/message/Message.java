@@ -1,14 +1,12 @@
 package software.pipas.oprecox.modules.message;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.menus.InfoActivity;
 import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.util.Util;
 
@@ -33,6 +31,7 @@ public class Message
     private float roundAnswer;
     private HashMap<Player, HashMap<Float, Integer>> roundDetails;
     private HashMap<Player, Integer> gameScore;
+    private int timeout;
 
     private boolean valid;
 
@@ -84,6 +83,7 @@ public class Message
         this.roundAnswer = new Float(0.0);
         this.roundDetails = new HashMap<>();
         this.gameScore = new HashMap<>();
+        this.timeout = -1;
     }
     //--------------------------------------------------
 
@@ -246,6 +246,11 @@ public class Message
 
             return true;
         }
+        else if(messageType.equals(MessageType.STARTCOUNTDOWN) && args.length == 4)
+        {
+            this.timeout = Integer.parseInt(args[3]);
+            return true;
+        }
         else
         {
             return false;
@@ -353,6 +358,10 @@ public class Message
         {
             return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + printTotalScore());
         }
+        else if(messageType.equals(MessageType.STARTCOUNTDOWN))
+        {
+            return (this.appName + " " + this.appVersion + " " + this.messageType.toString() + " " + getTimeout());
+        }
         else
         {
             return null;
@@ -410,6 +419,9 @@ public class Message
 
     public HashMap<Player, Integer> getGameScore() {return this.gameScore;}
 
+    public String getTimeout() {return Integer.toString(this.timeout);}
+
+    public Integer getTimeoutInt() {return this.timeout;}
 
     public String printRoundDetails()
     {
@@ -480,7 +492,8 @@ public class Message
                 "RoundAnswer: " + getRoundAnswer() + "\n" +
                 "RoundScore: " + getRoundScore() + "\n"  +
                 "TotalScore: " + getTotalScore() + "\n" +
-                "RoundDetails; " + printRoundDetails() + "\n");
+                "RoundDetails; " + printRoundDetails() + "\n" +
+                "Timeout: " + getTimeout() + "\n");
 
         return str;
     }
