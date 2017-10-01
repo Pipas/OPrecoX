@@ -88,6 +88,7 @@
 
     <!--              Lobby Host             -->
     <string name="aloneinlobby">Sem jogadores para iniciar jogo</string>
+    <string name="newRoom">Nova Sala</string>
 
     <!--               Invite                -->
     <string name="invalidoip">IP inválido</string>

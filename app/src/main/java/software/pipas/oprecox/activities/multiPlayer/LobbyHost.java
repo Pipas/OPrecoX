@@ -131,7 +131,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             displayName.setText(Settings.getCustomName());
 
         //load player default room name
-        String strTemp = this.player.getDisplayName() + "-Room";
+        String strTemp = getString(R.string.newRoom);
         TextView roomNameView = (TextView) findViewById(R.id.roomName);
 
         if(roomNameView.getText().length() == 0)
