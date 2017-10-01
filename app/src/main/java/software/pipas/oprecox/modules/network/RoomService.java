@@ -67,6 +67,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     public RoomService(String name) {super(name);}
 
     private Timer countDownTimer;
+    private TimerTask timerTask;
 
     @Override
     public void onCreate()
@@ -81,6 +82,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         this.closed = false;
         this.initializeServerSocket();
         this.initializeBroadcastReceiver();
+        this.startCountdown();
         this.hostReady = false;
     }
 
@@ -114,6 +116,8 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         this.closed = true;
         this.terminateConnections();
         unregisterReceiver(this.broadcastReceiver);
+        this.stopCountdown();
+        this.countDownTimer.cancel();
 
         try {this.serverSocket.close();}
         catch (IOException e) {e.printStackTrace();}
@@ -599,6 +603,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         this.readyPlayers = null;
         this.reservedPlayers = null;
         this.hostReady = false;
+        this.stopCountdown();
     }
 
     private boolean checkReadyAndJoined()
@@ -682,7 +687,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void clientAnswer(Message message)
     {
-
         Player player = new Player(message.getPlayerId());
         int round = Integer.parseInt(message.getRoundNumber());
         float answer = Float.parseFloat(message.getRoundAnswer());
@@ -805,8 +809,14 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
         }
     }
 
+    private void startCountdown()
+    {
+        this.countDownTimer = new Timer();
+    }
+
     private void startTimer()
     {
+        Log.d("TIMER_DEBUG","TIMER TO BE STARTED");
         String[] args = new String[4];
 
         args[0] = this.getString(R.string.network_app_name);
@@ -829,7 +839,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
             this.singleSend(socket, msg);
         }
 
-        TimerTask timerTask = new TimerTask()
+        this.timerTask = new TimerTask()
         {
             @Override
             public void run()
@@ -837,10 +847,9 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                 onCountdownFinish();
             }
         };
-        this.countDownTimer = new Timer();
+
         Log.d("TIMER_DEBUG", (Settings.getGameTime() * 1000) + "");
         this.countDownTimer.schedule(timerTask, (long) (Settings.getGameTime() * 1000));
-
     }
 
     private void onCountdownFinish()
@@ -851,7 +860,8 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
     private void stopCountdown()
     {
-        countDownTimer.cancel();
+        Log.d("TIMER_DEBUG", "CANCELED");
+        if(this.timerTask != null) this.timerTask.cancel();
     }
 
     //inserts a score in the score table

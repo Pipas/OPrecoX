@@ -444,13 +444,34 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         sendRoundAnswer(guessPrice, scorePlus);
     }
 
+    private void remoteConfirmSelection()
+    {
+        if(dialpadString.equals(""))
+            return;
+
+        if(countdownAnimation != null)
+            if(countdownAnimation.isRunning())
+                resetCountdownAnimation();
+
+        hasAnswered = true;
+
+        priceGuesser.setVisibility(View.GONE);
+        if(guessPrice == (int) guessPrice)
+            waitingPriceGuess.setText(String.format("%,d€", (int) guessPrice));
+        else
+            waitingPriceGuess.setText(String.format("%,.2f€", guessPrice));
+        waitingView.setVisibility(View.VISIBLE);
+
+        calculateScore();
+    }
+
     private void showAfterGuessView()
     {
         if(priceGuesser.getVisibility() == View.VISIBLE)
         {
             guessPrice = 0;
             dialpadString = "0";
-            confirmSelection();
+            remoteConfirmSelection();
         }
         waitingView.setVisibility(View.GONE);
         afterGuess.setVisibility(View.VISIBLE);
