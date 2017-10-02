@@ -1,7 +1,5 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,11 +9,11 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -100,12 +98,21 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
                 countdownTimer.setLayoutParams(layoutParams);
             }
         });
-        countdownAnimation.setDuration(duration * 1000);
+        float durationScale = 1f;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
+        {
+            durationScale = Settings.Global.getFloat(getBaseContext().getContentResolver(),
+                    Settings.Global.ANIMATOR_DURATION_SCALE, 0);
+        }
+        long multiplier = (long) (1/durationScale);
+        countdownAnimation.setDuration(duration * 1000 * multiplier);
         countdownAnimation.start();
     }
 
     protected void resetCountdownAnimation()
     {
+        finishActivity(1);
+        slideupGuesser.setState(BottomSheetBehavior.STATE_EXPANDED);
         stopCountdownAnimation();
         ViewGroup.LayoutParams layoutParams = countdownTimer.getLayoutParams();
         layoutParams.width = 0;
