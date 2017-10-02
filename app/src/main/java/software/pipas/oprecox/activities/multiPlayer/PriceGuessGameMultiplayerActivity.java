@@ -524,7 +524,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private void showGameOver()
     {
-        Intent myIntent = new Intent(this, GameOver.class);
+        Intent myIntent = new Intent(this, GameOverMultiplayer.class);
         myIntent.putExtra("score", score);
         startActivity(myIntent);
         finish();

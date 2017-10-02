@@ -100,8 +100,21 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         this.startUDPCommsService();
 
         this.myIP = Util.listMyIP();
+        if(this.myIP == null)
+        {
+            Toast.makeText(this.getApplicationContext(), getString(R.string.noIP), Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         this.initializeAndStartProgressDialog();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        this.myIP = Util.listMyIP();
+
     }
 
     private void initiateCustomFonts()

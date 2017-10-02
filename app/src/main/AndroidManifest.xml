@@ -96,6 +96,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/MultiplayerTheme"/>
 
+        <activity
+            android:name=".activities.multiPlayer.GameOverMultiplayer"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />

@@ -98,6 +98,8 @@
     <string name="S008_GAMEOVER">S008_GAMEOVER</string>
 
     <!-- PARAMETHERS S009 GameOverMultiplayer -->
+    <string name="S009_MESSAGE">S009_MESSAGE</string>
+    <string name="S009_RESPONSE">S009_RESPONSE</string>
     <string name="S009_EXITACTIVITY">S009_EXITACTIVITY</string>
 
 

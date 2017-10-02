@@ -58,6 +58,7 @@
 
     <!--            Multiplayer Hub          -->
 
+    <string name="noIP">IP não disponivel</string>
     <string name="host">Criar Sala</string>
     <string name="invite">Convidar </string>
     <string name="inviteIP">convidar por ip</string>
