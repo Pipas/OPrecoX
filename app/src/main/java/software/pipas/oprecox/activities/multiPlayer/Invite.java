@@ -317,9 +317,14 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
     {
         //get stuff from the room asap
         String roomName = Util.substituteSpace(this.roomName);//temp
-        String hostDisplayName = this.player.getDisplayName();
-        String hostName;
 
+        String hostDisplayName;
+        if(Settings.getCustomName() == null)
+            hostDisplayName = this.player.getDisplayName();
+        else
+            hostDisplayName = Settings.getCustomName();
+
+        String hostName;
         if(this.player.getName() == null)
             hostName = hostDisplayName;
         else
@@ -361,7 +366,13 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
     {
         //get stuff from the room asap
         String roomName = Util.substituteSpace(this.roomName);//temp
-        String hostDisplayName = this.player.getDisplayName();
+
+        String hostDisplayName;
+        if(Settings.getCustomName() == null)
+            hostDisplayName = this.player.getDisplayName();
+        else
+            hostDisplayName = Settings.getCustomName();
+
         String hostName;
 
         if(this.player.getName() == null)

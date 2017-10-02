@@ -171,6 +171,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         }
 
         playerDisplayName = player.getDisplayName();
+
         //starting the announcerSender service
         if(OPrecoX.announcing)
             this.startAnnouncerSenderService(name, player.getDisplayName(), player.getPlayerId());
@@ -265,8 +266,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     private void startProgressUpdater()
     {
         this.progressDialog =  new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait");
-        progressDialog.setMessage("Trying to Establish Connection");
+        progressDialog.setTitle(getString(R.string.pleaseWait));
+        progressDialog.setMessage(getString(R.string.tryingToEstablish));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
     }
@@ -542,6 +543,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             {
                 name = input.getText().toString();
                 Settings.setCustomName(name);
+                sendActualizeName();
                 TextView displayName = (TextView) findViewById(R.id.displayName);
                 displayName.setText(name);
             }
@@ -606,5 +608,10 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             circleDialog.dismiss();
 
         mAd.loadAd("ca-app-pub-9386790266312341/7895427541", new AdRequest.Builder().build());
+    }
+
+    private void sendActualizeName()
+    {
+
     }
 }
