@@ -58,6 +58,8 @@
 
     <!--            Multiplayer Hub          -->
 
+    <string name="connectionTimeout">Tempo de conexão excedido</string>
+    <string name="connectionNotAvailable">Conexão não disponível</string>
     <string name="noIP">IP não disponivel</string>
     <string name="host">Criar Sala</string>
     <string name="invite">Convidar </string>

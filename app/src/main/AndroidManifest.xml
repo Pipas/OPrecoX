@@ -95,10 +95,10 @@
             android:name=".activities.other.GameTimeChooser"
             android:screenOrientation="portrait"
             android:theme="@style/MultiplayerTheme"/>
-
         <activity
             android:name=".activities.multiPlayer.GameOverMultiplayer"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/MultiplayerTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"

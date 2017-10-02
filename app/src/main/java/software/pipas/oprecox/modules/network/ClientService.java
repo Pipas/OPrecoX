@@ -1,13 +1,10 @@
 package software.pipas.oprecox.modules.network;
 
-import android.app.ActivityManager;
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -19,13 +16,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.List;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.LobbyClient;
 import software.pipas.oprecox.modules.customThreads.PendingMessage;
 import software.pipas.oprecox.modules.message.Message;
-import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
 
 /**
@@ -110,6 +105,10 @@ public class ClientService extends IntentService
         Intent intent2 = new Intent(getResources().getString(R.string.S008));
         intent2.putExtra(getResources().getString(R.string.S008_RESPONSE), responseType.toString());
         sendBroadcast(intent2);
+
+        Intent intent3 = new Intent(getResources().getString(R.string.S009));
+        intent3.putExtra(getResources().getString(R.string.S009_RESPONSE), responseType.toString());
+        sendBroadcast(intent3);
     }
 
     public void sendMessage(final String str)

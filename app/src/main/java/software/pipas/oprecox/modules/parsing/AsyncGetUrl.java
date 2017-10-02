@@ -5,7 +5,6 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import software.pipas.oprecox.activities.multiPlayer.LobbyHost;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.categories.SubCategory;
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;

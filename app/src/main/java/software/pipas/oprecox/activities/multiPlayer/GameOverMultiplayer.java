@@ -8,26 +8,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.application.OPrecoX;
-import software.pipas.oprecox.modules.adapters.AdOverviewAdapter;
+import software.pipas.oprecox.modules.adapters.MultiplayerOverviewAdapter;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
-import software.pipas.oprecox.modules.dataType.Ad;
-import software.pipas.oprecox.modules.dataType.AdPreview;
-import software.pipas.oprecox.modules.database.DatabaseHandler;
+import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
@@ -35,13 +30,10 @@ import software.pipas.oprecox.util.Settings;
 
 public class GameOverMultiplayer extends AppCompatActivity
 {
-    private AdOverviewAdapter adOverviewAdapter;
+    private MultiplayerOverviewAdapter multiplayerOverviewAdapter;
     private OPrecoX app;
-    private int score;
-    private ListView adOverviewList;
-    private TextView scoreOutput;
-    private DatabaseHandler database;
-    private ArrayList<Integer> savedAds = new ArrayList<>();
+    private HashMap<Player, Integer> scores;
+    private ListView multiplayerOverviewList;
 
     private InterstitialAd mInterstitialAd;
     private Boolean playAd;
@@ -51,14 +43,17 @@ public class GameOverMultiplayer extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        app = (OPrecoX) getApplicationContext();
-        if(app.getAds() == null)
+        if(Settings.getSharedPlayerDB() == null)
         {
             finish();
             return;
         }
 
+        app = (OPrecoX) getApplicationContext();
+        resetAdArray();
+
         Settings.increaseGamesPlayed(this);
+
         playAd = (Settings.getAdCountdown() == 0);
         if(playAd)
         {
@@ -77,21 +72,16 @@ public class GameOverMultiplayer extends AppCompatActivity
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_over);
+        setContentView(R.layout.activity_multiplayer_game_over);
 
         Intent intent = getIntent();
-        score = intent.getIntExtra("score", 0);
+        scores = (HashMap<Player, Integer>) intent.getSerializableExtra("scores");
 
-        database = new DatabaseHandler(this, GameOverMultiplayer.this);
 
-        scoreOutput = (TextView) findViewById(R.id.scoreOutput);
-        TextView finalScoreTextView = (TextView) findViewById(R.id.finalScoreTextView);
         TextView gameOverTitle = (TextView) findViewById(R.id.gameOverTitle);
 
-        adOverviewList = (ListView) findViewById(R.id.adOverviewList);
+        multiplayerOverviewList = (ListView) findViewById(R.id.adOverviewList);
 
-        CustomFontHelper.setCustomFont(scoreOutput, "font/Comfortaa_Thin.ttf", getBaseContext());
-        CustomFontHelper.setCustomFont(finalScoreTextView, "font/antipastopro-demibold.otf", getBaseContext());
         CustomFontHelper.setCustomFont(gameOverTitle, "font/antipastopro-demibold.otf", getBaseContext());
 
         initiateViews();
@@ -108,17 +98,8 @@ public class GameOverMultiplayer extends AppCompatActivity
 
     private void initiateViews()
     {
-        ArrayList<Ad> ads = new ArrayList<>(Arrays.asList(app.getAds()));
-        adOverviewAdapter = new AdOverviewAdapter(ads, getApplicationContext(), getContentResolver());
-        adOverviewList.setAdapter(adOverviewAdapter);
-        adOverviewList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id)
-            {
-                saveAd(position);
-            }
-        });
+        multiplayerOverviewAdapter = new MultiplayerOverviewAdapter(scores, getApplicationContext(), getContentResolver());
+        multiplayerOverviewList.setAdapter(multiplayerOverviewAdapter);
 
         Button finishButton = (Button) findViewById(R.id.finishButton);
         finishButton.setOnClickListener(new View.OnClickListener()
@@ -129,35 +110,11 @@ public class GameOverMultiplayer extends AppCompatActivity
                 pressFinish();
             }
         });
-
-        scoreOutput.setText(String.format("%d", score));
     }
 
-    private void saveAd(int index)
-    {
-        if(!savedAds.contains(index))
-        {
-            database.open();
-            ArrayList<AdPreview> previews = database.getAllAds();
-            for(AdPreview preview : previews)
-            {
-                if(preview.getTitle().equals(app.getAd(index).getTitle()))
-                {
-                    database.close();
-                    savedAds.add(index);
-                    return;
-                }
-            }
-            database.createAd(app.getAd(index));
-            database.close();
-            Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
-            savedAds.add(index);
-        }
-    }
 
     private void pressFinish()
     {
-        resetAdArray();
         Log.d("Ads", "AdCountdown = " + Settings.getAdCountdown());
         if(playAd)
         {
@@ -211,7 +168,7 @@ public class GameOverMultiplayer extends AppCompatActivity
             return;
         }
 
-        String message = intent.getExtras().getString(getString(R.string.S008_MESSAGE));
+        String message = intent.getExtras().getString(getString(R.string.S009_MESSAGE));
         if(message != null)
         {
             Message msg = new Message(this.getApplicationContext(), message);
@@ -220,6 +177,13 @@ public class GameOverMultiplayer extends AppCompatActivity
             if (msg.isValid() && msg.getMessageType().equals(MessageType.EXITGAMEACTIVITY.toString())) {
                 finish();
             }
+            return;
+        }
+
+        String exitActivity = intent.getExtras().getString(getString(R.string.S009_EXITACTIVITY));
+        if(exitActivity != null)
+        {
+            finish();
         }
     }
 }

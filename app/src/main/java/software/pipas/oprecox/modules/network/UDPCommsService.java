@@ -65,9 +65,7 @@ public class UDPCommsService extends IntentService
         {
             try
             {
-                Log.d("RECEIVING", "receiving");
                 this.socket.receive(packet);
-                Log.d("RECEIVING", packet.toString());
                 this.handlePacketReceived(new String(packet.getData(),0,packet.getLength()), new InetSocketAddress(packet.getAddress(), packet.getPort()));
             }
             catch (IOException e)
@@ -86,7 +84,6 @@ public class UDPCommsService extends IntentService
         packet.setAddress(address.getAddress());
         packet.setPort(address.getPort());
         this.sendPacket(packet);
-        Log.d("MY_IP_DEBUG", str);
     }
 
     @Override
@@ -148,8 +145,8 @@ public class UDPCommsService extends IntentService
         {
             public void run()
             {
-                try {socket.send(newPacket); Log.d("UDP_DEBUG", "sent");}
-                catch (IOException e) {e.printStackTrace(); Log.d("UDP_DEBUG", "failed");}
+                try {socket.send(newPacket);}
+                catch (IOException e) {e.printStackTrace();}
             }
         }).start();
     }

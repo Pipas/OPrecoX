@@ -3,6 +3,7 @@ package software.pipas.oprecox.activities.multiPlayer;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
@@ -21,7 +22,6 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
@@ -62,6 +62,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
     private ProgressDialog barDialog;
     private ProgressDialog circleDialog;
     private OlxParser olxParser;
+    private ArrayList<AsyncGetUrl> parsingAsyncTasks = new ArrayList<>();
 
     private ArrayList<String> urls;
     private OPrecoX app;
@@ -140,6 +141,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             roomNameView.setText(this.roomName);
         }
 
+        this.addMySelfToDB();
     }
 
     @Override
@@ -214,12 +216,12 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         //STARTS LOADING THE ADS
         olxParser = new OlxParser();
         urls = new ArrayList<>();
-        AsyncGetUrl parsingAsyncTask;
         startProgressBar();
         for(int i = 0; i < Settings.getGameSize(); i++)
         {
-            parsingAsyncTask = new AsyncGetUrl(LobbyHost.this, olxParser);
+            AsyncGetUrl parsingAsyncTask = new AsyncGetUrl(LobbyHost.this, olxParser);
             parsingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            parsingAsyncTasks.add(parsingAsyncTask);
         }
     }
 
@@ -254,6 +256,24 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         };
         IntentFilter filter = new IntentFilter(getString(R.string.S007));
         registerReceiver(this.broadcastReceiver, filter);
+    }
+
+    private void addMySelfToDB()
+    {
+        String realName = this.player.getName();
+        if(realName == null) realName = this.player.getDisplayName();
+
+        String displayName = Settings.getCustomName();
+        if(displayName == null) displayName = this.player.getDisplayName();
+
+        software.pipas.oprecox.modules.dataType.Player player = new software.pipas.oprecox.modules.dataType.Player(
+                realName,
+                displayName,
+                this.player.getPlayerId(),
+                this.player.getIconImageUri()
+        );
+
+        Settings.addToSharedPlayerDB(player);
     }
 
     //for receive of intents S007
@@ -319,7 +339,6 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
     @Override
     public void playerLoaded(software.pipas.oprecox.modules.dataType.Player player)
     {
-        Log.d("MY_IP_DEBUG","loaded" + "\n" + player.toString());
         Intent intent = new Intent(getString(R.string.S004));
         intent.putExtra(getString(R.string.S004_LOADEDPLAYER), player);
         sendBroadcast(intent);
@@ -377,6 +396,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         }
 
         //LOAD 2 ADS
+        Log.d("PARSE", "Starting the first 2 data parse");
         app.setAds(new Ad [Settings.getGameSize()]);
         AsyncGetAd parsingAsyncTask;
         startProgressCircle();
@@ -397,8 +417,18 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         barDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         barDialog.setProgress(0);
         barDialog.setMax(Settings.getGameSize());
-        barDialog.setCancelable(false);
+        barDialog.setCancelable(true);
         barDialog.show();
+        barDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                for(AsyncGetUrl asyncGetUrl : parsingAsyncTasks)
+                {
+                    asyncGetUrl.cancel(true);
+                }
+            }
+        });
     }
 
     private void startProgressCircle()

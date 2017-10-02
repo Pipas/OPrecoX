@@ -5,14 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
-import com.google.android.gms.common.api.OptionalPendingResult;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,17 +25,12 @@ import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Invite;
 import software.pipas.oprecox.activities.multiPlayer.PriceGuessGameMultiplayerActivity;
-import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.modules.interfaces.OnTCPConnectionManager;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
 import software.pipas.oprecox.util.Settings;
-
-/**
- * Created by nuno_ on 31-Aug-17.
- */
 
 public class RoomService extends IntentService implements OnTCPConnectionManager
 {
@@ -601,7 +590,6 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
     private void resetStartGame()
     {
         this.readyPlayers = null;
-        this.reservedPlayers = null;
         this.hostReady = false;
         this.stopCountdown();
     }

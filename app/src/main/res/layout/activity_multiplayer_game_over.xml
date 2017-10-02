@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.singlePlayer.GameOver"
+    android:background="@color/softWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/purple"
+        android:elevation="2dp">
+
+        <TextView
+            android:id="@+id/gameOverTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/gameOverTitle"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@color/softWhite"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/adOverviewList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/softGrey"
+            android:dividerHeight="1dp">
+        </ListView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/softGrey"/>
+
+    </LinearLayout>
+
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/finishButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/finish"
+        android:textAllCaps="true"
+        android:layout_margin="12dp"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+
+</LinearLayout>

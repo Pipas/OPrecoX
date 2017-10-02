@@ -322,12 +322,12 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
             if(response.equals(ResponseType.TIMEOUT.toString()))
             {
-                Toast.makeText(this, "Connection Timed Out!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.connectionTimeout), Toast.LENGTH_SHORT).show();
                 if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CLOSED.toString()))
             {
-                Toast.makeText(this, "Connection no longer available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.connectionNotAvailable), Toast.LENGTH_SHORT).show();
                 if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CLIENT_CLOSED.toString()))
@@ -435,6 +435,15 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         this.tcpCommsService = new Intent(this, ClientService.class);
         this.tcpCommsService.putExtra(getResources().getString(R.string.S005_INETSOCKETADDRESS), inetSocketAddress);
         startService(this.tcpCommsService);
+
+        software.pipas.oprecox.modules.dataType.Player player = new software.pipas.oprecox.modules.dataType.Player(
+                invite.getName(),
+                invite.getDisplayName(),
+                invite.getPlayerID(),
+                invite.getPlayerImage()
+        );
+
+        Settings.addToSharedPlayerDB(player);
     }
 
     private void retrievePlayerURI(InviteListAdapter inviteListAdapter, Invite invite)

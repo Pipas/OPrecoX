@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.net.InetAddress;
 
 import software.pipas.oprecox.util.Util;
@@ -26,7 +25,6 @@ public class Player extends DataType implements Parcelable
         this.timeAnnounced = timeAnnounced;
         this.invitePort = invitePort;
         this.address = address;
-
     }
 
     public Player(String name, String displayName, String id, Uri playerImage)
@@ -40,6 +38,8 @@ public class Player extends DataType implements Parcelable
     public Player(String playerID)
     {
         this.playerID = playerID;
+        this.timeAnnounced = 0l;
+        this.invitePort = 0;
     }
 
     public String getName()

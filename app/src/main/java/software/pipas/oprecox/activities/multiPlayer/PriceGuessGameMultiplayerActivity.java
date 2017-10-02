@@ -121,7 +121,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         {
             AlertDialog.Builder popup;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+                popup = new AlertDialog.Builder(this, R.style.DialogThemePurple);
             else
                 popup = new AlertDialog.Builder(this);
             popup.setTitle(getString(R.string.leavegame));

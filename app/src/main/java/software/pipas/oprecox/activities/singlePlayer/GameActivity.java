@@ -99,7 +99,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
             }
         });
         float durationScale = 1f;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             durationScale = Settings.Global.getFloat(getBaseContext().getContentResolver(),
                     Settings.Global.ANIMATOR_DURATION_SCALE, 0);
