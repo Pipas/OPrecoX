@@ -15,6 +15,7 @@ import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
+import software.pipas.oprecox.util.Settings;
 import software.pipas.oprecox.util.Util;
 
 public class AnnouncerSenderService extends IntentService
@@ -102,6 +103,8 @@ public class AnnouncerSenderService extends IntentService
     {
         while(!this.closed)
         {
+            this.actualizeDisplayName();
+            this.createPacket();
             this.actualizePacketIP();
             this.sendPacket();
             this.sleep();
@@ -128,6 +131,11 @@ public class AnnouncerSenderService extends IntentService
         {
             return false;
         }
+    }
+
+    public void actualizeDisplayName()
+    {
+        if(Settings.getCustomName() != null) this.displayName = Settings.getCustomName();
     }
 
     public void actualizePacketIP()
