@@ -6,8 +6,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -135,13 +133,6 @@ public class OlxParser
             Elements img = document.select("img[class^=vtop bigImage]");
             if(img.isEmpty())
                 return false;
-            for(int i = 0; i < img.size(); i++)
-            {
-                HttpURLConnection con = (HttpURLConnection) new URL(img.get(i).attr("src")).openConnection();
-                con.setRequestMethod("HEAD");
-                if(con.getResponseCode() != HttpURLConnection.HTTP_OK)
-                    return false;
-            }
             Elements descriptionContainer = document.select("div[id=textContent]");
             Elements description = descriptionContainer.select("p");
             String check = description.html();

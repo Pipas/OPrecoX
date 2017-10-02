@@ -29,7 +29,7 @@ public class AsyncGetAd extends AsyncTask<Void, Void, Void>
     {
         this.activity = activity;
         this.app = app;
-        this.url = url;
+        this.url = "https://www.olx.pt/anuncio/iphone-7-32gb-novo-livre-em-caixa-selada-factura-e-garantia-2-anos-IDAMouZ.html#64a3597850;promoted";//url;
         this.index = index;
         this.olxParser = olxParser;
     }
@@ -87,7 +87,15 @@ public class AsyncGetAd extends AsyncTask<Void, Void, Void>
 
         for(int i = 0; i < imageMax; i++)
         {
-            InputStream input = new java.net.URL(imageUrls.get(i)).openStream();
+            InputStream input;
+            try
+            {
+                input = new java.net.URL(imageUrls.get(i)).openStream();
+            }
+            catch (IOException e)
+            {
+                continue;
+            }
             images.add(BitmapFactory.decodeStream(input));
         }
         ad.setImages(images);
