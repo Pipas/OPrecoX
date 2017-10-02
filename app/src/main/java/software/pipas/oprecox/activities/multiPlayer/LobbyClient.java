@@ -224,6 +224,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
                 Log.d("URLS_DEBUG", "client gets urls");
                 this.olxParser = new OlxParser();
                 this.urls = message.getUrlsArrayList();
+                this.sendGameOverToFinish();
                 this.gotURLStartLoading();
             }
             else if(message.isValid() && message.getMessageType().equals(MessageType.STARTGAME.toString()))
@@ -360,6 +361,12 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         startActivityForResult(intent, GAME_ACTIVITY_RESULT_CODE);
     }
 
+    private void sendGameOverToFinish()
+    {
+        Intent intent = new Intent(getString(R.string.S009));
+        intent.putExtra(getString(R.string.S009_EXITACTIVITY), "");
+        sendBroadcast(intent);
+    }
 
 }
 
