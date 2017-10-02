@@ -6,10 +6,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
 import software.pipas.oprecox.modules.exceptions.OLXSyntaxChangeException;
+
+import static java.lang.Float.parseFloat;
 
 public class OlxParser
 {
@@ -102,7 +106,7 @@ public class OlxParser
         return imgs;
     }
 
-    public float getPrice(String pageURL) throws IOException, OLXSyntaxChangeException
+    public float getPrice(String pageURL) throws IOException , OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
         Elements priceContainer = document.select("strong[class^=xxxx-large ");
@@ -112,7 +116,7 @@ public class OlxParser
         String priceNo = priceStr.replace(" €", "");
         priceNo = priceNo.replace(".", "");
         priceNo = priceNo.replace(",", ".");
-        return Float.parseFloat(priceNo);
+        return parseFloat(priceNo);
     }
 
     public boolean isValid(String pageURL)
@@ -123,9 +127,21 @@ public class OlxParser
             Elements priceContainer = document.select("strong[class^=xxxx-large ");
             if(priceContainer.isEmpty())
                 return false;
+            String priceStr = priceContainer.get(0).html();
+            String priceNo = priceStr.replace(" €", "");
+            priceNo = priceNo.replace(".", "");
+            priceNo = priceNo.replace(",", ".");
+            Float test = Float.parseFloat(priceNo);
             Elements img = document.select("img[class^=vtop bigImage]");
             if(img.isEmpty())
                 return false;
+            for(int i = 0; i < img.size(); i++)
+            {
+                HttpURLConnection con = (HttpURLConnection) new URL(img.get(i).attr("src")).openConnection();
+                con.setRequestMethod("HEAD");
+                if(con.getResponseCode() != HttpURLConnection.HTTP_OK)
+                    return false;
+            }
             Elements descriptionContainer = document.select("div[id=textContent]");
             Elements description = descriptionContainer.select("p");
             String check = description.html();

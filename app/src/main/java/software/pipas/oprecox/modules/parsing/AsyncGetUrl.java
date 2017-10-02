@@ -14,7 +14,6 @@ public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
 {
     private OnUrlLoaded onUrlLoaded;
     private boolean validURL = false;
-    private boolean olxchange = false;
     private String url;
     private OlxParser olxParser;
 
@@ -57,7 +56,6 @@ public class AsyncGetUrl extends AsyncTask<Void, Void, Void>
             catch(OLXSyntaxChangeException e)
             {
                 Log.d("PARSE", "OLX changed in url '" + url + "'");
-                olxchange = true;
                 return null;
             }
         }

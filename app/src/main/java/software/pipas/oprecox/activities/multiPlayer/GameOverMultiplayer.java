@@ -16,6 +16,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import software.pipas.oprecox.R;
@@ -23,6 +26,7 @@ import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.MultiplayerOverviewAdapter;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.dataType.Player;
+import software.pipas.oprecox.modules.dataType.ScoredPlayer;
 import software.pipas.oprecox.modules.message.Message;
 import software.pipas.oprecox.modules.message.MessageType;
 import software.pipas.oprecox.modules.message.ResponseType;
@@ -98,7 +102,25 @@ public class GameOverMultiplayer extends AppCompatActivity
 
     private void initiateViews()
     {
-        multiplayerOverviewAdapter = new MultiplayerOverviewAdapter(scores, getApplicationContext(), getContentResolver());
+        ArrayList<ScoredPlayer> scoredPlayers = new ArrayList<>();
+        for (Player player: scores.keySet())
+        {
+            int score = scores.get(player);
+            Log.d("PLayer", player.toString());
+            scoredPlayers.add(new ScoredPlayer(player, score));
+        }
+
+        Collections.sort(scoredPlayers, new Comparator<ScoredPlayer>()
+        {
+            @Override
+            public int compare(ScoredPlayer o1, ScoredPlayer o2)
+            {
+                return o2.getScore().compareTo(o1.getScore());
+            }
+        });
+
+
+        multiplayerOverviewAdapter = new MultiplayerOverviewAdapter(scoredPlayers, getApplicationContext(), getContentResolver());
         multiplayerOverviewList.setAdapter(multiplayerOverviewAdapter);
 
         Button finishButton = (Button) findViewById(R.id.finishButton);

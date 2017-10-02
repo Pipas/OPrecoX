@@ -209,7 +209,6 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             {
                 Invite invite = invites.get(position);
                 inviteListAdapter.remove(position);
-                Log.d("LOG_DEBUG", invite.toString());
                 acceptInvite(invite);
             }
         });
