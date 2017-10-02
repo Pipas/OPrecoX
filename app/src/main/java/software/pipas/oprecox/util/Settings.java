@@ -131,6 +131,11 @@ public abstract class Settings
 
     public static void addToSharedPlayerDB(Player player)
     {
+        while (sharedPlayerDB.indexOf(player) >= 0)
+        {
+            sharedPlayerDB.remove(player);
+        }
+
         sharedPlayerDB.add(player);
     }
 }

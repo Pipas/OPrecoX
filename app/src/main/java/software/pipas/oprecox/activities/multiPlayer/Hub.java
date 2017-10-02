@@ -15,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +41,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.application.OPrecoX;
@@ -102,7 +102,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
         this.myIP = Util.listMyIP();
         if(this.myIP == null)
         {
-            Toast.makeText(this.getApplicationContext(), getString(R.string.noIP), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getString(R.string.noIP), Toast.LENGTH_SHORT, true).show();
             finish();
         }
 
@@ -132,12 +132,11 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
-        Log.d("CLIENT_DEBUG", "===========================");
         super.onConnected(bundle);
         player = Games.Players.getCurrentPlayer(mGoogleApiClient);
         if(player == null)
         {
-            Toast.makeText(this, "Failed to Log in to Google Play Services, please try again", Toast.LENGTH_SHORT);
+            Toasty.error(this, getString(R.string.googlePlayFail), Toast.LENGTH_SHORT, true).show();
             finish();
         }
 
@@ -322,12 +321,12 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
             if(response.equals(ResponseType.TIMEOUT.toString()))
             {
-                Toast.makeText(this, getString(R.string.connectionTimeout), Toast.LENGTH_SHORT).show();
+                Toasty.error(this, getString(R.string.connectionTimeout), Toast.LENGTH_SHORT, true).show();
                 if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CLOSED.toString()))
             {
-                Toast.makeText(this, getString(R.string.connectionNotAvailable), Toast.LENGTH_SHORT).show();
+                Toasty.error(this, getString(R.string.connectionNotAvailable), Toast.LENGTH_SHORT, true).show();
                 if(this.tcpCommsService != null) stopService(this.tcpCommsService);
             }
             else if(response.equals(ResponseType.CLIENT_CLOSED.toString()))
@@ -398,6 +397,8 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
             else if (msg.isValid() && player != null && msg.getMessageType().equals(MessageType.REQUESTID.toString()))
             {
                 String[] args = new String[5];
+
+                if(Settings.getCustomName() != null) this.playerDisplayName = Settings.getCustomName();
 
                 args[0] = this.getString(R.string.network_app_name);
                 args[1] = Integer.toString(BuildConfig.VERSION_CODE);

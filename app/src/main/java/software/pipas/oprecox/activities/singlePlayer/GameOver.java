@@ -18,6 +18,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.AdOverviewAdapter;
@@ -133,7 +134,7 @@ public class GameOver extends AppCompatActivity
             }
             database.createAd(app.getAd(index));
             database.close();
-            Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
+            Toasty.info(this, getString(R.string.savedAd), Toast.LENGTH_SHORT, true).show();
             savedAds.add(index);
         }
     }

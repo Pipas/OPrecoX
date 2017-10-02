@@ -29,6 +29,7 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
@@ -83,7 +84,6 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 software.pipas.oprecox.modules.dataType.Player player = playerListAdapter.getItem(position);
-                Log.d("INVITE_DEBUG", player.toString());
                 sendInvite(player);
             }
         });
@@ -273,7 +273,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
                                     @Override
                                     public void run()
                                     {
-                                        Toast.makeText(getApplication(), getString(R.string.sendinviteip), Toast.LENGTH_SHORT).show();
+                                        Toasty.success(Invite.this, getString(R.string.sendinviteip), Toast.LENGTH_SHORT, true).show();
                                     }
                                 });
 
@@ -288,7 +288,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
                                 @Override
                                 public void run()
                                 {
-                                    Toast.makeText(getApplication(), getString(R.string.invalidoip), Toast.LENGTH_SHORT).show();
+                                    Toasty.error(Invite.this, getString(R.string.invalidoip), Toast.LENGTH_SHORT, true).show();
                                     inviteByIP();
                                 }
                             });
@@ -348,7 +348,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
 
         if(!msg.isValid())
         {
-            Toast.makeText(this, "Unable to send Invite", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getString(R.string.inviteerror), Toast.LENGTH_SHORT, true).show();
             return;
         }
 
@@ -359,6 +359,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
         intent.putExtra(getResources().getString(R.string.S004_INETSOCKETADDRESS), socketAddress);
         intent.putExtra(getResources().getString(R.string.S004_PLAYER),remotePlayer);
         sendBroadcast(intent);
+
 
     }
 
@@ -398,7 +399,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
 
         if(!msg.isValid())
         {
-            Toast.makeText(this, "Unable to send Invite", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getString(R.string.inviteerror), Toast.LENGTH_SHORT, true).show();
             return;
         }
 

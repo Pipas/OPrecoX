@@ -29,7 +29,7 @@ public class AsyncGetAd extends AsyncTask<Void, Void, Void>
     {
         this.activity = activity;
         this.app = app;
-        this.url = "https://www.olx.pt/anuncio/iphone-7-32gb-novo-livre-em-caixa-selada-factura-e-garantia-2-anos-IDAMouZ.html#64a3597850;promoted";//url;
+        this.url = url;
         this.index = index;
         this.olxParser = olxParser;
     }

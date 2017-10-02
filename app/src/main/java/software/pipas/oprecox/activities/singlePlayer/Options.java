@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.activities.other.CategoryChooser;
@@ -102,7 +103,8 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
     {
         if(!Util.isNetworkAvailable(getApplicationContext()))
         {
-            Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "This is an error toast.", Toast.LENGTH_SHORT, true).show();
+            Toast.makeText(this, "Acesso à internet indisponivel.", Toast.LENGTH_SHORT).show();
             return;
         }
         startProcessDialog();

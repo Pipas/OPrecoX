@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.multiPlayer.Hub;
 import software.pipas.oprecox.activities.singlePlayer.Options;
@@ -24,6 +26,7 @@ import software.pipas.oprecox.modules.adapters.OptionsPopupAdapter;
 import software.pipas.oprecox.modules.categories.CategoryHandler;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.util.Settings;
+import software.pipas.oprecox.util.Util;
 
 public class MainMenu extends AppCompatActivity
 {
@@ -173,31 +176,16 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
-        /*count++;
-
-        if(count >= 10)
+        if(!Util.isNetworkAvailable(this))
         {
-            if(!Util.isNetworkAvailable(this))
-            {
-                Toast.makeText(this, "Acesso à internet indisponivel", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else
-            {
-                Intent myIntent = new Intent(this, Hub.class);
-                startActivity(myIntent);
-            }
+            Toasty.error(this, getString(R.string.interneterror), Toast.LENGTH_SHORT, true).show();
+            return;
         }
-        else if(!showToast)
+        else
         {
-            Toast.makeText(this, "Multijogador brevemente!", Toast.LENGTH_SHORT).show();
-            showToast = true;
-        }*/
-
-
-        Intent myIntent = new Intent(this, Hub.class);
-        startActivity(myIntent);
-
+            Intent myIntent = new Intent(this, Hub.class);
+            startActivity(myIntent);
+        }
     }
 
     private void initiatePressMoreButton()

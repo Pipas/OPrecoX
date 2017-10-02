@@ -222,6 +222,7 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                     Socket socket = this.pendingLoaded.get(player);
                     playerLoaded.updatePlayerAddress(socket.getInetAddress());
                     playerLoaded.updatePlayerInvitePort(socket.getPort());
+                    playerLoaded.updatePlayerDisplayName(player.getDisplayName());
 
                     this.joined.put(playerLoaded, socket);
                     this.addPlayerToListAndSendToAll(playerLoaded, socket);
@@ -373,10 +374,13 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
                     Player dummyPlayer = new Player(id);
                     dummyPlayer.updatePlayerAnnouncedTime(System.currentTimeMillis());
                     dummyPlayer.updatePlayerInvitePort(-1);
+
+                    Log.d("NAME_DEBUG", msg.getDisplayName());
                     dummyPlayer.updatePlayerDisplayName(displayName);
 
                     for(Player player1 : this.playersDB)
                     {
+                        player1.updatePlayerDisplayName(msg.getDisplayName());
                         if(player1.equals(dummyPlayer))
                         {
                             this.joined.put(player1, remotePlayerSocket);

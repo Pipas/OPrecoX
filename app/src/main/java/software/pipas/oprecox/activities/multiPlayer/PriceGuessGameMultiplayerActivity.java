@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.singlePlayer.GameActivity;
@@ -536,7 +537,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             database.createAd(app.getAd(adIndex));
             database.close();
             adSaved = true;
-            Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
+            Toasty.info(this, getString(R.string.savedAd), Toast.LENGTH_SHORT, true).show();
         }
     }
 

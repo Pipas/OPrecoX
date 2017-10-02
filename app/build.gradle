@@ -58,6 +58,7 @@ dependencies {
     compile 'com.romandanylyk:pageindicatorview:0.2.0@aar'
     compile 'jp.wasabeef:blurry:2.1.1'
     compile 'com.google.android.gms:play-services-ads:11.2.0'
+    compile 'com.github.GrenderG:Toasty:1.2.5'
     testCompile 'junit:junit:4.12'
 }
 

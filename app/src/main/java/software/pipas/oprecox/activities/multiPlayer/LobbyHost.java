@@ -23,6 +23,7 @@ import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.BlockedApp;
@@ -206,7 +207,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         //CHECK IF IT HAS PEOPLE IN THE ROOM
         if(players.size() <= 0)
         {
-            Toast.makeText(this.getApplicationContext(), getString(R.string.aloneinlobby), Toast.LENGTH_SHORT).show();
+            Toasty.info(this, getString(R.string.aloneinlobby), Toast.LENGTH_SHORT, true).show();
             return;
         }
 
@@ -361,7 +362,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
             barDialog.dismiss();
             if(players.size() <= 0)
             {
-                Toast.makeText(this.getApplicationContext(), getString(R.string.aloneinlobby), Toast.LENGTH_SHORT).show();
+                Toasty.info(this, getString(R.string.aloneinlobby), Toast.LENGTH_SHORT, true).show();
                 return;
             }
             sendUrlsToPlayers();

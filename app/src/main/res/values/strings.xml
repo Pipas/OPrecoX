@@ -19,6 +19,7 @@
     <string name="categories">Categorias</string>
     <string name="processDialog">A carregar...</string>
     <string name="start">Começar</string>
+    <string name="interneterror">Acesso à internet indisponivel.</string>
 
     <!--           Game Size Strings         -->
     <string name="gameSizeTitle">Tamanho do Jogo</string>
@@ -62,7 +63,7 @@
     <string name="tryingToEstablish">A tentar estabelecer conexão</string>
     <string name="connectionTimeout">Tempo de conexão excedido</string>
     <string name="connectionNotAvailable">Conexão não disponível</string>
-    <string name="noIP">IP não disponivel</string>
+    <string name="noIP">Não conectado a uma rede Wi-Fi</string>
     <string name="host">Criar Sala</string>
     <string name="invite">Convidar </string>
     <string name="inviteIP">convidar por ip</string>
@@ -89,7 +90,8 @@
     <string name="leaveappsub">Deseja sair da Aplicação?</string>
     <string name="comingsoon">Brevemente...</string>
     <string name="namehint">Nome do jogador</string>
-    <string name="signin_failure">Failed to Sign-In</string>
+    <string name="signin_failure">Erro na autenticação.</string>
+    <string name="googlePlayFail">Erro a conectar à Google Play Games.</string>
 
     <!--              Lobby Host             -->
     <string name="aloneinlobby">Sem jogadores para iniciar jogo</string>
@@ -97,7 +99,8 @@
 
     <!--               Invite                -->
     <string name="invalidoip">IP inválido</string>
-    <string name="sendinviteip">Convite enviado</string>
+    <string name="sendinviteip">Convite enviado!</string>
+    <string name="inviteerror">Erro a enviar convite.</string>
 
     <!--             Info Activity           -->
     <string name="infoTitle">Sobre</string>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
@@ -317,7 +318,7 @@ public class PriceGuessGameActivity extends GameActivity
         {
             if(app.getAd(adIndex + 1) == null)
             {
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.loadingAds), Toast.LENGTH_SHORT).show();
+                Toasty.info(this, getString(R.string.loadingAds), Toast.LENGTH_SHORT, true).show();
                 return;
             }
             adIndex++;
@@ -341,7 +342,7 @@ public class PriceGuessGameActivity extends GameActivity
             database.createAd(app.getAd(adIndex));
             database.close();
             adSaved = true;
-            Toast.makeText(getBaseContext(), getResources().getString(R.string.savedAd), Toast.LENGTH_SHORT).show();
+            Toasty.info(this, getString(R.string.savedAd), Toast.LENGTH_SHORT, true).show();
         }
     }
 
