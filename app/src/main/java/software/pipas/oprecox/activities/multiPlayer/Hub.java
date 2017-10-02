@@ -612,6 +612,6 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
 
     private void sendActualizeName()
     {
-
+        this.playerDisplayName = Settings.getCustomName();
     }
 }
