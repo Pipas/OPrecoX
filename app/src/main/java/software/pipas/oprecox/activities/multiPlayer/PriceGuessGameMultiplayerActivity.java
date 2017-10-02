@@ -20,12 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.singlePlayer.GameActivity;
-import software.pipas.oprecox.activities.singlePlayer.GameOver;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
+import software.pipas.oprecox.modules.dataType.Player;
 import software.pipas.oprecox.modules.database.DatabaseHandler;
 import software.pipas.oprecox.modules.interfaces.ParsingCallingActivity;
 import software.pipas.oprecox.modules.message.Message;
@@ -521,10 +522,10 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         slideupGuesser.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private void showGameOver()
+    private void showGameOver(HashMap<Player, Integer> scores)
     {
         Intent myIntent = new Intent(this, GameOverMultiplayer.class);
-        myIntent.putExtra("score", score);
+        myIntent.putExtra("scores", scores);
         startActivity(myIntent);
         finish();
     }
@@ -627,7 +628,8 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             else if(msg.isValid() && msg.getMessageType().equals(MessageType.GAMEOVER.toString()))
             {
                 //msg contais total score, invoke getTotatScore, returns HashMap<Player, Integer (total Score)>
-                showGameOver();
+                HashMap<Player, Integer> scores = msg.getGameScore();
+                showGameOver(scores);
             }
             else if(msg.isValid() && msg.getMessageType().equals(MessageType.STARTCOUNTDOWN.toString()))
             {
