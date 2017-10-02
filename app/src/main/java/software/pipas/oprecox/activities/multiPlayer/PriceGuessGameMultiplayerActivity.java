@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -516,10 +515,10 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         dialpadString = "";
         beforePriceGuess.setText("");
         scorePlusTextView.setVisibility(View.GONE);
-        togglePanel(null);
         
         priceGuesser.setVisibility(View.VISIBLE);
         afterGuess.setVisibility(View.GONE);
+        slideupGuesser.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void showGameOver()
