@@ -340,6 +340,11 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         if(urls.size() == Settings.getGameSize())
         {
             barDialog.dismiss();
+            if(players.size() <= 0)
+            {
+                Toast.makeText(this.getApplicationContext(), getString(R.string.aloneinlobby), Toast.LENGTH_SHORT).show();
+                return;
+            }
             sendUrlsToPlayers();
         }
         else

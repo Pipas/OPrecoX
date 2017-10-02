@@ -5,11 +5,7 @@ android {
         config {
             keyAlias 'pipaskey'
             keyPassword 'piponcio'
-<<<<<<< HEAD
             storeFile file('/home/nuno/AndroidProjects/OPrecoX/app/keys/keyStore.jks')
-=======
-            storeFile file('D:/GitRepositories/OPrecoX/app/keys/keyStore.jks')
->>>>>>> 2b8087c2cb5cd98628e0cefee4fa588e207799f6
             storePassword 'piponcio'
         }
     }
