@@ -100,6 +100,25 @@ public abstract class Util
                         }
                     }
                 }
+                else if(networkInterface.getName().contains("ap"))
+                {
+                    List<InterfaceAddress> addressEnumeration = networkInterface.getInterfaceAddresses();
+
+                    for (int i = 0; i < addressEnumeration.size(); i++)
+                    {
+                        InetAddress broadcast_address = addressEnumeration.get(i).getBroadcast();
+
+                        if(broadcast_address != null)
+                        {
+                            //Log.d("NETWORK_INTERFACES_LIST", broadcast_address.toString());
+                            address_list.add(broadcast_address);
+                        }
+                        else
+                        {
+                            //Log.d("NETWORK_INTERFACES_LIST", "null");
+                        }
+                    }
+                }
             }
 
             return address_list;
@@ -120,16 +139,30 @@ public abstract class Util
 
             for (Enumeration<NetworkInterface> e = list; e.hasMoreElements();)
             {
-                //Log.d("NETWORK_INTERFACES_LIST", e.nextElement().getName());
                 NetworkInterface networkInterface = e.nextElement();
+                Log.d("NETWORK_INTERFACES_LIST", networkInterface.toString());
 
                 if(networkInterface.getName().contains("wlan"))
                 {
                     List<InterfaceAddress> addressEnumeration = networkInterface.getInterfaceAddresses();
-
                     for (int i = 0; i < addressEnumeration.size(); i++)
                     {
                         InetAddress address = addressEnumeration.get(i).getAddress();
+                        Log.d("NETWORK_INTERFACES_LIST", address.toString());
+
+                        if(address instanceof Inet4Address)
+                        {
+                            return address;
+                        }
+                    }
+                }
+                else if(networkInterface.getName().contains("ap"))
+                {
+                    List<InterfaceAddress> addressEnumeration = networkInterface.getInterfaceAddresses();
+                    for (int i = 0; i < addressEnumeration.size(); i++)
+                    {
+                        InetAddress address = addressEnumeration.get(i).getAddress();
+                        Log.d("NETWORK_INTERFACES_LIST", address.toString());
 
                         if(address instanceof Inet4Address)
                         {
@@ -167,6 +200,48 @@ public abstract class Util
             result = resources.getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static void interfaceListing()
+    {
+        try
+        {
+            Enumeration<NetworkInterface> list = NetworkInterface.getNetworkInterfaces();
+
+            for (Enumeration<NetworkInterface> e = list; e.hasMoreElements();)
+            {
+                NetworkInterface networkInterface = e.nextElement();
+                Log.d("NETWORK_INTERFACES_LIST", networkInterface.toString());
+
+                List<InterfaceAddress> addressEnumeration = networkInterface.getInterfaceAddresses();
+                for (int i = 0; i < addressEnumeration.size(); i++)
+                {
+                    InetAddress address = addressEnumeration.get(i).getAddress();
+                    Log.d("NETWORK_INTERFACES_LIST", address.toString());
+
+                }
+
+
+                /*
+                if(networkInterface.getName().contains("wlan"))
+                {
+                    List<InterfaceAddress> addressEnumeration = networkInterface.getInterfaceAddresses();
+                    for (int i = 0; i < addressEnumeration.size(); i++)
+                    {
+                        InetAddress address = addressEnumeration.get(i).getAddress();
+                        Log.d("NETWORK_INTERFACES_LIST", address.toString());
+
+                    }
+                }
+                */
+            }
+
+
+        }
+        catch (SocketException e)
+        {
+            Log.d("NETWORK_INTERFACES_LIST", "failed to get");
+        }
     }
 }
 

@@ -176,6 +176,7 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
+        Util.interfaceListing();
         if(!Util.isNetworkAvailable(this))
         {
             Toasty.error(this, getString(R.string.interneterror), Toast.LENGTH_SHORT, true).show();
