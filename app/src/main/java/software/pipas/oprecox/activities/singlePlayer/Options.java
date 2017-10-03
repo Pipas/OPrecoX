@@ -154,6 +154,11 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
         startActivityForResult(myIntent, 2);
     }
 
+    public void pressGameType(View v)
+    {
+        Toasty.info(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT, true).show();
+    }
+
     @Override
     public void parsingEnded()
     {

@@ -69,7 +69,7 @@ public class AnnouncerSenderService extends IntentService
         args[1] = Integer.toString(BuildConfig.VERSION_CODE);
         args[2] = MessageType.ANNOUNCE.toString();
         args[3] = Util.substituteSpace(this.name);
-        args[4] = this.displayName;
+        args[4] = Util.substituteSpace(this.displayName);
         args[5] = this.playerId;
 
         this.message = new Message(this.context, args);

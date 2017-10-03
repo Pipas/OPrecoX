@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
@@ -114,6 +116,11 @@ public class Options extends AppCompatActivity
         myIntent.putExtra("multiplayer", true);
         roomNameEdit.clearFocus();
         startActivity(myIntent);
+    }
+
+    public void pressGameType(View v)
+    {
+        Toasty.info(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT, true).show();
     }
 
     public void selectGameSize(View v)

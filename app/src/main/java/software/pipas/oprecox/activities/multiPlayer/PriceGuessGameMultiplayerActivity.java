@@ -471,6 +471,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             guessPrice = 0;
             dialpadString = "0";
             remoteConfirmSelection();
+            Toasty.info(this, getString(R.string.timeup), Toast.LENGTH_SHORT, true).show();
         }
         waitingView.setVisibility(View.GONE);
         afterGuess.setVisibility(View.VISIBLE);

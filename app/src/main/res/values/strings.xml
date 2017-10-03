@@ -15,14 +15,14 @@
     <!--          Game Options Strings       -->
 
     <string name="gameType">Tipo de jogo</string>
-    <string name="gameSize">Tamanho</string>
+    <string name="gameSize">Duração</string>
     <string name="categories">Categorias</string>
     <string name="processDialog">A carregar...</string>
     <string name="start">Começar</string>
-    <string name="interneterror">Acesso à internet indisponivel.</string>
+    <string name="interneterror">Acesso à internet indisponível.</string>
 
     <!--           Game Size Strings         -->
-    <string name="gameSizeTitle">Tamanho do Jogo</string>
+    <string name="gameSizeTitle">Duração do Jogo</string>
     <string name="shortsize">Jogo curto</string>
     <string name="normalsize">Jogo normal</string>
     <string name="longsize">Jogo longo</string>
@@ -32,6 +32,7 @@
     <string name="shortwait">30 Segundos</string>
     <string name="normalwait">1 Minuto</string>
     <string name="longwait">2 Minutos</string>
+    <string name="timeup">Acabou o tempo de resposta.</string>
 
     <!--           Saved Ads Strings         -->
 
@@ -40,7 +41,7 @@
     <!--         Game Activity Strings       -->
 
     <string name="leavegame">Sair do jogo?</string>
-    <string name="leavegamesub">Se saires do jogo o teu progresso e os anúncios gerados serão perdidos.</string>
+    <string name="leavegamesub">Se saíres do jogo o teu progresso e os anúncios gerados serão perdidos.</string>
     <string name="leave">Sair</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm">Confirmar</string>
@@ -67,15 +68,15 @@
     <string name="host">Criar Sala</string>
     <string name="invite">Convidar </string>
     <string name="inviteIP">convidar por ip</string>
-    <string name="notavailable">Não Disponivel</string>
+    <string name="notavailable">Não Disponível</string>
     <string name="adPopupTooltip">Para mudar de nome é necessário ver um anúncio</string>
     <string name="invitetitle">Convidar Amigos</string>
     <string name="changeName">Novo nome</string>
-    <string name="inviteTooltip">Para encontrar dispositivos é necessario estarem na mesma rede Wi-Fi.
-    Caso não encontres amigos podes tentar convidar diretamente por IP abaixo.</string>
+    <string name="inviteTooltip">Para encontrar dispositivos, é necessário que estes estejam na mesma rede Wi-Fi
+    Caso não encontres amigos podes tentar convidá-los diretamente por IP abaixo.</string>
     <string name="inputip">Introduzir IP</string>
     <string name="inputiptooltip">Ambos os dispositivos têm de se encontrar na mesma rede Wi-Fi.\n
-        O endereço de IP de um dispostivo está no menu inicial do multijogador.</string>
+        O endereço de IP de um dispositivo encontra-se no menu inicial do multijogador.</string>
     <string name="multiplayerHubTooltip">Aqui aparecem os teus convites de jogo.\n
         Podes criar uma sala e ser tu a convidar amigos.</string>
 
@@ -111,9 +112,9 @@
     <string name="design">Designer</string>
     <string name="designName">Inês Costa</string>
     <string name="thanks">Agradecimentos</string>
-    <string name="thanksNames">António Carreiro\nFrancisca Pessanha\nGonçalo Sores\nMarta Fróis</string>
+    <string name="thanksNames">António Carreiro\nDiogo Morgado\nFrancisca Pessanha\nGonçalo Sores\nMarta Fróis</string>
     <string name="otherInfoTitle">Informações</string>
-    <string name="otherInfo">Contactos no e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nnem com a empresa Fixeads</string>
+    <string name="otherInfo">Contacte-nos por e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nnem com a empresa Fixeads</string>
 
 
 </resources>

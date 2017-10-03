@@ -404,7 +404,7 @@ public class Hub extends MultiplayerClass implements OnPlayerImageLoader, Reward
                 args[1] = Integer.toString(BuildConfig.VERSION_CODE);
                 args[2] = MessageType.ID.toString();
                 args[3] = this.player.getPlayerId();
-                args[4] = this.playerDisplayName;
+                args[4] = Util.substituteSpace(this.playerDisplayName);
 
                 Message newMsg = new Message(this.getApplicationContext(), args);
 

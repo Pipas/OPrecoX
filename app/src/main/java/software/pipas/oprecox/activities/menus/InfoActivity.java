@@ -1,7 +1,10 @@
 package software.pipas.oprecox.activities.menus;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,5 +53,26 @@ public class InfoActivity extends AppCompatActivity
 
         for(TextView tv : tooltips)
             CustomFontHelper.setCustomFont(tv, "font/Comfortaa_Regular.ttf", getBaseContext());
+    }
+
+    public void pressMainDeveloper(View v)
+    {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://github.com/pipas"));
+        startActivity(i);
+    }
+
+    public void pressDeveloper(View v)
+    {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://github.com/excelsi0r"));
+        startActivity(i);
+    }
+
+    public void pressDesigner(View v)
+    {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://www.behance.net/ines_sd_co3749"));
+        startActivity(i);
     }
 }

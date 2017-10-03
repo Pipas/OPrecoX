@@ -65,6 +65,8 @@ public class Player extends DataType implements Parcelable
 
     public void updatePlayerDisplayName(String name) {this.displayName = Util.substituteSpace(name);}
 
+    public String getRealDisplayName() {if(this.displayName != null) return Util.substituteUnder(this.displayName); else return "";}
+
     @Override
     public void updateImage(Uri image) {this.playerImage = image;}
 

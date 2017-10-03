@@ -64,7 +64,7 @@ public class PlayerListAdapter extends ArrayAdapter<Player>
 
             if (playerName != null)
             {
-                playerName.setText(player.getDisplayName());
+                playerName.setText(player.getRealDisplayName());
                 CustomFontHelper.setCustomFont(playerName, "font/antipastopro-demibold.otf", mContext);
             }
 

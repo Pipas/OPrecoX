@@ -380,9 +380,9 @@ public class RoomService extends IntentService implements OnTCPConnectionManager
 
                     for(Player player1 : this.playersDB)
                     {
-                        player1.updatePlayerDisplayName(msg.getDisplayName());
                         if(player1.equals(dummyPlayer))
                         {
+                            player1.updatePlayerDisplayName(msg.getDisplayName());
                             this.joined.put(player1, remotePlayerSocket);
                             this.addPlayerToListAndSendToAll(player1, remotePlayerSocket);
                             break;

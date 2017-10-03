@@ -69,7 +69,9 @@
                 android:id="@+id/mainDeveloperButton"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
                 android:clickable="true"
+                android:onClick="pressMainDeveloper"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:orientation="vertical">
@@ -111,7 +113,9 @@
                 android:id="@+id/multiplayerDeveloperButton"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
                 android:clickable="true"
+                android:onClick="pressDeveloper"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:orientation="vertical">
@@ -153,7 +157,9 @@
                 android:id="@+id/designButton"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
                 android:clickable="true"
+                android:onClick="pressDesigner"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:orientation="vertical">

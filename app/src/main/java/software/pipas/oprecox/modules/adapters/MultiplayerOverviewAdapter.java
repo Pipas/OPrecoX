@@ -68,7 +68,7 @@ public class MultiplayerOverviewAdapter extends ArrayAdapter<ScoredPlayer>
 
             if (title != null)
             {
-                title.setText(player.getDisplayName());
+                title.setText(player.getRealDisplayName());
                 CustomFontHelper.setCustomFont(title, "font/antipastopro-demibold.otf", mContext);
             }
 
