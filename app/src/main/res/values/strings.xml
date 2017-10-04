@@ -8,8 +8,8 @@
 
     <string name="rateUs">Classifica o nosso jogo</string>
     <string name="rateUsTooltip">Se estás a gostar d\'O Preço X podes tirar um momento para avaliar o nosso jogo na Google Play.\nObrigado pelo apoio!</string>
-    <string name="rateUsYes">Ok</string>
-    <string name="rateUsNo">Não, obrigado.</string>
+    <string name="rateUsYes">OK</string>
+    <string name="rateUsNo">Não, obrigado</string>
     <string name="rateUsLater">Agora não</string>
 
     <!--          Game Options Strings       -->
@@ -17,7 +17,7 @@
     <string name="gameType">Tipo de jogo</string>
     <string name="gameSize">Duração</string>
     <string name="categories">Categorias</string>
-    <string name="processDialog">A carregar...</string>
+    <string name="processDialog">A carregar…</string>
     <string name="start">Começar</string>
     <string name="interneterror">Acesso à internet indisponível.</string>
 
@@ -49,7 +49,7 @@
     <string name="correctprice">Preço Certo</string>
     <string name="score">Pontuação</string>
     <string name="savedAd">Anúncio Guardado</string>
-    <string name="loadingAds">A carregar anúncios...</string>
+    <string name="loadingAds">A carregar anúncios…</string>
     <string name="waiting">À espera de jogadores</string>
 
     <!--           Game Over Strings         -->
@@ -61,9 +61,9 @@
     <!--            Multiplayer Hub          -->
 
     <string name="pleaseWait">Por Favor Espere!</string>
-    <string name="tryingToEstablish">A tentar estabelecer conexão</string>
-    <string name="connectionTimeout">Tempo de conexão excedido</string>
-    <string name="connectionNotAvailable">Conexão não disponível</string>
+    <string name="tryingToEstablish">A tentar estabelecer conexão.</string>
+    <string name="connectionTimeout">Tempo de conexão excedido.</string>
+    <string name="connectionNotAvailable">Conexão acabada.</string>
     <string name="noIP">Não conectado a uma rede Wi-Fi</string>
     <string name="host">Criar Sala</string>
     <string name="invite">Convidar </string>
@@ -89,7 +89,7 @@
 
     <string name="leaveapp">Sair da Aplicação</string>
     <string name="leaveappsub">Deseja sair da Aplicação?</string>
-    <string name="comingsoon">Brevemente...</string>
+    <string name="comingsoon">Brevemente…</string>
     <string name="namehint">Nome do jogador</string>
     <string name="signin_failure">Erro na autenticação.</string>
     <string name="googlePlayFail">Erro a conectar à Google Play Games.</string>

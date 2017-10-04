@@ -52,9 +52,9 @@ public abstract class Settings
     public static void updateAdCountdown(Activity activity)
     {
         if(Settings.adCountdown == 0)
-            Settings.adCountdown = 3;
+            Settings.adCountdown = 2;
         else
-            Settings.adCountdown = adCountdown - 1;
+            Settings.adCountdown = Settings.adCountdown - 1;
 
         SharedPreferences.Editor editor = activity.getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
         editor.putInt("adCountdown", Settings.adCountdown);
