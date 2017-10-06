@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'pipaskey'
             keyPassword 'piponcio'
-            storeFile file('S:/AndroidProjects/OPrecoX/app/keys/keyStore.jks')
+            storeFile file('d:/GitRepositories/OPrecoX/app/keys/keyStore.jks')
             storePassword 'piponcio'
         }
     }

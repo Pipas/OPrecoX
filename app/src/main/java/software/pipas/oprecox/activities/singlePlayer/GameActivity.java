@@ -1,6 +1,5 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,11 +8,12 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -50,7 +50,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
     private Boolean blocked = false;
     protected OlxParser olxParser;
     private View countdownTimer;
-    protected ValueAnimator countdownAnimation;
+    protected CountDownTimer countdown;
 
     protected OPrecoX app;
     private ArrayList<AsyncGetAll> asyncTasks;
@@ -87,26 +87,24 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     protected void startCountdownAnimation(int duration)
     {
-        countdownAnimation = ValueAnimator.ofInt(countdownTimer.getMeasuredWidth(), getResources().getDisplayMetrics().widthPixels);
-        countdownAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator)
+        final int milduration = duration * 1000;
+        final float width = getResources().getDisplayMetrics().widthPixels;
+        countdown = new CountDownTimer(milduration, 30)
+        {
+            public void onTick(long millisUntilFinished)
             {
-                int val = (Integer) valueAnimator.getAnimatedValue();
+                int val = (int) (((milduration - millisUntilFinished) * width) / milduration);
                 ViewGroup.LayoutParams layoutParams = countdownTimer.getLayoutParams();
                 layoutParams.width = val;
                 countdownTimer.setLayoutParams(layoutParams);
+                Log.d("TIMER", "WIDTH: " + val);
             }
-        });
-        float durationScale = 1f;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            durationScale = Settings.Global.getFloat(getBaseContext().getContentResolver(),
-                    Settings.Global.ANIMATOR_DURATION_SCALE, 0);
-        }
-        long multiplier = (long) (1/durationScale);
-        countdownAnimation.setDuration(duration * 1000 * multiplier);
-        countdownAnimation.start();
+
+            public void onFinish()
+            {
+                Log.d("TIMER", "DONE");
+            }
+        }.start();
     }
 
     protected void resetCountdownAnimation()
@@ -121,7 +119,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
 
     protected void stopCountdownAnimation()
     {
-        countdownAnimation.cancel();
+        countdown.cancel();
     }
 
     protected void setViewsWithAd(Ad ad)

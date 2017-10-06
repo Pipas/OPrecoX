@@ -360,7 +360,7 @@ public class Invite extends MultiplayerClass implements OnPlayerImageLoader, OnP
         intent.putExtra(getResources().getString(R.string.S004_PLAYER),remotePlayer);
         sendBroadcast(intent);
 
-
+        Toasty.success(Invite.this, getString(R.string.sendinviteip), Toast.LENGTH_SHORT, true).show();
     }
 
     private void sendInvite(InetAddress address)

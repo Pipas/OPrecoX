@@ -426,8 +426,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         if(dialpadString.equals(""))
             return;
 
-        if(countdownAnimation != null)
-            if(countdownAnimation.isRunning())
+        if(countdown != null)
             resetCountdownAnimation();
 
         hasAnswered = true;
@@ -448,8 +447,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         if(dialpadString.equals(""))
             return;
 
-        if(countdownAnimation != null)
-            if(countdownAnimation.isRunning())
+        if(countdown != null)
                 resetCountdownAnimation();
 
         hasAnswered = true;
@@ -611,7 +609,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
             {
                 //TER EM ATENCAO MSG CONTEM TODOS OS DETALHES E JOGADAS DA RONDA... CASO SE QUEIRA IMPRIMIR
                 //invocar msg.getRoundDetails(), retorna HashMap<Player, HashMap<Float (answer), Integer (score)>>
-                if(countdownAnimation != null)
+                if(countdown != null)
                     resetCountdownAnimation();
                 showAfterGuessView();
             }
