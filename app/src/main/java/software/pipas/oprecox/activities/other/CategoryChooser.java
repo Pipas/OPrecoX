@@ -106,10 +106,12 @@ public class CategoryChooser extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
-        CategoryHandler.validSelection();
-        SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
-        editor.putString("categories", CategoryHandler.saveToString());
-        editor.apply();
+        if(CategoryHandler.validSelection())
+        {
+            SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+            editor.putString("categories", CategoryHandler.saveToString());
+            editor.apply();
+        }
         finish();
     }
 

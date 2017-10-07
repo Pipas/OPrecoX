@@ -103,8 +103,7 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
     {
         if(!Util.isNetworkAvailable(getApplicationContext()))
         {
-            Toasty.error(this, "This is an error toast.", Toast.LENGTH_SHORT, true).show();
-            Toast.makeText(this, "Acesso à internet indisponivel.", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Acesso à internet indisponivel.", Toast.LENGTH_SHORT, true).show();
             return;
         }
         startProcessDialog();

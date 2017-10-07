@@ -45,6 +45,22 @@ public abstract class CategoryHandler
                 }
             }
         }
+        if(selectedSubCategories.isEmpty())
+        {
+            selectAll();
+            for(ParentCategory parentCategory : categories)
+            {
+                if(parentCategory.isSelected())
+                {
+                    for(SubCategory subCategory : parentCategory.getSubCategories())
+                    {
+                        if(subCategory.isSelected())
+                            selectedSubCategories.add(subCategory);
+                    }
+                }
+            }
+            deSelectAll();
+        }
         Random rand = new Random();
         return selectedSubCategories.get(rand.nextInt(selectedSubCategories.size()));
     }
@@ -61,13 +77,13 @@ public abstract class CategoryHandler
             parentCategory.deSelectAll();
     }
 
-    public static void validSelection()
+    public static Boolean validSelection()
     {
         for(ParentCategory parentCategory : categories)
             if(parentCategory.isSelected())
-                return;
+                return true;
 
-        selectAll();
+        return false;
     }
 
     public static void selectFromString(String input)
@@ -210,8 +226,6 @@ public abstract class CategoryHandler
             String c = sharedPref.getString("categories", null);
             if(c != null)
                 CategoryHandler.selectFromString(c);
-            else
-                CategoryHandler.selectAll();
 
             Settings.setGameSize(sharedPref.getInt("gameSize", 10), activity);
             Settings.setGameTime(sharedPref.getInt("gameTime", 60), activity);
