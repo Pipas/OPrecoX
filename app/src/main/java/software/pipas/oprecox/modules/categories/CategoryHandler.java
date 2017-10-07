@@ -2,6 +2,7 @@ package software.pipas.oprecox.modules.categories;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,6 +14,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
+import es.dmoral.toasty.Toasty;
+import software.pipas.oprecox.R;
 import software.pipas.oprecox.util.Settings;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -212,6 +215,7 @@ public abstract class CategoryHandler
 
     public static void checkIfRestart(Activity activity)
     {
+        Toasty.Config.getInstance().setInfoColor(ContextCompat.getColor(activity.getBaseContext(), R.color.purple)).apply();
         if(categories == null)
         {
             SharedPreferences sharedPref = activity.getSharedPreferences("gameSettings", MODE_PRIVATE);

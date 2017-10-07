@@ -48,7 +48,8 @@
     <GridView
         android:id="@+id/categoryGridView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:columnWidth="100dp"
         android:numColumns="auto_fit"
@@ -58,5 +59,22 @@
         android:listSelector="#00000000">
 
     </GridView>
+
+    <software.pipas.oprecox.modules.customViews.CustomButton
+        android:id="@+id/confirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/confirm"
+        android:textAllCaps="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
+        android:textSize="20sp"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="5"
+        android:textColor="@color/softWhite"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 </LinearLayout>

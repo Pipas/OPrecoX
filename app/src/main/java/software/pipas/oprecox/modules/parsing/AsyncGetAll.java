@@ -52,7 +52,7 @@ public class AsyncGetAll extends AsyncTask<Void, Void, Void>
             {
                 subCategory = setSubCategory();
                 randomURL = olxParser.getRandomURL(subCategory.getUrlEnd());
-                
+
                 getText(randomURL);
 
                 getImages(randomURL);

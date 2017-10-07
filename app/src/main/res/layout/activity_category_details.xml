@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:background="@color/softWhite"
         android:elevation="2dp"
-        app:layout_heightPercent="50%"
+        app:layout_heightPercent="40%"
         android:orientation="vertical">
 
         <ImageView
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="56dp">
+            android:layout_marginTop="32dp">
 
             <software.pipas.oprecox.modules.customViews.SquareCardView
                 android:layout_width="50dp"
@@ -53,7 +53,7 @@
                 android:layout_height="56dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:textColor="@color/black"
+                android:textColor="@color/darkGrey"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_gravity="center_horizontal"/>
@@ -81,17 +81,47 @@
                 android:src="@drawable/more"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:tint="@color/black"/>
+                android:tint="@color/darkGrey"/>
 
         </LinearLayout>
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/subCategories"
-        android:layout_width="match_parent"
+    <LinearLayout
         android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
         android:layout_below="@id/topPanel">
-    </ListView>
+
+        <ListView
+            android:id="@+id/subCategories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="@color/softGrey"
+            android:dividerHeight="1dp">
+        </ListView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/softGrey"/>
+
+        <software.pipas.oprecox.modules.customViews.CustomButton
+            android:id="@+id/confirmButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/confirm"
+            android:textAllCaps="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="12dp"
+            android:textSize="20sp"
+            android:shadowDy="1"
+            android:shadowDx="0"
+            android:shadowRadius="5"
+            android:textColor="@color/softWhite"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </LinearLayout>
 
 </android.support.percent.PercentRelativeLayout>

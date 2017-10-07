@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
@@ -475,9 +474,7 @@ public class LobbyHost extends MultiplayerClass implements OnPlayerLoader, Parsi
         if(!blocked)
         {
             blocked = true;
-            Intent myIntent = new Intent(this, BlockedApp.class);
-            startActivity(myIntent);
-            finish();
+            Toasty.error(this, getString(R.string.olxError), Toast.LENGTH_LONG, true).show();
         }
     }
 

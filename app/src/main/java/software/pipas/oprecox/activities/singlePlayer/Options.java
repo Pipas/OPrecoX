@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.activities.other.CategoryChooser;
 import software.pipas.oprecox.activities.other.GameSizeChooser;
 import software.pipas.oprecox.application.OPrecoX;
@@ -36,6 +35,7 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
     private OlxParser olxParser;
 
     private Boolean blocked;
+    private Boolean showedToast;
     private TextView gameSizeTooltip;
 
     @Override
@@ -155,7 +155,11 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
 
     public void pressGameType(View v)
     {
-        Toasty.info(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT, true).show();
+        if(!showedToast)
+        {
+            Toasty.info(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT, true).show();
+            showedToast = true;
+        }
     }
 
     @Override
@@ -176,9 +180,7 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
         if(!blocked)
         {
             blocked = true;
-            Intent myIntent = new Intent(this, BlockedApp.class);
-            startActivity(myIntent);
-            finish();
+            Toasty.error(this, getString(R.string.olxError), Toast.LENGTH_LONG, true).show();
         }
     }
 }

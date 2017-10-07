@@ -15,8 +15,8 @@ android {
         applicationId "software.pipas.oprecox"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 14
-        versionName "0.7.1"
+        versionCode 15
+        versionName "0.7.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

@@ -25,6 +25,7 @@ public class Options extends AppCompatActivity
     private TextView roomNameEdit;
     private TextView gameSizeTooltip;
     private TextView gameTimeTooltip;
+    private Boolean showedToast = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -120,7 +121,11 @@ public class Options extends AppCompatActivity
 
     public void pressGameType(View v)
     {
-        Toasty.info(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT, true).show();
+        if(!showedToast)
+        {
+            Toasty.info(this, getString(R.string.comingsoon), Toast.LENGTH_SHORT, true).show();
+            showedToast = true;
+        }
     }
 
     public void selectGameSize(View v)

@@ -69,6 +69,4 @@
         android:textColor="@color/softWhite"
         style="@style/Widget.AppCompat.Button.Colored"/>
 
-
-
 </LinearLayout>

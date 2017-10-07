@@ -51,6 +51,7 @@
     <string name="savedAd">Anúncio Guardado</string>
     <string name="loadingAds">A carregar anúncios…</string>
     <string name="waiting">À espera de jogadores</string>
+    <string name="waitingHost">À espera do anfitrião</string>
 
     <!--           Game Over Strings         -->
 
@@ -116,5 +117,6 @@
     <string name="otherInfoTitle">Informações</string>
     <string name="otherInfo">Contacte-nos por e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nnem com a empresa Fixeads</string>
 
+    <string name="olxError">Erro a conectar ao OLX</string>
 
 </resources>

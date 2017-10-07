@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
@@ -21,9 +22,9 @@ import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.BuildConfig;
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.PlayerListAdapter;
 import software.pipas.oprecox.modules.customActivities.MultiplayerClass;
@@ -309,9 +310,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         if(!blocked)
         {
             blocked = true;
-            Intent myIntent = new Intent(this, BlockedApp.class);
-            startActivity(myIntent);
-            shutdown();
+            Toasty.error(this, getString(R.string.olxError), Toast.LENGTH_LONG, true).show();
         }
     }
 
@@ -322,7 +321,7 @@ public class LobbyClient extends MultiplayerClass implements OnPlayerImageLoader
         else
             circleDialog = new ProgressDialog(this);
         circleDialog.setIndeterminate(true);
-        circleDialog.setMessage("A esperar pelo Host");
+        circleDialog.setMessage(getString(R.string.waitingHost));
         circleDialog.setCancelable(false);
         circleDialog.show();
     }

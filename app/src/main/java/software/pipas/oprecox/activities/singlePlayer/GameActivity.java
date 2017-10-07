@@ -19,14 +19,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import software.pipas.oprecox.R;
-import software.pipas.oprecox.activities.other.BlockedApp;
 import software.pipas.oprecox.application.OPrecoX;
 import software.pipas.oprecox.modules.adapters.ImagePagerAdapter;
 import software.pipas.oprecox.modules.customViews.CustomFontHelper;
@@ -309,9 +310,7 @@ public class GameActivity extends AppCompatActivity implements ParsingCallingAct
         if(!blocked)
         {
             blocked = true;
-            Intent myIntent = new Intent(this, BlockedApp.class);
-            startActivity(myIntent);
-            finish();
+            Toasty.error(this, getString(R.string.olxError), Toast.LENGTH_LONG, true).show();
         }
     }
 

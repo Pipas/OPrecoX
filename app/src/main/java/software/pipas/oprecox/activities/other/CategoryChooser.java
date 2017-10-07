@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -54,6 +55,16 @@ public class CategoryChooser extends AppCompatActivity
         categoryListView.setAdapter(categoryGridAdapter);
 
         initiatePressMoreButton();
+
+        Button startButton = (Button) findViewById(R.id.confirmButton);
+        startButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                confirmSelection();
+            }
+        });
     }
 
     private void initiatePressMoreButton()
@@ -106,6 +117,11 @@ public class CategoryChooser extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
+        confirmSelection();
+    }
+
+    private void confirmSelection()
+    {
         if(CategoryHandler.validSelection())
         {
             SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();

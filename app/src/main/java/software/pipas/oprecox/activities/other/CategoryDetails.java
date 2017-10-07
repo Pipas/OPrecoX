@@ -10,6 +10,7 @@ import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,6 +88,16 @@ public class CategoryDetails extends AppCompatActivity
                 CheckBox subCategoryCheckbox = (CheckBox) v.findViewById(R.id.subCategoryCheckbox);
                 subCategoryCheckbox.toggle();
                 CategoryHandler.getCategories().get(categoryIndex).toggleSubCategory(position);
+            }
+        });
+
+        Button startButton = (Button) findViewById(R.id.confirmButton);
+        startButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
             }
         });
     }
