@@ -15,7 +15,7 @@ import static java.lang.Float.parseFloat;
 
 public class OlxParser
 {
-    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "centimo", "cêntimo"};
+    private static String[] forbiddenWords = {"€" ,"EUR", "Euro", "euro", "eur ", "eur.", "eur,", "eur\n", "centimo", "cêntimo"};
 
     public String getRandomURL(String urlMid) throws IOException, OLXSyntaxChangeException
     {
@@ -107,7 +107,7 @@ public class OlxParser
     public float getPrice(String pageURL) throws IOException , OLXSyntaxChangeException
     {
         Document document = Jsoup.connect(pageURL).get();
-        Elements priceContainer = document.select("strong[class^=xxxx-large ");
+        Elements priceContainer = document.select("strong[class^=xxxx-large]");
         if(priceContainer.isEmpty())
             throw new IOException();
         String priceStr = priceContainer.get(0).html();
@@ -122,7 +122,7 @@ public class OlxParser
         try
         {
             Document document = Jsoup.connect(pageURL).get();
-            Elements priceContainer = document.select("strong[class^=xxxx-large ");
+            Elements priceContainer = document.select("strong[class^=xxxx-large]");
             if(priceContainer.isEmpty())
                 return false;
             String priceStr = priceContainer.get(0).html();

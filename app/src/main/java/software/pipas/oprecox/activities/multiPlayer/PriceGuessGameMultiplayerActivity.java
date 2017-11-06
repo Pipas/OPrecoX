@@ -506,7 +506,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
 
     private void showBeforeGuessView()
     {
-        //FAZER UMA THREAD WHILE NOT LOADED if(app.getAd(adIndex + 1) == null)
+        //TODO UMA THREAD WHILE NOT LOADED if(app.getAd(adIndex + 1) == null)
         adIndex++;
         hasAnswered = false;
 
@@ -514,6 +514,7 @@ public class PriceGuessGameMultiplayerActivity extends GameActivity implements P
         dialpadString = "";
         beforePriceGuess.setText("");
         scorePlusTextView.setVisibility(View.GONE);
+        adSaved = false;
         
         priceGuesser.setVisibility(View.VISIBLE);
         afterGuess.setVisibility(View.GONE);

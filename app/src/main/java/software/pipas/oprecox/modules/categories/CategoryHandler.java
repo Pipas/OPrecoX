@@ -215,7 +215,7 @@ public abstract class CategoryHandler
 
     public static void checkIfRestart(Activity activity)
     {
-        Toasty.Config.getInstance().setInfoColor(ContextCompat.getColor(activity.getBaseContext(), R.color.purple)).apply();
+        Toasty.Config.getInstance().setInfoColor(ContextCompat.getColor(activity.getBaseContext(), R.color.lightOrange)).apply();
         if(categories == null)
         {
             SharedPreferences sharedPref = activity.getSharedPreferences("gameSettings", MODE_PRIVATE);

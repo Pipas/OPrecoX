@@ -328,6 +328,7 @@ public class PriceGuessGameActivity extends GameActivity
             beforePriceGuess.setText("");
             scorePlusTextView.setVisibility(View.GONE);
             togglePanel(null);
+            adSaved = false;
 
             priceGuesser.setVisibility(View.VISIBLE);
             afterGuess.setVisibility(View.GONE);

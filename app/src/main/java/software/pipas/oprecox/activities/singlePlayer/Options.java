@@ -35,7 +35,7 @@ public class Options extends AppCompatActivity implements ParsingCallingActivity
     private OlxParser olxParser;
 
     private Boolean blocked;
-    private Boolean showedToast;
+    private Boolean showedToast = false;
     private TextView gameSizeTooltip;
 
     @Override
