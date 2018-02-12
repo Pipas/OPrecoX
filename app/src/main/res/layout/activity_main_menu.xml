@@ -77,7 +77,7 @@
         android:elevation="2dp"
         android:layout_marginBottom="12dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/multiplayerButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -86,17 +86,37 @@
             android:focusable="true"
             android:onClick="pressMultiPlayer">
 
-            <TextView
-                android:id="@+id/multiplayerButtonTextView"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/multiplayer"
-                android:gravity="center"
-                android:textAllCaps="true"
-                android:textSize="22sp"
-                android:textColor="@color/softWhite"/>
+                android:layout_centerInParent="true">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/multiplayerButtonTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/multiplayer"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textSize="22sp"
+                    android:textColor="@color/softWhite" />
+
+                <TextView
+                    android:id="@+id/beta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="(beta)"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textSize="12sp"
+                    android:textColor="@color/softWhite"
+                    android:layout_toRightOf="@id/multiplayerButtonTextView"
+                    android:layout_marginLeft="8dp"/>
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 

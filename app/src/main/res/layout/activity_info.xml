@@ -280,6 +280,36 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/librariesButton"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="pressLibraries"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/librariesTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/libraries"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="22sp"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
         </LinearLayout>
 
     </ScrollView>

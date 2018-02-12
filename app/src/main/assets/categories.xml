@@ -497,7 +497,7 @@
             <ctitle>Outras Vendas</ctitle>
 
             <url>
-                <urlend>compra-venda/o-resto</urlend>
+                <urlend>compra-venda/</urlend>
                 <dist>1.0</dist>
             </url>
 

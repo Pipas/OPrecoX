@@ -40,6 +40,7 @@ public class InfoActivity extends AppCompatActivity
         titles.add((TextView) findViewById(R.id.thanks));
         titles.add((TextView) findViewById(R.id.otherInfoTitle));
         titles.add((TextView) findViewById(R.id.infoTitleTextView));
+        titles.add((TextView) findViewById(R.id.librariesTitle));
 
         tooltips.add((TextView) findViewById(R.id.mainDeveloperTitle));
         tooltips.add((TextView) findViewById(R.id.multiplayerDeveloperTitle));
@@ -70,6 +71,13 @@ public class InfoActivity extends AppCompatActivity
     }
 
     public void pressDesigner(View v)
+    {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://www.behance.net/ines_sd_co3749"));
+        startActivity(i);
+    }
+
+    public void pressLibraries(View v)
     {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse("https://www.behance.net/ines_sd_co3749"));

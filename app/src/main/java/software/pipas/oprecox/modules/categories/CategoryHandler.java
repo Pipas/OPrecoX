@@ -236,6 +236,7 @@ public abstract class CategoryHandler
             Settings.setAdCountdown(sharedPref.getInt("adCountdown", 2));
             Settings.setGamesPlayed(sharedPref.getInt("gamesPlayed", 0));
             Settings.setShowRateUs(sharedPref.getBoolean("showRateUs", true));
+            Settings.setShowBeta(sharedPref.getBoolean("showBeta", true));
         }
     }
 

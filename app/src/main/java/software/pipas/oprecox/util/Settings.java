@@ -17,6 +17,7 @@ public abstract class Settings
     private static int adCountdown;
     private static int gamesPlayed;
     private static Boolean showRateUs;
+    private static Boolean showBeta;
     private static String customName;
 
     private static Inet4Address lastIP;
@@ -52,7 +53,7 @@ public abstract class Settings
     public static void updateAdCountdown(Activity activity)
     {
         if(Settings.adCountdown == 0)
-            Settings.adCountdown = 2;
+            Settings.adCountdown = 4;
         else
             Settings.adCountdown = Settings.adCountdown - 1;
 
@@ -92,6 +93,16 @@ public abstract class Settings
     public static Boolean getShowRateUs()
     {
         return showRateUs;
+    }
+
+    public static void setShowBeta(Boolean showBeta)
+    {
+        Settings.showBeta = showBeta;
+    }
+
+    public static Boolean getShowBeta()
+    {
+        return showBeta;
     }
 
     public static void setShowRateUs(Boolean showRateUs)

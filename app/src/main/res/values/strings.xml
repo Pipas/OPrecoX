@@ -116,7 +116,12 @@
     <string name="thanksNames">António Carreiro\nDiogo Morgado\nFrancisca Pessanha\nGonçalo Sores\nMarta Fróis</string>
     <string name="otherInfoTitle">Informações</string>
     <string name="otherInfo">Contacte-nos por e-mail\npipas.software@gmail.com\n\nO Preço X não é afiliado com o olx.pt\nnem com a empresa Fixeads</string>
+    <string name="libraries">Bibliotecas</string>
 
     <string name="olxError">Erro a conectar ao OLX</string>
+
+    <!--             BETA              -->
+    <string name="betaTooltipTitle">Multijogador BETA</string>
+    <string name="betaTooltip">A funcionalidade de multijogador ainda se encontra em desenvolvimento e pode conter erros e problemas.</string>
 
 </resources>

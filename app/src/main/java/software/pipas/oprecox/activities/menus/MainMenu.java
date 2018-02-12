@@ -54,7 +54,7 @@ public class MainMenu extends AppCompatActivity
 
             popup.setTitle(getString(R.string.rateUs));
             popup.setMessage(getString(R.string.rateUsTooltip));
-            popup.setCancelable(true);
+            popup.setCancelable(false);
 
             popup.setPositiveButton
                     (
@@ -103,6 +103,10 @@ public class MainMenu extends AppCompatActivity
                     {
                         public void onClick(DialogInterface dialog, int id)
                         {
+                            SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                            editor.putInt("gamesPlayed", 0);
+                            editor.apply();
+                            Settings.setGamesPlayed(0);
                             dialog.cancel();
                         }
                     });
@@ -176,6 +180,14 @@ public class MainMenu extends AppCompatActivity
 
     public void pressMultiPlayer(View v)
     {
+        if(Settings.getShowBeta())
+            betaPopup();
+        else
+            openMultiplayer();
+    }
+
+    private void openMultiplayer()
+    {
         Util.interfaceListing();
         if(!Util.isNetworkAvailable(this))
         {
@@ -187,6 +199,44 @@ public class MainMenu extends AppCompatActivity
             Intent myIntent = new Intent(this, Hub.class);
             startActivity(myIntent);
         }
+    }
+
+    private void betaPopup()
+    {
+        AlertDialog.Builder popup;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            popup = new AlertDialog.Builder(this, R.style.DialogTheme);
+        else
+            popup = new AlertDialog.Builder(this);
+
+        popup.setTitle(getString(R.string.betaTooltipTitle));
+        popup.setMessage(getString(R.string.betaTooltip));
+        popup.setCancelable(true);
+
+        popup.setPositiveButton(
+            R.string.next,
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Settings.setShowBeta(false);
+                    SharedPreferences.Editor editor = getSharedPreferences("gameSettings", MODE_PRIVATE).edit();
+                    editor.putBoolean("showBeta", false);
+                    editor.apply();
+                    openMultiplayer();
+                }
+            });
+
+        popup.setNegativeButton(
+                R.string.cancel,
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = popup.create();
+        alert.show();
     }
 
     private void initiatePressMoreButton()

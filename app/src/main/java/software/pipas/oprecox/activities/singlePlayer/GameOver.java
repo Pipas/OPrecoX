@@ -1,6 +1,7 @@
 package software.pipas.oprecox.activities.singlePlayer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -101,6 +102,8 @@ public class GameOver extends AppCompatActivity
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
             {
                 saveAd(position);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(app.getAd(position).getUrl()));
+                startActivity(browserIntent);
             }
         });
 
