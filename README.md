@@ -1,21 +1,17 @@
 
-##  Aviso Legal
-O Preço X não se encontra disponivel para download a pedido da OLX Global B.V, neste repositório encontra-se uma descrição do projecto e o código fonte como consulta apenas.
-
 #  O Preço X
-O Preço X é um jogo para a plataforma android onde o jogador tenta adivinhar preços de anúncios do OLX.
-Uma descrição mais detalhada do projecto pode ser encontrada neste [artigo do Shifter](https://shifter.sapo.pt/2018/02/jogo-preco-certo-olx/).
+O Preço X is an android game where the player is challenged to guess the price of products being sold online on second hand markets.
+More info about the project and it's creation can be found in [this article.](https://shifter.sapo.pt/2018/02/jogo-preco-certo-olx/)(in portuguese).
 
 ##  Preview
 ![Preview Images](https://raw.githubusercontent.com/Pipas/OPrecoX/master/docs/images/sidebyside.jpg)
 
 ##  Features
-* 11 Categorias com Subcategorias
-* Multi jogador
-* Integração com a Google Play Games
-* Guardar anúncios
+* 11 Categories with multiple sub categories
+* LAN Multiplayer
+* Google Play Games Integration
 
-##  Equipa
- * Lead Developer - Paulo Correia
- * Developer - Nuno Neto
+##  Team
+ * Lead Developer - [Paulo Correia](https://shifter.sapo.pt/2018/02/jogo-preco-certo-olx/)
+ * Developer - [Nuno Neto](https://github.com/excelsi0r)
  * Design - Inês Costa
